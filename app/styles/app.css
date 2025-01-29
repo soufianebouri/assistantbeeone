@@ -159,6 +159,7 @@ body, html {
     transform: scale(1.02);
 }
 
+
 .key-access {
     margin-top: 15px;
     width: 100%;
@@ -757,9 +758,58 @@ font-weight: bold;
 }
 
 .row {
-    margin-bottom: -30px;
+    margin-bottom: -55px;
 }
 
 .full-width {
     width: 50%;  /* Takes 100% of the parent's width */
 }
+
+
+.add_btn {
+    width: 100%;
+    background-color: #81bb26;
+    color: white;
+    /* padding: 10px; */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add_btn:hover {
+    background-color: #81bb26 !important; 
+    color: white !important;              
+}
+
+.reset_btn {
+    width: 100%;
+    background-color: #ffffff;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1.7px solid #215f16;
+}
+
+.row {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .first-input {
+    flex: 0 0 30%; /* First input takes 30% of the available space */
+  }
+  
+  .second-input {
+    flex: 0 0 70%; /* Second input takes 70% of the available space */
+  }
+  .centered-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%; /* Adjust height as needed */
+  }

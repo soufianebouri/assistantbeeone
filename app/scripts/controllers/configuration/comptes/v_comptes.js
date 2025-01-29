@@ -31,6 +31,14 @@ angular.module('beeOneWebFrontApp')
       vm.currect_step = params;
     }
 
+    $scope.uploadFile = function (event) {
+      var file = event.target.files[0];
+      if (file) {
+        $scope.fileName = file.name;
+        $scope.$apply();
+      }
+    };
+
     /**** Step 1 *****/
 
     /**** Step 2 *****/

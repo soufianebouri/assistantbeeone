@@ -14,10 +14,7 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader.addPart('conduitetechnique');
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
-    
-    $scope.villes = ['Casablanca', 'Rabat', 'Marrakech', 'Tanger'];
-    $scope.statuts = ['SARL', 'SA', 'SAS'];
-  
+      
     $scope.fileName = 'Aucun fichier choisi';
     $scope.uploadFile = function (element) {
       var file = element.files[0];
@@ -26,6 +23,20 @@ angular.module('beeOneWebFrontApp')
         $scope.$apply();
       }
     };
+
+    /**** all steps **/
+
+    vm.currect_step = 1;
+    vm.step = async function (params) {
+      vm.currect_step = params;
+    }
+
+    /**** Step 1 *****/
+
+    /**** Step 2 *****/
+
+    /**** Step 3 *****/
+
 
 
   });

@@ -4,87 +4,213 @@
 
   <div layout="row" layout-wrap layout-padding>
 
-    <table class="table_multi_form" >
+    <table class="table_multi_form">
       <tr>
         <td colspan="2">
-          <md-card flex class="card_form_multi" >
+          <md-card flex class="card_form_multi">
             <div layout="row" layout-align="center center" class="step-container">
               <!-- Step 1 -->
-              <div class="step-box">                  
-                <table >
-                    <tr>
-                      <td rowspan="2">
-                        <div class="step-btn">
-                          <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
-                         </div>
-                      </td>
-                      <td>Étape 1</td>
-                      
-                    </tr>
-                    <tr><td>Sociétés</td></tr>
+              <div class="step-box">
+                <table style="border-collapse: collapse;">
+                  <tr ng-click="vm.step(1)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
+                        <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 1, 'step_position-disabled': vm.currect_step != 1}">
+                      Étape 1</td>
+
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
+                      Sociétés</td>
+                  </tr>
                 </table>
-            </div>
-      
-              <!-- Arrow Icon -->
-              <span class="arrow-icon">&gt;</span>
-      
-              <!-- Step 2 -->
-              <div class="step-box">                  
-                <table >
-                    <tr>
-                      <td rowspan="2">
-                        <div class="step-btn">
-                          <img src="././images/main_configuration/farm.svg" alt="farm">
-                         </div>
-                      </td>
-                      <td>Étape 2</td>
-                      
-                    </tr>
-                    <tr><td>Fermes</td></tr>
-                </table>
-            </div>
-      
-              <!-- Arrow Icon -->
-              <span class="arrow-icon">&gt;</span>
-      
-              <!-- Step 3 -->
-              <div class="step-box">                  
-                  <table >
-                      <tr>
-                        <td rowspan="2">
-                          <div class="step-btn">
-                            <img src="././images/main_configuration/campagne.svg" alt="campagne">
-                           </div>
-                        </td>
-                        <td>Étape 3</td>
-                        
-                      </tr>
-                      <tr><td>Campagnes Agricoles</td></tr>
-                  </table>
               </div>
-          </div>
+
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&gt;</span>
+
+              <!-- Step 2 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(2)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                        <img src="././images/main_configuration/farm.svg" alt="farm">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
+                      Étape 2</td>
+
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
+                      Sociétés</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&gt;</span>
+
+              <!-- Step 3 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(3)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                        <img src="././images/main_configuration/campagne.svg" alt="campagne">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
+                      Étape 3</td>
+
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
+                      Sociétés</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
           </md-card>
         </td>
         <td rowspan="2">
-          <md-card flex class="card_form_multi" >Section 1</md-card>
+          <md-card flex class="card_form_multi">video AI</md-card>
         </td>
       </tr>
 
       <tr>
         <td>
-          <md-card flex class="card_form_multi" >Section 1</md-card>
+          <md-card flex class="card_form_multi" style="padding: 9px;">
+
+            <h2 style="font-size: 16px;font-family: Poppins;">Infomrations Sur La Société</h2>
+            <p style="color: #63675d;font-family: Poppins;font-size: 11px;">Suivez les étapes indiquées ci-dessous afin
+              d'assurer une bonne configuration de votre compte</p>
+
+            <md-content layout-padding style="background-color: #ffffff;">
+
+
+              <!-- Row 1: Two Input Fields -->
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">
+
+                <md-input-container class="flex">
+                  <label>Raison Sociale</label>
+                  <input type="text" ng-model="vm.raison_sociale" required>
+                </md-input-container>
+
+                <md-input-container class="flex" style="padding-bottom: 24px;">
+                  <label>Statut Juridique</label>
+                  <md-select ng-model="statut_juridique">
+                    <md-option ng-value="option1">Option 1</md-option>
+                    <md-option ng-value="option2">Option 2</md-option>
+                    <md-option ng-value="option3">Option 3</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+
+              <!-- Row 2: Input + Dropdown -->
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">
+
+                <md-input-container class="flex">
+                  <label>Capital</label>
+                  <input type="number" ng-model="vm.capital">
+                </md-input-container>
+
+                <md-input-container class="flex" style="padding-bottom: 24px;">
+                  <label>Ville</label>
+                  <md-select ng-model="vm.ville">
+                    <md-option ng-value="option1">Option 1</md-option>
+                    <md-option ng-value="option2">Option 2</md-option>
+                    <md-option ng-value="option3">Option 3</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+
+              <!-- Row 3:  Textarea -->            
+
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">
+
+                <md-input-container class="flex">
+                  <label>Adresse </label>
+                  <textarea ng-model="adresse" rows="2" md-maxlength="100"></textarea>
+                </md-input-container>
+
+              </div>
+
+
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">
+
+                <md-input-container class="flex">
+                  <label>Adresse Email</label>
+                  <input type="text" ng-model="vm.mail" >
+                </md-input-container>
+
+                <md-input-container class="flex">
+                  <label>Fax</label>
+                  <input type="text" ng-model="vm.fax" >
+                </md-input-container>
+              </div>
+
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">
+
+                <md-input-container class="flex">
+                  <label>Patente</label>
+                  <input type="text" ng-model="vm.patente" >
+                </md-input-container>
+
+                <md-input-container class="flex">
+                  <label>N° CNSS</label>
+                  <input type="text" ng-model="vm.cnss" >
+                </md-input-container>
+              </div>
+
+              <div class="row" style="display: flex; gap: 16px; align-items: center;">              
+
+                <md-input-container class="flex">
+                  <label>N° AMO</label>
+                  <input type="text" ng-model="vm.amo" >
+                </md-input-container>
+
+                <md-input-container class="flex">
+                  <label>ID Fiscal</label>
+                  <input type="text" ng-model="vm.fiscal" >
+                </md-input-container>
+              </div>
+
+
+              <!-- Submit Button -->
+              <md-button class="md-raised md-primary " ng-click="submitForm()">
+                Submit
+              </md-button>
+
+            </md-content>
+
+          </md-card>
         </td>
-        <td>
-          <md-card flex class="card_form_multi" >Section 1</md-card>
+        <td class="block">
+          <md-card flex class="card_form_multi" style="padding: 9px;">
+            <h2 style="font-size: 16px;font-family: Poppins;">Importation En Masse ?</h2>
+            <p style="color: #63675d;font-family: Poppins;font-size: 11px;">Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
+          </md-card>
         </td>
       </tr>
 
       <tr>
         <td colspan="2">
-          <md-card flex class="card_form_multi" >Section 1</md-card>
+          <md-card flex class="card_form_multi">Section 1</md-card>
         </td>
         <td>
-          <md-card flex class="card_form_multi" >Section 1</md-card>
+          <md-card flex class="card_form_multi">Section 1</md-card>
         </td>
       </tr>
 

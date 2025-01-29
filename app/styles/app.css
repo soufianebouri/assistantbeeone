@@ -689,13 +689,28 @@ md-card-content {
     justify-content: center;
     background-color: #81BB26;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.step-btn:hover {
+    transform: scale(1.1);
+}
+
+.step-btn-disabled {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #a5af94;
+    cursor: pointer;
 }
 
 
 
 .arrow-icon {
     font-size: 24px;
-    color: black;
+    color: #a5af94;
 }
 
 .step-table {
@@ -706,4 +721,45 @@ md-card-content {
 
 .step-table td {
     text-align: center;
+}
+
+.step_position{
+    font-size: 12px;
+    color: #81bb26;
+    display: flex;
+    padding-left: 10px;
+}
+
+.step_position_title{
+font-size: 12px;
+padding-left: 10px;
+display: flex;
+color: #6b6767;
+font-weight: bold;
+}
+
+.step_position_title-disabled{
+    font-size: 12px;
+    padding-left: 10px;
+    display: flex;
+    color: #6b6767;
+    }
+
+.step_position-disabled{
+    font-size: 12px;
+    color: #a5af94;
+    display: flex;
+    padding-left: 10px;
+}
+
+.block{
+    display: block;
+}
+
+.row {
+    margin-bottom: -30px;
+}
+
+.full-width {
+    width: 50%;  /* Takes 100% of the parent's width */
 }

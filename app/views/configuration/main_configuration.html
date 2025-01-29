@@ -1,17 +1,30 @@
 <div ng-controller="ConfigurationMainConfigurationCtrl as vm">
-    <div layout="row" layout-align="center center" class="layout-wrap">
+  <div layout="column" layout-align="center center" class="layout-wrap text-center">
+    <div flex="100" flex-gt-sm="100">
+      <center>
+        <h2 class="fade-in text-center">Configuration du compte BeeOne</h2>
+        <p class="fade-in delay OnboardingQst text-center">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
       
+      </center>
+    </div>
+  </div>
+
+
+    <div layout="row" layout-align="center center" class="layout-wrap">
+     
+
+      <!--1. Configuration Du compte-->
       <md-card class="step-card">
         <div class="header_main">
           <img src="././images/main_configuration/acount.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">1. Configuration Du compte</span>
         <md-card-content>
-          <p class="desc">This step is about simply </p>
+          <p class="desc">This step is about simply configuring your account and adressing all the needed informations</p>
           <div class="info">
             <img src="././images/main_configuration/post.svg" alt="checked">
-            <span style="font-size: 12px;">Gestionnaire de ferme</span>
+            <span style="font-size: 12px;">Responsable Rh - Controleur De Gestion</span>
           </div>
           <div class="info">
             <img src="././images/main_configuration/checked.svg" alt="checked">
@@ -24,19 +37,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn"  >
+          <md-button class="start_btn"  ng-click="vm.go_config(1)">
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
-
+      <!--2. Création du référentiel-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/database.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">2. Création du référentiel</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -54,18 +67,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
-
+      
+      <!--3. Attachement Parcelles-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/attachement.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">3. Attachement Parcelles</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -83,18 +97,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
+      <!--4. Sécteurs D’irrigation-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/secteur.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">4. Sécteurs D’irrigation</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -112,18 +127,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
-
+      
+      <!--5. Paramétrage Main d’oeuvre-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/labor.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">5. Paramétrage Main d’oeuvre</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -141,18 +157,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
+      <!--6. Immobilisations-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/immobilisation.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">6. Immobilisations</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -170,18 +187,19 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
+      <!--7. Centre de coûts-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/centrecout.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">7. Centre de coûts</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
@@ -199,20 +217,21 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
+      <!--8. Paramétrage Applications BeeOne-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/acount.svg" alt="account">
+          <img src="././images/main_configuration/mobile.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
         <span class="title">1. Configuration Du Compte</span>
         <md-card-content>
-          <p class="desc">This step is about simply ..</p>
+          <p class="desc">This step is about simply configuring your account and adressing all the needed informations </p>
           <div class="info">
             <img src="././images/main_configuration/post.svg" alt="checked">
             <span style="font-size: 12px;">Gestionnaire de ferme</span>
@@ -228,14 +247,13 @@
         </md-card-content>
 
         <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start-btn" ng-disabled="!step.buttonActive">
+          <md-button class="start_btn" >
             Commencer
           </md-button>
         </md-card-actions>
       </md-card>
 
-
-      <!-- Repeat for other cards -->
     </div>
+    <loading-spinner is-loading="loading"></loading-spinner>
   </div>
   

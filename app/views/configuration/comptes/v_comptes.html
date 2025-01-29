@@ -1,0 +1,84 @@
+<div ng-controller="ConfigurationComptesVComptesCtrl as vm">
+    <div layout="row" layout-wrap layout-padding>
+
+    <!-- Left Section: Company Information -->
+    <md-card flex="40" class="card">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Informations Sur La Société</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <md-card-content>
+        <md-input-container class="md-block">
+          <label>Raison Sociale</label>
+          <input ng-model="formData.raisonSociale">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Statut Juridique</label>
+          <md-select ng-model="formData.statutJuridique">
+            <md-option ng-repeat="statut in statuts" value="{{statut}}">{{statut}}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Capital</label>
+          <input type="number" ng-model="formData.capital">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Ville</label>
+          <md-select ng-model="formData.ville">
+            <md-option ng-repeat="ville in villes" value="{{ville}}">{{ville}}</md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Adresse</label>
+          <textarea ng-model="formData.adresse" rows="3"></textarea>
+        </md-input-container>
+      </md-card-content>
+    </md-card>
+
+    <!-- Middle Section: File Upload -->
+    <md-card flex="30" class="card">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Importation En Masse</span>
+        </md-card-title-text>
+      </md-card-title>
+
+      <md-card-content>
+        <div class="file-upload">
+          <p>Glissez un fichier ici, ou <label for="fileInput" class="upload-label">choisissez-en un</label></p>
+          <input id="fileInput" type="file" onchange="angular.element(this).scope().uploadFile(event)" hidden>
+
+          <p class="file-name">{{ fileName }}</p>
+          <md-progress-linear md-mode="determinate" value="50"></md-progress-linear>
+        </div>
+        <md-button class="md-raised md-primary">Intégrer</md-button>
+      </md-card-content>
+    </md-card>
+
+    <!-- Right Section: Video & Support -->
+    <md-card flex="30" class="card">
+      <img src="assets/video-thumbnail.jpg" alt="Video Thumbnail" class="video-thumbnail">
+      <md-card-content>
+        <h3>Introduction Sur La Configuration</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </md-card-content>
+      <md-button class="md-icon-button">
+        <md-icon>play_circle_filled</md-icon>
+      </md-button>
+    </md-card>
+
+  </div>
+
+  <!-- Bottom Buttons -->
+  <div layout="row" layout-align="end center" class="button-container">
+    <md-button class="md-warn">Annuler</md-button>
+    <md-button class="md-raised md-primary">Suivant</md-button>
+  </div>
+
+</div>

@@ -520,26 +520,27 @@ body, html {
 }
 
 /* Start Button */
-.start-btn {
+.start_btn {
     width: 100%;
-    background-color: #4caf50;
+    background-color: #9fada0;
     color: white;
     padding: 10px;
     font-size: 14px;
     font-weight: bold;
     border-radius: 5px;
+    cursor: pointer;
 }
 
-.start-btn:hover {
-    background-color: #388e3c;
+.start_btn:hover {
+    background-color: #4caf50 !important;
 }
 
 /* Disabled Button */
-.disabled-btn {
+/*.disabled-btn {
     background-color: #ddd !important;
     color: #888 !important;
     cursor: not-allowed;
-}
+}*/
 
 /* Responsive Grid Layout */
 .layout-wrap {
@@ -599,3 +600,41 @@ md-card-content {
     width: 100%; /* Full width to avoid any overflow */
     overflow-x: hidden; /* Ensure no horizontal scrolling */
 }
+
+
+
+
+
+.card {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .file-upload {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+  }
+  
+  .upload-label {
+    color: #3f51b5;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .file-name {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .video-thumbnail {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }

@@ -112,6 +112,15 @@ angular
     $urlRouterProvider.otherwise("/");
     $locationProvider.hashPrefix("");
     $stateProvider
+
+    .state('v_comptes', {
+      url: '/configuration/accounts',
+      templateUrl: 'views/configuration/comptes/v_comptes.html',
+      data: {
+        pageTitle: "BeeOne ERP - Configuration Du Compte"
+      }
+    })
+
     .state('main_configuration', {
       url: '/configuration/main',
       templateUrl: 'views/configuration/main_configuration.html',

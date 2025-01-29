@@ -1,84 +1,114 @@
 <div ng-controller="ConfigurationComptesVComptesCtrl as vm">
-    <div layout="row" layout-wrap layout-padding>
 
-    <!-- Left Section: Company Information -->
-    <md-card flex="40" class="card">
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">Informations Sur La Société</span>
-        </md-card-title-text>
-      </md-card-title>
 
-      <md-card-content>
-        <md-input-container class="md-block">
-          <label>Raison Sociale</label>
-          <input ng-model="formData.raisonSociale">
-        </md-input-container>
 
-        <md-input-container class="md-block">
-          <label>Statut Juridique</label>
-          <md-select ng-model="formData.statutJuridique">
-            <md-option ng-repeat="statut in statuts" value="{{statut}}">{{statut}}</md-option>
-          </md-select>
-        </md-input-container>
+  <div layout="row" layout-wrap layout-padding>
 
-        <md-input-container class="md-block">
-          <label>Capital</label>
-          <input type="number" ng-model="formData.capital">
-        </md-input-container>
+    <table class="table_multi_form" >
+      <tr>
+        <td colspan="2">
+          <md-card flex class="card_form_multi" >
+            <div layout="row" layout-align="center center" class="step-container">
+              <!-- Step 1 -->
+              <div class="step-box">                  
+                <table >
+                    <tr>
+                      <td rowspan="2">
+                        <div class="step-btn">
+                          <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
+                         </div>
+                      </td>
+                      <td>Étape 1</td>
+                      
+                    </tr>
+                    <tr><td>Sociétés</td></tr>
+                </table>
+            </div>
+      
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&gt;</span>
+      
+              <!-- Step 2 -->
+              <div class="step-box">                  
+                <table >
+                    <tr>
+                      <td rowspan="2">
+                        <div class="step-btn">
+                          <img src="././images/main_configuration/farm.svg" alt="farm">
+                         </div>
+                      </td>
+                      <td>Étape 2</td>
+                      
+                    </tr>
+                    <tr><td>Fermes</td></tr>
+                </table>
+            </div>
+      
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&gt;</span>
+      
+              <!-- Step 3 -->
+              <div class="step-box">                  
+                  <table >
+                      <tr>
+                        <td rowspan="2">
+                          <div class="step-btn">
+                            <img src="././images/main_configuration/campagne.svg" alt="campagne">
+                           </div>
+                        </td>
+                        <td>Étape 3</td>
+                        
+                      </tr>
+                      <tr><td>Campagnes Agricoles</td></tr>
+                  </table>
+              </div>
+          </div>
+          </md-card>
+        </td>
+        <td rowspan="2">
+          <md-card flex class="card_form_multi" >Section 1</md-card>
+        </td>
+      </tr>
 
-        <md-input-container class="md-block">
-          <label>Ville</label>
-          <md-select ng-model="formData.ville">
-            <md-option ng-repeat="ville in villes" value="{{ville}}">{{ville}}</md-option>
-          </md-select>
-        </md-input-container>
+      <tr>
+        <td>
+          <md-card flex class="card_form_multi" >Section 1</md-card>
+        </td>
+        <td>
+          <md-card flex class="card_form_multi" >Section 1</md-card>
+        </td>
+      </tr>
 
-        <md-input-container class="md-block">
-          <label>Adresse</label>
-          <textarea ng-model="formData.adresse" rows="3"></textarea>
-        </md-input-container>
-      </md-card-content>
-    </md-card>
+      <tr>
+        <td colspan="2">
+          <md-card flex class="card_form_multi" >Section 1</md-card>
+        </td>
+        <td>
+          <md-card flex class="card_form_multi" >Section 1</md-card>
+        </td>
+      </tr>
 
-    <!-- Middle Section: File Upload -->
-    <md-card flex="30" class="card">
-      <md-card-title>
-        <md-card-title-text>
-          <span class="md-headline">Importation En Masse</span>
-        </md-card-title-text>
-      </md-card-title>
+    </table>
 
-      <md-card-content>
-        <div class="file-upload">
-          <p>Glissez un fichier ici, ou <label for="fileInput" class="upload-label">choisissez-en un</label></p>
-          <input id="fileInput" type="file" onchange="angular.element(this).scope().uploadFile(event)" hidden>
 
-          <p class="file-name">{{ fileName }}</p>
-          <md-progress-linear md-mode="determinate" value="50"></md-progress-linear>
-        </div>
-        <md-button class="md-raised md-primary">Intégrer</md-button>
-      </md-card-content>
-    </md-card>
+    <!--
+      <div flex="66" layout="row">
+        <md-card flex class="card_form">Section 1</md-card>
+        <md-card flex class="card_form">Section 2</md-card>
+    </div>
+    <md-card flex="33" rowspan="3" class="card_form large-card">Right Panel</md-card>
 
-    <!-- Right Section: Video & Support -->
-    <md-card flex="30" class="card">
-      <img src="assets/video-thumbnail.jpg" alt="Video Thumbnail" class="video-thumbnail">
-      <md-card-content>
-        <h3>Introduction Sur La Configuration</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </md-card-content>
-      <md-button class="md-icon-button">
-        <md-icon>play_circle_filled</md-icon>
-      </md-button>
-    </md-card>
+   
+    <div flex="66" layout="row">
+        <md-card flex class="card_form">Section 3</md-card>
+        <md-card flex class="card_form">Section 4</md-card>
+    </div>
 
-  </div>
-
-  <!-- Bottom Buttons -->
-  <div layout="row" layout-align="end center" class="button-container">
-    <md-button class="md-warn">Annuler</md-button>
-    <md-button class="md-raised md-primary">Suivant</md-button>
+  
+    <div flex="66">
+        <md-card flex class="card_form large-card">Section 5 (colspan 2)</md-card>
+    </div>
+  -->
   </div>
 
 </div>

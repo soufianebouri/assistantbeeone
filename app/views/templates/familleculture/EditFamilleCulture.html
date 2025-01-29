@@ -1,0 +1,63 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier une famille de culture" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Référence Famille" | translate}}</label>
+              <input ng-model="data.Reference" type="text" md-autofocus style="width: 250px;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Désignation Famille" | translate}}</label>
+              <input ng-model="data.Nom_Famille" type="text" style="width: 250px;">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <label>{{"Filière" | translate}}</label>
+            <md-input-container class="md-block" flex-gt-xs>
+              <md-radio-group ng-model="data.filier">
+                <md-radio-button value="1" class="md-primary">{{"Maraichage" | translate}}</md-radio-button>
+                <md-radio-button value="2" class="md-primary">{{"Arboriculture" | translate}}</md-radio-button>
+                <md-radio-button value="3" class="md-primary">{{"Grande Culture" | translate}}</md-radio-button>
+                <md-radio-button value="4" class="md-primary">{{"Floriculture" | translate}}</md-radio-button>
+                <md-radio-button value="5" class="md-primary">{{"Fruits rouges" | translate}}</md-radio-button>
+              </md-radio-group>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <label>{{"Domaines" | translate}}</label>
+            <md-input-container>
+              <label>{{"Domaines" | translate}} ...</label>
+              <md-select ng-model="selectedDomaines" multiple style="width: 200px;" required>
+                <md-option ng-value="domaine.IDFermes" ng-repeat="domaine in domaines" ng-selected="isiN(domaine.IDFermes)">{{domaine.Nom}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerFamilleCulture();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="ModiferFamilleCulture()" ng-if="!progress">
+        {{"Modifer" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

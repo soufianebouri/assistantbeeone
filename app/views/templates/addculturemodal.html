@@ -1,0 +1,62 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="culture" ng-submit="pc.submitForm(culture.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="culture" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.culture}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="culture" id="culture" ng-model="pc.culture.culture" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="photo" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.photo}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+
+        <input type="file" class="form-control-file" name="photo" id="photo" ng-model="pc.photo" ngf-select ngf-pattern="'image/*'" accept="image/*" ngf-max-size="1MB" ng-required="{{pc.picRequired}}">
+        <i ng-show="culture.photo.$error.required">*required</i><br>
+        <i ng-show="culture.photo.$error.maxSize">File too large, size should be less than 1M</i>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="famille" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.famille}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="famille" id="famille" ng-model="pc.culture.famille" ng-pattern="/^-?[0-9][^\.]*$/" required>
+        <p ng-show="culture.famille.$invalid && !culture.famille.$pristine" class="help-block">Entier naturel est requis</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ref" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.ref}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="ref" id="ref" ng-model="pc.culture.ref" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="idFamilleCulture" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.refFamilleCulture}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control" name="idFamilleCulture" id="idFamilleCulture" ng-model="pc.culture.nom_Famille" required>
+          <option value="{{idfamille.IDFamille_Culture}}" ng-repeat="idfamille in pc.data.familleArray" ng-selected="pc.culture.nom_Famille == idfamille.Nom_Famille">{{idfamille.Nom_Famille}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="culture.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

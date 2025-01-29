@@ -1,0 +1,204 @@
+<div class="right_col" role="main">
+  <div ng-controller="RessourceshydriquesSuiviinterventionsequipementsCtrl as pc" class="modal-demo">
+
+    <span> {{"ressources_hydriques" | translate}} <i class="fa fa-angle-right"></i> <b>{{"suivi_interventions_equipements" | translate}}</b>
+      <bn ng-if="!pc.showtable"><i class="fa fa-angle-right"></i> <b>{{'Détails'| translate}}</b></bn>
+      <a class="dt-button pull-right" ng-click="pc.showtable_toggle();" ng-if="!pc.showtable"><i class="fa fa-remove"></i></a>
+      <a class="dt-button pull-right" ng-click="pc.printdetails(pc.dataByID);" ng-if="!pc.showtable" title="{{'Imprimer' | translate}}"><i class="fa fa-print"></i></a>
+      <a class="ng-class: pc.class_dt_refordre;" ng-if="!pc.showtable">{{pc.etat_traitemen_detail}}</a>
+    </span>
+    <center>
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{"De" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"A" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Type de la ressource hydrique" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Référence de la ressource" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Type" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="Type" ng-change="pc.type_change()" multiple data-live-search="true" title="{{'Type de la ressource hydrique' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Type de la ressource hydrique' | translate}}">
+                  <option ng-repeat="Type in pc.Types" ng-value="Type.Type">{{ Type.Name }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Reference" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="Reference" ng-change="pc.reference_change()" multiple data-live-search="true" title="{{'Référence de la ressource' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Référence de la ressource' | translate}}">
+                  <option ng-repeat="Reference in pc.References | filter:filterFn | orderBy:'ReferenceRessourceHydrique'" ng-value="Reference.ID">{{ Reference.ReferenceRessourceHydrique }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <md-button class="md-raised" ng-click="search()" title="{{'Rechercher' | translate}}" ng-disabled="pc.canSearch()">{{"Valider" | translate}}</md-button>
+            </td>
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+    <div class="table-responsive" ng-show="pc.showtable">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+    <div ng-show="!pc.showtable">
+      <br />
+      <div style="overflow-x:auto;">
+        <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+          <thead>
+            <tr>
+              <th>{{"Date de suivi" | translate}}</th>
+              <th>{{"Référence de la ressource" | translate}}</th>
+              <th>{{"Observations" | translate}}</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>{{ pc.dataByID.DateSuivi| date:'dd/MM/yyyy' }}</td>
+            <td>{{ pc.dataByID.ReferenceRessourceHydrique }}</td>
+            <td>{{ pc.dataByID.Observations }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-6 col-sm-12 col-xs-12" id="tab_1">
+          <fieldset>
+            <legend>{{'Pompes'| translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Marque'| translate}}</th>
+                    <th>{{'Modèle'| translate}}</th>
+                    <th>{{'Puissance (kw)'| translate}}</th>
+                    <th>{{'Nombre des turbines'| translate}}</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="data in pc.pompesbyID">
+                  <td>{{ data.Marque }}</td>
+                  <td>{{ data.Modele   }}</td>
+                  <td align="right">{{ data.Puissance | number:2 }}</td>
+                  <td align="right">{{ data.NombreTurbines | number:2  }}</td>
+                </tr>
+
+                <tr ng-if="pc.pompesbyID.length == 0">
+                  <td colspan="4">
+                    <center>No data found</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+
+          </fieldset>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12" id="tab_2">
+          <fieldset>
+            <legend>{{'Canalisation de remontée d\'eau'| translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Diamètre (mm)'| translate}}</th>
+                    <th>{{'Type bride'| translate}}</th>
+                    <th>{{'Longeur par unité (m)'| translate}}</th>
+                    <th>{{'Nombre'| translate}}</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="data in pc.canalisation_eaubyID">
+                  <td>{{ data.Diametre  | number:2}}</td>
+                  <td>{{ data.TypeBride   }}</td>
+                  <td align="right">{{ data.LongeurUnite | number:2 }}</td>
+                  <td align="right">{{ data.Nombre }}</td>
+                </tr>
+
+                <tr ng-if="pc.canalisation_eaubyID.length == 0">
+                  <td colspan="4">
+                    <center>No data found</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+
+          </fieldset>
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12" id="tab_3">
+          <fieldset>
+            <legend>{{'Composantes électriques'| translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Type de démarrage'| translate}}</th>
+                    <th>{{'Marque'| translate}}</th>
+                    <th>{{'Modèle'| translate}}</th>
+                    <th>{{'Puissance nominale (kw)'| translate}}</th>
+                    <th>{{'Diamètre cable (mm)'| translate}}</th>
+                    <th>{{'Longueur cable (m)'| translate}}</th>
+                    <th>{{'Contrôle de niveau'| translate}}</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="data in pc.composantes_electriquesbyID">
+                  <td>{{ data.TypeDemarrage }}</td>
+                  <td>{{ data.Marque   }}</td>
+                  <td>{{ data.Modele   }}</td>
+                  <td align="right">{{ data.PuissanceNominale | number:2 }}</td>
+                  <td align="right">{{ data.DiametreCable | number:2 }}</td>
+                  <td align="right">{{ data.LongueurCable | number:2  }}</td>
+                  <td>
+                    <bn ng-if="data.ControleNiveau">{{'Oui'| translate}}</bn>
+                    <bn ng-if="!data.ControleNiveau">{{'Non'| translate}}</bn>
+                  </td>
+                </tr>
+
+                <tr ng-if="pc.composantes_electriquesbyID.length == 0">
+                  <td colspan="7">
+                    <center>No data found</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+
+          </fieldset>
+        </div>
+
+
+      </div>
+      <br /><br /><br />
+    </div>
+  </div>
+
+</div>

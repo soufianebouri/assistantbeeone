@@ -1,0 +1,91 @@
+<div class="right_col" role="main">
+  <div ng-controller="PalmierdattierComptagearbremapCtrl as pc" class="modal-demo">
+    <span> {{"Opérations clés" | translate}} <i class="fa fa-angle-right"></i> {{"Comptage par arbre" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Vue cartographique" | translate}}</b></span>
+    <br />
+    <div class="dontshowit ">
+      <a class="dt-button pull-right" ui-sref="comptagearbresynthese" title="{{'Vue synthétique' | translate}}"><i class="fa fa-reorder"></i></a>
+      <a class="dt-button pull-right" ui-sref="etatcomptagepararbre" title="{{'Etat comptage par arbre' | translate}}"><i class="fa fa-table"></i></a>
+      <a class="dt-button pull-right" ui-sref="comptageArbre" title="{{'Comptage arbre' | translate}}"><i class="fa fa-list"></i></a>
+    </div>
+    <br /><br />
+    <div id="mapComptage"></div>
+    <br /><br />
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr>
+          <td>
+            <font color="#ffffff">Année de plantation</font>
+          </td>
+          <td></td>
+          <td>
+            <font color="#ffffff">{{"Élément de comptage" | translate}}</font>
+          </td>
+          <td></td>
+          <td>
+            <font color="#ffffff">{{"De" | translate}}</font>
+          </td>
+          <td></td>
+          <td>
+            <font color="#ffffff">{{"A" | translate}}</font>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select id="Year" class="form-control  input-sm  selectpicker" ng-model="year.year" ng-change="year_change()" data-live-search="true" title="Année de plantation ..." data-selected-text-format="count > 1" data-size="10">
+              <option selected disabled value="" style="background-color: #ffffff;"> Année de plantation ..</option>
+              <option ng-repeat="years in pc.years" ng-value="years.year">{{ years.year }}</option>
+            </select>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <select id="Element" class="form-control  input-sm  selectpicker" ng-model="element.element" ng-change="element_change()" data-live-search="true" title="{{'Élément de comptage' | translate}} ..." data-selected-text-format="count > 1"
+              data-size="10">
+              <option selected disabled value="" style="background-color: #ffffff;"> {{"Élément de comptage" | translate}} ..</option>
+              <option ng-repeat="ALLElement in pc.ALLElement" ng-value="ALLElement">{{ ALLElement.Nom }}</option>
+            </select>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <input id="debut" type="date" class="" ng-model="debut" ng-change="date_debut_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <input id="date_fin" type="date" class="" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="legend" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color: rgb(255, 255, 255);color:#000000;">
+        <table class="w3-table w3-striped">
+          <tr>
+            <td style=""><IMG src="././images/marker-blue-piege.png" width="20" height="20" /></td>
+            <td style=""><small>{{"Arbre" | translate}}</small></td>
+            <td style=""><small>&nbsp;&nbsp;&nbsp;&nbsp;</small></td>
+            <td style=""><IMG src="././images/red-square.png" width="20" height="20" /></td>
+            <td style=""><small>{{"Parcelles comptés" | translate}}</small></td>
+          </tr>
+        </table>
+      </div>
+      <br />
+    </div>
+
+  </div>
+</div>

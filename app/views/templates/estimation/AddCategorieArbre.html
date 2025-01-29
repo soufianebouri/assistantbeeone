@@ -1,0 +1,55 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:45%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Categoriearbre' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="100" flex="">
+
+            <div class="form-body" layout-wrap>
+              <md-content style="background-color:transparent">
+
+                <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                  <div flex="100" flex-gt-sm="100" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'Categoriearbre' | translate}} ...</label>
+                      <input ng-model="Categrorie" style="width:95%;" type="text" required>
+                    </md-input-container>
+                  </div>
+
+
+                </div>
+
+
+              </md-content>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerCategorieArbre();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterCategorieArbre()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

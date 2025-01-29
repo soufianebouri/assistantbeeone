@@ -1,0 +1,67 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Actualisation des cycles culturaux' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+
+
+          <div layout="row" layout-wrap flex>
+
+            <div flex="100" flex-gt-sm="100" layout="column">
+              <md-input-container class="md-block" flex-gt-xs>
+                <center>
+
+                  <bn ng-if="!progress && !oerationdone">{{'Lancer l actualisation' | translate}}</bn>
+                  <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+                  <bn ng-if="progress"><br />{{'Traitement en cours, veuillez patienter ..' | translate}} </bn>
+                  <span ng-if="oerationdone" class="fa fa-check" style="font-size: 48px;"> </span><br />
+                  <bn ng-if="oerationdone">{{'L\'opération a bien été effectuée' | translate}}</bn>
+
+
+                </center>
+                <ul ng-if="progress || oerationdone">
+                  <br />
+                  <li>
+                    <b>{{ifondCycle}}</b>
+                    <bn ng-if="!cycleactualise"> {{'Ligne(s) sur Cycle' | translate}} <bn ng-if="ifondCycle != 0">{{'est En cours d\'actualisation' | translate}}</bn> <i class="fa fa-circle-o-notch fa-spin "></i>
+                    </bn>
+                    <bn ng-if="cycleactualise"> {{'Ligne(s) sur Cycle' | translate}} <bn ng-if="ifondCycle != 0"> {{'est Actualisé(s)' | translate}}</bn>
+                  </li>
+                  <li>
+                    <b>{{ifondparcelle}}</b>
+                    <bn ng-if="!parcellectualise"> {{'Ligne(s) sur Parcelle culturale' | translate}} <bn ng-if="ifondparcelle != 0">{{'est En cours d\'actualisation' | translate}}</bn> <i class="fa fa-circle-o-notch fa-spin "></i>
+                    </bn>
+                    <bn ng-if="parcellectualise"> {{'Ligne(s) sur Parcelle(s) culturale' | translate}} <bn ng-if="ifondparcelle != 0">{{'est Actualisée(s)' | translate}}</bn>
+                    </bn>
+                  </li>
+                </ul>
+
+              </md-input-container>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Fermer' | translate}}
+      </md-button>
+      <md-button ng-click="Actualiser()" ng-if="!iactualise">
+        {{'Actualiser' | translate}}
+      </md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

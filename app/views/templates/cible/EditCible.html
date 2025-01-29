@@ -1,0 +1,62 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Modifier la cible' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Cible' | translate}}</label>
+              <input ng-model="data.Cible" type="text" style="width: 250px;" md-autofocus required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Référence' | translate}}</label>
+              <input ng-model="data.Reference" style="width: 250px;" type="text">
+            </md-input-container>
+          </div>
+        </div>
+
+        <div flex="100" flex-gt-sm="50" layout="column">
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>{{'Famille' | translate}} ...</label>
+            <md-select ng-model="Famille" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+              <md-select-header class="demo-select-header">
+                <input ng-model="searchFamille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher ...' | translate}}" class="demo-header-searchbox md-text">
+              </md-select-header>
+              <md-option ng-value="Famille.IDcategorie_cible" ng-repeat="Famille in Familles  | orderBy:'Categorie' | filter:searchFamille" ng-selected="data.IDcategorie_cible == Famille.IDcategorie_cible">{{Famille.Categorie}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+
+        <div flex="100" flex-gt-sm="50" layout="column">
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>{{'Suivie dans le monitoring (Non suivie / Suivie)' | translate}}</label>
+            <md-switch ng-model="Monitoring" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+              <span class="badge-green_withe" ng-if="Monitoring == 0">{{'Non suivie' | translate}}</span>
+              <span class="badge-red_withe" ng-if="Monitoring == 1">{{'suivie' | translate}}</span>
+            </md-switch>
+          </md-input-container>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerCible();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="ModiferCible()">
+        {{'Modifier' | translate}}
+      </md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

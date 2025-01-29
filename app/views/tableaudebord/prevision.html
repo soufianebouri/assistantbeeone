@@ -1,0 +1,72 @@
+<div class="right_col" role="main">
+  <div ng-controller="TableaudebordPrevisionCtrl as pc" class="modal-demo">
+    <md-content class="md-padding">
+      <md-tabs md-selected="0" md-border-bottom="" md-autoselect="" md-swipe-content="">
+        <md-tab label="{{'Prévu / réalisé' | translate}}" ui-sref="tableaudebord_prevision"></md-tab>
+        <md-tab label="{{'Dernières mises à jours des prévisions' | translate}}" ui-sref="prevision_tabs_last_update_harvast"></md-tab>
+        <md-tab label="{{'Détail des prévisions' | translate}}" ui-sref="prevision_tabs_harvast_detail"></md-tab>
+        <md-tab label="{{'Détail des réalisations' | translate}}" ui-sref="prevision_tabs_realisation_detail"></md-tab>
+        <md-tab label="{{'Prévu / réalisé par semaine' | translate}}" ui-sref="prevision_tabs_prevu_realise_semaine"></md-tab>
+        <md-tab label="{{'Avancement semaine en cours' | translate}}" ui-sref="prevision_tabs_avancement_semaine_encours"></md-tab>
+        <md-tab label="{{'Télémetrie de la saisie' | translate}}" ui-sref="tlemetrie_saisie"></md-tab>
+        <md-tab label="{{'Qualité des prévisions hebdomadaires' | translate}}" ui-sref="qualite_prevision_hebdo"></md-tab>
+      </md-tabs>
+    </md-content>
+
+    <div id="myTabContent2" class="tab-content">
+      <br />
+      <div role="tabpanel" class="tab-pane fade active in" id="tab_content11" aria-labelledby="home-tab">
+        <div class="row" style="display: block;background-color:white;">
+          <br /><br />
+          <div class="col-md-4 col-sm-4  ">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{'Hier' | translate}} <small></small></h2>
+
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <div class="table-responsive-no">
+                  <div id="chartdiv"></div>
+                  <center id="chartdiv_no_data" style="display: none;">{{'Pas de données à afficher' | translate}}</center>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-4  ">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{'Semaine en cours à date' | translate}}<small></small></h2>
+
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <div class="table-responsive-no">
+                  <div id="chartdiv_semaine_cours"></div>
+                  <center id="chartdiv_semaine_cours_no_data" style="display: none;">{{'Pas de données à afficher' | translate}}</center>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-sm-4  ">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{'Semaine dernière' | translate}}<small></small></h2>
+
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <div class="table-responsive-no">
+                  <div id="chartdiv_semaine_derniere"></div>
+                  <center id="chartdiv_semaine_derniere_no_data" style="display: none;">{{'Pas de données à afficher' | translate}}</center>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

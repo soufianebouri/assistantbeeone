@@ -1,0 +1,132 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="variete" ng-submit="pc.submitForm(variete.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="Variete" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.varieteName}}</label>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="text" class="form-control" name="Variete" id="Variete" ng-model="pc.variete.varieteName" placeholder="nom" required>
+      </div>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="kg" id="kg" ng-model="pc.variete.kg" placeholder="poid en Kg" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="culture" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.culture}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control" name="culture" id="culture" ng-model="pc.variete.culture" required>
+          <option value="{{cultureOb.ID}}" ng-repeat="cultureOb in pc.data.cultureArray" ng-selected="pc.variete.culture == cultureOb.ID">{{cultureOb.Culture}}</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="refFamille_variete" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.famille_variete}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+
+        <select class="form-control" name="refFamille_variete" id="refFamille_variete" ng-model="pc.variete.refFamille_variete" required>
+          <option value="{{typeVarieteOb.IDFamille_variete}}" ng-repeat="typeVarieteOb in pc.data.typeVarieteArray" ng-selected="pc.variete.Type_variete == typeVarieteOb.Libile">{{typeVarieteOb.Libile}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="couleur" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.couleur}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="couleur" id="couleur" ng-model="pc.variete.couleur" ng-pattern="/^-?[0-9][^\.]*$/" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Descriptif" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.descriptif}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Descriptif" id="Descriptif" ng-model="pc.variete.descriptif" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Reference" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.reference}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Reference" id="Reference" ng-model="pc.variete.reference" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="age_entree_production" class="col-sm-2 col-xs-12 col-md-2  control-label">{{"Age" | translate}}</label>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="age_entree_production" id="age_entree_production" ng-model="pc.variete.age_entree_production" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.age_entree_production}} ..." required>
+      </div>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="age_adulte" id="age_adulte" ng-model="pc.variete.age_adulte" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.age_adulte}} ..." required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="mois_debut_cycle" class="col-sm-2 col-xs-12 col-md-2  control-label">{{"Mois" | translate}}</label>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="mois_debut_cycle" id="mois_debut_cycle" ng-model="pc.variete.mois_debut_cycle" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.mois_debut_cycle}} ..." required>
+      </div>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="mois_fin_cycle" id="mois_fin_cycle" ng-model="pc.variete.mois_fin_cycle" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.mois_fin_cycle}} ..." required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="jour_debut_cycle" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.jour_debut_cycle}}</label>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="jour_debut_cycle" id="jour_debut_cycle" ng-model="pc.variete.jour_debut_cycle" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.jour_debut_cycle}} ..." required>
+      </div>
+      <div class="col-sm-5 col-xs-12 col-md-5 ">
+        <input type="number" class="form-control" name="jour_fin_cycle" id="jour_fin_cycle" ng-model="pc.variete.jour_fin_cycle" ng-pattern="/^-?[0-9][^\.]*$/" placeholder="{{pc.data.jour_fin_cycle}} ..." required>
+      </div>
+    </div>
+
+    <!--<div class="form-group row">
+	<label for="iS_Envoi" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.iS_Envoi}}</label>
+	<div class="col-sm-10 col-xs-12 col-md-10 ">
+	<input type="text" class="form-control"  name="iS_Envoi" id="iS_Envoi" ng-model="pc.variete.iS_Envoi" required>
+	</div>
+	</div>-->
+
+    <div class="form-group row">
+      <label for="Abreviation" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.abreviation}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Abreviation" id="Abreviation" ng-model="pc.variete.abreviation" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="CouleurCalque" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.couleurCalque}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="CouleurCalque" id="CouleurCalque" ng-model="pc.variete.couleurCalque" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="CouleurCadre" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.couleurCadre}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="CouleurCadre" id="CouleurCadre" ng-model="pc.variete.couleurCadre" required>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="variete.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

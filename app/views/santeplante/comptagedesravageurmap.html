@@ -1,0 +1,105 @@
+<div class="right_col" role="main">
+  <div ng-controller="SanteplanteComptagedesravageurmapCtrl as pc" class="modal-demo">
+    <md-content class="md-padding">
+      <md-tabs md-selected="-1" md-border-bottom="" md-autoselect="" md-swipe-content="">
+        <md-tab label="{{'Fiche de surveillance' | translate}}" ui-sref="comptagedesravageursfichedesurveillance"></md-tab>
+        <md-tab label="{{'Synthèse de surveillance' | translate}}" ui-sref="comptagedesravageurssynthesesurveillance"></md-tab>
+        <md-tab label="{{'Synthèse de surveillance par culture' | translate}}" ui-sref="comptagedesravageurssyntheseparculturesurveillance"></md-tab>
+      </md-tabs>
+    </md-content>
+    <br />
+    <span> {{'Santé de la plante' | translate}} <i class="fa fa-angle-right"></i> {{'Comptage des ravageurs' | translate}} <i class="fa fa-angle-right"></i> <b>{{'Vue cartographique' | translate}}</b></span>
+    <br />
+    <div class="dontshowit">
+      <a class="dt-button pull-right" ui-sref="comptagedesravageurs" title="{{'Comptage des ravageurs' | translate}} ..."><i class="fa fa-list"></i></a>
+    </div>
+    <br /><br />
+    <div id="map"></div>
+    <br /><br />
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr>
+          <td>
+            <input id="date_fin" type="date" class="" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <select id="Cible" class="form-control  input-sm  selectpicker" ng-model="cible.cible" ng-change="cible_change()" data-live-search="true" title="{{'Cible' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+              <option selected disabled value="" style="background-color: #ffffff;width:100px;"> {{'Cible' | translate}} ..</option>
+              <option ng-repeat="cible in pc.cibles" ng-value="cible.ID_cible" ng-if="cible.Cible != ''" style="width:200px;">{{ cible.Cible }}</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="infoparcelle" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color: rgb(255, 255, 255);color:#000000;width:250px;">
+
+        <h5 class="badge-orange-squar">&nbsp<font color="#ffffff" size="2px">{{'Parcelle culturale infos' | translate}}</font>
+        </h5>
+
+
+        <table class="w3-table w3-striped">
+          <tr>
+            <td style=""><small>{{'Référence' | translate}}</small></td>
+            <td style=""><small>
+                <bn id="ref"></bn>
+              </small></td>
+          </tr>
+          <tr>
+            <td style=""><small>{{'Superficie' | translate}}</small></td>
+            <td style="text-align:right; "><small>
+                <bn id="superficie"></bn>
+              </small></td>
+          </tr>
+          <tr>
+            <td style=""><small>{{'Variété' | translate}}</small></td>
+            <td style=""><small>
+                <bn id="variete"></bn>
+              </small></td>
+          </tr>
+          <tr>
+            <td style=""><small>{{'Position' | translate}}</small></td>
+            <td style=""><small>
+                <bn id="Position"></bn>
+              </small></td>
+          </tr>
+        </table>
+
+
+      </div>
+    </div>
+
+
+    <div id="details" style="display:none;" class="animated fadeIn">
+      <br />
+      <div class="font-map" style="background-color: rgb(255, 255, 255);color:#000000;width:250px;">
+
+        <h5 class="badge-orange-squar">&nbsp<font color="#ffffff" size="2px">{{'Détails observation' | translate}}</font>
+        </h5>
+
+        <table class="w3-table w3-striped">
+          <tr>
+            <td style=""><small>{{'Nombre insectes' | translate}}</small></td>
+            <td style="text-align:right; "><small>
+                <bn id="Nombreinsectes"></bn>
+              </small></td>
+          </tr>
+          <tr>
+            <td style=""><small>{{'Moyen insectes (%)' | translate}}</small></td>
+            <td style="text-align:right; "><small>
+                <bn id="Moyeninsectes"></bn>
+              </small></td>
+          </tr>
+        </table>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

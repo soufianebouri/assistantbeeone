@@ -1,0 +1,545 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{"ordredetaille" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="" md-selected="selectedTab">
+        <md-tab label="{{'Informations générales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Culture" | translate}} ...</label>
+                          <md-select ng-model="culture" style="width:90%;" data-md-container-class="selectdemoSelectHeader" ng-change="getParcelleByVariete_portgreff()" multiple>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchCulture" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="culture.ID" ng-repeat="culture in cultures   | orderBy:'Culture' | filter:searchCulture" ng-if="culture.filier == 2">{{culture.Culture}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Variété" | translate}} ...</label>
+                          <md-select ng-model="variete" style="width:90%;" data-md-container-class="selectdemoSelectHeader" ng-change="getParcelleByVariete_portgreff()" multiple>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchvariete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="variete.id" ng-repeat="variete in varietes | orderBy:'Variete' | filter:searchvariete" ng-if="culture.indexOf(variete.culture) !== -1 && culture">{{variete.Variete}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Porte greffe" | translate}} ...</label>
+                          <md-select ng-model="portegreffe" style="width:90%;" data-md-container-class="selectdemoSelectHeader" ng-change="getParcelleByVariete_portgreff()" multiple>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchportegreffe" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="portGreffe.IDPorte_greffe" ng-repeat="portGreffe in portGreffes | orderBy:'Libile' | filter:searchportegreffe">{{portGreffe.Libile}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Parcelles culturales" | translate}} ...</label>
+                          <md-select ng-model="parcelleculturalsel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" ng-change="setVarieteandportgreff()" multiple required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1  && parcellecultural.filier == 2"
+                              ng-selected="isINParcelle(parcellecultural.ID)">{{parcellecultural.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+
+
+                    </div>
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Type de taille" | translate}} ...</label>
+                          <md-select ng-model="type_de_taille" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchtypes_de_taille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="type_de_taille" ng-repeat="type_de_taille in types_de_taille | filter:searchtypes_de_taille  track by $index ">{{type_de_taille}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Mode de taille" | translate}} ...</label>
+                          <md-select ng-model="mode_de_taille" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchModedetaille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="mode_de_taille" ng-repeat="mode_de_taille in modes_de_taille | filter:searchModedetaille  track by $index ">{{mode_de_taille}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Intensité de la taille" | translate}} ...</label>
+                          <md-select ng-model="intensite_de_la_taille" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchintensite_de_la_taille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="intensite_de_la_taille" ng-repeat="intensite_de_la_taille in intensites_de_la_taille | filter:searchintensite_de_la_taille  track by $index ">{{intensite_de_la_taille}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+
+
+                    </div>
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+
+
+
+
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date prévisionnelle de début' | translate}}...</label>
+                          <input type="date" ng-model="date_previsionnelle_debut" style="width:90%;" ng-change="setDateFin()" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Durée (jours) estimée de la taille" | translate}}</label>
+                          <input ng-model="duree_estimee_taille" style="width:90%;" type="number" ng-change="setDateFin()" required ng-min="1">
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date prévisionnelle de fin' | translate}}...</label>
+                          <input type="date" ng-model="date_previsionnelle_fin" style="width:90%;" readonly>
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+        <md-tab label="{{'Détail MO Taille' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Affectation MO taille" | translate}} ...</label>
+                          <md-select ng-model="affectation_mo_taille" style="width:90%;" data-md-container-class="selectdemoSelectHeader" multiple>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchaffectation_mo_taille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="affectation_mo_taille" ng-repeat="affectation_mo_taille in affectations_mo_taille | filter:searchaffectation_mo_taille  track by $index "
+                              ng-selected="data.affectation_mo_taille.includes(affectation_mo_taille)">{{affectation_mo_taille}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Mode paiement MO taille" | translate}} ...</label>
+                          <md-select ng-model="mode_paiement_mo_taille" style="width:90%;" data-md-container-class="selectdemoSelectHeader" multiple>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchmode_paiement_mo_taille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="mode_paiement_mo_taille" ng-repeat="mode_paiement_mo_taille in modes_paiement_mo_taille | filter:searchmode_paiement_mo_taille track by $index "
+                              ng-selected="data.mode_paiement_mo_taille.includes(mode_paiement_mo_taille)">{{mode_paiement_mo_taille}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Remarques' | translate}}</label>
+                          <textarea ng-model="remarques" rows="3" style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+        <md-tab label="{{'Critères de Décision' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Profil calibre" | translate}} ...</label>
+                          <md-select ng-model="profil_calibre" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchprofil_calibre" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="profil_calibre" ng-repeat="profil_calibre in profils_calibre | filter:searchprofil_calibre  track by $index ">{{profil_calibre}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Charge des arbres" | translate}} ...</label>
+                          <md-select ng-model="charge_des_arbres" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchcharge_des_arbres" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="charge_des_arbres" ng-repeat="charge_des_arbres in charges_des_arbres | filter:searchcharge_des_arbres  track by $index ">{{charge_des_arbres}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Qualité interne" | translate}} ...</label>
+                          <md-select ng-model="qualite_interne" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchqualite_interne" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="qualite_interne" ng-repeat="qualite_interne in qualites_interne | filter:searchqualite_interne  track by $index ">{{qualite_interne}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Aspect des fruits" | translate}} ...</label>
+                          <md-select ng-model="aspect_des_fruits" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchaspect_des_fruits" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="aspect_des_fruits" ng-repeat="aspect_des_fruits in aspects_des_fruits | filter:searchaspect_des_fruits  track by $index ">{{aspect_des_fruits}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Formation des arbres" | translate}} ...</label>
+                          <md-select ng-model="formation_des_arbres" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchformation_des_arbres" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="formation_des_arbres" ng-repeat="formation_des_arbres in formations_des_arbres | filter:searchformation_des_arbres  track by $index ">{{formation_des_arbres}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Volume des arbres" | translate}} ...</label>
+                          <md-select ng-model="volume_des_arbres" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchvolume_des_arbres" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="volume_des_arbres" ng-repeat="volume_des_arbres in volumes_des_arbres | filter:searchvolume_des_arbres  track by $index ">{{volume_des_arbres}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Hauteurs des arbres" | translate}} ...</label>
+                          <md-select ng-model="hauteurs_des_arbres" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchhauteurs_des_arbres" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="hauteurs_des_arbres" ng-repeat="hauteurs_des_arbres in hauteurss_des_arbres | filter:searchhauteurs_des_arbres  track by $index ">{{hauteurs_des_arbres}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Besoin opérationnel" | translate}} ...</label>
+                          <md-select ng-model="besoin_operationnel" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchbesoin_operationnel" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="besoin_operationnel" ng-repeat="besoin_operationnel in besoins_operationnel | filter:searchbesoin_operationnel  track by $index ">{{besoin_operationnel}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observations' | translate}}</label>
+                          <textarea ng-model="observations" rows="3" style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+        <md-tab label="{{'Parties de l arbre concernées par les actions de taille' | translate}}" md-stretch-tabs="always">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Bois mort" | translate}} ...</label>
+                          <md-select ng-model="bois_mort" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchbois_mort" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="bois_mort" ng-repeat="bois_mort in boiss_mort | filter:searchbois_mort  track by $index ">{{bois_mort}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Bois cassé" | translate}} ...</label>
+                          <md-select ng-model="bois_casse" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchbois_casse" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="bois_casse" ng-repeat="bois_casse in boiss_casse | filter:searchbois_casse  track by $index ">{{bois_casse}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Rameaux et bois chétifs" | translate}} ...</label>
+                          <md-select ng-model="rameaux_et_bois_chetifs" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchrameaux_et_bois_chetifse" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="rameaux_et_bois_chetifs" ng-repeat="rameaux_et_bois_chetifs in rameauxs_et_bois_chetifs | filter:searchrameaux_et_bois_chetifse  track by $index ">{{rameaux_et_bois_chetifs}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Tires sève" | translate}} ...</label>
+                          <md-select ng-model="tires_seve" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchtires_seve" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="tires_seve" ng-repeat="tires_seve in tiress_seve | filter:searchtires_seve  track by $index ">{{tires_seve}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Jupe" | translate}} ...</label>
+                          <md-select ng-model="jupe" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchjupe" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="jupe" ng-repeat="jupe in jupes | filter:searchjupe  track by $index ">{{jupe}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Charpentières" | translate}} ...</label>
+                          <md-select ng-model="charpentieres" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchcharpentieres" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="charpentieres" ng-repeat="charpentieres in charpentieress | filter:searchcharpentieres  track by $index ">{{charpentieres}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Frondaison" | translate}} ...</label>
+                          <md-select ng-model="frondaison" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchfrondaison" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="frondaison" ng-repeat="frondaison in frondaisons | filter:searchfrondaison  track by $index ">{{frondaison}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Cheminée" | translate}} ...</label>
+                          <md-select ng-model="cheminee" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchcheminee" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="cheminee" ng-repeat="cheminee in cheminees | filter:searchcheminee  track by $index ">{{cheminee}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Autre' | translate}} ...</label>
+                          <input ng-model="data.autre" style="width:95%;" type="text">
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <md-button ng-click="goToPreviousTab();" class="md-primary" ng-disabled="selectedTab==0">
+        <i class="fa fa-caret-left"></i> {{'Précédent' | translate}}
+      </md-button>
+      <md-button ng-click="goToNextTab();" class="md-primary" ng-disabled="selectedTab==3">
+        {{'Suivant' | translate}} <i class="fa fa-caret-right"></i>
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

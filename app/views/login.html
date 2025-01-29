@@ -1,0 +1,46 @@
+<div class="container" ng-controller="LoginCtrl as vm">
+  <div class="left-panel">
+      <div class="quote">
+        <i class="fa fa-quote-left"></i>
+          <p class="strong_p"><strong>The Prophet said:</strong></p>
+          <p class="notes">Whoever plants a tree and diligently looks after it until it matures and bears fruit is rewarded. If a Muslim plants a tree or sows a field and humans and beasts and birds eat from it, all of it is charity from him.</p>
+        <div class="right">          
+          <i class="fa fa-quote-right "></i>
+        </div>
+        </div>
+      <div class="logo">
+           <img src="../images/beeone_erp.svg" alt="homepage"  />
+          <p>ERP Assistant</p>
+      </div>
+  </div>
+  <div class="right-panel">
+      <h2 class="fade-in">Connectez-vous</h2>
+      <p class="fade-in delay">Content de te revoir ! Entrez vos informations de connexion</p>
+      <br/>
+      <form>
+        <div flex="100" flex-gt-sm="33" layout="column">
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>{{'Login ou Email' | translate}}</label>
+            <input ng-model="vm.loginormail" style="width: 300px;"  >
+          </md-input-container>
+        </div>
+
+        <div flex="100" flex-gt-sm="33" layout="column">
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>{{'Password' | translate}}</label>
+            <input ng-model="vm.password" style="width: 300px;"  >
+          </md-input-container>
+        </div>
+
+          <div class="options fade-in delay-4">
+              <label><input type="checkbox"> Se Souvenir De Moi</label>
+              <a href="#">Mot De Passe Oublié?</a>
+          </div>
+          <button class="btn fade-in delay-5" ng-click="vm.auth()">Connexion</button>
+      </form>
+      <button class="key-access fade-in delay-6">
+          <i class="fa fa-key"></i> Clé d’accès de connexion ici
+      </button>
+  </div>
+  <loading-spinner is-loading="loading"></loading-spinner>
+</div>

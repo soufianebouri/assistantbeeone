@@ -1,0 +1,157 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Suivi_des_ressources_hydriques' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informations générales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de suivi' | translate}}...</label>
+                          <input type="date" ng-model="DateSuivi" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Type de la ressource hydrique" | translate}} ...</label>
+                          <md-select ng-model="Type" style="width:90%;" ng-change="Typechange()" multiple data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchType" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="1" ng-selected="data.Type == 1">{{'Eaux souterraines' | translate}}</md-option>
+                            <md-option ng-value="2" ng-selected="data.Type == 2">{{'Eaux de surface' | translate}}</md-option>
+                          </md-select>
+                        </md-input-container>
+
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Référence de la ressource" | translate}} ...</label>
+                          <md-select ng-model="referenceRessourcesel" style="width:90%;" ng-change="setfoodsRef()" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchRef" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="AllRessourcesHydrique.ID" ng-repeat="AllRessourcesHydrique in AllRessourcesHydriques   | orderBy:'ReferenceRessourceHydrique' | filter:filterFn"
+                              ng-selected="AllRessourcesHydrique.ID == data.IDRessource_hydrique">
+                              {{AllRessourcesHydrique.ReferenceRessourceHydrique}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+                    <div class="margin-left-input" flex-gt-sm="100" flex="">
+                      <div layout="row" layout-wrap flex>
+                        <div flex="100" flex-gt-sm="100" layout="column">
+                          <table id="bac" class="table table-striped" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th>{{'Volume initial du compteur (m3)' | translate}} *</th>
+                                <th>{{'Volume final du compteur (m3)' | translate}} *</th>
+                                <th>{{'Volume (m3)' | translate}} *</th>
+                                <th>{{'Durée initiale du compteur (h)' | translate}} *</th>
+                                <th>{{'Durée finale du compteur (h)' | translate}} *</th>
+                                <th>{{'Durée de fonctionnement (h)' | translate}} *</th>
+                                <th>{{'Observations et recommandations' | translate}}</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="food in foodsreference">
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.VolumeInitialeCompteur" ng-change="VolumeInitialeCompteur_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.VolumeFinalCompteur" ng-change="VolumeFinalCompteur_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Volume" ng-change="Volume_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.DureeInitialeCompteur" ng-change="DureeInitialeCompteur_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.DureeFinaleCompteur" ng-change="DureeFinaleCompteur_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.DureeFonctionnement" ng-change="DureeFonctionnementCompteur_change($index)" style="width:100px;" class="right" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:160px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <textarea ng-model="food.ObservationsRecommendations" md-maxlength="100" rows="2" md-select-on-focus style="width:90%;"></textarea>
+                                  </md-input-container>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

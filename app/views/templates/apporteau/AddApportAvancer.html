@@ -1,0 +1,245 @@
+<md-dialog aria-label="Mango (Fruit)" style="width:100%">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2> {{"Ajouter irrigation [Mode avancé]" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="100" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{"Information générale" | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="25" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{"Référence irrigation" | translate}} ...</label>
+                    <input ng-model="REF_ordre" style="width:90%;" type="text" readonly required>
+                    <a href="" ng-click="GetOtherReference()">{{"Autre référence" | translate}}</a>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="25" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{"Date irrigation" | translate}}...</label>
+                    <md-datepicker ng-model="dateirrigation" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" required></md-datepicker>
+                  </md-input-container>
+                </div>
+
+
+
+                <div flex="100" flex-gt-sm="25" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{"Moyenne irrigation" | translate}}</label>
+                    <input ng-model="moyenneirrigation" ng-min="0" style="width:90%;" class="right" type="number" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="25" layout="column">
+                  <md-input-container class="md-block">
+                    <label>{{"Moyenne irrigation" | translate}}</label>
+                    <textarea ng-model="Descriptif" rows="3"></textarea>
+                  </md-input-container>
+                </div>
+
+
+
+              </div>
+            </md-content>
+          </div>
+
+        </div>
+
+
+        <div layout="row" layout-wrap>
+
+          <div flex-gt-sm="100" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{"Blocs, Secteurs et Sous-Parcelle" | translate}}</small>
+            </md-toolbar>
+            <div layout="row" layout-wrap flex>
+              <div flex="100" flex-gt-sm="20" layout="column">
+                <br />
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{"Bloc" | translate}} ...</label>
+                  <md-select ng-model="blocsirrigation" style="width:90%;" ng-change="setFoods()">
+                    <md-option ng-value="bloc" ng-repeat="bloc in blocs  | orderBy:'BLOC'" ng-disabled="notIn(bloc.ID)">{{bloc.BLOC}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+
+              <div flex="100" flex-gt-sm="50" layout="column" style="overflow-x:auto;">
+                <br /><br />
+                <table>
+                  <tr>
+                    <td ng-repeat="food in foods" width="12px;">
+                      <span class="tag label label-info">
+                        <span>{{food.blocsirrigation.BLOC}}</span>
+                        <a ng-click="RetirerBloc($index);">
+                          <i class="remove glyphicon glyphicon-remove-sign glyphicon-white gi-4x"></i>
+                        </a>
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-ng-init="second = $index" ng-repeat="food in foods">
+          <br />
+          <md-toolbar layout="row" class="md-hue-3" style="background-color: rgb(243 182 50);min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;width: 70%;">
+            &nbsp;&nbsp;{{food.blocsirrigation.BLOC}}
+          </md-toolbar>
+
+          <!--<md-toolbar ng-if="foods[second - 1].blocsirrigation.BLOC != food.blocsirrigation.BLOC" layout="row" class="md-hue-3"
+            style="background-color: rgb(243 182 50);min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;width: 70%;">
+            &nbsp;&nbsp;{{food.blocsirrigation.BLOC}}
+          </md-toolbar>
+
+          <div ng-if="foods[second - 1].blocsirrigation.BLOC != food.blocsirrigation.BLOC" layout="row" layout-wrap flex>
+            <div style="height:50px" flex="100" flex-gt-sm="5" layout="column">
+            </div>
+            <div style="height:50px" flex="100" flex-gt-sm="20" layout="column">
+              <md-input-container class="md-block" flex-gt-xs ng-if="food.secteurs.length == 0">
+                <label>
+                  <font color="red">
+                    Aucun secteur trouvée !
+                  </font>
+                </label>
+              </md-input-container>
+            </div>
+
+            <div style="height:50px" flex="100" flex-gt-sm="20" layout="column" ng-if="food.secteurs.length>0">
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>Volume</label>
+                <input ng-model="food.VolumeGlobal" ng-min="0.000000001" style="width:90%;" class="right" type="number">
+              </md-input-container>
+            </div>
+            <div style="height:50px" flex="100" flex-gt-sm="20" layout="column" ng-if="food.secteurs.length>0">
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>Heure</label>
+                <input type="time" ng-model="food.timeGlobal" mdp-time-picker />
+              </md-input-container>
+            </div>
+          </div>-->
+          <div layout="row" layout-wrap flex>
+            <div style="height:50px" flex="100" flex-gt-sm="5" layout="column">
+            </div>
+            <div style="height:50px" flex="100" flex-gt-sm="20" layout="column">
+              <md-input-container class="md-block" flex-gt-xs ng-if="food.secteurs.length == 0">
+                <label>
+                  <font color="red">
+                    {{"Aucun secteur trouvé !" | translate}}
+                  </font>
+                </label>
+              </md-input-container>
+            </div>
+
+            <div style="height:50px" flex="100" flex-gt-sm="20" layout="column" ng-if="food.secteurs.length>0">
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>{{"Volume Total" | translate}}</label>
+                <input ng-model="food.VolumeGlobal" ng-change="OnSetVolumeGlobal(food.blocsirrigation.ID)" style="width:90%;" class="right" type="number">
+              </md-input-container>
+            </div>
+
+            <div style="height:50px" flex="100" flex-gt-sm="10" layout="column" ng-if="food.secteurs.length>0">
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>{{"Hr Total" | translate}}</label>
+                <input type="number" ng-model="food.hrGlobal" pattern="[0-9]+" class="right" ng-change="OnSetHrGlobal(food.blocsirrigation.ID)" />
+              </md-input-container>
+            </div>
+
+            <div style="height:50px" flex="100" flex-gt-sm="10" layout="column" ng-if="food.secteurs.length>0">
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>{{"Min Total" | translate}}</label>
+                <input type="number" ng-model="food.minGlobal" pattern="[0-9]+" ng-change="OnSetMinGlobal(food.blocsirrigation.ID)" />
+              </md-input-container>
+            </div>
+
+          </div>
+          <div ng-repeat="secteur in food.secteurs">
+            <div layout="row" layout-wrap flex>
+              <div style="height:50px" flex="100" flex-gt-sm="5" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <md-checkbox ng-model="secteur.checked" aria-label="Checkbox 1" ng-checked="secteur.sousparcelleirrigation.length>0" class="md-primary">
+                  </md-checkbox>
+                </md-input-container>
+              </div>
+              <div style="height:50px" flex="100" flex-gt-sm="20" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+
+                  {{secteur.secteur.Secteur}}
+                </md-input-container>
+              </div>
+
+              <div style="height:50px" flex="100" flex-gt-sm="20" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{"Volume" | translate}}</label>
+                  <input ng-model="secteur.Volume" style="width:90%;" ng-change="OnSetVolume(food.blocsirrigation.ID, secteur.secteur.ID)" class="right" type="number">
+                </md-input-container>
+              </div>
+
+              <div style="height:50px" flex="100" flex-gt-sm="10" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{"Heure" | translate}}</label>
+                  <input type="number" pattern="[0-9]+" ng-model="secteur.hr" class="right" ng-change="OnSetHr(food.blocsirrigation.ID, secteur.secteur.ID, secteur.hr)" />
+                </md-input-container>
+              </div>
+
+              <div style="height:50px" flex="100" flex-gt-sm="10" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{"Minute" | translate}}</label>
+                  <input type="number" pattern="[0-9]+" ng-model="secteur.min" />
+                </md-input-container>
+              </div>
+
+
+
+            </div>
+            <div layout="row" layout-wrap flex ng-if="secteur.checked">
+              <div flex="100" flex-gt-sm="25" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{"Sous-Parcelle" | translate}} ...</label>
+                  <md-select ng-model="secteur.sousparcelleirrigation" style="width:90%;" multiple required>
+                    <md-option ng-value="sousparcelle" ng-repeat="sousparcelle in sousparcelles | filter:{ Secteur: secteur.secteur.ID } | orderBy:'Ref'" ng-selected="true" required>{{sousparcelle.Ref}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerAvancer();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="AjouterAvancer()" ng-if="!progress">
+        {{"Ajouter" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

@@ -1,0 +1,63 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <md-datepicker ng-model="datedecreation" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Parcelle physique" | translate}} ...</label>
+              <md-select ng-model="parcelle" style="width: 250px;" ng-change="getPiege()" required>
+                <md-option ng-value="myParcelle.ID" ng-repeat="myParcelle in Parcelle" ng-selected="data.ID_Parcelle == myParcelle.ID">{{myParcelle.Ref}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Piège" | translate}} ...</label>
+              <md-select ng-model="piege" style="width: 250px;" required>
+                <md-option ng-value="mypiege.ID" ng-repeat="mypiege in MyPiege" ng-selected="data.ID_Piege == mypiege.ID">
+                  {{mypiege.Code_Piege}} {{(mypiege.isArchive) ? ' (Archivé)' : '(En cours)'}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Nombre d'insecte" | translate}}</label>
+              <input ng-model="data.Nombre_Insecte" style="width: 250px;" type="number" required>
+            </md-input-container>
+          </div>
+
+
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" type="submit" ng-if="!progress">
+        {{"Modifier" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

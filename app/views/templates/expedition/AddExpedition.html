@@ -1,0 +1,371 @@
+<md-dialog aria-label="ADATA formulaire" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Expedition' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Bondexpedition' | translate}} ...</label>
+                          <input ng-model="Reference" style="width:95%;" type="text" required>
+                          <a href="" ng-click="GetOtherReference()">{{'AutreNumero' | translate}}</a>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Datedexpedition' | translate}}...</label>
+                          <input type="date" ng-change="setDateCeuil()" ng-model="DateExp" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Client' | translate}} ...</label>
+                          <md-select ng-model="Client" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchClient" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="AllClient" ng-repeat="AllClient in AllClients  | orderBy:'Societe' | filter:searchClient">{{AllClient.Societe}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Véhicule' | translate}} ...</label>
+                          <input ng-model="Vehicule" style="width:95%;" type="text">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Chauffeur' | translate}} ...</label>
+                          <input ng-model="Chauffeur" style="width:95%;" type="text">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Heure de départ' | translate}} ...</label>
+                          <input type="time" ng-model="Heuredepart" ng-change="setHeureCeuil()" style="width:60%;" mdp-time-picker required />
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Drencher' | translate}}</label>
+                          <md-switch ng-model="Drencher" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                            <span class="badge-green_withe" ng-show="Drencher">{{'Oui' | translate}}</span>
+                            <span class="badge-orange_withe" ng-show="!Drencher">{{'Non' | translate}}</span>
+                          </md-switch>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de cueillette' | translate}}...</label>
+                          <input type="date" ng-model="DateCeuil" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Heure de cueillette' | translate}} ...</label>
+                          <input type="time" ng-model="HeureCeuil" style="width:60%;" mdp-time-picker required />
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Programme spécial' | translate}}</label>
+                          <md-switch ng-model="specialProgram" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                            <span class="badge-green_withe" ng-show="specialProgram">{{'Oui' | translate}}</span>
+                            <span class="badge-orange_withe" ng-show="!specialProgram">{{'Non' | translate}}</span>
+                          </md-switch>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Coloration pépin' | translate}} ...</label>
+                          <md-select ng-model="Coloration" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchColoration" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="coloration" ng-repeat="coloration in colorations   | filter:searchColoration">{{coloration||translate}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Température' | translate}} ...</label>
+                          <input type="number" ng-model="temperature" style="width:60%;" ng-change="filterTemp()" required />
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Chef de cueillette' | translate}} ...</label>
+                          <md-select ng-model="Chef_cueillette" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchChefCueillette" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="chef_cueillette" ng-repeat="chef_cueillette in chefs_cueillette  | orderBy:'Nom' | filter:searchChefCueillette">{{chef_cueillette.Nom}} {{chef_cueillette.Prenom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Nbre palette' | translate}} ...</label>
+                          <input type="number" ng-model="nbrContenant" style="width:60%;" ng-change="filterContenant()" required />
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observations' | translate}}</label>
+                          <textarea ng-model="Observation" md-maxlength="100" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{'Parcelles' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'GroupeOperationnels' | translate}} ...</label>
+                          <md-select ng-model="GroupeOperationnelsel" style="width:90%;" ng-change="getParcellesByGO()" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchGroupeOperationnel" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="GroupeOperationnel.IDGroupeCultural_Operationnel" ng-repeat="GroupeOperationnel in GroupeOperationnels  | orderBy:'Intitule'  | filter:searchGroupeOperationnel">{{GroupeOperationnel.Intitule}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div layout="row" layout-wrap flex>
+                        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                          <md-button md-no-ink class="md-primary" ng-click="addItem()" ng-if="!iadd">+ Ajouter produits</md-button>
+                          <div class="form-body" layout="row" layout-wrap ng-if="iadd">
+                            <div class="margin-left-input" flex-gt-sm="100" flex="">
+                              <div layout="row" layout-wrap flex>
+                                <div flex="80" flex-gt-sm="100" layout="column" style="top:10px;   bottom:10px;   width:100%; height:200px;   overflow-y:auto;">
+                                  <table id="produit" class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th></th>
+                                        <th>{{'Parcelles' | translate}}</th>
+                                        <th>{{'Sup' | translate}}</th>
+                                        <th>{{'Variete' | translate}}</th>
+                                        <th>{{'Reftechnique' | translate}}</th>
+                                        <th>{{'Produit' | translate}}</th>
+                                        <th>{{'unite' | translate}}</th>
+                                        <th>{{'PM' | translate}}</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr ng-repeat="food in parcelleculturals">
+                                        <td class="th-table">
+                                          <md-input-container class="md-block" flex-gt-xs>
+                                            <md-checkbox ng-model="food.checkedChoise" aria-label="Checkbox 1" class="md-primary">
+                                            </md-checkbox>
+                                          </md-input-container>
+                                        </td>
+                                        <td class="th-table">{{food.Ref}}</td>
+                                        <td class="th-table">{{food.Sup | number:2}}</td>
+                                        <td class="th-table">{{food.Variete}}</td>
+                                        <td class="th-table">{{food.Ref_technique}}</td>
+                                        <td class="th-table">{{food.Designation}}</td>
+                                        <td class="th-table">{{food.unite}}</td>
+                                        <td class="th-table">{{food.PM_estime}}</td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+
+
+
+                            </div>
+
+
+
+
+
+                          </div>
+                          <md-button md-no-ink class="md-primary pull-right" ng-click="addItem()" ng-if="iadd">{{'Fermerletableau' | translate}}</md-button>
+                        </section>
+                      </div>
+
+                    </div>
+
+                    <div class="form-body" layout="row" layout-wrap>
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Marque' | translate}} ...</label>
+                          <md-select ng-model="Marque" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchMarque" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="AllMarques.Id" ng-repeat="AllMarques in AllMarque  | orderBy:'marque'  | filter:searchMarque">{{AllMarques.marque}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                      <md-button md-no-ink class="md-primary" ng-click="addMarque()">+ Ajouter marque</md-button>
+                    </div>
+
+                    <div class="form-body" layout="row" layout-wrap>
+                      <div class="margin-left-input" flex-gt-sm="100" flex="">
+                        <div layout="row" layout-wrap flex>
+                          <div flex="80" flex-gt-sm="100" layout="column">
+                            <table id="produit" class="table table-striped" style="width:100%">
+                              <thead>
+                                <tr>
+                                  <th>{{'Nbrdecontenants' | translate}}</th>
+                                  <th>{{'Parcelles' | translate}}</th>
+                                  <th>{{'Sup' | translate}}</th>
+                                  <th>{{'Produit' | translate}}</th>
+                                  <th>{{'unite' | translate}}</th>
+                                  <th>{{'Quantiteunite' | translate}}</th>
+                                  <th>{{'PoidsmoyenKg' | translate}}</th>
+                                  <th>{{'Total' | translate}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="food in parcelleculturals | filter:{ checkedChoise: true }">
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Nbrdecontenants" style="width:100px;" class="right" step="any" min="0" type="number" required>
+                                    </md-input-container>
+                                  </td>
+                                  <td class="th-table">{{food.Ref}}</td>
+                                  <td class="th-table">{{food.Sup | number:2}}</td>
+                                  <td class="th-table">{{food.Designation}}</td>
+                                  <td class="th-table">{{food.unite}}</td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Quantiteunite" style="width:100px;" class="right" step="any" min="0" type="number" required>
+                                    </md-input-container>
+                                  </td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Poidsmoyen" style="width:100px;" class="right" step="any" min="0" type="number" required>
+                                    </md-input-container>
+                                  </td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Total" ng-value="setTotal(food)" style="width:100px;" class="right" step="any" min="0" type="number" disabled>
+                                    </md-input-container>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="AllTotal" ng-value="setAllTotalTotal()" style="width:100px;" class="right" step="any" min="0" type="number" disabled>
+                                    </md-input-container>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+
+
+
+
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,230 @@
+<div ng-controller="OrdrefertilisationCtrl as pc">
+
+  <div class="right_col" role="main">
+    <div class="modal-demo">
+      <span class="dontDisplay"> Nutrition <i class="fa fa-angle-right"></i> <b>Fertilisation</b> <i class="fa fa-angle-right"></i> <b>Order de fertilisation</b> <i class="fa fa-angle-right"></i> <b>Etats Ordres</b></span>
+      <a class="dt-button pull-right ng-scope" ng-click="pc.toggleVisibilityElem(0);" title="{{'Fermer' | translate}}" ng-if="!pc.showtable" style=""><i class="fa fa-remove"></i></a>
+      <center class="dontDisplay" id="searchWidget">
+        <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+          <table>
+            <tr>
+              <td>Operation</td>
+              <td>&nbsp;&nbsp;</td>
+
+              <td ng-show="pc.obj.OPERATION == 1">Bloc</td>
+              <td ng-show="pc.obj.OPERATION == 1">&nbsp;&nbsp;</td>
+
+              <td>De</td>
+              <td>&nbsp;&nbsp;</td>
+              <td>A</td>
+              <td>&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+
+              <td>
+                <select id="typeOperation" class="form-control  input-sm selectpicker" ng-model="pc.obj.OPERATION" ng-change="pc.typeOperationChange()" data-live-search="true" title="{{'Operation' | translate}} ..."
+                  data-selected-text-format="count > 1" data-size="10">
+                  <option ng-repeat="typeOperation in pc.typeOperation_array" ng-value="typeOperation.id">{{ typeOperation.lab }}</option>
+                </select>
+              </td>
+              <td>&nbsp;&nbsp;</td>
+
+              <td ng-show="pc.obj.OPERATION == 1">
+                <select id="bloc" class="form-control  input-sm selectpicker" ng-model="pc.obj.BLOC" ng-change="pc.blocChange()" data-live-search="true" title="{{'Bloc' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                  <option ng-repeat="bloc in pc.bloc_array" ng-value="bloc.ID">{{ bloc.BLOC }}</option>
+                </select>
+              </td>
+              <td ng-show="pc.obj.OPERATION == 1">&nbsp;&nbsp;</td>
+
+              <td>
+                <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+              </td>
+              <td>&nbsp;&nbsp;</td>
+              <td>
+                <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+              </td>
+              <td>&nbsp;&nbsp;</td>
+              <td>
+
+              </td>
+            </tr>
+
+          </table>
+          <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+        </div>
+      </center>
+      <br />
+
+      <div class="table-responsive dontDisplay" id="actionButtons">
+        <div class="dt-buttons" style="float:right">
+
+          <button class="dt-button buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" ng-click="ReverseDisplay('filter_form')" title="{{'Rechercher' | translate}}"><span><i class="fa fa-search"></i></span></button>
+          <!--<button class="dt-button buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_0"><span><i class="fa fa-copy"></i></span></button>-->
+          <button class="dt-button buttons-print" tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.printPdf($e)" title="{{'Imprimer' | translate}}"><span><i class="fa fa-print"></i></span></button>
+          <button class="dt-button buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.printExcel($e)" title="EXCEL"><span><i class="fa fa-file-excel-o"></i></span></button>
+          <button class="dt-button" tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.goBack();" title="Ordre de fertilisation"><span><i class="fa fa-table"></i></span></button>
+        </div>
+      </div>
+
+      <div class="table-responsive dontDisplay" id="search_div">
+        <div class="dt-buttons" style="float:right ; margin-top:5px">
+          <label>Rechercher: <input type="search" id="search" class="" placeholder="" aria-controls="DataTables_Table_0"></label>
+        </div>
+      </div>
+
+      <div class="table-responsive tableFixHead" id="printThis">
+        <table style="background-color: white;cursor: pointer;" id="tableDataShow" border="1" class="printtable">
+          <thead style="display:none;" id="thead">
+            <tr style="height: 140px;">
+            </tr>
+          </thead>
+
+          <tr class="dontHide">
+            <th>Type d'operation</th>
+            <th>Num Ordre</th>
+            <th>Date</th>
+            <th>Engrais</th>
+            <th ng-show="pc.showBac">Nom Bac</th>
+            <th ng-show="pc.obj.OPERATION == 1">Volume ordre(L)</th>
+            <th>Quantite (U)</th>
+            <th>Operateur</th>
+          </tr>
+          <tbody>
+            <tr ng-repeat="d in pc.orderArray" class="{{d.Reference}}_{{d.ID}}" ng-click="pc.markThoseLine(d.Reference,d.ID)" ng-dblclick="pc.showDetailOrde(d.ID,d.Type)">
+              <td>{{(pc.orderArray[$index].Reference !== pc.orderArray[$index - 1].Reference)? d.Type : '' }}</td>
+              <td>{{(pc.orderArray[$index].Reference !== pc.orderArray[$index - 1].Reference)? d.Reference : ''}}</td>
+              <td>{{(pc.orderArray[$index].Reference !== pc.orderArray[$index - 1].Reference)? (d.Date | date:'yyyy/MM/dd') : ''}}</td>
+              <td>{{d.Designation}}</td>
+              <td id="{{makeClass(d.Designation,d.ID)}}" ng-show="pc.showBac"></td>
+              <td ng-show="pc.obj.OPERATION == 1">{{(pc.orderArray[$index].Reference !== pc.orderArray[$index - 1].Reference)? d.volume : ''}}</td>
+              <td>{{d.Qte_Ordre}}</td>
+              <td>{{(pc.orderArray[$index].Reference !== pc.orderArray[$index - 1].Reference)? d.OPERATEUR : ''}}</td>
+            </tr>
+          </tbody>
+
+          <tfoot style="display:none;" id="tfoot">
+            <tr style="height: 100px;">
+              <div></div>
+            </tr>
+          </tfoot>
+
+        </table>
+        <br />
+        <br />
+        <!--Fertigation-->
+        <div style="overflow-x:auto; display:none;" id="detailSecteur">
+          <fieldset>
+            <legend>Secteur</legend>
+            <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+              <thead>
+                <tr class="dontHide">
+                  <th>Bac</th>
+                  <th>Bloc / Secteur</th>
+                  <th>Volume (L)</th>
+                  <th>Tout le secteur</th>
+                </tr>
+              </thead>
+              <tr ng-repeat="secteurs in pc.secteurs">
+                <td rowspan="{{(pc.secteurs |filter:{'Bac': secteurs.Bac}).length}}" ng-if="pc.secteurs[$index].Bac != pc.secteurs[$index - 1].Bac">{{secteurs.Bac}}</td>
+                <td>{{secteurs.bloc_secteur}}</td>
+                <td align="right">{{secteurs.volume_l | number:2}}</td>
+                <td>
+                  <i class="fa fa-check" ng-if="secteurs.Sect_Entier"></i>
+                  <i class="fa fa-remove" ng-if="!secteurs.Sect_Entier"></i>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+        </div>
+        <!--End fertigation-->
+        <!--Epandage Apport foliaire-->
+        <div id="detailParcelles" style="overflow-y:auto; display:none;">
+          <div class="col-md-4 col-sm-12 col-xs-12">
+            <fieldset>
+              <legend>Parcelles</legend>
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>Parcelles</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="parcelles in pc.parcelles">
+                  <td>{{parcelles.Ref}}</td>
+                </tr>
+              </table>
+            </fieldset>
+          </div>
+        </div>
+        <!--End Epandage Apport foliaire-->
+      </div>
+
+      <div class="flex-container" id="loadingData">
+        <img src="././images/loading.gif" />
+      </div>
+
+      <div class="flex-container" id="noData">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+            <thead style="display:none;" id="theadEmty">
+              <tr style="height: 140px;">
+              </tr>
+            </thead>
+            <thead>
+              <th>Type d'operation</th>
+              <th>Num Ordre</th>
+              <th>Date</th>
+              <th>Engrais</th>
+              <th>Nom Bac</th>
+              <th>Volume ordre(L)</th>
+              <th>Quantite (U)</th>
+              <th>Operateur</th>
+            </thead>
+            <tr>
+              <td colspan="8">
+                <br /><br />
+                <center><img src='././images/ic_notfound_c.png' /></center>
+                <br /><br /><br />
+                <center>
+                  <font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry Data Not Available</b>, Please Check The <b>Filtre Settings</b></font>
+                </center><br /><br />
+              </td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--BEGIN Header and footer PRINT -->
+  <div class="header_print print-only" style="position: fixed;top: 15px;text-align: center;width:100%;">
+
+    <div style="margin-right:100px;margin-left:100px">
+      <table style="text-align: center;width:100%;" border="1">
+        <tr>
+          <td rowspan="4" height="100" width="100" class="td_print"></td>
+          <td colspan="4" height="25" class="td_print">Réalisation des fertilisations</td>
+          <td rowspan="4" height="100" width="100" class="td_print">Ref</td>
+        </tr>
+        <tr>
+          <td colspan="4" height="25 " class="td_print">Du {{(date_debut) ?  (date_debut | date:'yyyy-MM-dd') : (date_fin | date:'yyyy-MM-dd') }} - Au {{date_fin | date:'yyyy-MM-dd' }}</td>
+        </tr>
+        <tr>
+          <td colspan="4" height="25" class="td_print"> Liste de diffusion</td>
+        </tr>
+        <tr>
+          <td colspan="4" height="25" class="td_print"> Imprimé le : {{current_date | date:'yyyy-MM-dd' }} , à : {{hour}}</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  <div class="footer_print print-only" style="position: fixed;bottom: 15px;text-align: center;width:100%;">I'm The Footer</div>
+  <!--END Header and footer PRINT -->
+
+</div>

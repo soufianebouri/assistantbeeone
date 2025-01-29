@@ -1,0 +1,78 @@
+<div class="right_col" role="main">
+  <div ng-controller="previsionPeriodiqueGrapheCtrl as pc" class="modal-demo">
+    <span> {{'Prévision' | translate}} <i class="fa fa-angle-right"></i> <b>{{'Consultation prévisions' | translate}}</b> <b>{{'Prévisions période' | translate}}</b></span>
+    <button class="pull-right" ng-click="pc.goBack()" title="{{'Fermer' | translate}}"><i class="fa fa-times" aria-hidden="true"></i></button>
+    <br><br>
+    <center class="dontDisplay">
+      <div id="filter_form" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Société' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Domaines' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Campagne agricole' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Périodes d'estimation' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Variété' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Societe" name="Societe" ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe" ng-change="pc.societe_change()" data-live-search="true" title="{{'Société' | translate}} ..."
+                data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="societe in pc.societes" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Domaine" class="form-control  input-sm selectpicker" ng-model="domaine" ng-change="pc.domaine_change()" data-live-search="true" title="{{'Domaines' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="domaine in pc.domaines" value="{{domaine.IDFermes}}" ng-if="domaine.ID_societe == pc.filterWithItems.societe">{{ domaine.Nom }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="compagne in pc.compagne_array" value="{{compagne.Code}}">{{ compagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select name="periode" id="periode" size="1" style="width: 430px;" required="" class="form-control  input-sm selectpicker" ng-model="periode_estimation_id.periode_estimation_id" multiple ng-change="pc.periode_change()"
+                data-live-search="true" title="{{'Période estimation ...' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="estimation_periode in pc.estimation_periode_array" ng-value="estimation_periode.ID">{{ pc.getPeriodeEstimation(estimation_periode) }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="variete" class="form-control  input-sm selectpicker" ng-model="variete.variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété' | translate}} ..." data-selected-text-format="count > 1"
+                data-size="10">
+                <option ng-repeat="variete in pc.variete_array" ng-value="variete.id">{{ variete.Variete }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <md-button class="md-raised md-warn" ng-click="pc.loadData()" title="{{'Rechercher' | translate}}" ng-disabled="pc.canSearch()">{{'Valider' | translate}}</md-button>
+            </td>
+          </tr>
+
+        </table>
+
+      </div>
+    </center>
+
+    <div id="chartdiv" style="margin-top: 20px;"></div>
+
+  </div>
+
+</div>

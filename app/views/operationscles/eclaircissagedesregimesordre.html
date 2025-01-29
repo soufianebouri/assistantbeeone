@@ -1,0 +1,115 @@
+<div class="right_col" role="main">
+  <div ng-controller="OperationsclesEclaircissagedesregimesordreCtrl as pc" class="modal-demo">
+
+    <md-content class="md-padding">
+      <md-tabs md-selected="0" md-border-bottom="" md-autoselect="" md-swipe-content="">
+        <md-tab label="{{'Ordre d éclaircissage '| translate}}" ui-sref="eclaircissagedesregimesordre"></md-tab>
+        <md-tab label="{{'Réalisation'| translate}}" ui-sref="eclaircissagedesregimes"></md-tab>
+      </md-tabs>
+    </md-content>
+    <br />
+
+    <span> {{"Opérations clés" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Eclaircissage des régimes" | translate}}</b>
+      <bn ng-if="!pc.showtable"><i class="fa fa-angle-right"></i> <b>{{'Détails Ordre'| translate}}</b></bn>
+      <a class="dt-button pull-right" ng-click="pc.showtable_toggle();" ng-if="!pc.showtable"><i class="fa fa-remove"></i></a>
+      <a class="dt-button pull-right" ng-click="pc.printdetails(pc.ordretraitementByID);" ng-if="!pc.showtable" title="{{'Imprimer' | translate}}"><i class="fa fa-print"></i></a>
+      <a class="ng-class: pc.class_dt_refordre;" ng-if="!pc.showtable">{{pc.etat_traitemen_detail}}</a>
+    </span>
+    <center>
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{"De" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"A" | translate}}</td>
+          </tr>
+          <tr>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+    <div class="table-responsive" ng-show="pc.showtable">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+    <div ng-show="!pc.showtable">
+      <br />
+      <div style="overflow-x:auto;">
+        <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+          <thead>
+            <tr>
+              <th>{{"Référence de l'ordre" | translate}}</th>
+              <th>{{"Date de l'ordre" | translate}}</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>{{ pc.ordretraitementByID.Reference }}</td>
+            <td>{{ pc.ordretraitementByID.DateOrdre | date:'dd/MM/yyyy' }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12" id="tab_1">
+          <fieldset>
+            <legend>{{'Parcelles culturale'| translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Parcelle culturale'| translate}}</th>
+                    <th>{{'Arbre'| translate}}</th>
+                    <th>
+                      <center>
+                        {{'Nombre de régimes à conserver'| translate}}</center>
+                    </th>
+                    <th>
+                      <center>
+                        {{'Nombre de régimes comptés'| translate}}</center>
+                    </th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="ArbresSetter in pc.ArbresSetter">
+                  <td>{{ ArbresSetter.Ref }}</td>
+                  <td>{{ ArbresSetter.Code_Arbre  }}</td>
+                  <td>
+                    <center>{{ ArbresSetter.NombreRegimes }}</center>
+                  </td>
+                  <td>
+                    <center>{{ ArbresSetter.NombreRegimesCompte }}</center>
+                  </td>
+                </tr>
+
+                <tr ng-if="pc.ArbresSetter.length == 0">
+                  <td colspan="4">
+                    <center>No data found</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+
+          </fieldset>
+        </div>
+
+      </div>
+
+      <br /><br /><br />
+    </div>
+  </div>
+
+</div>

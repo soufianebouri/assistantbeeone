@@ -1,0 +1,94 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 70%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Modifier la parcelle physique' |translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Réf parcelle physique' | translate}}</label>
+              <input ng-model="data.Ref" style="width: 250px;" md-autofocus required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Référence' | translate}}</label>
+              <input ng-model="data.Reference" style="width: 250px;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Superficie' | translate}}</label>
+              <input ng-model="data.Sup" style="width: 250px;" type="number" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Type(Sous serre / Plein champ)' | translate}}</label>
+              <md-switch ng-model="Type" aria-label="Switch 2" ng-true-value="'Plein champ'" ng-false-value="'Sous serre'" class="md-warn">
+                <span class="badge-green_withe" ng-if="Type == 'Sous serre'">{{ Type }}</span>
+                <span class="badge-orange_withe" ng-if="Type == 'Plein champ'">{{ Type }}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Latitude' | translate}}</label>
+              <input ng-model="Latitude" style="width: 250px;" value="0" id="t1" name="t1" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Longitude' |translate}}</label>
+              <input ng-model="Longitude" style="width: 250px;" value="0" id="t2" name="t2" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+
+            </md-input-container>
+          </div>
+
+
+          <br />
+          <label class="control-label" for="basicinput"></label>
+          {{'Modifier le polygone de la parcelle physique' | translate}}
+          <div id="parcellemap" style="width:100%;"></div>
+          <br /><br />
+          <div class="controls">
+            <br />
+            <input class="btn btn-danger" id="clear_shapes" value="{{'Effacer' | translate}}" type="button">
+
+            <input class="btn btn-success blue-tooltip" id="save_raw" value="{{'Enregistrer les points' | translate}}" type="button" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title=""
+              data-original-title="{{'Enregistrer votre polygone sous forme des points (latitudes, longitudes)' | translate}}">
+          </div><br /><br />
+
+          <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()">
+        {{'Modifier' |translate}}
+      </md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

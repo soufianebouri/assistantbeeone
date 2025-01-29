@@ -1,0 +1,43 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajouter une génération' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Référence' | translate}}</label>
+              <input ng-model="Reference" ng-value="" md-autofocus type="text" style="width: 250px;">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Génération' | translate}}</label>
+              <input ng-model="genereation" ng-value="" type="text" style="width: 250px;" required>
+            </md-input-container>
+          </div>
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerGeneration();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterGeneration()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

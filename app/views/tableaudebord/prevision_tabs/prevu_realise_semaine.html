@@ -1,0 +1,124 @@
+<div class="right_col" role="main">
+  <div ng-controller="PrevisionTabsPrevuRealiseSemaineCtrl as pc" class="modal-demo">
+    <md-content class="md-padding">
+      <md-tabs md-selected="4" md-border-bottom="" md-autoselect="" md-swipe-content="">
+        <md-tab label="{{'Prévu / réalisé' | translate}}" ui-sref="tableaudebord_prevision"></md-tab>
+        <md-tab label="{{'Dernières mises à jours des prévisions' | translate}}" ui-sref="prevision_tabs_last_update_harvast"></md-tab>
+        <md-tab label="{{'Détail des prévisions' | translate}}" ui-sref="prevision_tabs_harvast_detail"></md-tab>
+        <md-tab label="{{'Détail des réalisations' | translate}}" ui-sref="prevision_tabs_realisation_detail"></md-tab>
+        <md-tab label="{{'Prévu / réalisé par semaine' | translate}}" ui-sref="prevision_tabs_prevu_realise_semaine"></md-tab>
+        <md-tab label="{{'Avancement semaine en cours' | translate}}" ui-sref="prevision_tabs_avancement_semaine_encours"></md-tab>
+        <md-tab label="{{'Télémetrie de la saisie' | translate}}" ui-sref="tlemetrie_saisie"></md-tab>
+        <md-tab label="{{'Qualité des prévisions hebdomadaires' | translate}}" ui-sref="qualite_prevision_hebdo"></md-tab>
+      </md-tabs>
+    </md-content>
+
+    <div id="myTabContent2" class="tab-content">
+      <br />
+      <div role="tabpanel" class="tab-pane fade active in" id="tab_content11" aria-labelledby="home-tab">
+        <div class="row" style="display: block; background-color:white;">
+          <br />
+
+          <center>
+            <table>
+              <tr>
+                <td>{{'Société' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>{{'Campagne' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>{{'Produit' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>{{'Ferme' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>{{'Groupe opérationnel' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>{{'Variété' | translate}}</td>
+                <td>&nbsp;&nbsp;</td>
+              </tr>
+              <tr>
+                <td>
+                  <select id="societe_prevu_realise_week" name="societe_prevu_realise_week" ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe_prevu_realise_week"
+                    ng-change="pc.societe_change_prevu_realise_week()" title="{{'Société' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                    <option ng-repeat="societe in pc.societe_prevu_realise_week_array" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <select id="campagne_prevu_realise_week" name="campagne_prevu_realise_week" class="form-control  input-sm selectpicker" ng-model="campagne_prevu_realise_week" ng-change="pc.campagne_prevu_realise_week_change()"
+                    title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1" data-size="10">
+                    <option ng-repeat="campagne in pc.campagne_prevu_realise_week_array" value="{{ campagne.ID_compagne }}" ng-if="campagne.IDsociete == societe_prevu_realise_week">{{ campagne.Code }}</option>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <select id="type_variete_prevu_realise_week" name="type_variete_prevu_realise_week" class="form-control  input-sm selectpicker" ng-model="type_variete_prevu_realise_week" ng-change="pc.type_variete_prevu_realise_week_change()"
+                    data-live-search="true" title="{{'Produit' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                    <option ng-repeat="type_variete in pc.type_variete_prevu_realise_week_array" value="{{ type_variete.idfamille_variete }}">{{ type_variete.Libile }}</option>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <select id="domaine_prevu_realise_week" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="domaine_prevu_realise_week" ng-change="pc.domaine_change_prevu_realise_week()" data-live-search="true" multiple
+                    title="{{'Ferme' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                    <optgroup label="{{'Ferme' | translate}}">
+                      <option ng-repeat="domaine in pc.domaine_prevu_realise_week_array" value="{{domaine.idfermes}}">{{ domaine.nom }}</option>
+                    </optgroup>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <select id="group_operationnel_prevu_realise_week" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="group_operationnel_prevu_realise_week" ng-change="pc.group_operationnel_prevu_realise_week_change()"
+                    multiple data-live-search="true" title="{{'Groupe opérationnel' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                    <optgroup label="{{'Groupe opérationnel' | translate}}">
+                      <option ng-repeat="group_operationnel in pc.group_operationnel_prevu_realise_week_array" value="{{group_operationnel.IDGroupeCultural_Operationnel}}">{{ group_operationnel.Intitule }}</option>
+                    </optgroup>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <select id="variete_prevu_realise_week" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete_prevu_realise_week" ng-change="pc.variete_prevu_realise_week_change()" multiple data-live-search="true"
+                    title="{{'Variété' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                    <optgroup label="{{'Variété' | translate}}">
+                      <option ng-repeat="variete in pc.variete_prevu_realise_week_array" ng-value="variete.id">{{ variete.Variete }}</option>
+                    </optgroup>
+                  </select>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+
+                <td>
+                  <md-button class="md-raised" ng-click="pc.loadDataPrevuRealise()">{{'Valider' | translate}}</md-button>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+              </tr>
+            </table>
+          </center>
+          <br />
+          <div class="col-md-12 col-sm-12  ">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>{{'Prévu / réalisé par semaine' | translate}} <small></small></h2>
+
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <center>
+                  <div id="RealiseParSemaine_chartdiv"></div>
+                </center>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

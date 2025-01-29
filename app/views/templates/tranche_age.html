@@ -1,0 +1,59 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="ID_Variete" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.variete}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" ng-change="pc.loadDataRegion()" name="ID_Variete" id="ID_Variete" ng-model="pc.obj.ID_Variete" required>
+          <option value="{{variete.ID}}" ng-repeat="variete in pc.data.varieteArray track by $index" ng-selected="pc.obj.ID_Variete == variete.ID">{{variete.Variete}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Code" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Code}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Code" id="Code" ng-model="pc.obj.Code" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Estimation" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Estimation}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="Estimation" id="Estimation" ng-model="pc.obj.Estimation" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="De_ans" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.De_ans}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="De_ans" id="De_ans" ng-change="pc.checkYears()" ng-model="pc.obj.De_ans" ng-pattern="/^-?[0-9][^\.]*$/" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="A_ans" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.A_ans}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="A_ans" id="A_ans" ng-change="pc.checkYears()" ng-model="pc.obj.A_ans" ng-pattern="/^-?[0-9][^\.]*$/" required>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !pc.dateValidation">
+      {{'Valider' | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{'Quitter' | translate}}</button>
+</div>

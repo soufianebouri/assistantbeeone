@@ -1,0 +1,192 @@
+@media print {
+
+  body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  tbody {
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+    margin-top: 100px;
+  }
+
+  *:last-child {
+    page-break-after: auto;
+  }
+  .nav_menu, .dontDisplay {
+    display: none;
+  }
+  .dontshowit {
+    position: relative;
+    clear: both;
+    display: none;
+  }
+
+  .showit {
+    display: block !important;
+  }
+
+  .footer {
+    display: none;
+  }
+
+
+  .site-description {
+    display: none !important;
+  }
+
+  .site-title {
+    display: none !important;
+  }
+
+  h3 {
+    color: green !important;
+  }
+
+  .printtable th {
+    background-color: #4CAF50 !important;
+    border: 2px;
+    border-color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .td_print {
+    background-color: #b2e5c5 !important;
+    color: black !important;
+    font-weight: bold;
+    padding-right: 10px;
+    margin-right: 10px;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .dot {
+    height: 17px !important;
+    width: 17px !important;
+    background-color: #fac72a !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+  }
+
+  table::-webkit-scrollbar {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+  }
+
+  .tableFixHead {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .tableFixHead table {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+
+  .dontBreakThis{
+    page-break-inside: avoid;
+    break-before: always;
+    page-break-before: always;
+    page-break-after: always;
+  }
+
+  #header_print{
+    page-break-before: always;
+  }
+
+  *,::after,::before{text-shadow:none!important;box-shadow:none!important}a:not(.btn){text-decoration:underline}abbr[title]::after{content:" (" attr(title) ")"}pre{white-space:pre-wrap!important}blockquote,pre{border:1px solid #adb5bd;page-break-inside:avoid}thead{display:table-header-group}img,tr{page-break-inside:avoid}h2,h3,p{orphans:3;widows:3}h2,h3{page-break-after:avoid}body{min-width:992px!important}.container{min-width:992px!important}.navbar{display:none}.badge{border:1px solid #000}.table{border-collapse:collapse!important}.table td,.table th{background-color:#fff!important}.table-bordered td,.table-bordered th{border:1px solid #dee2e6!important}.table-dark{color:inherit}.table-dark tbody+tbody,.table-dark td,.table-dark th,.table-dark thead th{border-color:#dee2e6}.table .thead-dark th{color:inherit;border-color:#dee2e6}
+ /*# sourceMappingURL=bootstrap.min.css.map */
+
+ @page{margin: 0;}
+
+
+ thead.report-header {
+  display: table-header-group;
+  counter-reset: my;
+}
+
+tfoot.report-footer {
+  display:table-footer-group;
+}
+
+table.report-container {
+  page-break-after: always;
+}
+
+tfoot.report-footer:before {
+  counter-increment: my;
+  content:counter(my);
+}
+.container-print
+{
+  background-color: #f7f7f7;
+}
+
+@page {
+     margin: 1cm;
+}
+
+@page {
+    @top-right { content: counter(page) }
+}
+
+
+.myDivToPrint {
+        width: 100%;
+    }
+
+
+
+    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+      float: left!important;
+    }
+    .col-sm-12 {
+      width: 100%;
+    }
+    .col-sm-11 {
+      width: 91.66666666666666%;
+    }
+    .col-sm-10 {
+      width: 83.33333333333334%;
+    }
+    .col-sm-9 {
+      width: 75%;
+    }
+    .col-sm-8 {
+      width: 66.66666666666666%;
+    }
+    .col-sm-7 {
+      width: 58.333333333333336%;
+    }
+    .col-sm-6 {
+      width: 50%;
+    }
+    .col-sm-5 {
+      width: 41.66666666666667%;
+    }
+    .col-sm-4 {
+      width: 33.33333333333333%;
+    }
+    .col-sm-3 {
+      width: 25%;
+    }
+    .col-sm-2 {
+      width: 16.666666666666664%;
+    }
+    .col-sm-1 {
+      width: 8.333333333333332%;
+    }
+    h1 {page-break-before:always}
+
+}

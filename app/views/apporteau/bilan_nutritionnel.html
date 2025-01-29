@@ -1,0 +1,214 @@
+<div class="right_col" role="main" ng-controller="ApporteauBilanNutritionnelCtrl as pc">
+  <div class="modal-demo">
+
+
+    <div class="breadcrumb-background-color">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <img src="../../images/water.svg" class="menu-icon" alt="" />
+        </li>
+        <li class="breadcrumb-item">
+          <a> {{'Nutrition' | translate}}</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a>{{'Fertilisation' | translate}}</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a>{{'Réalisation' | translate}}</a>
+        </li>
+        <li class="breadcrumb-item">
+          <b>{{'Bilan_nutritionnel' | translate}}</b>
+        </li>
+      </ol>
+    </div>
+
+    <md-content class="md-padding">
+      <md-tabs md-selected="1" md-border-bottom="" md-autoselect="" md-swipe-content="">
+        <md-tab label="{{'Ordre de fertilisation' | translate}}" ui-sref="ordrefertlisation"></md-tab>
+        <md-tab label="{{'Réalisation' | translate}}" ui-sref="realisation"></md-tab>
+      </md-tabs>
+    </md-content>
+
+
+
+
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+
+
+        <table>
+          <tr>
+            <td>{{"Type d'opération" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{"Campagne" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{"Culture" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{"Variété" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <!--
+            <td>Porte-Greffe</td>
+            <td>&nbsp;&nbsp;</td>
+            -->
+
+            <td>Parcelle culturale</td>
+
+          </tr>
+          <tr>
+            <td>
+              <select id="typeoperation" name="typeoperation" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="typeoperation" multiple ng-change="pc.typeoperation_change()" data-live-search="true"
+                title="{{'Type opération' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                <option ng-value="1">{{"Fertigation" | translate}}</option>
+                <option ng-value="2">{{"Epandage" | translate}}</option>
+                <option ng-value="3">{{"Apport foliaire" | translate}}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="compagne" name="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1"
+                data-size="10">
+                <option ng-repeat="compagne in pc.compagne_array" value="{{compagne.ID_compagne}}">{{ compagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="culture" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="culture" ng-change="pc.culture_change()" multiple data-live-search="true" title="{{'Culture' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Culture' | translate}}">
+                  <option ng-repeat="culture in pc.culture_array" ng-value="culture.ID">{{ culture.Culture }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété' | translate}} ..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Variété' | translate}}">
+                  <option ng-repeat="variete in pc.variete_array" ng-value="variete.id">{{ variete.Variete }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <!--  <td>
+              <select id="port_greff" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="port_greff" ng-change="pc.port_greff_change()" multiple data-live-search="true" title="{{'Porte-Greffe' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Porte-Greffe' | translate}}">
+                  <option ng-repeat="port_greff in pc.port_greffs_array" ng-value="port_greff.IDPorte_greffe">{{ port_greff.Libile }}</option>
+                </optgroup>
+              </select>
+            </td>
+
+            <td>&nbsp;&nbsp;</td>
+-->
+            <td>
+              <select id="parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" title="{{'Parcelle culturale' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Parcelle culturale' | translate}}">
+                  <option ng-repeat="parcelle in pc.parcelles_array" ng-value="parcelle.ID">{{ parcelle.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+          </tr>
+
+
+
+        </table>
+
+        <br />
+        <table>
+          <tr>
+            <td>
+              {{"De" | translate}}
+              <input id="date_debut" type="date" onkeydown="return false" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              {{"A" | translate}}
+              <input id="date_fin" type="date" onkeydown="return false" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <bn style="font-size: 22px;color: green;" class="ng-binding">{{pc.superficie[0].Superficie || '0' | getNumberAsSpace}}</bn>
+              <small style="padding-top:6px;">&nbsp;Ha</small>
+            </td>
+          </tr>
+
+        </table>
+        <br />
+        <md-button class="md-raised" ng-click="search()" title="{{'Rechercher' | translate}}" ng-disabled="pc.canSearch()"> {{"Valider" | translate}}</md-button>
+        <!--<br />
+        <input type="checkbox" name="rapporter_ha" ng-model="ha" value="1"> Rapporter à l'ha-->
+        <br />
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cache le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+      </div>
+    </center>
+  </div>
+  <br />
+  <div class="dontDisplay">
+    <div class="dt-buttons" style="float:right">
+      <a class="dt-button pull-right" ui-sref="realisation_synthese" title="{{'Etats Ordres' | translate}}"><i class="fa fa-reorder"></i></a>
+      <a class="dt-button pull-right" ui-sref="realisation" title="{{'Réalisation' | translate}}"><i class="fa fa-list"></i></a>
+      <a class="dt-button pull-right" ng-click="ReverseDisplay('filter_form')" title="{{'Rechercher' | translate}}"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+
+  <div class="row tile_count">
+    <center>
+      <div class="row tile_count">
+        <div class="col-md-4 col-sm-12 col-xs-12 tile_stats_count">
+          <span class="count_top">
+            <font class="ng-binding" size="5px" color="#97cf8d">&nbsp;N</font>
+          </span>
+          <div class="count green"> {{N || '0' | getNumberAsSpace}}
+            <font size="2px" color="#97cf8d">U{{hatitle}}</font>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12 tile_stats_count">
+          <span class="count_top">
+            <font class="ng-binding" size="5px" color="#f3b531">&nbsp;P</font>
+          </span>
+          <div class="count orange"> {{P || '0' | getNumberAsSpace}}
+            <font size="2px" color="#f3b531">U{{hatitle}}</font>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12 tile_stats_count">
+          <span class="count_top">
+            <font class="ng-binding" size="5px">&nbsp;K</font>
+          </span>
+          <div class="count">{{K || '0' | getNumberAsSpace}}
+            <font size="2px">U{{hatitle}}</font>
+          </div>
+        </div>
+      </div>
+    </center>
+  </div>
+
+
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <center>
+        {{"Apport journalier" | translate}} {{hatitle}}
+        <div id="chartdiv"></div>
+        <center id="no_data_speedPicking_2" style="display: none;">{{"Pas de données à afficher" | translate}}</center>
+      </center>
+    </div>
+  </div>
+
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <center>
+        {{"Apport mensuel + Cumulé" | translate}} {{hatitle}}
+        <div id="chartdiv_journalier"></div>
+        <center id="no_data_speedPicking_1" style="display: none;">{{"Pas de données à afficher" | translate}}</center>
+      </center>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.name}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="name" id="name" ng-model="pc.obj.Mode_Application" required>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

@@ -1,0 +1,68 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <md-datepicker ng-model="datedecreation" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Parcelle culturale" | translate}} ...</label>
+              <md-select ng-model="parcelleculturale" style="width: 250px;" required>
+                <md-option ng-value="myParcelleCulturale.ID" ng-repeat="myParcelleCulturale in ParcelleCulturale" ng-selected="data.ID_ParcelleCulturale == myParcelleCulturale.ID">{{myParcelleCulturale.Ref}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Elément minéral" | translate}} ...</label>
+              <md-select ng-model="elementsmineraux" style="width: 250px;" required>
+                <md-option ng-value="myElementsMineraux.ID" ng-repeat="myElementsMineraux in ElementsMineraux" ng-selected="data.ID_Elements_Mineraux == myElementsMineraux.ID">{{myElementsMineraux.Element_mineral}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Niveau de carence" | translate}} ...</label>
+              <md-select ng-model="niveaucarence" style="width: 250px;" required>
+                <md-option ng-value="myNiveauCarence.ID" ng-repeat="myNiveauCarence in NiveauCarence" ng-selected="data.ID_Niveau_Carence == myNiveauCarence.ID">{{myNiveauCarence.Niveau_Carence}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" layout="column">
+            <md-input-container class="md-block">
+              <label>{{"Description" | translate}}</label>
+              <textarea ng-model="data.Description" rows="3" style="width: 520px;"></textarea>
+            </md-input-container>
+          </div>
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" type="submit" ng-if="!progress">
+        {{"Modifier" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

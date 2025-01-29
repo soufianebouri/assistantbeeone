@@ -1,0 +1,58 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="typeVariete" ng-submit="pc.submitForm(typeVariete.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.parcel}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" ng-model="pc.parcel.Ref" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Type_variete" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.superficie}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" ng-model="pc.parcel.Sup" ng-pattern="/^[0-9]+([.][0-9]+)?$/" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="ferme" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Ferme}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select id="ferme" name="ferme" required class="form-control  input-sm selectpicker" ng-model="pc.parcel.IDFermes" ng-change="pc.ferme_change()" data-live-search="true" title="{{'Ferme' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="domaine in pc.data.domaine" value="{{ domaine.IDFermes }}">{{ domaine.Nom }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Type" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.typeParcel}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 btn-group btn-group-toggle" data-toggle="buttons">
+        <label ng-class="{ active : pc.parcel.Type == 1 , 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.parcel.Type" value="1"> {{"Plein champ" | translate}}
+        </label>
+        <label ng-class="{ active : pc.parcel.Type == 0, 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.parcel.Type" value="0"> {{"Sous serre" | translate}}
+        </label>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="typeVariete.$invalid || pc.parcel.Sup == 0 || verifyParcel() ">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

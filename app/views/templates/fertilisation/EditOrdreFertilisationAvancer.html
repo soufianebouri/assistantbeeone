@@ -1,0 +1,494 @@
+<md-dialog aria-label="Mango (Fruit)" style="width:100%">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier ordre fertilisation [Mode avancer]" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content>
+
+      <md-content>
+        <md-tabs md-dynamic-height="" md-border-bottom="" md-selected="typeSelected">
+          <md-tab label="{{'Fertigation' | translate}}" ng-disabled="0 != typeSelected">
+            <md-content class="md-padding">
+              <div class="md-dialog-content">
+
+                <div layout="row" layout-wrap>
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Information générale" | translate}}</small>
+                    </md-toolbar>
+                    <md-content style="background-color:transparent">
+                      <br />
+                      <div layout="row" layout-wrap flex>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Référence" | translate}} ...</label>
+                            <input ng-model="data.Reference" style="width:90%;" type="text" readonly required>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Date ordre" | translate}}...</label>
+                            <md-datepicker ng-model="datefertilisation" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" required></md-datepicker>
+                          </md-input-container>
+                        </div>
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Solution mère" | translate}}</label>
+                            <md-select ng-model="SolutionMere" style="width:90%;" disabled ng-change="change_getSolutionMereEngrais()">
+                              <md-option ng-value="SolutionMere" ng-repeat="SolutionMere in SolutionMeres  | orderBy:'Reference'" ng-selected="SolutionAvancer[0].ID_SM == SolutionMere.ID">{{SolutionMere.Reference}} </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Responsable" | translate}}</label>
+                            <input ng-model="data.Responsable" ng-min="0" style="width:90%;" type="text" required>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Opérateurs" | translate}}</label>
+                            <md-select ng-model="Salariesel" style="width:90%;" ng-change="SetOperateurs()" multiple>
+                              <md-option ng-value="Salarie" ng-repeat="Salarie in Salaries  | orderBy:'Mat'" ng-selected="isINOperateur(Salarie.ID)">{{Salarie.Mat}} {{Salarie.Nom}} {{Salarie.Prenom}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Opération" | translate}}</label>
+                            <md-select ng-model="Operation" style="width:90%;">
+                              <md-option ng-value="Operation.OpeRef_Id" ng-repeat="Operation in Operations  | orderBy:'OpeRef_Intitule'" ng-selected="data.OpeRef_Id == Operation.OpeRef_Id">{{Operation.OpeRef_Intitule}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                      </div>
+
+                    </md-content>
+                  </div>
+
+                </div>
+
+
+                <div layout="row" layout-wrap>
+
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Consommation d'engrais" | translate}}</small>
+                    </md-toolbar>
+                  </div>
+                </div>
+
+                <div style="height:50px" flex="100" flex-gt-sm="50" layout="column" ng-if="foods.length == 0 && !SolutionMere">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>
+                      <font color="red">
+                        {{"Veuillez choisir une solution mère !" | translate}}
+                      </font>
+                    </label>
+                  </md-input-container>
+                </div>
+
+                <div ng-repeat="food in foods">
+                  <br />
+
+                  <md-toolbar layout="row" class="md-hue-3" style="background-color: rgb(243 182 50);min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;width: 80%;">
+                    {{"Bloc" | translate}}
+                  </md-toolbar>
+
+                  <div layout="row" layout-wrap flex>
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      &nbsp;&nbsp;{{food.BacName}}
+                    </div>
+
+
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{"Volume Utilisé (L)" | translate}}</label>
+                        <input ng-model="food.VolumeUtiliser" ng-max="food.VolumeDisponible" ng-change="SetVolume(food.VolumeUtiliser)" style="width:90%;" class="right" type="number">
+                      </md-input-container>
+                    </div>
+
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{"Volume Disponible (L)" | translate}}</label>
+                        <input type="number" ng-model="food.VolumeDisponible" style="width:90%;" pattern="[0-9]+" readonly class="right" />
+                      </md-input-container>
+                    </div>
+                    <br />
+                  </div>
+
+                  <br />
+                  <md-toolbar layout="row" class="md-hue-3" style="background-color: rgb(243 182 50);min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;width: 80%;">
+                    {{"Engrais" | translate}}
+                  </md-toolbar>
+
+                  <div style="height:50px" flex="100" flex-gt-sm="50" layout="column" ng-if="food.engrais.length == 0 ">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>
+                        <font color="red">
+                          {{"Aucun engrais trouvé !" | translate}}
+                        </font>
+                      </label>
+                    </md-input-container>
+                  </div>
+
+                  <div layout="row" layout-wrap flex ng-repeat="engrais in food.engrais">
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      &nbsp;&nbsp;{{engrais.Designation}}
+                    </div>
+
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      &nbsp;&nbsp;{{engrais.Unite}}
+                    </div>
+
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{"Quantité ordre (U)" | translate}}</label>
+                        <input ng-model="engrais.QantiteOrdre" style="width:90%;" class="right" type="number">
+                      </md-input-container>
+                    </div>
+
+                    <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{"Quantité (U)" | translate}}</label>
+                        <input ng-model="engrais.Qantite" style="width:90%;" class="right" type="number">
+                      </md-input-container>
+                    </div>
+                  </div>
+                </div>
+
+
+                <br />
+                <div layout="row" layout-wrap>
+
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Secteur" | translate}}</small>
+                    </md-toolbar>
+
+                    <div style="height:50px" flex="100" flex-gt-sm="50" layout="column" ng-if="foods.length == 0 && !SolutionMere">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>
+                          <font color="red">
+                            {{"Veuillez choisir une solution mère !" | translate}}
+                          </font>
+                        </label>
+                      </md-input-container>
+                    </div>
+
+
+                    <div layout="row" layout-wrap flex ng-if="foods.length > 0 && SolutionMere">
+                      <div style="height:50px" flex="100" flex-gt-sm="5" layout="column">
+                      </div>
+                      <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          {{"Bloc" | translate}} : {{foods[0].BLOCName}}
+                        </md-input-container>
+                      </div>
+                      <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          {{"Bac" | translate}} : {{foods[0].BacName}}
+                        </md-input-container>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div ng-repeat="food in foods">
+                  <br />
+                  <div style="height:50px" flex="100" flex-gt-sm="50" layout="column" ng-if="food.secteurs.length == 0 ">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>
+                        <font color="red">
+                          {{"Aucun secteur trouvé !" | translate}}
+                        </font>
+                      </label>
+                    </md-input-container>
+                  </div>
+                  <div ng-repeat="secteur in food.secteurs">
+
+                    <div layout="row" layout-wrap flex>
+                      <div style="height:50px" flex="100" flex-gt-sm="5" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <md-checkbox ng-model="secteur.checked" ng-checked="secteur.checked" aria-label="Checkbox 1" class="md-primary">
+                          </md-checkbox>
+                        </md-input-container>
+                      </div>
+
+                      <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          {{secteur.BLOC}} / {{secteur.Secteur_parcelle}}
+                        </md-input-container>
+                      </div>
+                      <div style="height:50px" flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Volume" | translate}}</label>
+                          <input ng-model="secteur.Volume" style="width:90%;" readonly class="right" type="number">
+                        </md-input-container>
+                      </div>
+                    </div>
+                    <div layout="row" layout-wrap flex ng-if="!secteur.checked">
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Sous-Parcelle" | translate}} ...</label>
+                          <md-select ng-model="secteur.sousparcellefert" style="width:90%;" multiple required>
+                            <md-option ng-value="sousparcelle" ng-repeat="sousparcelle in sousparcelles | filter:{ Secteur: secteur.Secteur_id } | orderBy:'Ref'" ng-selected="SousParcelleisIN(sousparcelle.ID)" required>{{sousparcelle.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="{{'Epandage' | translate}}" ng-disabled="1 != typeSelected">
+            <md-content class="md-padding">
+              <div class="md-dialog-content">
+
+                <div layout="row" layout-wrap>
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Information générale" | translate}}</small>
+                    </md-toolbar>
+                    <md-content style="background-color:transparent">
+                      <br />
+                      <div layout="row" layout-wrap flex>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Référence" | translate}} ...</label>
+                            <input ng-model="data.Reference" style="width:90%;" type="text" readonly required>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Date ordre" | translate}}...</label>
+                            <md-datepicker ng-model="datefertilisation" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" required></md-datepicker>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Responsable" | translate}}</label>
+                            <input ng-model="data.Responsable" ng-min="0" style="width:90%;" type="text" required>
+                          </md-input-container>
+                        </div>
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Opérateurs" | translate}}</label>
+                            <md-select ng-model="Salariesel" style="width:90%;" ng-change="SetOperateurs()" multiple>
+                              <md-option ng-value="Salarie" ng-repeat="Salarie in Salaries  | orderBy:'Mat'" ng-selected="isINOperateur(Salarie.ID)">{{Salarie.Mat}} {{Salarie.Nom}} {{Salarie.Prenom}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{"Opération" | translate}}</label>
+                            <md-select ng-model="Operation" style="width:90%;">
+                              <md-option ng-value="Operation.OpeRef_Id" ng-repeat="Operation in Operations  | orderBy:'OpeRef_Intitule'" ng-selected="data.OpeRef_Id == Operation.OpeRef_Id">{{Operation.OpeRef_Intitule}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block">
+                            <label>{{"Observation" | translate}}</label>
+                            <textarea ng-model="data.Observation" rows="3"></textarea>
+                          </md-input-container>
+                        </div>
+
+                      </div>
+
+                    </md-content>
+                  </div>
+
+                </div>
+
+                <div layout="row" layout-wrap>
+
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Parcelle culturale" | translate}}</small>
+                    </md-toolbar>
+                    <div layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <br />
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Groupe Operationnels" | translate}} ...</label>
+                          <md-select ng-model="GroupeOperationnelsel" style="width:90%;" ng-change="getParcellesByGO()">
+                            <md-option ng-value="GroupeOperationnel.IDGroupeCultural_Operationnel" ng-repeat="GroupeOperationnel in GroupeOperationnels  | orderBy:'Intitule'">{{GroupeOperationnel.Intitule}}</md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <br />
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Parcelle culturale" | translate}} ...</label>
+                          <md-select ng-model="parcelleculturalsel" style="width:90%;" ng-change="setFoods()">
+                            <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref'" ng-disabled="notIn(parcellecultural.ID)" ng-if="parcellecultural.Statut_Cycle == 1"
+                              ng-selected="ParcelleisIN(parcellecultural.ID)">{{parcellecultural.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="60" layout="column" style="overflow-x:auto;">
+                        <br /><br />
+                        <table>
+                          <tr>
+                            <td ng-repeat="food in foods" width="12px;">
+                              <span class="tag label label-info">
+                                <span>{{food.parcelle.Ref}}</span>
+                                <a ng-click="RetirerParcelle($index);">
+                                  <i class="remove glyphicon glyphicon-remove-sign glyphicon-white gi-4x"></i>
+                                </a>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+
+                      </div>
+                    </div>
+
+                    <div layout="row" layout-wrap flex ng-if="foods.length>0">
+
+
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                      </div>
+                      <div flex="100" flex-gt-sm="50" layout="column">
+                        {{"Superficie à traiter" | translate}} : {{getSumSupParcelleEpandage()}} Ha
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+                <div layout="row" layout-wrap>
+
+                  <div flex-gt-sm="100" flex="">
+                    <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                      <small>&nbsp;&nbsp;{{"Consommation d'engrais" | translate}}</small>
+                    </md-toolbar>
+                    <div layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <br />
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Engrais" | translate}} ...</label>
+                          <md-select ng-model="engraissel" style="width:90%;" ng-change="setFoodsEngrais()">
+                            <md-option ng-value="engrai" ng-repeat="engrai in engrais  | orderBy:'Designation'" ng-disabled="notInEngrais(engrai.IDEngrais)" ng-selected="EngraisisIN(engrai.IDEngrais)">{{engrai.Designation}}</md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+                      <div flex="100" flex-gt-sm="20" layout="column">
+
+                      </div>
+                      <div flex="100" flex-gt-sm="60" layout="column" style="overflow-x:auto;">
+                        <br /><br />
+                        <table>
+                          <tr>
+                            <td ng-repeat="food in foodsEngais" width="12px;">
+                              <span class="tag label label-info">
+                                <span>{{food.engrais.Designation}}</span>
+                                <a ng-click="RetirerEngrais($index);">
+                                  <i class="remove glyphicon glyphicon-remove-sign glyphicon-white gi-4x"></i>
+                                </a>
+                              </span>
+                            </td>
+                          </tr>
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div ng-repeat="food in foodsEngais">
+                  <br />
+
+                  <div layout="row" layout-wrap flex>
+                    <div style="height:30px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        {{food.engrais.Designation}}
+                      </md-input-container>
+                    </div>
+
+                    <div style="height:30px" flex="100" flex-gt-sm="10" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        {{food.engrais.Unite}}
+                      </md-input-container>
+                    </div>
+
+                    <div style="height:30px" flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{"Quantité Ordre" | translate}}</label>
+                        <input ng-model="food.quantite" style="width:90%;" class="right" type="number">
+                      </md-input-container>
+                    </div>
+
+                  </div>
+
+
+                </div>
+
+
+              </div>
+            </md-content>
+          </md-tab>
+          <md-tab label="{{'Apport foliaire' | translate}}" ng-disabled="2 != typeSelected">
+            <md-content class="md-padding">
+              <h1 class="md-display-2">{{"To do Apport foliaire" | translate}}</h1>
+            </md-content>
+          </md-tab>
+        </md-tabs>
+      </md-content>
+
+
+
+
+
+
+
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerAvancer();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="ModifierAvancer()" ng-if="!progress && type == 1">
+        {{"Modifier Fertigation" | translate}}
+      </md-button>
+      <md-button ng-click="ModifierAvancer()" ng-if="!progress && type == 2">
+        {{"Modifier Epandage" | translate}}
+      </md-button>
+      <md-button ng-click="ModifierAvancer()" ng-if="!progress && type == 3">
+        {{"Modifier Apport foliaire" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

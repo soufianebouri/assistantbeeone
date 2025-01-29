@@ -1,0 +1,38 @@
+<div class="alert-success modal-header">
+  <h3 class="modal-title" id="modal-title">
+    <span>{{pc.data.modalTitle.createRegion}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="Pays" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Pays}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control" name="Pays" id="Pays" ng-model="pc.obj.IDPays" required>
+          <option value="{{Pays.ID}}" ng-repeat="Pays in pc.data.countriesArray">{{Pays.Pays}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="region" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.region}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="region" id="region" ng-model="pc.obj.Region" required>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

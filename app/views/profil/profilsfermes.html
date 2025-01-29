@@ -1,0 +1,100 @@
+<div class="right_col" role="main">
+  <div ng-controller="ProfilProfilsfermesCtrl as pc" class="modal-demo">
+    <span class="dontshowit">
+      {{'Gestion des acces' | translate}} <i class="fa fa-angle-right"></i>
+      <b>{{'Affectation utilisateur/ferme' | translate}}</b></span>
+    <center class="dontDisplay">
+      <div id="filter_form" style="display: none" class="animated fadeIn selectpicker_widget">
+        <table>
+          <tr>
+            <td>{{'Utilisateur' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Domaine' | translate}}</td>
+          </tr>
+          <td>
+            <select id="Users" class="form-control input-sm selectpicker" data-actions-box="true" ng-model="users.users" ng-change="users_change()" multiple data-live-search="true" title="{{'Utilisateurs ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Utilisateur' | translate}}">
+                <option ng-repeat="users in pc.users" ng-if="!users.isAdmin" ng-value="users.ID">
+                  {{users.Nom + ' ' + users.Prenom}}
+                </option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <select id="Domaine" class="form-control input-sm selectpicker" data-actions-box="true" ng-model="domaine.domaine" ng-change="domaine_change()" multiple data-live-search="true" title="{{'Domaines ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'domaine' | translate}}">
+                <option ng-repeat="domaines in pc.domaines" ng-value="domaines.IDFermes">
+                  {{ domaines.Nom }}
+                </option>
+              </optgroup>
+            </select>
+          </td>
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down"></i></a>
+      </div>
+      <br />
+    </center>
+    <div class="dontshowit">
+      <a class="dt-button pull-right" ng-click="pc.printExcel($e)" title="EXCEL"><i class="fa fa-file-excel-o"></i></a>
+      <a class="dt-button pull-right" ng-click="pc.printPdf($e)" title="{{'Imprimer' | translate}}"><span><i class="fa fa-print"></i></span></a>
+      <a class="dt-button pull-right" ng-click="ReverseDisplay('filter_form');" title="{{'Rechercher' | translate}}"><i class="fa fa-search"></i></a>
+    </div>
+
+    <div class="dontshowit">
+      <a class="dt-button pull-left" ng-click="showAdvanced(ev)" title="Ajouter"><i class="fa fa-plus"></i>
+      </a>
+    </div><br />
+    <!--<div class="table-responsive dontDisplay" id="search_div">
+      <div class="dt-buttons">
+        <label>{{'Rechercher:' | translate}}
+          <input type="search" id="search" class="" placeholder="Rechercher" aria-controls="DataTables_Table_0" /></label>
+      </div>
+    </div>-->
+    <div class="flex-container" id="loadingData">
+      <img src="././images/loading.gif" />
+    </div>
+    <br />
+    <div class="table-responsive" id="printThis" style="height: 500px">
+      <table id="tableDataShow" class="table table-striped table-sm table-responsive-sm table-hover jambo_table bulk_action">
+        <tr style="background-color: #eee">
+          <th><b>{{'Nom' | translate}}</b></th>
+          <th><b>{{'Prénom' | translate}}</b></th>
+          <th><b>{{'Ferme' | translate}}</b></th>
+          <th><b></b></th>
+        </tr>
+
+        <tr ng-repeat="AllProfilsFermes in pc.AllProfilsFermes" class="{{AllProfilsFermes.Nom + AllProfilsFermes.Prenom | TextWithoutSpace}}" ng-mouseover="pc.markThoseLine(AllProfilsFermes.Nom + AllProfilsFermes.Prenom)">
+          <td style="white-space: nowrap" ng-if="pc.AllProfilsFermes[$index].Nom != pc.AllProfilsFermes[$index - 1].Nom">
+            {{AllProfilsFermes.Nom }}
+          </td>
+          <td style="white-space: nowrap" ng-if="pc.AllProfilsFermes[$index].Nom == pc.AllProfilsFermes[$index - 1].Nom"></td>
+          <td style="white-space: nowrap" ng-if="pc.AllProfilsFermes[$index].Prenom != pc.AllProfilsFermes[$index - 1].Prenom">
+            {{AllProfilsFermes.Prenom }}
+          </td>
+          <td style="white-space: nowrap" ng-if="pc.AllProfilsFermes[$index].Prenom == pc.AllProfilsFermes[$index - 1].Prenom"></td>
+          <td style="white-space: nowrap">{{AllProfilsFermes.nomferme}}</td>
+          <td style="white-space: nowrap" width="12px">
+            <a class="dt-withcolor-button-ferie pull-left" ng-click="pc.Retirer(AllProfilsFermes.ID)" title="Retirer">{{'Retirer' | translate}}</a>
+          </td>
+        </tr>
+
+        <tbody>
+          <tr ng-if="pc.AllProfilsFermes.length == 0">
+            <td colspan="3">
+              <center>
+                <img src="././images/ic_notfound_c.png" /><br />
+                <font color="#a5a5a5" size="4" style="font-family: system-ui"><b>{{'Sorry' | translate}}</b>{{'Data Not Available, Please
+                  Check The' | translate}}
+                  <b>{{'Filtre Settings' | translate}}</b>
+                </font>
+              </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

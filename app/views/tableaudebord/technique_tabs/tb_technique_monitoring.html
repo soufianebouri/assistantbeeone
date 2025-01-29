@@ -1,0 +1,125 @@
+<div ng-controller="TableaudebordTechniqueTabsTbTechniqueMonitoringCtrl as pc" class="modal-demo">
+  <br />
+  <center>
+    <table>
+      <tr>
+        <td>{{"Date" | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td>{{"Campagne" | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{"CultureFilter" | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td>{{"Variété" | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td>{{"Age" | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <div id="reportrange_tb_technique" class="form-control " style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;width:230px;font-family: Roboto,Helvetica Neue,sans-serif;">
+            <i class="fa fa-calendar"></i>&nbsp;
+            <span></span> <i class="fa fa-caret-down"></i>
+            <input type="hidden" name="" value="" ng-model="periode">
+          </div>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>
+          <select id="compagne" name="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1" data-size="10">
+            <option ng-repeat="compagne in pc.compagne_array" ng-value="compagne">{{ compagne.Code }}</option>
+          </select>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>
+          <select id="culture" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="culture" ng-change="pc.culture_change()" multiple data-live-search="true" title="{{'Culture' | translate}}..." data-selected-text-format="count > 1"
+            data-size="10">
+            <optgroup label="{{'Culture' | translate}}">
+              <option ng-repeat="culture in pc.cultures" ng-value="culture.ID">{{ culture.Culture }}</option>
+            </optgroup>
+          </select>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td>
+          <select id="variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété' | translate}} ..." data-selected-text-format="count > 1"
+            data-size="10">
+            <optgroup label="{{'Variété' | translate}}">
+              <option ng-repeat="variete in pc.Varietes" ng-value="variete.id">{{ variete.Variete }}</option>
+            </optgroup>
+          </select>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+
+        <td>
+          <select id="age" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="age" ng-change="pc.age_change()" multiple data-live-search="true" title="{{'Age' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+            <optgroup label="{{'Age' | translate}}">
+              <option ng-repeat="age in pc.TrancheAges" ng-value="age.ID">{{ age.Code }}</option>
+            </optgroup>
+          </select>
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>
+          <md-button class="md-raised" ng-click="pc.search()" title="{{'Valider' | translate}}">{{"Valider" | translate}}</md-button>
+        </td>
+
+      </tr>
+    </table>
+
+
+  </center>
+  <br />
+  <div class="row">
+    <div class=" animate fadeIn col-md-12 col-sm-12 col-xs-12" ng-show="tb_technique_monitoring_AlertesRavageurs">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>{{"Alertes ravageurs" | translate}}</h2>
+          <div class="dt-buttons pull-right">
+            <a class="dt-button" style="height: 25px;"><i class="fa fa-file-excel-o pull-right" ng-click="exportData('excel', 1)" title="EXCEL"></i></a>
+            <a class="dt-button" style="height: 25px;"><i class="fa fa-file-pdf-o" ng-click="exportData('pdf', 1)" title="PDF"></i></a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="wdr-Pivot_TableauAlertesRavageurs" style="height:300px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="animate fadeIn col-md-6 col-sm-6 col-xs-6" ng-show="tb_technique_monitoring_TableauInfestation">
+      <div class=" x_panel">
+        <div class="x_title">
+          <h2>{{"Tableau du % d'infestation" | translate}}</h2>
+          <div class="dt-buttons pull-right">
+            <a class="dt-button" style="height: 25px;"><i class="fa fa-file-excel-o pull-right" ng-click="exportData('excel', 2)" title="EXCEL"></i></a>
+            <a class="dt-button" style="height: 25px;"><i class="fa fa-file-pdf-o" ng-click="exportData('pdf', 2)" title="PDF"></i></a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="wdr-Pivot_TableauInfestation" style="height:300px;"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="animate fadeIn col-md-6 col-sm-6 col-xs-6" ng-show="tb_technique_monitoring_GraphiqueInfestation">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>{{"Graphique du % d'infestation" | translate}}</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="googlechart-container-column-TableauInfestation" style="overflow-x: scroll;overflow-y: hidden;height:300px;width:100%"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

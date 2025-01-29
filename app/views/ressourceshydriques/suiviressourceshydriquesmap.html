@@ -1,0 +1,91 @@
+<div class="right_col" role="main">
+  <div ng-controller="RessourceshydriquesSuiviressourceshydriquesmapCtrl as pc" class="modal-demo">
+    <span> {{"Ressources hydriques" | translate}} <i class="fa fa-angle-right"></i> {{"Suivi des ressources hydriques" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Vue cartographique" | translate}}</b></span>
+    <br />
+    <div class="dontshowit ">
+
+
+      <a class="dt-button pull-right" ui-sref="Suiviressourceshydriques" title="{{'Suivi_des_ressources_hydriques' | translate}}"><i class="fa fa-columns"></i></a>
+      <a class="dt-button pull-right" ui-sref="SuiviressourceshydriquesEtat" title="{{'Vue synthétique' | translate}}"><i class="fa fa-table"></i></a>
+
+    </div>
+    <br /><br />
+    <div id="mapComptage"></div>
+    <br /><br />
+
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr style="background-color: unset !important;    color: unset !important;">
+          <td>
+            <font color="#ffffff">{{"Campagne" | translate}}</font>
+            <select id="compagne" name="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1"
+              data-size="10">
+              <option selected disabled value="" style="background-color: #ffffff;"> {{"Campagne" | translate}} ..</option>
+              <option ng-repeat="compagne in pc.compagne_array | unique: 'Code'" ng-value="compagne">{{ compagne.Code }}</option>
+            </select>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <font color="#ffffff">{{"Mois" | translate}}</font>
+            <select id="Mois" class="form-control  input-sm selectpicker" data-size="10" data-actions-box='true' ng-model="mois.mois" ng-change="pc.Mois_change()" multiple data-live-search="true" title="Mois ..."
+              data-selected-text-format="count > 1">
+              <optgroup label="Mois">
+                <option ng-repeat="moiscampagne in allmoiscampagne" ng-value="moiscampagne">{{moiscampagne.split('-')[1] | setMonthName}} / {{ moiscampagne.split('-')[0] }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <font color="#ffffff">{{"Type de ressources" | translate}}</font>
+            <select id="Type" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="Type" ng-change="pc.type_change()" multiple data-live-search="true" title="{{'Type de ressource ' | translate}}..."
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Type de la ressource hydrique' | translate}}">
+                <option ng-repeat="Type in pc.Types" ng-value="Type.Type">{{ Type.Name }}</option>
+              </optgroup>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="legend" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color:#fff;color:#000000;">
+        <table class="w3-table w3-striped">
+          <tr style="background-color: unset !important;    color: unset !important;">
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_souterraines.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"Eaux souterraines utilisée" | translate}}</font>
+              </small></td>
+            <td style="vertical-align: middle;"><small>&nbsp;&nbsp;&nbsp;&nbsp;</small></td>
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_souterraines_red.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"Eaux souterraines non utilisée" | translate}}</font>
+              </small></td>
+
+          </tr>
+          <tr style="background-color: unset !important;    color: unset !important;">
+
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_de_surface.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"Eaux de surface utilisée" | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</font>
+              </small></td>
+            <td style="vertical-align: middle;"><small>&nbsp;&nbsp;&nbsp;&nbsp;</small></td>
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_de_surface_red.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"Eaux de surface non utilisée" | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</font>
+              </small></td>
+
+          </tr>
+        </table>
+      </div>
+      <br />
+    </div>
+
+
+  </div>
+</div>

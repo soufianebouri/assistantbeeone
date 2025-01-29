@@ -1,0 +1,89 @@
+<div class="right_col" role="main">
+  <div ng-controller="PrevisionsannuelleCtrl as pc" class="modal-demo">
+    <span> {{'Suivi des prévisions' | translate}} <i class="fa fa-angle-right"></i>
+      <b> {{'Prévisions annuelles' | translate}}</b></span>
+
+    <center class="dontDisplay">
+      <div id="filter_form" style="" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Société' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Domaines' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Campagne agricole' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Parcelle culturale' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Variété' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Societe" name="Societe" ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe" ng-change="pc.societe_change()" data-live-search="true" title="{{'Société ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="societe in pc.societes" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Domaine" class="form-control  input-sm selectpicker" ng-model="domaine" ng-change="pc.domaine_change()" data-live-search="true" title="{{'Domaines ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="domaine in pc.domaines" value="{{domaine.IDFermes}}" ng-if="domaine.ID_societe == pc.filterWithItems.societe">{{ domaine.Nom }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Compagne ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+                <option ng-repeat="compagne in pc.compagne_array" value="{{compagne.Code}}">{{ compagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle.parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" title="{{'Parcelle ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Parcelle' | translate}}">
+                  <option ng-repeat="parcelle in pc.parcelles_array" ng-value="parcelle.ID">{{ parcelle.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete.variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Variété' | translate}}">
+                  <option ng-repeat="variete in pc.variete_array" ng-value="variete.id">{{ variete.Variete }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <md-button class="md-raised md-warn" ng-click="pc.dtInstance.reloadData()" title="{{'Rechercher' | translate}}" ng-disabled="pc.canSearch()">
+                {{'Valider' | translate}}
+              </md-button>
+            </td>
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+
+    <div class="table-responsive">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+
+  </div>
+
+</div>

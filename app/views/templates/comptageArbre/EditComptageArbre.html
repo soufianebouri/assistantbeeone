@@ -1,0 +1,135 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Comptage par arbre' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+
+
+
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="100" flex="">
+
+            <div class="form-body" layout-wrap>
+              <md-content style="background-color:transparent">
+
+                <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'Date' | translate}}...</label>
+                      <input type="date" ng-model="DateObservation" style="width:90%;" required>
+                    </md-input-container>
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'GroupeOperationnels' | translate}} ...</label>
+                      <md-select ng-model="GroupeOperationnelsel" style="width:90%;" ng-change="getParcellesByGO()" data-md-container-class="selectdemoSelectHeader">
+                        <md-select-header class="demo-select-header">
+                          <input ng-model="searchGroupeOperationnel" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                        </md-select-header>
+                        <md-option ng-value="GroupeOperationnel.IDGroupeCultural_Operationnel" ng-repeat="GroupeOperationnel in GroupeOperationnels  | orderBy:'Intitule'  | filter:searchGroupeOperationnel">{{GroupeOperationnel.Intitule}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <div flex="100" flex-gt-sm="50" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Parcellecultural' | translate}} ...</label>
+                        <md-select ng-model="parcelleculturalsel" ng-change="getArbreGO()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select-header class="demo-select-header">
+                            <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                          </md-select-header>
+                          <md-option ng-value="parcellecultural.ID" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1"
+                            ng-selected="parcellecultural.ID == data.IDParcelleCulturale">
+                            {{parcellecultural.Ref}}
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <div flex="100" flex-gt-sm="50" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Arbre' | translate}} ...</label>
+                        <md-select ng-model="IDArbre" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select-header class="demo-select-header">
+                            <input ng-model="searchArbre" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                          </md-select-header>
+                          <md-option ng-value="Arbre" ng-repeat="Arbre in Arbres  | orderBy:'Code_Arbre' | filter:searchArbre" ng-selected="Arbre.ID == data.IDArbre">{{Arbre.Code_Arbre}}
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <div flex="100" flex-gt-sm="50" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Élément de comptage' | translate}} ...</label>
+                        <md-select ng-model="IDEelement" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select-header class="demo-select-header">
+                            <input ng-model="searchelement" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                          </md-select-header>
+                          <md-option ng-value="Element.ID" ng-repeat="Element in Elements  | orderBy:'Code_Arbre' | filter:searchelement" ng-selected="Element.ID == data.ID_Element">{{Element.Nom}}
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'Nombre' | translate}}</label>
+                      <input ng-model="data.Nombre" style="width:90%;" type="number" min="0" required>
+                    </md-input-container>
+                  </div>
+
+                </div>
+
+
+              </md-content>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

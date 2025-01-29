@@ -1,0 +1,335 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Suivi_de_la_chute_par_rameau' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de contrôle' | translate}}...</label>
+                          <input type="date" ng-model="DateObservation" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <div flex="100" flex-gt-sm="40" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Parcellecultural' | translate}} ...</label>
+                            <md-select ng-model="parcelleculturalsel" ng-change="getCalibreGO()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1" ng-selected='parcellecultural.ID == data.ID_ParcelleCul'>{{parcellecultural.Ref}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                      </div>
+
+
+
+
+
+
+                    </div>
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="100" layout="column">
+
+                        <table id="rameau" class="table table-bordered" style="width:100%;">
+                          <thead>
+                            <tr>
+                              <th><b>Nombre de fruits<font color="red">*</font></b></th>
+                              <th colspan="3">
+                                <center><b>{{'Haut' | translate}}</b< /center>
+                              </th>
+
+                              <th colspan="1">
+                                <center><b></b< /center>
+                              </th>
+                              <th colspan="3">
+                                <center><b>{{'Bas' | translate}}</b< /center>
+                              </th>
+                            </tr>
+
+                            <tr>
+                              <th>
+                                <hr>
+                                </hr>
+                              </th>
+                              <th><b>D < 10 mm</b>
+                                    <hr>
+                                    </hr>
+                              </th>
+                              <th><b>10 <span>&#8804;</span> D < 20 mm</b>
+                                    <hr>
+                                    </hr>
+                              </th>
+                              <th><b>20 mm < D</b>
+                                    <hr>
+                                    </hr>
+                              </th>
+
+                              <th></th>
+
+                              <th><b>D < 10 mm</b>
+                                    <hr>
+                                    </hr>
+                              </th>
+                              <th><b>10 <span>&#8804;</span> D < 20 mm</b>
+                                    <hr>
+                                    </hr>
+                              </th>
+                              <th><b>20 mm <span>&#8804;</span> D</b>
+                                <hr>
+                                </hr>
+                              </th>
+                            </tr>
+
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="th-table">Est</td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_H_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_H_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_H_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+
+                              <td class="th-table">
+                                <md-input-container style="width:20px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+
+                                </md-input-container>
+                              </td>
+
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_B_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_B_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Est_B_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td class="th-table">Ouest</td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_H_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_H_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_H_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:20px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_B_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_B_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Ouest_B_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td class="th-table">Centre</td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_H_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_H_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_H_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:20px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_B_D_10" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_B_10_D_20" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+
+                              <td class="th-table">
+                                <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="data.Centre_B_20_D" style="width:100px;" class="right" step="any" min="0" type="number" required placeholder="Valeur ..">
+                                </md-input-container>
+                              </td>
+                            </tr>
+
+
+
+                          </tbody>
+                        </table>
+
+                      </div>
+
+                    </div>
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observations' | translate}}</label>
+                          <textarea ng-model="data.Observation" md-maxlength="200" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

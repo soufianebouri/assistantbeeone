@@ -1,0 +1,247 @@
+<div class="right_col" role="main">
+  <div ng-controller="PalmierdattierProfilcalibreCtrl as pc" class="modal-demo">
+    <span> {{'Estimationsarbo' | translate}} <i class="fa fa-angle-right"></i> <b>{{'Profildecalibre' | translate}}</b>
+      <bn ng-if="!pc.showtable"><i class="fa fa-angle-right"></i> <b>{{'Details' | translate}}</b></bn>
+      <a class="dt-button pull-right" ng-click="pc.showtable_toggle();" ng-if="!pc.showtable"><i class="fa fa-remove"></i></a>
+    </span>
+
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Parcelle' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Variete' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'De' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'A' | translate}}</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle.parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" data-selected-text-format="count > 1"
+                data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> {{'Parcellecultural' | translate}} ..</option>
+                <optgroup label="{{'Parcellecultural' | translate}}">
+                  <option ng-repeat="parcellecultural in pc.parcellescultural" ng-value="parcellecultural.ID">{{ parcellecultural.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="VarieteSelection" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete.variete" ng-change="pc.variete_change()" multiple data-live-search="true" data-selected-text-format="count > 1"
+                data-size="10">
+                <optgroup label="{{'Variete' | translate}} ...">
+                  <option ng-repeat="variete in pc.varietes" ng-value="variete.varieteId">{{ variete.variete }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+
+
+    <div class="table-responsive" ng-show="pc.showtable">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+    <div ng-show="!pc.showtable">
+      <br />
+      <div style="overflow-x:auto;">
+        <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+          <thead>
+            <tr>
+              <th>{{'Date' | translate}}</th>
+              <th>{{'Heure' | translate}}</th>
+              <th>{{'Parcellecultural' | translate}}</th>
+              <th>{{'Culture' | translate}}</th>
+              <th>{{'Variete' | translate}}</th>
+              <th>{{'PorteGreffe' | translate}}</th>
+              <th>{{'Operateur' | translate}}</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>{{ pc.ProfileCalibreDetailsByID.DateCreated | date:'dd/MM/yyyy'}}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.TimeCreated }}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.Ref }}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.Culture }}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.Variete }}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.Porte_greffe }}</td>
+            <td>{{ pc.ProfileCalibreDetailsByID.CreatedBy }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <fieldset>
+            <legend>{{'Mensurationcalibre' | translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Mensuration' | translate}}</th>
+                    <th>{{'Calibre' | translate}}</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="AllCalibresMensuration in pc.AllCalibresMensuration  | orderBy:'Calibre'">
+                  <td>{{AllCalibresMensuration.Mensuration | number:2}}</td>
+                  <td ng-if="AllCalibresMensuration.Calibre">{{ AllCalibresMensuration.Calibre }}</td>
+                  <td ng-if="!AllCalibresMensuration.Calibre">Hors-Calibre</td>
+                </tr>
+
+                <tr ng-if="pc.AllCalibresMensuration.length == 0">
+                  <td colspan="2">
+                    <center>{{'Aucunedonneedisponible' | translate}}</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+          </fieldset>
+        </div>
+
+
+        <!-- /form input mask -->
+
+        <!-- form color picker -->
+
+
+        <!-- /form color picker -->
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <fieldset>
+            <legend>{{'Pourcentage de calibre' | translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th>{{'Calibre' | translate}}</th>
+                    <th>%</th>
+                  </tr>
+                </thead>
+                <tr ng-repeat="PourcentageCalibreByProfil in pc.PourcentageCalibreByProfil  | orderBy:'Calibre'">
+                  <td ng-if="PourcentageCalibreByProfil.Calibre">{{ PourcentageCalibreByProfil.Calibre }}</td>
+                  <td ng-if="!PourcentageCalibreByProfil.Calibre">Hors-Calibre</td>
+                  <td>{{PourcentageCalibreByProfil.Porcentage | integer}} %</td>
+                </tr>
+
+                <tr ng-if="pc.PourcentageCalibreByProfil.length == 0">
+                  <td colspan="2">
+                    <center>{{'Aucunedonneedisponible' | translate}}</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <br />
+
+
+      <div ng-if="pc.ProfileCalibreDetailsByID.saved_prevision && (pc.isAdmin || pc.role===2)">
+
+        <center>
+          <h1>Prévision</h1>
+        </center>
+        <center>
+          <h3>Valeur ajoutée : {{pc.ProfileCalibreDetailsByID.value_prevision}}</h3>
+          <h4 ng-if="pc.ProfileCalibreDetailsByID.DateProjection">Date de projection : {{pc.ProfileCalibreDetailsByID.DateProjection | date:'dd/MM/yyyy'}}</h4>
+        </center>
+        <div class="row">
+          <!-- form input mask -->
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <fieldset>
+              <legend>{{'Mensurationcalibre' | translate}}</legend>
+              <div style="overflow-x:auto;">
+                <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                  <thead>
+                    <tr>
+                      <th>{{'Mensuration' | translate}}</th>
+                      <th>{{'Calibre' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tr ng-repeat="AllCalibresMensuration in pc.AllCalibresMensuration_Prevision  | orderBy:'Calibre'">
+                    <td>{{AllCalibresMensuration.Mensuration | number:2}}</td>
+                    <td ng-if="AllCalibresMensuration.Calibre">{{ AllCalibresMensuration.Calibre }}</td>
+                    <td ng-if="!AllCalibresMensuration.Calibre">Hors-Calibre</td>
+                  </tr>
+
+                  <tr ng-if="pc.AllCalibresMensuration_Prevision.length == 0">
+                    <td colspan="2">
+                      <center>{{'Aucunedonneedisponible' | translate}}</center>
+                    </td>
+                  </tr>
+
+                </table>
+              </div>
+            </fieldset>
+          </div>
+
+
+          <!-- /form input mask -->
+
+          <!-- form color picker -->
+
+
+          <!-- /form color picker -->
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <fieldset>
+              <legend>{{'Pourcentage de calibre' | translate}}</legend>
+              <div style="overflow-x:auto;">
+                <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                  <thead>
+                    <tr>
+                      <th>{{'Calibre' | translate}}</th>
+                      <th>%</th>
+                    </tr>
+                  </thead>
+                  <tr ng-repeat="PourcentageCalibreByProfil in pc.PourcentageCalibreByProfil_Prevision  | orderBy:'Calibre'">
+                    <td ng-if="PourcentageCalibreByProfil.Calibre">{{ PourcentageCalibreByProfil.Calibre }}</td>
+                    <td ng-if="!PourcentageCalibreByProfil.Calibre">Hors-Calibre</td>
+                    <td>{{PourcentageCalibreByProfil.Porcentage | integer}} %</td>
+                  </tr>
+
+                  <tr ng-if="pc.PourcentageCalibreByProfil_Prevision.length == 0">
+                    <td colspan="2">
+                      <center>{{'Aucunedonneedisponible' | translate}}</center>
+                    </td>
+                  </tr>
+
+                </table>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+
+      </div>
+
+      <br /><br /><br />
+    </div>
+  </div>
+
+</div>

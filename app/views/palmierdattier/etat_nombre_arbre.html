@@ -1,0 +1,89 @@
+<div class="right_col" role="main">
+  <div ng-controller="PalmierdattierEtatNombreArbreCtrl as pc">
+    <span> {{"Opérations clés" | translate}} <i class="fa fa-angle-right"></i> {{"Comptage par arbre" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Etat nombre d'arbre" | translate}}</b></span>
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{"Parcelle culturale" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Arbre" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Élément de comptage" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"De" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"A" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle.parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" title="{{'Parcelle culturale' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Parcelle culturale' | translate}}">
+                  <option ng-repeat="parcelle in pc.parcelles_array | orderBy:'Ref'" ng-value="parcelle.ID">{{ parcelle.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Arbre" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="Arbre" ng-change="pc.arbre_change()" multiple data-live-search="true" title="{{'Arbre' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Arbre' | translate}}">
+                  <option ng-repeat="Arbres in pc.Arbres | orderBy:'Code_Arbre'" ng-value="Arbres.ID">{{ Arbres.Code_Arbre }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Element" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="Element" ng-change="pc.element_change()" data-live-search="true" multiple title="{{'Élément de comptage' | translate}} ..."
+                data-selected-text-format="count > 1" data-size="10">
+                <option disabled value="" style="background-color: #ffffff;"> {{"Élément de comptage" | translate}} ...</option>
+                <option ng-repeat="ElementComptage in pc.ElementComptage | orderBy:'Nom'" ng-value="ElementComptage.ID">{{ ElementComptage.Nom }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <md-button class="md-raised" ng-click="pc.Search()" title="{{'Rechercher' | translate}}">{{"Valider" | translate}}</md-button>
+            </td>
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+    <br />
+
+    <div class="table-responsive dontDisplay">
+      <div class="dt-buttons" style="float:right">
+        <a class="dt-button pull-right" ui-sref="comptagearbremap" title="{{'Vue cartographique' | translate}}"><i class="fa fa-map-marker"></i></a>
+
+        <a class="dt-button pull-right" ui-sref="comptagearbresynthese" title="{{'Vue synthétique' | translate}}"><i class="fa fa-table"></i></a>
+
+
+        <a class="dt-button pull-right" ui-sref="comptageArbre" title="{{'Comptage arbre' | translate}}"><i class="fa fa-list"></i></a>
+
+        <button class="dt-button " tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Rechercher' | translate}}"><span><i class="fa fa-search"></i></span></button>
+        <a class="dt-button pull-right"><i class="fa fa-file-excel-o " ng-click="exportData('excel')" title="EXCEL"></i></a>
+        <a class="dt-button pull-right"><i class="fa fa-file-pdf-o" ng-click="exportData('pdf')" title="PDF"></i></a>
+      </div>
+    </div>
+
+    <br />
+    <!--tableFixHead-->
+    <div class="x_content">
+      <div id="wdr-Pivot_TableauDernieresSaisiesParUtilisateur" style="height:400;"></div>
+    </div>
+  </div>
+</div>

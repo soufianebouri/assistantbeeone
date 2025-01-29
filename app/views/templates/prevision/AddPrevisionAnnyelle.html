@@ -1,0 +1,75 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak name="form" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajout d une prévision annuelle' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+      <md-content layout-padding ng-cloak>
+
+        <div layout-gt-xs="row">
+          <md-input-container>
+            <label>{{'Societe' | translate}}</label>
+            <md-select ng-model="societe" ng-change="Societe_changed()">
+              <md-option disabled><em>{{'Societe' | translate}}</em></md-option>
+              <md-option ng-repeat="societe in societes" ng-value="societe.ID">
+                {{societe.Rais_Social}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Ferme' | translate}}</label>
+            <md-select ng-model="ferme" ng-change="Ferme_changed()">
+              <md-option disabled><em>{{'Ferme' | translate}}</em></md-option>
+              <md-option ng-repeat="ferme in fermes" ng-value="ferme.IDFermes" ng-if="ferme.ID_societe == societe">
+                {{ferme.Nom}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Parcelle(s)' | translate}}</label>
+            <md-select placeholder="{{'Parcelle ...' | translate}}" ng-model="selectedParcel" md-on-open="getParcelle()" style="min-width: 200px;">
+              <md-option ng-value="p" ng-repeat="p in parcel">{{p.Ref}}</md-option>
+            </md-select>
+          </md-input-container>
+
+        </div>
+
+        <div flex-xs="" flex-gt-xs layout="column" ng-if="selectedParcel">
+          <md-card md-theme="{{ 'default' }}" md-theme-watch="">
+            <md-card-title layout="column" layout-align="center center">
+              <div layout="row" ng-repeat="periode in estimation_periode_array">
+                <md-input-container flex-gt-xs="75" class="md-block">
+                  <label></label>
+                  <input type="text" value="{{getPeriodeEstimation(periode)}}" disabled>
+                </md-input-container>
+
+                <md-input-container flex-gt-xs="25">
+                  <label>{{'Quantité' | translate}}</label>
+                  <input type="text" step="100" ng-model="periode.QT" ng-pattern="/^[0-9]+([.][0-9]+)?$/" required>
+                </md-input-container>
+              </div>
+            </md-card-title>
+
+          </md-card>
+        </div>
+
+      </md-content>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="saveData()" ng-disabled="form.$invalid || !selectedParcel">
+        {{'Valider' | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

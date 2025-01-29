@@ -1,0 +1,25 @@
+<div class="right_col" role="main">
+
+  <div ng-controller="AssolementParcelCulturaleCtrl as pc" class="modal-demo">
+
+    <div class="breadcrumb-background-color">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <img src="../../images/water.svg" class="menu-icon" alt="" />
+        </li>
+        <li class="breadcrumb-item">
+          <a> {{'Parcellisation' | translate}}</a>
+        </li>
+        <li class="breadcrumb-item" ng-if="!pc.showtable">
+          <b>{{'Parcelles culturales' | translate}}</b>
+        </li>
+      </ol>
+    </div>
+
+    <div class="table-responsive">
+      <table style="background-color: white;" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action">
+      </table>
+    </div>
+  </div>
+
+</div>

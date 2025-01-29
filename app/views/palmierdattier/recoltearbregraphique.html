@@ -1,0 +1,180 @@
+<div class="right_col" role="main" ng-controller="PalmierdattierRecoltearbregraphiqueCtrl as pc">
+  <div class="modal-demo">
+    <span> {{"Récolte" | translate}} <i class="fa fa-angle-right"></i> {{"Récolte par arbre" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Vue graphique" | translate}}</b></span>
+    <br />
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+        <table>
+          <tr>
+            <td>{{"Campagne" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Culture" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Variété" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Parcelle culturale" | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{"Arbre" | translate}}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <select id="compagne" name="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1"
+                data-size="10">
+                <option ng-repeat="compagne in pc.compagne_array" value="{{compagne.ID_compagne}}">{{ compagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="culture" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="culture" ng-change="pc.culture_change()" multiple data-live-search="true" title="{{'Culture' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Culture' | translate}}">
+                  <option ng-repeat="culture in pc.culture_array" ng-value="culture.ID">{{ culture.Culture }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété' | translate}} ..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Variété' | translate}}">
+                  <option ng-repeat="variete in pc.variete_array" ng-value="variete.id">{{ variete.Variete }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" title="{{'Parcelle culturale' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Parcelle culturale' | translate}}">
+                  <option ng-repeat="parcelle in pc.parcelles_array" ng-value="parcelle.ID">{{ parcelle.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="arbre" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="arbre" ng-change="pc.arbre_change()" multiple data-live-search="true" title="{{'Arbre' | translate}}..."
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Arbre' | translate}}">
+                  <option ng-repeat="arbre in pc.arbres" ng-value="arbre.ID">{{ arbre.Code_Arbre }}</option>
+                </optgroup>
+              </select>
+            </td>
+          </tr>
+        </table>
+        <br />
+        <table>
+          <tr>
+            <td>
+              De (<font color="red">*</font>)
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              A (<font color="red">*</font>)
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td><br />
+              <md-button class="md-raised" ng-click="search()" title="{{'Rechercher' | translate}}" ng-disabled="pc.canSearch()">{{"Valider" | translate}}</md-button>
+            </td>
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+      </div>
+    </center>
+    <br />
+  </div>
+  <div class="table-responsive dontDisplay">
+    <div class="dt-buttons" style="float:right">
+      <a class="dt-button pull-right" ui-sref="recoltearbremap" title="{{'Vue cartographique' | translate}}"><i class="fa fa-map-marker"></i></a>
+
+      <a class="dt-button pull-right" ui-sref="recolteArbre" title="{{'Récolte par arbre' | translate}}"><i class="fa fa-columns"></i></a>
+
+      <a class="dt-button pull-right" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Rechercher' | translate}}"><i class="fa fa-search"></i></a>
+    </div>
+  </div>
+
+
+  <center>
+    <div class="row tile_count">
+
+
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top">&nbsp;{{"Quantité totale récoltée (t)" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{quantitetotal || '0' | getNumberAsSpace}}</font>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top">&nbsp;{{"Nombre d'arbres récoltés" | translate}}</span>
+        <div class="count ng-binding green">
+          <font size="5px">{{NbrArbreRecolte || '0' | getNumberAsSpace}}</font>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top">&nbsp;{{"% d'arbres récoltés" | translate}}</span>
+        <div class="count ng-binding green">
+          <font size="5px">{{((NbrArbreRecolte / nbrArbreTotal) * 100) || '0' | getNumberAsSpace}}</font>
+        </div>
+      </div>
+
+    </div>
+  </center>
+
+  <div class="animate fadeIn row">
+
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="x_panel">
+        <div class="x_title">
+          <center>
+            <h5>{{"Vue journalière en Kg" | translate}}</h5>
+          </center>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdiv_journalier" style="height:400px;"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="x_panel">
+        <div class="x_title">
+          <center>
+            <h5>{{"Vue mensuelle en Tonne" | translate}}</h5>
+          </center>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdiv_mensuel" style="height:400px;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="animate fadeIn row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <center>
+            <h5>{{"Vue par parcelle culturale en Kg" | translate}}</h5>
+          </center>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdiv_parcelle" style="height:400px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+</div>

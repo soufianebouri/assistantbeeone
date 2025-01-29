@@ -1,0 +1,257 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Suivi des stades GC' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de constatation' | translate}} ...</label>
+                          <md-datepicker ng-model="date_constation" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Parcellecultural' | translate}} ...</label>
+                          <md-select ng-model="parcelleculturalsel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" ng-disabled="true" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1"
+                              ng-selected="parcellecultural.ID == data.ID_ParcelleCulturale">
+                              {{parcellecultural.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Stade phénologique' | translate}} ...</label>
+                          <md-select ng-model="stadephenosel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchstade" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="stades.IDStade_phenologique" ng-repeat="stades in stadespheno  | orderBy:'code' | filter:searchstade" ng-selected="stades.IDStade_phenologique == data.IDStade_phenologique">
+                              {{stades.code}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Éléments de suivi' | translate}} ...</label>
+                          <md-select ng-model="elementsuivisel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchelemrnt" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="elementGcs.id" ng-repeat="elementGcs in elementGc  | orderBy:'code' | filter:searchelemrnt" ng-selected="elementGcs.id == data.id_element_suivi_gc" ng-if="stadephenosel == elementGcs.id_stade">
+                              {{elementGcs.code}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Qualité du stade' | translate}} ...</label>
+                          <md-select ng-model="qualitestadesel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchqualite" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="qualiteStaderefs.ID" ng-repeat="qualiteStaderefs in qualiteStaderef  | orderBy:'code' | filter:searchqualite" ng-selected="qualiteStaderefs.ID == data.IDQualite_Stade">
+                              {{qualiteStaderefs.Qualite_Stade}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Densité (mm)' | translate}}</label>
+                          <input ng-model="data.densite" style="width:90%;" type="text" required ng-disabled="true">
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+        <md-tab label="{{'Mesures' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+
+
+                      <!--<div flex-gt-sm="30" flex="">
+
+                        <md-content style="background-color:transparent">
+                          <br />
+                          <div layout="row" layout-wrap flex>
+
+
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'Latitude' | translate}}</label>
+                                <input ng-model="Latitude" style="width:90%;" value="0" id="t1" name="t1" type="number" ng-change="newLocation(Latitude,Longitude)">
+                              </md-input-container>
+                            </div>
+
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'Longitude' | translate}}</label>
+                                <input ng-model="Longitude" style="width:90%;" value="0" id="t2" name="t2" type="number">
+                              </md-input-container>
+                            </div>
+
+
+
+
+
+
+
+                          </div>
+
+                        </md-content>
+                      </div>-->
+
+
+
+                      <div flex-gt-sm="100" flex="">
+
+                        <md-content style="background-color:transparent">
+                          <div layout="row" layout-wrap flex>
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <div id="Ressourceshydriques" style="width:100%;height:70%;"></div>
+                            </div>
+                          </div>
+
+                        </md-content>
+                      </div>
+
+
+
+
+
+
+
+                    </div>
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+        <md-tab label="{{'Emargement' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Opérateur' | translate}} ...</label>
+                          <input ng-model="data.operateur" style="width:150px;" type="text" readonly>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="35" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observation' | translate}}</label>
+                          <textarea ng-model="data.observation" md-maxlength="300" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </md-tab>
+
+
+
+
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-show="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-show="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

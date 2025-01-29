@@ -1,0 +1,131 @@
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    width: 100%;
+}
+table {
+    width: 100%;
+    border: 0;
+}
+#customers td, #customers th {
+
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  text-align:right;
+}
+
+
+.iw-container {
+   font-family: 'Open Sans Condensed', sans-serif;
+   font-weight: 400;
+   padding: 10px;
+   margin: 1px;
+   border-radius: 2px 2px 0 0; /* In accordance with the rounding of the default infowindow corners. */
+}
+
+
+/*.font-map{
+  background-color: rgba(126, 142, 159, 0.82);
+  color:#ffffff;
+}*/
+
+.font-map{
+  background-color: rgb(255, 255, 255);
+  color:#000000;
+}
+
+td.green-text {
+     color:#27b73a;
+}
+
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+    color: green;
+}
+
+.valid:before {
+    position: relative;
+    content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    content: "✖";
+}
+
+
+.blinking{
+	animation:blinkingText 0.8s infinite;
+}
+@keyframes blinkingText{
+	0%{		color: #000;	}
+	49%{	color: transparent;	}
+	50%{	color: transparent;	}
+	99%{	color:transparent;	}
+	100%{	color: #000;	}
+}
+
+
+
+[data-tip] {
+	position:relative;
+
+}
+[data-tip]:before {
+	content:'';
+	/* hides the tooltip when not hovered */
+	display:none;
+	content:'';
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid #1a1a1a;
+	position:absolute;
+	top:30px;
+	left:35px;
+	z-index:8;
+	font-size:0;
+	line-height:0;
+	width:0;
+	height:0;
+}
+[data-tip]:after {
+	display:none;
+	content:attr(data-tip);
+	position:absolute;
+	top:35px;
+	left:20px;
+	padding:5px 8px;
+	background:#85CE36;
+	color:#fff;
+	z-index:-1;
+	font-size: 1em;
+	height:25px;
+	line-height:18px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	white-space:nowrap;
+	word-wrap:normal;
+}
+[data-tip]:hover:before,
+[data-tip]:hover:after {
+	display:block;
+}
+
+
+.onelignetext {
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
+
+.dataTables_scrollBody thead {visibility: hidden;}

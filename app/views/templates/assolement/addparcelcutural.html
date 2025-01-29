@@ -1,0 +1,153 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="parcel_culturale" ng-submit="pc.submitForm(parcel_culturale.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.parcel_culturale}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" ng-model="pc.parcel.Ref" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="ferme" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.ferme}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <select id="ferme" name="ferme" required class="form-control  input-sm selectpicker" ng-model="pc.parcel.IDFermes" ng-change="loadParcelPhysique()" data-live-search="true" title="{{'Ferme ...' | translate}}"
+          data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="domaine in pc.data.domaine" value="{{ domaine.IDFermes }}">{{ domaine.Nom }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="prcl_physique" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.parcel_physique}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <select id="prcl_physique" name="prcl_physique" required class="form-control  input-sm selectpicker" ng-disabled="pc.data.prcl_physique.length == 0" ng-model="pc.parcel.IDprcl" data-live-search="true"
+          title="{{'Parcelle physique ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="prcl in pc.data.prcl_physique" value="{{ prcl.ID }}">{{ prcl.Ref }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Type_variete" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.superficie}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" ng-model="pc.parcel.Sup" ng-pattern="/^[0-9]+([.][0-9]+)?$/" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.date_plantation}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="date" class="form-control" ng-model="pc.parcel.date_plantation" max="{{pc.parcel.date_arrachage | date:'yyyy-MM-dd'}}" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.date_arrachage}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="date" class="form-control" ng-model="pc.parcel.date_arrachage" min="{{pc.parcel.date_plantation | date:'yyyy-MM-dd'}}">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.date_prm_recolte}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="date" class="form-control" ng-model="pc.parcel.date_prm_recolte" min="{{pc.parcel.date_plantation | date:'yyyy-MM-dd'}}" max="{{pc.parcel.date_arrachage | date:'yyyy-MM-dd'}}">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="porte_greffe" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.porte_greffe}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <select id="porte_greffe" name="porte_greffe" class="form-control  input-sm selectpicker" ng-model="pc.parcel.IDporte" data-live-search="true" title="{{'Porte greffe ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="porte in pc.data.portgreffe" value="{{ porte.IDPorte_greffe }}">{{ porte.Libile }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="variete" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.variete}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10">
+        <select id="variete" name="variete" required class="form-control  input-sm selectpicker" ng-model="pc.parcel.IDVariete" data-live-search="true" title="{{'Variété ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="variete in pc.data.variete_array" value="{{ variete.ID }}">{{ variete.Variete }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="cycle" class="col-sm-4 col-xs-12 col-md-2  control-label">{{pc.data.cycle_cultural}}</label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <select id="cycle" name="cycle" class="form-control  input-sm selectpicker" ng-model="pc.parcel.IDCycle" data-live-search="true" title="{{'Cycle ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+          <option ng-repeat="cycle in pc.data.cycle" value="{{ cycle.IDCycle }}">{{ cycle.CODE }}</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        {{'Latitude' | translate}}
+        <input ng-model="CoordX" type="number" step=any id="t1" name="t1" onfocus="" required="" class="form-control" placeholder="{{'Latitude ...' | translate}}" id="CoordX" />
+      </div>
+
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        {{'Longitude' | translate}}
+        <input ng-model="CoordY" type="number" step=any id="t2" name="t2" onfocus="" required="" class="form-control" placeholder="{{'Longitude ...' | translate}}" id="CoordY" />
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        {{'Couleurs Calque' | translate}}
+        <input class="jscolor form-control" id="basicinputCalque" value="#ffffff" name="colorCalque" ng-model="pc.parcel.colorCalque">
+      </div>
+
+      <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+        {{'Couleurs Cadre' | translate}}
+        <input class="jscolor form-control" id="basicinputCadre" value="#ffffff" ng-model="pc.parcel.colorCadre">
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-4 col-xs-12 col-md-2  control-label">{{'Superficie traçer' | translate}} </label>
+      <div class="col-sm-8 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" id="areaHa" name="superficieFermeHa" onfocus="" value="0.0" step=any ng-model="pc.parcel.superficieFermeHa">
+      </div>
+    </div>
+
+    <label class="control-label" for="basicinput"></label>
+    <div id="parcellemap"></div>
+    <br />
+    <div class="controls">
+      <input class="btn btn-danger" id="clear_shapes" value="{{'Effacer' | translate}}" type="button">
+
+      <input class="btn btn-success blue-tooltip" id="save_raw" value="{{'Enregistrer les points' | translate}}" type="button" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title=""
+        data-original-title="{{'Enregistrer votre polygone sous forme des points (latitudes, longitudes)' | translate}}">
+    </div><br />
+
+    <textarea type="text" id="data" value="" style="" name="fermetoken" pattern=".{3,}" ng-model="pc.parcel.fermetoken"></textarea>
+    <!--display:none;-->
+
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Erreur : '">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="parcel_culturale.$invalid || pc.parcel.Sup == 0 ">
+      {{'Valider' | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{'Quitter' | translate}}</button>
+</div>

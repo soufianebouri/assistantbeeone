@@ -1,0 +1,58 @@
+[
+  {
+    "label": "Administration",
+    "src": "Administration.svg"
+  },
+  {
+    "label": "parametrage_fonctionnel",
+    "src": "organisation.svg"
+  },
+  {
+    "label": "Conduite_technique",
+    "src": "Conduit_technique.svg"
+  },
+  {
+    "label": "Rendement",
+    "src": "Stock-1.svg"
+  },
+  {
+    "label": "prevision",
+    "src": "prevision.svg"
+  },
+  {
+    "label": "Main_oeuvre",
+    "src": "Main_oeuvre.svg"
+  },
+  {
+    "label": "Achat",
+    "src": "Achat.svg"
+  },
+  {
+    "label": "Stock",
+    "src": "Stock-2.svg"
+  },
+  {
+    "label": "a_dpenses",
+    "src": "A.dépenses.svg"
+  },
+  {
+    "label": "Immobilisation",
+    "src": "Immobilisation.svg"
+  },
+  {
+    "label": "Budget",
+    "src": "Budget_.svg"
+  },
+  {
+    "label": "Bilan",
+    "src": "Bilan.svg"
+  },
+  {
+    "label": "BeeOne_Manager",
+    "src": "Reporting.svg"
+  },
+  {
+    "label": "covid19",
+    "src": "coronavirus.svg"
+  }
+]

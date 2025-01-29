@@ -1,0 +1,85 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'AddAnalyseQualitativeFeuille' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="100" flex="">
+
+            <div class="form-body" layout-wrap>
+              <md-content style="background-color:transparent">
+
+                <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'Parcelles' | translate}} ...</label>
+                      <md-select ng-model="parcelleculturalsel" ng-change="parcelle_change()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                        <md-select-header class="demo-select-header">
+                          <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                        </md-select-header>
+                        <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1">{{parcellecultural.Ref}}
+                        </md-option>
+                      </md-select>
+                    </md-input-container>
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs>
+                      <label>{{'Date de Prélévement' | translate}}...</label>
+                      <input type="date" ng-model="Datedeprelevement" style="width:90%;" required>
+                    </md-input-container>
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                      <label>{{'Brix Feuilles' | translate}} ...</label>
+                      <input ng-model="Brix" style="width:90%;" class="right" type="number" step="any" min="5" max="99" required>
+                    </md-input-container>
+                  </div>
+
+                  <div flex="100" flex-gt-sm="25" layout="column">
+                    <md-input-container class="md-block">
+                      <label>{{'Observation' | translate}}</label>
+                      <textarea ng-model="Observation" md-maxlength="50" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                    </md-input-container>
+                  </div>
+
+                </div>
+
+
+              </md-content>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerAvancer();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterAvancer()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

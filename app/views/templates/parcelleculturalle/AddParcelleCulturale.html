@@ -1,0 +1,443 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajouter une parcelle culturale' | translate}} </h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Identification' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Réf parcelle culturale' | translate}}</label>
+                    <input ng-model="Reference" ng-value="" md-autofocus required style="width:90%;">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Parcelle physique' | translate}} ...</label>
+                    <md-select ng-model="physique" style="width:90%;" ng-change="getSuperficieDesParcelleCulturale()" required>
+                      <md-option ng-value="ParcellePhysique" ng-repeat="ParcellePhysique in ParcellePhysiques | orderBy:'Ref' track by $index">{{ParcellePhysique.Ref}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Parcelle culturale' | translate}}</label>
+                    <input ng-model="parcelleculturale" ng-value="Reference + ' ' + variete.Variete" style="width:90%;">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Variété' | translate}} ...</label>
+                    <md-select ng-model="variete" style="width:90%;" ng-change="variete_change()" required>
+                      <md-option ng-value="Variete" ng-repeat="Variete in Varietes   | orderBy:'Variete'  track by $index">{{Variete.Variete}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Produit' | translate}} ...</label>
+                    <md-select ng-model="produit" style="width:90%;">
+                      <md-option ng-value="produit.IDProduit_Rendement" ng-repeat="produit in produits">{{produit.designation}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Date début travaux' | translate}} ...</label>
+                    <md-datepicker ng-model="datedebuttravaux" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" required></md-datepicker>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Date de plantation' | translate}} ...</label>
+                    <md-datepicker ng-model="dateplantation" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" required></md-datepicker>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Statut (Arrachée / En cours)' | translate}}</label>
+                    <md-switch ng-model="Statut" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="2" class="md-warn">
+                      <span class="badge-green_withe" ng-if="Statut == 1">{{'En cours' | translate}}</span>
+                      <span class="badge-red_withe" ng-if="Statut == 2">{{'Arrachée' | translate}}</span>
+                    </md-switch>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{"Date d'arrachage" | translate}} ...</label>
+                    <md-datepicker ng-model="datearrachage" style="width:90%;" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" ng-disabled="Statut==1" ng-required="Statut==2"></md-datepicker>
+                    <small>{{'(Obligatioire si arrachée)' | translate}}</small>
+                  </md-input-container>
+                </div>
+
+
+              </div>
+            </md-content>
+          </div>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Contenance' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Superficie' | translate}}</label>
+                    <input ng-model="Superficie" ng-min="0.000000001" style="width:90%;" type="number" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Nombre de plants' | translate}}</label>
+                    <input ng-model="nbrplant" ng-min="0.000000001" style="width:90%;" type="number" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Densité /ha' | translate}}</label>
+                    <input ng-model="densite" ng-min="0.000000001" style="width:90%;" type="number" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Ecartement' | translate}}</label>
+                    <input ng-model="ecartement" ng-value="" style="width:90%;">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Nombre de plants théorique' | translate}}</label>
+                    <input ng-model="nbrplanttheorique" ng-min="0.000000001" style="width:90%;" type="number">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Nombre de plants manquants' | translate}}</label>
+                    <input ng-model="nbrplantmanquants" ng-min="0.000000001" style="width:90%;" type="number">
+                  </md-input-container>
+                </div>
+              </div>
+
+              <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+                <small>&nbsp;&nbsp;{{'Attachement et organisation' | translate}}</small>
+              </md-toolbar>
+
+              <div layout="row" layout-wrap flex>
+                <br />
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Groupe opérationnel' | translate}} ...</label>
+                    <md-select ng-model="groupe" style="width:90%;">
+                      <md-option ng-value="groupecultural.IDGroupeCultural_Operationnel" ng-repeat="groupecultural in groupeculturals">{{groupecultural.Intitule}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Cycle cultural' | translate}} ...</label>
+                    <md-select ng-model="Cycle" style="width:90%;">
+                      <md-option ng-value="cycle.IDCycle" ng-repeat="cycle in cycles">{{cycle.CODE}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Sous parcelles' | translate}} ...</label>
+                    <md-select ng-model="sousparcelle" multiple style="width:90%;" ng-change="sousparcelle_change()">
+                      <md-option ng-value="sousparcelle" ng-repeat="sousparcelle in sousparcelles">{{sousparcelle.Ref}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+              </div>
+            </md-content>
+          </div>
+        </div>
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Données complémentaires' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Date entrée en prod' | translate}} ...</label>
+                    <md-datepicker ng-model="dateentreeproduction" style="width:90%;" md-hide-icons="calendar" md-placeholder="aaaa-mm-dd" readonly></md-datepicker>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Date pleine prod' | translate}} ...</label>
+                    <md-datepicker ng-model="datepleineproduction" style="width:90%;" md-placeholder="aaaa-mm-dd" md-hide-icons="calendar" readonly></md-datepicker>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Dare Prévu de récolte' | translate}} ...</label>
+                    <md-datepicker ng-model="dateprevuderecolte" style="width:90%;" md-placeholder="aaaa-mm-dd" md-hide-icons="calendar" readonly></md-datepicker>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Date fin de récolte' | translate}} ...</label>
+                    <md-datepicker ng-model="datefinderecolte" style="width:90%;" md-placeholder="aaaa-mm-dd" md-hide-icons="calendar" readonly></md-datepicker>
+                  </md-input-container>
+                </div>
+
+              </div>
+            </md-content>
+          </div>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Porte greffe' | translate}} ...</label>
+                    <md-select ng-model="portegreff" style="width:90%;">
+                      <md-option ng-value="portGreffe.IDPorte_greffe" ng-repeat="portGreffe in portGreffes   | orderBy:'Libile'  track by $index">{{portGreffe.Libile}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Profil de culture' | translate}} ...</label>
+                    <md-select ng-model="profilculture" style="width:90%;">
+                      <md-option ng-value="profilculture.IDProfil_cultural" ng-repeat="profilculture in profilcultures">{{profilculture.Reference}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <md-checkbox ng-model="surgreffee" aria-label="Surgreffée" class="md-primary">{{'Surgreffée' | translate}}</md-checkbox>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Génération' | translate}} ...</label>
+                    <md-select ng-model="generation" style="width:90%;">
+                      <md-option ng-value="generation.IDGeneration" ng-repeat="generation in generations">{{generation.genereation}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Type de conduite' | translate}} ...</label>
+                    <md-select ng-model="typedeconduite" style="width:90%;">
+                      <md-option ng-value="typeconduite.IDType_conduite" ng-repeat="typeconduite in typeconduites">{{typeconduite.Type_conduite}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <md-radio-group layout="row" ng-model="type1">
+                      <md-radio-button value='1' class="md-primary">{{'Plants' | translate}}</md-radio-button>
+                      <md-radio-button value='2' class="md-primary">{{'Semence' | translate}}</md-radio-button>
+                    </md-radio-group>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <md-radio-group layout="row" ng-model="type2">
+                      <md-radio-button value='1' class="md-primary" checked>{{'Irrigué' | translate}}</md-radio-button>
+                      <md-radio-button value='2' class="md-primary">{{'Bour' | translate}}</md-radio-button>
+                      <md-radio-button value='3' class="md-primary">{{'Commun' | translate}}</md-radio-button>
+                    </md-radio-group>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Anti gel' | translate}} ...</label>
+                    <md-select ng-model="antigel" style="width:90%;">
+                      <md-option ng-value="2">{{'Chaufferette' | translate}}</md-option>
+                      <md-option ng-value="3">{{'Wind machine' | translate}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs><br />
+                    <label>{{'Anti grêle' | translate}} ...</label>
+                    <md-radio-group layout="row" ng-model="antigrele">
+                      <md-radio-button value='1' class="md-primary">{{'Oui' | translate}}</md-radio-button>
+                      <md-radio-button value='2' class="md-primary">{{'Non' | translate}}</md-radio-button>
+                    </md-radio-group>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Couver réalisée %' | translate}}</label>
+                    <input ng-model="couverrealisee" style="width:90%;" type="text">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block">
+                    <label>{{'Observation' | translate}}</label>
+                    <textarea ng-model="observation" rows="3"></textarea>
+                  </md-input-container>
+                </div>
+
+              </div>
+            </md-content>
+          </div>
+        </div>
+
+
+        <div layout="row" layout-wrap>
+
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Position géographique' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Latitude' | translate}}</label>
+                    <input ng-model="Latitude" style="width:90%;" value="0" id="t1" name="t1" type="number">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Longitude' | translate}}</label>
+                    <input ng-model="Longitude" style="width:90%;" value="0" id="t2" name="t2" type="number">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Couleurs Calque' | translate}}</label>
+                    <input ng-model="Calque" style="width:90%;" class="jscolor" type="text" id="Calque">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Couleurs Cadre' | translate}}</label>
+                    <input ng-model="Cadre" style="width:90%;" class="jscolor" type="text" id="Cadre">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Superficie tracée' | translate}}</label>
+                    <input ng-model="suptracertracer" style="width:90%;" id="areaHa" value="0" readonly>
+                  </md-input-container>
+                </div>
+
+              </div>
+
+            </md-content>
+          </div>
+
+
+
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <div layout="row" layout-wrap flex>
+                <div flex="100" flex-gt-sm="100" layout="column">
+                  {{'Please use the full screen mode' | translate}}
+                  <div id="parcelleculturalemap" style="width:100%;height:70%;"></div>
+                  <div class="controls">
+                    <md-button id="clear_shapes" title="{{'Effacer votre polygone' | translate}}">
+                      <md-icon>delete_outline</md-icon>{{'Effacer' | translate}}
+                    </md-button>
+                    <md-button id="save_raw" title="{{'Enregistrer votre polygone sous forme des points (latitudes, longitudes)' | translate}}">
+                      <md-icon>add_location_alt</md-icon>{{'Enregistrer les points' | translate}}
+                    </md-button>
+                  </div>
+                  <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+                </div>
+              </div>
+
+            </md-content>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+
+      <div layout="row" layout-wrap>
+
+
+
+
+
+
+
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

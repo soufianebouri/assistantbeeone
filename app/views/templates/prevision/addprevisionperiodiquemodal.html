@@ -1,0 +1,110 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak name="form" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajout d une prévision' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+      <md-content layout-padding ng-cloak>
+
+        <div layout-gt-xs="row">
+
+          <md-input-container>
+            <label>{{'Societe' | translate}}</label>
+            <md-select ng-model="societe" ng-change="Societe_changed()">
+              <md-option disabled><em>Societe</em></md-option>
+              <md-option ng-repeat="societe in societes" ng-value="societe.ID">
+                {{societe.Rais_Social}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Ferme' | translate}}</label>
+            <md-select ng-model="ferme" ng-change="Ferme_changed()">
+              <md-option disabled><em>{{'Ferme' | translate}}</em></md-option>
+              <md-option ng-repeat="ferme in fermes" ng-value="ferme.IDFermes" ng-if="ferme.ID_societe == societe">
+                {{ferme.Nom}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            <center>
+              <md-input-container>
+                <label>{{'Selectionnez une periode d estimation' | translate}}</label>
+                <md-select ng-model="periode" md-placeholder="{{'Période' | translate}}" ng-change="periode_changed()">
+                  <md-option><em>{{'Période' | translate}}</em></md-option>
+                  <md-option ng-repeat="e in estimationPeriode" ng-value="e.ID">
+                    {{getPeriodeEstimation(e)}}
+                  </md-option>
+                </md-select>
+              </md-input-container>
+            </center>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            <center>
+              <md-input-container>
+                <label></label>
+                <md-datepicker ng-model="selectedDay" md-placeholder="{{'Le jour ...' | translate}}" md-open-on-focus md-date-filter="{{'onlyWeekendsPredicate' | translate}}"></md-datepicker>
+              </md-input-container>
+            </center>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div>
+            <center>
+              <md-input-container>
+                <label>{{'Selectionnez une / plusieurs parcelle(s)' | translate}}</label>
+                <md-select ng-model="selectedParcel" md-on-close="clearSearchTerm()" md-on-open="loadParcel()" data-md-container-class="selectdemoSelectHeader" multiple>
+                  <md-select-header class="demo-select-header">
+                    <input ng-model="searchTerm" type="search" placeholder="{{'Parcelle...' | translate}}" class="demo-header-searchbox md-text">
+                  </md-select-header>
+                  <md-optgroup label="{{'parcelle' | translate}}">
+                    <md-option ng-value="p" ng-repeat="p in parcel | filter: searchTerm">{{p.Ref}}</md-option>
+                  </md-optgroup>
+                </md-select>
+
+              </md-input-container>
+            </center>
+          </div>
+        </div>
+
+        <div flex-xs="" flex-gt-xs layout="column" ng-if="selectedParcel">
+          <md-card md-theme="{{ 'default' }}" md-theme-watch="">
+            <md-card-title layout="column" layout-align="center center">
+
+              <div layout="row" ng-repeat="prcl in selectedParcel">
+                <md-input-container flex-gt-xs="70" class="md-block">
+                  <label>{{'Parcelle' | translate}}</label>
+                  <input type="text" ng-value="prcl.Ref" disabled>
+                </md-input-container>
+
+                <md-input-container flex-gt-xs="30">
+                  <label>{{'Quantité' | translate}}</label>
+                  <input type="text" step="100" ng-model="prcl.QT" ng-pattern="/^[0-9]+([.][0-9]+)?$/" required>
+                </md-input-container>
+              </div>
+
+            </md-card-title>
+
+          </md-card>
+        </div>
+
+      </md-content>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="saveData()" ng-disabled="form.$invalid || !selectedParcel">
+        {{'Valider' | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,98 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak name="formulaire">
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Classification' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="100" flex="">
+
+            <div class="form-body" layout-wrap>
+              <md-content style="background-color:transparent">
+
+                <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                  <div flex="100" flex-gt-sm="100" layout="column">
+                    <table id="baremes" class="table table-bordered" style="width:100%;height: 100px;">
+                      <thead>
+                        <tr>
+                          <th>
+                            <center>%</center>
+                          </th>
+                          <th>
+                            <center>Codification</center>
+                          </th>
+                          <th>
+                            <center>Code Couleur</center>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        <tr ng-repeat="objAdds in objAdd">
+                          <td>
+                            <md-input-container class="md-block" flex-gt-xs>
+                              <label>{{'Valeur' | translate}}</label>
+                              <input ng-model="objAdds.valeur" style="width:90%;" type="number" ng-change="no_negative($index)" required>
+                            </md-input-container>
+                          </td>
+
+                          <td ng-style="{'background-color': objAdds.code_couleur}">
+                            <label><br />
+                              <center>{{objAdds.codification}}</center>
+                            </label>
+                          </td>
+
+                          <td ng-style="{'background-color': objAdds.code_couleur}">
+                            <div layout="md-block" flex-gt-xs>
+                              <label>{{'Couleur' | translate}}</label>
+                              <div md-color-picker ng-model="objAdds.code_couleur" label="" icon="color_lens" skip-hide='false' preserve-scope='true' open-on-input="true" style="width: 250px;"></div>
+                            </div>
+                        </tr>
+
+
+                      </tbody>
+                    </table>
+
+                  </div>
+
+                </div>
+
+
+
+              </md-content>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </md-dialog-content>
+
+
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-show="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-show="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

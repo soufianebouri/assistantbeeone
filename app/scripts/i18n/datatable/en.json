@@ -1,0 +1,24 @@
+{
+  "sEmptyTable": "<br/><br/><br/><br/><br/><br/><br/><br/><img src='././images/ic_notfound_c.png'/><br/><font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry</b> Data Not Available</b>, Please Check The <b>Filtre Settings</b></font><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>",
+  "sInfo": "Showing _START_ 0 _END_ of _TOTAL_ rows",
+  "sInfoEmpty": "Showing 0 to 0 of 0 rows",
+  "sInfoFiltered": "(filtered from _MAX_ total entries)",
+  "sInfoPostFix": "",
+  "sInfoThousands": ",",
+  "sLengthMenu": "Show _MENU_ rows",
+  "sLoadingRecords": "Loading...",
+  "sProcessing": "Processing...",
+  "sSearch": "",
+  "sSearchPlaceholder": "Life search ...",
+  "sZeroRecords": "<br/><br/><br/><br/><br/><br/><br/><br/><img src='././images/ic_notfound_c.png'/><br/><font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry</b>, No matching records found </font><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>",
+  "oPaginate": {
+    "sFirst": "<",
+    "sLast": ">",
+    "sNext": "Next",
+    "sPrevious": "Previous"
+  },
+  "oAria": {
+    "sSortAscending": ": Activate to sort column ascending",
+    "sSortDescending": ": Activate to sort column descending"
+  }
+}

@@ -1,0 +1,763 @@
+<!-- <div class="col-md-3 left_col"></div> -->
+<div class="col-md-3 left_col  " ng-controller="LeftmenuCtrl as vm" style="">
+  <div class="left_col scroll-view">
+    <div class="navbar nav_title">
+      <a class="site_title" ui-sref="firstmain">
+        <img id="melogo" src="../../images/beeonelogo.png" alt="homepage" class="light-logo hover-logo" onmouseover="this.src='../../images/png-transparent-computer-icons-icon-design-exit-rectangle-logo-black.png'"
+          onmouseout="this.src='../../images/beeonelogo.png'" />
+
+        <span onmouseover="getElementById('melogo').src='../../images/png-transparent-computer-icons-icon-design-exit-rectangle-logo-black.png'"
+          onmouseout="getElementById('melogo').src='../../images/beeonelogo.png'">&nbsp;{{obj_menu.accessrights_menu | translate}}</span>
+      </a>
+    </div>
+    <!-- height="30"
+        width="30" -->
+
+    <!-- <div class="clearfix"></div>
+    <br /> -->
+
+    <!-- sidebar menu -->
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu animated fadeInLeft">
+      <div class="menu_section">
+        <ul class="nav side-menu">
+          <!-- Administration fonctionnelle -->
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('Gestion_des_acces')">
+            <a class="menu-text"><img class="menu-icon " src="../../images/access.svg" alt="" />
+              {{'Gestion_des_acces' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu ">
+              <li>
+                <a ui-sref="gestionprofils" ng-show="isInLevelThree('Gestion_des_utilisateurs')" class="magic-hover magic-hover__square">{{'Gestion_des_utilisateurs' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="groupe" ng-show="isInLevelThree('Gestion_des_profils')">{{'Gestion_des_profils' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="profilsfermes" ng-show="isInLevelThree('Affectation_utilisateur_ferme')">{{'Affectation_utilisateur_ferme' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="gestionterminaux" ng-show="isInLevelThree('Gestion_des_terminaux')">{{'Gestion_des_terminaux' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('Referentiel_Cultural')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/cultural.svg" alt="" />
+              {{'Referentiel_Cultural' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="familleculture" ng-show="isInLevelThree('Famille_de_culture')">{{'Famille_de_culture' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="listCulture" ng-show="isInLevelThree('Culture')">{{'Culture' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="typeVariete" ng-show="isInLevelThree('Type_de_variete')">{{'Type_de_variete' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="variete" ng-show="isInLevelThree('Variete')">{{'Variete' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="generation" ng-show="isInLevelThree('Generation')">{{'Generation' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="Tranche_Age" ng-show="isInLevelThree('Tranches_age')">{{'Tranches_age' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="produitgenerale" ng-show="isInLevelThree('Produit')">{{'Produit' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="elements" ng-show="isInLevelThree('elements')">{{'Éléments' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('parametrage_scoring')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/Scoring.svg" alt="" />
+              {{'parametrage_scoring' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="baremes" ng-show="isInLevelThree('bareme')">{{'bareme' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="classifications" ng-show="isInLevelThree('classification')">{{'classification' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('Referentiel_RH')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/rh.svg" alt="" />
+              {{'Referentiel_RH' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="listOperation" ng-show="isInLevelThree('Liste_des_Operations')">{{'Liste_des_Operations' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="familleoperations" ng-show="isInLevelThree('Famille_operations')">{{'Famille_operations' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="uniteoperation" ng-show="isInLevelThree('Unite_operation')">{{'Unite_operation' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Primes')">{{'Primes' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('Achat_stock_autres')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/stock.svg" alt="" />
+              {{'Achat_stock_autres' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Clients_Fournisseurs')">{{'Clients_Fournisseurs' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="categoriearticle" ng-show="isInLevelThree('Categorie_des_articles')">{{'Categorie_des_articles' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Articles')">{{'Articles' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Articles_entretien')">{{'Articles_entretien' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Famille_immobilisation')">{{'Famille_immobilisation' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Categorie_Energie')">{{'Categorie_Energie' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Categorie_depenses')">{{'Categorie_depenses' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil && isInLevelTwo('Referentiel_BeeObs')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/referentiel.svg" alt="" />
+              {{'Referentiel_BeeObs' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="refstadephenologiques" ng-show="isInLevelThree('Stades_phenologiques')">{{'Stades_phenologiques' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="intensiteStade" ng-show="isInLevelThree('Intensites_du_stade')">{{'Intensites_du_stade' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="Qualite_Stade" ng-show="isInLevelThree('Qualites_du_stade')">{{'Qualites_du_stade' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="NiveauConformite" ng-show="isInLevelThree('Niveaux_de_conformite')">{{'Niveaux_de_conformite' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="cible" ng-show="isInLevelThree('Cibles')">{{'Cibles' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="NiveauAttaque" ng-show="isInLevelThree('Niveau_des_attaques')">{{'Niveau_des_attaques' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="RepartitionAttaque" ng-show="isInLevelThree('Niveaux_de_risque')">{{'Niveaux_de_risque' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="LieuElimination" ng-show="isInLevelThree('Lieux_elimination')">{{'Lieux_elimination' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="ModeApplication" ng-show="isInLevelThree('refModeApplication')">{{'refModeApplication' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="carence" ng-show="isInLevelThree('Niveaux_de_carence')">{{'Niveaux_de_carence' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="elementsMineraux" ng-show="isInLevelThree('Elements_mineraux')">{{'Elements_mineraux' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Calibres')">{{'Calibres' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Generations')">{{'Generations' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="coloration" ng-show="isInLevelThree('Niveaux_de_coloration')">{{'Niveaux_de_coloration' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="fermeteFruit" ng-show="isInLevelThree('fermete_fruit')">{{'fermete_fruit' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="fermetePeau" ng-show="isInLevelThree('fermete_peau')">{{'fermete_peau' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isProfil  && isInLevelTwo('Parametrage_Modules')">
+            <a class="menu-text"><img class="menu-icon" src="../../images/parametrage.svg" alt="" />
+              {{'Parametrage_Modules' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Main_oeuvre')">{{'Main_oeuvre' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="parametretechnique" ng-show="isInLevelThree('Technique')">{{'Technique' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Immobilisation')">{{'Immobilisation' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Budget')">{{'Budget' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Parametrage_des_etats')">{{'Parametrage_des_etats' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('Bee_Obs')">{{'Bee_Obs' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- FIN Administration fonctionnelle -->
+
+          <!--Paramétrage fonctionnel-->
+
+          <li ng-show="obj_menu.isParametrage_fonctionnel && isInLevelTwo('societe_ferme')">
+            <a><img class="menu-icon" src="../../images/company.svg" alt="" />{{'societe_ferme' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="gestiondessocietes" ng-show="isInLevelThree('gestion_societe')">{{'gestion_societe' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="gestiondesfermes" ng-show="isInLevelThree('gestion_ferme')">{{'gestion_ferme' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="businessunit">{{'Gestion_Business_Unit' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('exercice_comptable_campagne')">{{'exercice_comptable_campagne' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('banque')">{{'banque' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="gestionPays" ng-show="isInLevelThree('gestionPays')">{{'gestionPays' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li ng-show="obj_menu.isParametrage_fonctionnel && isInLevelTwo('ressources_hydriques')">
+            <a ui-sref="ressources_hydriques" ng-show="isInLevelThree('ressources_hydriques')"><img class="menu-icon" src="../../images/water.svg" alt="" />{{'ressources_hydriques' | translate}} </a>
+          </li>
+
+          <li ng-show="obj_menu.isParametrage_fonctionnel && isInLevelTwo('parcellisation')">
+            <a><img src="../../images/leaves.svg" class="menu-icon" alt="" />
+              {{'parcellisation' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="assolement_parcel_physique" ng-show="isInLevelThree('parcelles_physique')">{{'parcelles_physique' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="assolement_parcel_culturale" ng-show="isInLevelThree('parcelles_culturales')">{{'parcelles_culturales' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="secteur_irrigation" ng-show="isInLevelThree('secteurs_irrigation')">{{'secteurs_irrigation' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="parcelleculturalgroupeoperationnel" ng-show="isInLevelThree('groupes_operationnels')">{{'groupes_operationnels' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="assolement_cycle_cultural" ng-show="isInLevelThree('cycles_culturaux')">{{'cycles_culturaux' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="RefArbre" ng-show="isInLevelThree('gestion_arbre')">{{'gestion_arbre' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('declaration_arrachage')">{{'declaration_arrachage' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isParametrage_fonctionnel && isInLevelTwo('centre_couts')">
+            <a><img src="../../images/accounting.svg" class="menu-icon" alt="" />
+              {{'centre_couts' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('centre_couts')">{{'centre_couts' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('assiete_frais')">{{'assiete_frais' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="" ng-show="isInLevelThree('cout_standars')">{{'cout_standars' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+          <!--FIN Paramétrage fonctionnel-->
+
+          <li ng-show="obj_menu.isPrevision && isInLevelTwo('Suivi_prevision')">
+            <a><i class="fa fa-line-chart"></i>{{'Suivi_prevision' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="previsionsPeriodique" ng-show="isInLevelThree('Previsions_periodique')" ng-click="setBranche('prevision','Suivi_prevision','Previsions_periodique')">{{'Previsions_periodique' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="previsiontoday" ng-show="isInLevelThree('Previsions_today')">{{'Previsions_today' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="previsiondemain" ng-show="isInLevelThree('prevision_tomorrow')">{{'prevision_tomorrow' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="production_realisee" ng-show="isInLevelThree('production_realisee')">{{'production_realisee' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="actualisation_demande" ng-show="isInLevelThree('actualisation_demande')">{{'actualisation_demande' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="previsionsAnnuelle" ng-show="isInLevelThree('Previsions_annuelle')">{{'Previsions_annuelle' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isPrevision && isInLevelTwo('Reporting')">
+            <a><i class="fa fa-book"></i>{{'Reporting' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="multiperiodevariete" ng-show="isInLevelThree('analyse_multi_periode_variete')">{{'analyse_multi_periode_variete' | translate}}</a>
+              </li>
+              <!--<li><a ui-sref="">{{'analyse_periode_variete' | translate}}</a></li>
+              <li><a ui-sref="">{{'comparatif_fermes' | translate}}</a></li>
+              <li><a ui-sref="">{{'comparatif_prevu_realise' | translate}}</a></li>-->
+              <li>
+                <a ui-sref="prevision_journaliere" ng-show="isInLevelThree('Prevision_journaliere')">{{'Prevision_journaliere' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="reporting_assolement" ng-show="isInLevelThree('assolement')">{{'assolement' | translate }}</a>
+              </li>
+              <li>
+                <a ui-sref="suivi_hebdo_prevu_realise" ng-show="isInLevelThree('Suivi_hebdo_prevu_realise')">{{'Suivi_hebdo_prevu_realise' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isPrevision && isInLevelTwo('Parametrage')">
+            <a><i class="fa fa-cog"></i> {{'Parametrage' | translate }}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="periodeestimation" ng-show="isInLevelThree('parametrage_periodes_estimations')">{{'parametrage_periodes_estimations' | translate}}</a>
+              </li>
+              <!--<li><a>{{'notif_manager' | translate}} <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a ui-sref="notif_manuel">{{'notif_manuel' | translate}} </a></li>
+                  <li><a ui-sref="notif_auto">{{'notif_auto' | translate}} </a></li>
+                </ul>
+              </li>-->
+              <li>
+                <a ui-sref="notif_manuel" ng-show="isInLevelThree('notif_manuel')">{{'notif_manuel' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="notif_auto" ng-show="isInLevelThree('notif_auto')">{{'notif_auto' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+
+
+          <li ng-show="obj_menu.isBilan && isInLevelTwo('Bilan') && vm.isAdmin">
+            <a ui-sref="bilan_technique" ng-show="isInLevelThree('bilan_technique')"><i class="fa fa-pie-chart"></i> {{'bilan_technique' | translate }}
+              <span class="fa fa-chevron-down"></span></a>
+          </li>
+
+          <!-- Main d'oeuvre -->
+          <li ng-show="obj_menu.isMain_oeuvre">
+            <a><i class="fa fa-users"></i> {{'Dossier_Personnel' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a ui-sref="ouvriers">{{'Ouvriers' | translate }}</a></li>
+              <li><a ui-sref="salaries">{{'Salaries' | translate}}</a></li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isMain_oeuvre">
+            <a><i class="fa fa-edit"></i> {{'Pointage' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a ui-sref="presence"> {{'Presence' | translate}} </a></li>
+              <li>
+                <a ui-sref="pointage">{{'Pointage_avance' | translate}} </a>
+              </li>
+              <li>
+                <a ui-sref="suivirecolte">{{'Suivi_recolte' | translate}} </a>
+              </li>
+            </ul>
+          </li>
+          <!--<li ng-show="obj_menu.isMain_oeuvre"><a><i class="fa fa-edit"></i> Suivi Récolte <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a>Code à barre produit</a></li>
+              <li><a>Pointage manuel récolte</a></li>
+            </ul>
+          </li>-->
+
+          <li ng-show="obj_menu.isMain_oeuvre">
+            <a><i class="fa fa-edit"></i> {{'Paie' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a>{{'Preparation_Paie' | translate}} </a></li>
+              <li><a>{{'Generation_de_la_paie' | translate}} </a></li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isMain_oeuvre">
+            <a><i class="fa fa-print"></i> {{'Etats' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a>{{'Etats_du_Personnel' | translate}} </a></li>
+              <li>
+                <a>{{'Etats_de_pointage' | translate}}
+                  <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li>
+                    <a ui-sref="matricepointage">{{'Matrice_de_pointage' | translate}}
+                    </a>
+                  </li>
+                  <li>
+                    <a ui-sref="consultationparouvrier">{{'Consultation_par_ouvrier' | translate}}
+                    </a>
+                  </li>
+                  <li>
+                    <a ui-sref="coutparoperations">{{'Cout_par_operation' | translate}}
+                    </a>
+                  </li>
+                  <li><a>{{'UO_par_operation' | translate}} </a></li>
+                  <li>
+                    <a ui-sref="lesabsences">{{'aabsences' | translate}} </a>
+                  </li>
+                </ul>
+              </li>
+              <li><a>{{'bilans_des_activites' | translate}}</a></li>
+              <li>
+                <a>{{'Edition_paie' | translate}}<span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li>
+                    <a ui-sref="atatdesvariables">{{'Etat_des_variables' | translate}}</a>
+                  </li>
+                  <li>
+                    <a ui-sref="journaldepaie">{{'Journal_de_paie' | translate}}</a>
+                  </li>
+                  <li><a>{{'Bulletin_de_paie' | translate}}</a></li>
+                  <li>
+                    <a ui-sref="bordereaucnss">{{'Bordereau_CNSS' | translate}}</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <!-- FIN Main d'oeuvre -->
+
+          <!-- Conduite technique -->
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('Plantation')">
+            <a><img src="../../images/referentiel.svg" class="menu-icon" alt="" />{{'Plantation' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li ui-sref="stadePheno" ng-show="isInLevelThree('Suivi_stades')">
+                <a>{{'Suivi_stades' | translate}} </a>
+              </li>
+              <li ui-sref="pourcentageOuverture" ng-show="isInLevelThree('Pourcentage_ouverture')">
+                <a>{{'Pourcentage_ouverture' | translate}} </a>
+              </li>
+              <li ui-sref="intensiteFleurs" ng-show="isInLevelThree('Intensite_fleurs')">
+                <a>{{'Intensite_fleurs' | translate}} </a>
+              </li>
+
+              <li>
+                <a ui-sref="Suivi_de_la_chute_par_fruits" ng-show="isInLevelThree('Suivi_de_la_chute_par_fruits')">{{'Suivi de la chute (Filet)' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="Suivi_de_la_chute_par_rameau" ng-show="isInLevelThree('Suivi_de_la_chute_par_rameau')">{{'Suivi de la chute (Par Rameau)' | translate}}
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('Apport_en_eau')">
+            <a><img src="../../images/water.svg" class="menu-icon" alt="" />{{'Apport_en_eau' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="suivimeteo" ng-show="isInLevelThree('Suivi_meteo')">{{'Suivi_meteo' | translate}}
+                </a>
+              </li>
+              <li ui-sref="apportEau" ng-show="isInLevelThree('Apport_en_eau')">
+                <a>{{'Apport_en_eau' | translate}} </a>
+              </li>
+              <li ui-sref="testConf" ng-show="isInLevelThree('Test_de_conformité')">
+                <a>{{'Test_de_conformité' | translate}} </a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('Nutrition')">
+            <a><img src="../../images/npk.svg" class="menu-icon" alt="" />{{'Nutrition' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li ui-sref="aspectVegetal" ng-show="isInLevelThree('Aspect_vegetal')">
+                <a>{{'Aspect_vegetal' | translate}} </a>
+              </li>
+              <li ui-sref="solutionmere">
+                <a>{{'Solution_mere' | translate}}</a>
+              </li>
+              <li ui-sref="programmefertilisation">
+                <a>{{'Programme_de_fertilisation' | translate}}</a>
+              </li>
+              <li ui-sref="ordrefertlisation" ng-show="isInLevelThree('Fertlisation')">
+                <a>{{'Fertlisation' | translate}} </a>
+              </li>
+              <li>
+                <a ui-sref="controlephec" ng-show="isInLevelThree('Controle_EC')">{{'Controle_EC' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('Sante_plante')">
+            <a><img class="menu-icon" src="../../images/plant-health.svg" alt="" />{{'Sante_plante' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="observationphyto" ng-show="isInLevelThree('Observation_phyto')">{{'Observation_phyto' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="comptagedesravageurs" ng-show="isInLevelThree('Comptage_des_ravageur')">{{'Comptage_des_ravageur' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="comptagePiege" ng-show="isInLevelThree('Comptage_piegeage')">{{'Comptage_piegeage' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="ordretraitementphytosanitaire" ng-show="isInLevelThree('Traitement_phyto')">
+                  {{'Traitement_phyto' | translate}}
+                </a>
+              </li>
+              <li ui-sref="ramassageDestruction" ng-show="isInLevelThree('Ramassage_destructions_fruits')">
+                <a>{{'Ramassage_destructions_fruits' | translate}} </a>
+              </li>
+              <li>
+                <a ui-sref="piquressurfruits" ng-show="isInLevelThree('piqure_fruit')">{{'piqure_fruit' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="changementpheromone" ng-show="isInLevelThree('changement_phero')">{{'changement_phero' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="Piege" ng-show="isInLevelThree('codification_pieges')">{{'codification_pieges' | translate}}</a>
+              </li>
+              <li><a ui-sref="visites">{{'Visites' | translate}}</a></li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('operation_semis')">
+            <a><img src="../../images/seeding.svg" class="menu-icon" alt="" />{{'operation_semis' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="operationdesemis" ng-show="isInLevelThree('operation_semis')">{{'operation_semis' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('operations_cles')">
+            <a><img class="menu-icon" src="../../images/parametrage.svg" alt="" />{{'operations_cles' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a ui-sref="programmeapplicationpollen" ng-show="isInLevelThree('programme_application_pollen')">{{'programme_application_pollen' | translate}} </a></li>
+              <li><a ui-sref="recoltepollen" ng-show="isInLevelThree('recolte_pollen')">{{'recolte_pollen' | translate}} </a></li>
+              <li><a ui-sref="comptageArbre" ng-show="isInLevelThree('Comptage_arbre')">{{'Comptage_arbre' | translate}}</a></li>
+              <li><a ui-sref="eclaircissagedesregimesordre" ng-show="isInLevelThree('eclaircissage_regime')">{{'eclaircissage_regime' | translate}} </a></li>
+              <li><a ui-sref="extractiondepollen" ng-show="isInLevelThree('Extraction_pollen')">{{'extractiondepollen' | translate}} </a></li>
+              <li><a ui-sref="ordredetaille" ng-show="isInLevelThree('ordre_taille')">{{'ordredetaille' | translate}} </a></li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('ressources_hydriques')">
+            <a><img class="menu-icon" src="../../images/water.svg" alt="" />{{'ressources_hydriques' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a ui-sref="Suiviressourceshydriques" ng-show="isInLevelThree('Suivi_des_ressources_hydriques')">{{'Suivi_des_ressources_hydriques' | translate}} </a></li>
+              <li><a ui-sref="suiviniveaupiezometrique" ng-show="isInLevelThree('suivi_niveau_piezometrique')">{{'suivi_niveau_piezometrique' | translate}} </a></li>
+              <li><a ui-sref="suiviinterventionsequipements" ng-show="isInLevelThree('suivi_interventions_equipements')">{{'suivi_interventions_equipements' | translate}} </a></li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isConduite_technique && isInLevelTwo('grandescultures')">
+            <a><img class="menu-icon" src="../../images/Stock-1.svg" alt="" />{{'grandescultures' | translate}}<span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a ui-sref="suividesstadesgc" ng-show="isInLevelThree('suividesstadesgc')">{{'suividesstadesgc' | translate}} </a></li>
+              <li><a ui-sref="composantes_rendement" ng-show="isInLevelThree('composantes_rendement')">{{'composantes_rendement' | translate}} </a></li>
+              <li><a ui-sref="suiviqualite" ng-show="isInLevelThree('suiviqualite')">{{'suiviqualite' | translate}} </a></li>
+            </ul>
+          </li>
+          <!-- FIN Conduite technique -->
+
+          <!-- Rendement -->
+          <li ng-show="obj_menu.isRendement && isInLevelTwo('Estimations')">
+            <a><img src="../../images/estimation.svg" class="menu-icon" alt="" />
+              {{'Estimations' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="estimationsparparcelle" ng-show="isInLevelThree('estimation_parcelle')">{{'estimation_parcelle' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="profilCalibre" ng-show="isInLevelThree('profil_calibre')">{{'Profil_calibre' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="grossissementsuividecalibre" ng-show="isInLevelThree('Suivi_grossissement')">{{'Suivi_grossissement' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="evolutionCalibre" ng-show="isInLevelThree('Evolution_calibre')">{{'Evolution_calibre' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li ng-show="obj_menu.isRendement && isInLevelTwo('Recolte')">
+            <a><img class="menu-icon" src="../../images/Stock-1.svg" alt="" />
+              {{'Recolte' | translate}} <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="declarationrecolte" ng-show="isInLevelThree('Declaration_recolte')">{{'Recolte' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="recolteArbre" ng-show="isInLevelThree('Recolte_Arbre')">{{'Recolte_Arbre' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="expeditions" ng-show="isInLevelThree('expedition')">{{'expedition' | translate}}</a>
+              </li>
+              <li>
+                <a ui-sref="expeditionpararbre" ng-show="isInLevelThree('expedition_arbre')">{{'Expédition par arbre' | translate}}</a>
+              </li>
+            </ul>
+          </li>
+          <li ng-show="obj_menu.isRendement && isInLevelTwo('suivi_qualitatif')">
+            <a><img src="../../images/qualitative.svg" class="menu-icon" alt="" />
+              {{'suivi_qualitatif' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="analyseQualitative" ng-show="isInLevelThree('analyse_qualitative')">{{'Analyse_qualitative' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="analysequalitativefeuilles" ng-show="isInLevelThree('analyse_qualitative_feuille')">{{'analyse_qualitative_feuille' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="agreageFruit" ng-show="isInLevelThree('agreage_fruit')">{{'agreage_fruit' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="scoring" ng-show="isInLevelThree('scoring')">{{'Scoring' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--<li ng-show="obj_menu.isRendement && isInLevelTwo('Suivi_de_la_chute_physiologique')">
+            <a><img src="../../images/plant-health.svg" class="menu-icon" alt="" />
+              {{'Suivi_de_la_chute_physiologique' | translate}}
+              <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li>
+                <a ui-sref="Suivi_de_la_chute_par_fruits" ng-show="isInLevelThree('Suivi_de_la_chute_par_fruits')">{{'Suivi de la chute (Filet)' | translate}}
+                </a>
+              </li>
+              <li>
+                <a ui-sref="Suivi_de_la_chute_par_rameau" ng-show="isInLevelThree('Suivi_de_la_chute_par_rameau')">{{'Suivi de la chute (Par Rameau)' | translate}}
+                </a>
+              </li>
+            </ul>
+          </li>-->
+
+
+          <li ng-show="obj_menu.isRendement && isInLevelThree('vente')" ui-sref="vente">
+            <a><img src="../../images/sell.svg" class="menu-icon" alt="" />{{'Vente' | translate}}
+            </a>
+          </li>
+          <!-- FIN Rendement  -->
+
+          <!-- covid 19  -->
+          <li ng-show="obj_menu.isCovid19" ui-sref="tb_covid19">
+            <a><i class="fa fa-home"></i> {{'Dashboard' | translate}} </a>
+          </li>
+          <!-- FIN covid 19  -->
+        </ul>
+      </div>
+      <!-- /sidebar menu -->
+
+      <!-- /menu footer buttons -->
+      <div class="sidebar-footer hidden-small">
+        <!--Administration-->
+        <a data-toggle="tooltip" data-placement="top" title="Dashbord" ng-show="obj_menu.isProfil" ui-sref="">
+          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        </a>
+
+        <a data-toggle="tooltip" data-placement="top" title="Gestion des utilisateurs" ng-show="obj_menu.isProfil" ui-sref="gestionprofils">
+          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        </a>
+
+        <a data-toggle="tooltip" data-placement="top" title="Affectation utilisateur/ferme" ng-show="obj_menu.isProfil" ui-sref="profilsfermes">
+          <span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+        </a>
+        <!--FIN Administration-->
+
+        <!--Organisation-->
+        <a data-toggle="tooltip" data-placement="top" title="Dashbord" ng-show="obj_menu.isParametrage_fonctionnel" ui-sref="">
+          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        </a>
+
+        <a data-toggle="tooltip" data-placement="top" title="Gestion des ferme" ng-show="obj_menu.isParametrage_fonctionnel" ui-sref="gestiondesfermes">
+          <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+        </a>
+
+        <a data-toggle="tooltip" data-placement="top" title="Gestion parcelles culturales" ng-show="obj_menu.isParametrage_fonctionnel" ui-sref="assolement_parcel_culturale">
+          <span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span>
+        </a>
+        <!--FIN Organisation-->
+
+        <!--Prevision--->
+        <a data-toggle="tooltip" data-placement="top" title="Dashbord" ng-show="obj_menu.isPrevision" ui-sref="tableaudebord_prevision">
+          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Notifications manuelles" ng-show="obj_menu.isPrevision" ui-sref="notif_manuel">
+          <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Actualisation à la demande" ng-show="obj_menu.isPrevision" ui-sref="actualisation_demande">
+          <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>
+        </a>
+        <!--FIN Prevision--->
+
+        <!--Conduite technique--->
+        <a data-toggle="tooltip" data-placement="top" title="Dashbord" ng-show="obj_menu.isConduite_technique" ui-sref="TB_technique">
+          <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Suivi météo" ng-show="obj_menu.isConduite_technique" ui-sref="suivimeteo">
+          <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Observation phytosanitaire" ng-show="obj_menu.isConduite_technique" ui-sref="observationphyto">
+          <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+        </a>
+        <!--FIN Conduite technique--->
+
+        <a data-toggle="tooltip" data-placement="top" title="Déconnexion" ng-click="vm.logout()">
+          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+        </a>
+      </div>
+      <!-- /menu footer buttons -->
+    </div>
+  </div>
+</div>

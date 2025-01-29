@@ -1,0 +1,88 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="Nom" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Nom}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Nom" id="Nom" ng-model="pc.obj.Nom" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Prenom" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Prenom}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Prenom" id="Prenom" ng-model="pc.obj.Prenom" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Phone" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Phone}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="Phone" id="Phone" ng-model="pc.obj.Phone" ng-maxlength="10" string-to-number required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Mail" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Mail}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="email" class="form-control" name="Mail" id="Mail" ng-model="pc.obj.Mail" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Login" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Login}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Login" id="Login" ng-model="pc.obj.Login" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Password" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Password}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="password" class="form-control" name="Password" id="Password" ng-model="pc.obj.Password" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="isAdmin" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.isAdmin}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 btn-group btn-group-toggle" data-toggle="buttons">
+        <label ng-class="{ active : pc.obj.isAdmin == 1 , 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.obj.isAdmin" value="1"> {{"Admin" | translate}}
+        </label>
+        <label ng-class="{ active : pc.obj.isAdmin == 0, 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.obj.isAdmin" value="0"> {{"Utilisateur simple" | translate}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Etat" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Etat}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 btn-group btn-group-toggle" data-toggle="buttons">
+        <label ng-class="{ active : pc.obj.Etat == 1 , 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.obj.Etat" value="1"> {{"Bloquer" | translate}}
+        </label>
+        <label ng-class="{ active : pc.obj.Etat == 0, 'btn btn-secondary':true}">
+          <input type="radio" autocomplete="off" ng-model="pc.obj.Etat" value="0"> {{"Débloquer le compte" | translate}}
+        </label>
+      </div>
+    </div>
+
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

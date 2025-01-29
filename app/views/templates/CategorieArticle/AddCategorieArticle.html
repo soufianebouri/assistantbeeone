@@ -1,0 +1,40 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 300px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajouter Catégorie d article' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="100" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Catégorie' | translate}}</label>
+              <input ng-model="Categorie" style="width:90%;" ng-value="" type="text" md-autofocus required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="100" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Couleur' | translate}}</label>
+              <input ng-model="Couleur" style="width:90%;" class="jscolor" ng-value="FFFFFF" type="text" id="Couleur" md-autofocus>
+            </md-input-container>
+          </div>
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerCategorieArticle();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterCategorieArticle()">
+        {{'Ajouter' | translate}}
+      </md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

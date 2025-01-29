@@ -1,0 +1,337 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'AddOperationSemis' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+      <div class="md-dialog-content">
+
+        <div class="md-dialog-content">
+
+          <div layout="row" layout-wrap>
+            <div flex-gt-sm="100" flex="">
+              <div class="form-header" layout="row" layout-wrap>
+                <h5 class="margin-left-input">{{'informationgenerale' | translate}}</h5>
+              </div>
+              <div class="form-body" layout-wrap>
+                <md-content style="background-color:transparent">
+
+                  <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                    <div flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Datedesemis' | translate}}...</label>
+                        <input type="date" ng-model="Datedesemis" style="width:90%;" required>
+                      </md-input-container>
+                    </div>
+
+
+
+                    <div flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Superficie des cultures' | translate}} (Ha)...</label>
+                        <input ng-model="Superficiecultures" ng-value="getSuperficieTotal()" class="right" style="width:90%;" step="any" min="0" type="number" readonly>
+                      </md-input-container>
+                    </div>
+
+                    <div flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block" flex-gt-xs>
+                        <label>{{'Superficie de intervention' | translate}} (Ha)...</label>
+                        <input ng-model="Superficieintervention" ng-value="getSuperficieSemis()" class="right" style="width:90%;" step="any" min="0" type="number" readonly>
+                      </md-input-container>
+                    </div>
+
+                    <div flex="100" flex-gt-sm="25" layout="column">
+                      <md-input-container class="md-block">
+                        <label>{{'Commentaire' | translate}}</label>
+                        <textarea ng-model="Commentaire" rows="1" style="width:90%;"></textarea>
+                      </md-input-container>
+                    </div>
+
+                  </div>
+
+
+                </md-content>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div layout="row" layout-wrap>
+            <div flex-gt-sm="100" flex="">
+              <div class="form-header" layout="row" layout-wrap>
+                <h5 class="margin-left-input">{{'Liste des parcelles' | translate}}</h5>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-body" layout="row" layout-wrap>
+
+            <div class="margin-left-input" flex-gt-sm="100" flex="">
+
+              <div flex="100" flex-gt-sm="25" layout="column">
+                <md-input-container class="md-block" flex-gt-xs>
+                  <label>{{'Parcelles' | translate}} ...</label>
+                  <md-select ng-model="parcelleculturalsel" ng-change="checkDuplicateVaeiete()" style="width:90%;" multiple data-md-container-class="selectdemoSelectHeader">
+                    <md-select-header class="demo-select-header">
+                      <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                    </md-select-header>
+                    <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1"
+                      ng-disabled="notInParcelleEpandage(parcellecultural.ID)">{{parcellecultural.Ref}}
+                    </md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="100" layout="column">
+                  <table id="bac" class="table table-hover" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>{{'Parcelle culturale' | translate}}</th>
+                        <th>{{'Culture' | translate}}</th>
+                        <th>{{'Variete' | translate}}</th>
+                        <th>{{'Superficie' | translate}} (Ha)</th>
+                        <th>{{'Surface de l\'intervention par parcelle' | translate}} (Ha)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="parcelleculturalsels in parcelleculturalsel">
+                        <td class="th-table">{{parcelleculturalsels.Ref}}</td>
+                        <td class="th-table">{{parcelleculturalsels.CultureNom}}</td>
+                        <td class="th-table">{{parcelleculturalsels.VarieteNom}}</td>
+                        <td class="th-table" align="right">{{parcelleculturalsels.Sup | number:2}}</td>
+                        <td class="th-table">
+                          <md-input-container style="width:200px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                            <input ng-model="parcelleculturalsels.SupSemis" ng-value="astwodigits(parcelleculturalsels.SupSemis)" ng-max="parcelleculturalsels.Sup" ng-value="parcelleculturalsels.Sup" style="width:200px;" class="right" step="any"
+                              min="0" type="number" required>
+                          </md-input-container>
+                        </td>
+                      </tr>
+
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div layout="row" layout-wrap>
+            <div flex-gt-sm="100" flex="">
+              <div class="form-header" layout="row" layout-wrap>
+                <h5 class="margin-left-input">{{'Intrants' | translate}}</h5>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-body" layout="row" layout-wrap>
+
+            <div class="margin-left-input" flex-gt-sm="100" flex="">
+
+
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="100" layout="column">
+                  <table id="bac" class="table table-hover" style="width:100%">
+
+                    <tbody>
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Nomdeproduit' | translate}}
+                          <font color="red">*</font>
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="width:150px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                            <label ng-show="!semencesel">{{'Nomdeproduit' | translate}} ...</label>
+                            <md-select ng-model="semencesel" data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchsemence" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="Produit.ID" ng-repeat="Produit in Produits  | orderBy:'Designation' | filter:searchsemence">{{Produit.Designation}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%">{{'Variete' | translate}}
+                          <font color="red">*</font>
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="width:150px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+
+                            <!--<md-select ng-model="varietesel" data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchvariete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="parcelleculturalsels.Variete" ng-repeat="parcelleculturalsels in parcelleculturalsel  | orderBy:'VarieteNom' | unique: 'Variete' | filter:searchvariete">
+                                {{parcelleculturalsels.VarieteNom}}
+                              </md-option>
+                            </md-select>-->
+                            {{parcelleculturalsel[0].VarieteNom}}
+                          </md-input-container>
+                        </td>
+                        <td class="th-table">
+                          <md-radio-group ng-model="TypeVariete" layout="row">
+                            <md-radio-button value="0" class="md-primary">{{'Certifiee' | translate}}</md-radio-button>
+                            <md-radio-button value="1" class="md-primary">{{'Fermiere' | translate}}</md-radio-button>
+                          </md-radio-group>
+                        </td>
+                        <td class="th-table"></td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'PMG' | translate}}</td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'PMG' | translate}} (g) ...</label>
+                            <input ng-model="pmg" id="pmg" style="width:150px;" class="right" type="number" step="any" min="0">
+                          </md-input-container>
+
+                        </td>
+                        <td class="th-table"></td>
+                      </tr>
+
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Dose' | translate}}(/Ha) <font color="red">*</font>
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Dose' | translate}} ...</label>
+                            <input ng-model="dose" id="dose" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                          </md-input-container>
+                        </td>{{Dose}}
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label ng-show="!unitesel">{{'Unite' | translate}} ({{unitesel.Unite}}/Ha)...</label>
+                            <md-select ng-model="unitesel" style="width:150px;" data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchunite" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="uniteoperation" ng-repeat="uniteoperation in uniteoperations  | orderBy:'Unite' | filter:searchunite">{{uniteoperation.Unite}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </td>
+                        <td class="th-table">
+                          <br>
+                          <md-checkbox ng-model="qtefix" ng-checked="qtefix" class="md-primary">
+                            <span>{{'Qtefixe' | translate}}</span>
+                          </md-checkbox>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Densite' | translate}}(gr/m<sup>2</sup>)</td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Densite' | translate}} (gr/m<sup>2</sup>)...</label>
+                            <input ng-model="Densite" id="Densite" style="width:150px;" class="right" step="any" min="0" type="number">
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Quantite' | translate}}
+                          <font color="red">*</font>
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Quantite' | translate}} (Kg)...</label>
+                            <input ng-model="Quantite" id="Quantite" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Faculté germinative' | translate}}
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Faculté germinative' | translate}} (%)...</label>
+                            <input ng-model="faculte_germinative" id="faculte_germinative" style="width:150px;" class="right" type="number" step="any" min="0">
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Poid spécifique' | translate}}
+                        </td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Poid spécifique' | translate}} (kg/hl)...</label>
+                            <input ng-model="poid_specifique" id="poid_specifique" style="width:150px;" class="right" type="number" step="any" min="0">
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+
+
+                      <tr>
+                        <td class="th-table" width="20%"><br>{{'Numerodelot' | translate}}</td>
+                        <td class="th-table">
+                          <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                            <label>{{'Numerodelot' | translate}}...</label>
+                            <input ng-model="NumeroLot" style="width:150px;" type="text">
+                          </md-input-container>
+                        </td>
+                        <td class="th-table"></td>
+                        <td class="th-table"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!--<label>{{'Catégorie de semences' | translate}} ...</label>
+          <md-select ng-model="categoriesel" data-md-container-class="selectdemoSelectHeader">
+            <md-select-header class="demo-select-header">
+              <input ng-model="searchcategorie" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+            </md-select-header>
+            <md-option ng-value="generation.IDGeneration" ng-repeat="generation in generations  | orderBy:'genereation' | filter:searchcategorie">{{generation.genereation}}
+            </md-option>
+          </md-select>-->
+
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerAvancer();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterAvancer()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

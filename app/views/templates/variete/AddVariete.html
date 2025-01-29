@@ -1,0 +1,151 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajouter une variété' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Référence' | translate}}</label>
+              <input ng-model="Reference" ng-value="" md-autofocus type="text" style="width: 90%;">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Variété' | translate}}</label>
+              <input ng-model="Variete" ng-value="" type="text" style="width: 90%;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Abréviation' | translate}}</label>
+              <input ng-model="Abreviation" ng-value="" type="text" style="width: 90%;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Culture ...' |translate}}</label>
+              <md-select ng-model="Culture" style="width:90%;" required>
+                <md-option ng-value="culture.ID" ng-repeat="culture in cultures">{{culture.Culture}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Type de variété ...' | translate}}</label>
+              <md-select ng-model="TypeVariete" style="width:90%;" required>
+                <md-option ng-value="typevariete.IDFamille_variete" ng-repeat="typevariete in typevarietes">{{typevariete.Libile}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Poid en Kg' | translate}}</label>
+              <input ng-model="Poid" ng-min="0.000000001" style="width:90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block">
+              <label>{{'Descriptif' | translate}}</label>
+              <textarea ng-model="Descriptif" rows="3"></textarea>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container>
+              <label>{{'Domaines ...' | translate}}</label>
+              <md-select ng-model="selectedDomaines" multiple style="width: 90%;" required>
+                <md-option ng-value="domaine.IDFermes" ng-repeat="domaine in domaines ">{{domaine.Nom}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+
+
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Age d entrée en production (en année)' | translate}}</label>
+              <input ng-model="AgeEntree" ng-min="0.000000001" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Age adulte (en année)' | translate}}</label>
+              <input ng-model="AgeAdulte" ng-min="0.000000001" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Mois de début du cycle' | translate}}</label>
+              <input ng-model="mois_debut_cycle" ng-min="0.000000001" ng-pattern="/^-?[0-9][^\.]*$/" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Mois de fin du cycle' |translate}}</label>
+              <input ng-model="mois_fin_cycle" ng-min="0.000000001" ng-pattern="/^-?[0-9][^\.]*$/" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'jour de début du cycle' | translate}}</label>
+              <input ng-model="jour_debut_cycle" ng-min="0.000000001" ng-pattern="/^-?[0-9][^\.]*$/" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'jour de fin du cycle' | translate}}</label>
+              <input ng-model="jour_fin_cycle" ng-min="0.000000001" ng-pattern="/^-?[0-9][^\.]*$/" style="width: 90%;" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Couleurs Calque' | translate}}</label>
+              <input ng-model="Calque" style="width:90%;" class="jscolor" type="text" id="Calque">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Couleurs Cadre' | translate}}</label>
+              <input ng-model="Cadre" style="width:90%;" class="jscolor" type="text" id="Cadre">
+            </md-input-container>
+          </div>
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerVariete();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="AjouterVariete()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

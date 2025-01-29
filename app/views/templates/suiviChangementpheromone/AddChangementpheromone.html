@@ -1,0 +1,115 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;" ng-style="{ 'width': '100%', 'height': calculateHeightPercentage(Num_Date) }">
+  <form ng-cloak novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Ajouter" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+            <div layout="row" layout-wrap>
+
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Date de changement" | translate}} ...</label>
+                          <md-datepicker ng-model="DateChangement" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Parcelle physique' | translate}} ...</label>
+                          <md-select ng-model="parcellesel" style="width:90%;" ng-change="getPiegeGo()" data-md-container-class="selectdemoSelectHeader" multiple required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchparcelle" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="parcelle.ID" ng-repeat="parcelle in parcelles  | orderBy:'Ref' | filter:searchparcelle">
+                              {{parcelle.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Piège' | translate}} ...</label>
+                          <md-select ng-model="piegesel" style="width:90%;" ng-change="getNumChangementGo()" data-md-container-class="selectdemoSelectHeader" multiple required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchpiege" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="mypiege" ng-repeat="mypiege in MyPiege  | orderBy:'Code_Piege' | filter:searchpiege" ng-if="!mypiege.isArchive">
+                              {{mypiege.Code_Piege}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Date d'expiration" | translate}} ...</label>
+                          <md-datepicker ng-model="datedeexpire" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex ng-repeat="Num_DateOne in Num_Date">
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Piège" | translate}}</label>
+                          <input ng-model="Num_DateOne.Code_Piege" style="width: 250px;" readonly type="text" disabled required>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="33" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Numéro de changement" | translate}}</label>
+                          <input ng-model="Num_DateOne.Num_Date" style="width: 250px;" type="number" disabled required>
+                        </md-input-container>
+                      </div>
+                    </div>
+
+
+
+
+                  </md-content>
+                </div>
+              </div>
+            </div>
+          </div>
+        </md-tab>
+      </md-tabs>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" type="submit" ng-if="!progress">
+        {{"Ajouter" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" ng-app="beeOneWebFrontApp" ng-controller="MainCtrl as main">
+<meta charset="utf-8" />
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title translate="{{$state.current.data.pageTitle}}"></title>
+
+<link href="bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
+<!--
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/png" sizes="32x32" href="images/touch-icon.png" />
+
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<link href="bower_components/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="bower_components/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" />
+<link href="bower_components/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+<link href="bower_components/daterangepicker/daterangepicker.css" rel="stylesheet" />
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<link href="styles/bootstrap-select.min.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" href="styles/angular-tooltips.css" />
+<link rel="stylesheet" href="bower_components/angular-datatables/dist/css/angular-datatables.css" />
+<link rel="stylesheet" href="bower_components/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css" />
+<link href="bower_components/md-color-picker/dist/mdColorPicker.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="styles/buttons.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/scroller/1.4.2/css/scroller.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css" />
+
+<link href="styles/spin.css" rel="stylesheet" />
+<link href="styles/badges.css" rel="stylesheet" />
+<link href="styles/snackbar.css" rel="stylesheet" />
+<link href="styles/print.css" rel="stylesheet" />
+<link href="styles/animate.css" rel="stylesheet" />
+<link href="styles/mapstyle.css" rel="stylesheet" />
+<link href="styles/magnific-popup.css" rel="stylesheet" />
+<link href="styles/imagepopup.css" rel="stylesheet" />-->
+<link rel="stylesheet" href="styles/angular-material.min.css" />
+<link href="bower_components/nprogress/nprogress.css" rel="stylesheet" />
+<link href="styles/angular-toastr.css" rel="stylesheet" />
+<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<link href="styles/app.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header-section ng-if="loggedIn  && title !== 'main'"></header-section>
+  <!-- page content -->
+  <div class="main-content-scroll" ui-view></div>
+  
+  
+  
+
+
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/angular-touch/angular-touch.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/angular-moment/angular-moment.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/jquery-table2excel/src/jquery.table2excel.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.js"></script>
+  <script src="bower_components/messageformat/messageformat.js"></script>
+  <script src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
+  <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-messages/angular-messages.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.js"></script>
+  <script src="bower_components/tinycolor/tinycolor.js"></script>
+  <script src="bower_components/md-color-picker/dist/mdColorPicker.min.js"></script>
+  <script src="bower_components/angular-tooltips/dist/angular-tooltips.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <script src="bower_components/angular-ui-router/release/stateEvents.js"></script>
+  <!-- CodeGen -->
+  <script type="text/javascript" src="scripts/vendor/angular-uuid.js"></script>
+  <!-- Chart -->
+
+  <!-- DatePicker -->
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="scripts/vendor/js/jquery.plugin.js"></script>
+  <script type="text/javascript" src="scripts/vendor/js/jquery.datepick.js"></script>
+  <script type="text/javascript" src="scripts/vendor/jscolor.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+  <script type="text/javascript" src="scripts/vendor/FileSaver.js"></script>
+  <script type="text/javascript" src="scripts/vendor/alasql.js"></script>
+  <script src='scripts/vendor/jquery.magnific-popup.min.js'></script>
+  <!-- Excel reader lib -->
+  <script type="text/javascript" src="scripts/vendor/xlsx.full.min.js"></script>
+  <!-- FastClick -->
+  <script src="bower_components/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="bower_components/nprogress/nprogress.js"></script>
+  <!-- Chart.js -->
+  <script src="bower_components/Chart.js/dist/Chart.min.js"></script>
+  <!-- gauge.js -->
+  <script src="bower_components/gauge.js/dist/gauge.min.js"></script>
+  <!-- bootstrap-progressbar -->
+  <script src="bower_components/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+  <!-- iCheck -->
+  <script src="bower_components/iCheck/icheck.min.js"></script>
+  <!-- Skycons -->
+  <script src="bower_components/skycons/skycons.js"></script>
+  <script src="scripts/vendor/angular-toastr.js"></script>
+  <script src="bower_components/angular-base64/angular-base64.min.js"></script>
+  <!-- START webdatarocks -->
+  <script src="https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js"></script>
+  <script src="https://cdn.webdatarocks.com/latest/webdatarocks.js"></script>
+  <script src="https://cdn.webdatarocks.com/latest/webdatarocks.googlecharts.js"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+  <!--<script type="text/javascript" src="scripts/vendor/magicmouse.js"></script>
+  <script type="text/javascript">
+    options = {
+      "outerStyle": "circle-basic",
+      "hoverEffect": "circle-move",
+      "hoverItemMove": false,
+      "defaultCursor": true,
+      "outerWidth": 41,
+      "outerHeight": 41
+    };
+    magicMouse(options);
+  </script>-->
+  <!-- END webdatarocks -->
+  <!-- Flot -->
+  <!--<script src="bower_components/flot/jquery.flot.js"></script>
+  <script src="bower_components/flot/jquery.flot.pie.js"></script>
+  <script src="bower_components/flot/jquery.flot.time.js"></script>
+  <script src="bower_components/flot/jquery.flot.stack.js"></script>
+  <script src="bower_components/flot/jquery.flot.resize.js"></script>-->
+  <!-- Flot plugins -->
+
+  <!--<script src="bower_components/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+  <script src="bower_components/flot-spline/js/jquery.flot.spline.min.js"></script>
+  <script src="bower_components/flot.curvedlines/curvedLines.js"></script>-->
+
+  <!-- DateJS -->
+  <script src="bower_components/DateJS/build/date.js"></script>
+  <!-- JQVMap -->
+  <script src="bower_components/jqvmap/dist/jquery.vmap.js"></script>
+  <script src="bower_components/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+  <script src="bower_components/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+  <!-- bootstrap-daterangepicker -->
+  <script src="bower_components/moment/min/moment.min.js"></script>
+  <script src="bower_components/daterangepicker/daterangepicker.js"></script>
+
+  <!--bootstrap-select-->
+  <script src="scripts/vendor/bootstrap-select.min.js"></script>
+  <!--google map-->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=4&key=AIzaSyAOMyZBtd2ou1z4U24XbyHpd-GBqayr8hc&libraries=weather,drawing,geometry,places"></script>
+  <script type="text/javascript" src="https://unpkg.com/@googlemaps/markerclusterer@2.0.14/dist/index.min.js"></script>
+
+  <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvnVUHizGisy_LoshZqC3hjFfb0NoSwRc&libraries=drawing,geometry,places"></script>-->
+
+  <!-- fileUpload  -->
+  <script src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
+  <!-- for no html5 browsers support -->
+  <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+  <!-- Datatables -->
+  <script src="bower_components/angular-datatables/dist/angular-datatables.js"></script>
+  <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="bower_components/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+  <script src="scripts/vendor/dataTables.buttons.min.js"></script>
+  <script src="scripts/vendor/buttons.colVis.min.js"></script>
+  <script src="scripts/vendor/buttons.flash.min.js"></script>
+  <script src="scripts/vendor/buttons.html5.min.js"></script>
+  <script src="scripts/vendor/buttons.print.min.js"></script>
+  <script src="bower_components/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js"></script>
+  <script src="bower_components/angular-datatables/dist/plugins/scroller/angular-datatables.scroller.min.js"></script>
+  <script src="bower_components/jszip/dist/jszip.min.js"></script>
+  <script src="bower_components/pdfmake/build/pdfmake.min.js"></script>
+  <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+  <!-- qrcode -->
+  <script type="text/javascript" src="scripts/vendor/qrcode.min.js"></script>
+
+  <!-- Resources AMCHARTS-->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  <script type="text/javascript" src="scripts/vendor/Chart.min.js"></script>
+  <script type="text/javascript" src="https://printjs-4de6.kxcdn.com/print.min.js "></script>
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/sections/header.js"></script>
+  <script src="scripts/controllers/repository/home.js"></script>
+  <script src="scripts/directives/sections/leftmenu.js"></script>
+  <script src="scripts/directives/sections/headersection.js"></script>
+  <script src="scripts/directives/sections/footersection.js"></script>
+  <script src="scripts/filters/replace.js"></script>
+  <script src="scripts/filters/getnumberas.js"></script>
+  <script src="scripts/filters/getnumberasspace.js"></script>
+  <script src="scripts/filters/getnumberasdigit.js"></script>
+  <script src="scripts/filters/astwodigit.js"></script>
+  <script src="scripts/filters/integer.js"></script>
+  <script src="scripts/filters/getnumberastonne.js"></script>
+  <script src="scripts/filters/getnumberastwodigits.js"></script>
+  <script src="scripts/filters/num.js"></script>
+  <script src="scripts/directives/blink.js"></script>
+  <script src="scripts/directives/mytable.js"></script>
+  <script src="scripts/directives/jqtable.js"></script>
+  <script src="scripts/directives/validfile.js"></script>
+  <script src="scripts/directives/loading.js"></script>
+  <script src="scripts/services/cultureservice.js"></script>
+  <script src="scripts/services/elementsminerauxservice.js"></script>
+  <script src="scripts/services/fermeservice.js"></script>
+  <script src="scripts/services/intensitestadeservice.js"></script>
+  <script src="scripts/services/niveaucarenceservice.js"></script>
+  <script src="scripts/services/niveaucolorationservice.js"></script>
+  <script src="scripts/services/operationservice.js"></script>
+  <script src="scripts/services/typevarieteservice.js"></script>
+  <script src="scripts/services/varieteservice.js"></script>
+  <script src="scripts/controllers/login.js"></script>
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/services/auth.js"></script>
+  <script src="scripts/services/translation.js"></script>
+  <script src="scripts/controllers/sections/leftmenu.js"></script>
+  <script src="scripts/controllers/repository/listoperation.js"></script>
+  <script src="scripts/controllers/templates/modaloperation.js"></script>
+  <script src="scripts/controllers/repository/listculture.js"></script>
+  <script src="scripts/controllers/templates/addculturalmodal.js"></script>
+  <script src="scripts/controllers/repository/variete.js"></script>
+  <script src="scripts/controllers/repository/typevariete.js"></script>
+  <script src="scripts/controllers/templates/modalvariete.js"></script>
+  <script src="scripts/controllers/templates/modaltypevariete.js"></script>
+  <script src="scripts/controllers/templates/modalelementsmineraux.js"></script>
+  <script src="scripts/controllers/repository/elementsmineraux.js"></script>
+  <script src="scripts/controllers/repository/intensitestade.js"></script>
+  <script src="scripts/controllers/templates/modalintensitestade.js"></script>
+  <script src="scripts/controllers/templates/modalcarence.js"></script>
+  <script src="scripts/controllers/repository/carence.js"></script>
+  <script src="scripts/controllers/repository/coloration.js"></script>
+  <script src="scripts/controllers/templates/modalcoloration.js"></script>
+  <script src="scripts/controllers/repository/lieuelimination.js"></script>
+  <script src="scripts/controllers/templates/modalieuelimination.js"></script>
+  <script src="scripts/services/lieuelimination.js"></script>
+  <script src="scripts/controllers/repository/modeapplication.js"></script>
+  <script src="scripts/services/modeapplication.js"></script>
+  <script src="scripts/controllers/templates/modalmodeapplication.js"></script>
+  <script src="scripts/filters/escapeobject.js"></script>
+  <script src="scripts/controllers/templates/modalniveauattaque.js"></script>
+  <script src="scripts/controllers/repository/niveauattaque.js"></script>
+  <script src="scripts/services/niveauattaque.js"></script>
+  <script src="scripts/services/niveauconformite.js"></script>
+  <script src="scripts/controllers/templates/modalniveauconformite.js"></script>
+  <script src="scripts/controllers/repository/niveauconformite.js"></script>
+  <script src="scripts/controllers/repository/repartitionattaque.js"></script>
+  <script src="scripts/services/repartitionattaque.js"></script>
+  <script src="scripts/controllers/templates/modalrepartitionattaque.js"></script>
+  <script src="scripts/services/validationautoobservation.js"></script>
+  <script src="scripts/controllers/repository/validationautoobs.js"></script>
+  <script src="scripts/controllers/templates/validationautoobs.js"></script>
+  <script src="scripts/controllers/repository/qualite_stade.js"></script>
+  <script src="scripts/controllers/templates/modalqualite_stade.js"></script>
+  <script src="scripts/services/qualitestade.js"></script>
+  <script src="scripts/services/gestionpays.js"></script>
+  <script src="scripts/controllers/repository/gestionpays.js"></script>
+  <script src="scripts/controllers/templates/gestionpays.js"></script>
+  <script src="scripts/controllers/repository/gestionregion.js"></script>
+  <script src="scripts/controllers/templates/gestionregion.js"></script>
+  <script src="scripts/controllers/templates/addregionmodal.js"></script>
+  <script src="scripts/controllers/repository/tranche_age.js"></script>
+  <script src="scripts/services/tranche_age.js"></script>
+  <script src="scripts/controllers/templates/tranche_age.js"></script>
+  <script src="scripts/directives/stringtonumber.js"></script>
+  <script src="scripts/controllers/repository/refarbre.js"></script>
+  <script src="scripts/services/arbre.js"></script>
+  <script src="scripts/controllers/templates/arbre.js"></script>
+  <script src="scripts/services/parcelle.js"></script>
+  <script src="scripts/controllers/repository/piege.js"></script>
+  <script src="scripts/controllers/templates/piege.js"></script>
+  <script src="scripts/services/piege.js"></script>
+  <script src="scripts/services/parcellephysique.js"></script>
+  <script src="scripts/services/cible.js"></script>
+  <script src="scripts/controllers/repository/profil.js"></script>
+  <script src="scripts/controllers/templates/profil.js"></script>
+  <script src="scripts/services/profil.js"></script>
+  <script src="scripts/directives/stringtodate.js"></script>
+  <script src="scripts/controllers/repository/fermesprofil.js"></script>
+  <script src="scripts/controllers/templates/fermesprofil.js"></script>
+  <script src="scripts/services/fermesprofil.js"></script>
+  <script src="scripts/controllers/firstmain.js"></script>
+  <script src="scripts/controllers/repository/stadepheno.js"></script>
+  <script src="scripts/services/stadepheno.js"></script>
+  <script src="scripts/controllers/plantation/pourcentageouverture.js"></script>
+  <script src="scripts/services/pourcentageouverture.js"></script>
+  <script src="scripts/controllers/DossierPersonnel/ouvriers.js"></script>
+  <script src="scripts/services/ouviers.js"></script>
+  <script src="scripts/controllers/DossierPersonnel/salaries.js"></script>
+  <script src="scripts/services/salaries.js"></script>
+  <script src="scripts/services/accessrightsservice.js"></script>
+  <script src="scripts/controllers/santeplante/comptagepiegeagemap.js"></script>
+  <script src="scripts/controllers/plantation/intensitefleurs.js"></script>
+  <script src="scripts/services/intensitefleur.js"></script>
+  <script src="scripts/controllers/palmierdattier/comptagearbre.js"></script>
+  <script src="scripts/services/comptagearbre.js"></script>
+  <script src="scripts/services/evolutioncalibre.js"></script>
+  <script src="scripts/controllers/palmierdattier/evolutioncalibre.js"></script>
+  <script src="scripts/services/recoltearbre.js"></script>
+  <script src="scripts/controllers/palmierdattier/recoltearbre.js"></script>
+  <script src="scripts/controllers/palmierdattier/profilcalibre.js"></script>
+  <script src="scripts/services/profilcalibre.js"></script>
+  <script src="scripts/services/apporteau.js"></script>
+  <script src="scripts/controllers/apporteau/apporteau.js"></script>
+  <script src="scripts/controllers/apporteau/testconf.js"></script>
+  <script src="scripts/services/testconf.js"></script>
+  <script src="scripts/controllers/santeplante/ramassagedestruction.js"></script>
+  <script src="scripts/services/ramassagedestruction.js"></script>
+  <script src="scripts/services/aspectvegetal.js"></script>
+  <script src="scripts/controllers/nutrition/aspectvegetal.js"></script>
+  <script src="scripts/controllers/santeplante/comptagepiege.js"></script>
+  <script src="scripts/services/comptagepiege.js"></script>
+  <script src="scripts/services/analysequalitative.js"></script>
+  <script src="scripts/controllers/recolte/analysequalitative.js"></script>
+  <script src="scripts/controllers/recolte/agreagefruit.js"></script>
+  <script src="scripts/services/agreagefruit.js"></script>
+  <script src="scripts/controllers/synthese/plantation/pourcentageouverture.js"></script>
+  <script src="scripts/services/domaine.js"></script>
+  <script src="scripts/services/parcellecultural.js"></script>
+  <script src="scripts/services/campagneagricole.js"></script>
+  <script src="scripts/filters/textwithoutspace.js"></script>
+  <script src="scripts/controllers/synthese/plantation/intensitefleurs.js"></script>
+  <script src="scripts/controllers/templates/apporteau/detail.js"></script>
+  <script src="scripts/controllers/apporteau/suivimeteo.js"></script>
+  <script src="scripts/services/suivimeteo.js"></script>
+  <script src="scripts/services/observationphyto.js"></script>
+  <script src="scripts/controllers/santeplante/observationphyto.js"></script>
+  <script src="scripts/controllers/nutrition/ordrefertlisation.js"></script>
+  <script src="scripts/services/ordrefertlisation.js"></script>
+  <script src="scripts/controllers/nutrition/realisation.js"></script>
+  <script src="scripts/services/realisation.js"></script>
+  <script src="scripts/controllers/santeplante/ordretraitementphytosanitaire.js"></script>
+  <script src="scripts/services/ordretraitementphytosanitaire.js"></script>
+  <script src="scripts/controllers/synthese/nutrition/fertilisation/ordrefertilisation.js"></script>
+  <script src="scripts/services/bloc.js"></script>
+  <script src="scripts/controllers/santeplante/realisationtraitementphytosanitaire.js"></script>
+  <script src="scripts/services/realisationtraitementphytosanitaire.js"></script>
+  <script src="scripts/controllers/pointage/pointage.js"></script>
+  <script src="scripts/services/pointage.js"></script>
+  <script src="scripts/controllers/pointage/presence.js"></script>
+  <script src="scripts/services/presence.js"></script>
+  <script src="scripts/controllers/templates/apporteau/advenceddetail.js"></script>
+  <script src="scripts/controllers/synthese/apporteau/realisationirrigation.js"></script>
+  <script src="scripts/controllers/synthese/apporteau/synthese_apport_eau/apportseneau.js"></script>
+  <script src="scripts/services/groupeoperationnel.js"></script>
+  <script src="scripts/controllers/synthese/apporteau/synthese_apport_eau/bilanconsomation.js"></script>
+  <script src="scripts/controllers/pointage/suivirecolte.js"></script>
+  <script src="scripts/services/suivirecolte.js"></script>
+  <script src="scripts/controllers/santeplante/comptagedesravageurs.js"></script>
+  <script src="scripts/services/comptagedesravageurs.js"></script>
+  <script src="scripts/controllers/santeplante/comptagedesravageurs_fichedesurveillance.js"></script>
+  <script src="scripts/controllers/santeplante/comptagedesravageurs_synthesesurveillance.js"></script>
+  <script src="scripts/services/comptagedesravageurs_synthesesurveillance.js"></script>
+  <script src="scripts/controllers/santeplante/comptagedesravageurs_syntheseparculturesurveillance.js"></script>
+  <script src="scripts/services/comptagedesravageurs_syntheseparculturesurveillance.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/matricepointage.js"></script>
+  <script src="scripts/services/matricepointage.js"></script>
+  <script src="scripts/filters/dayname.js"></script>
+  <script src="scripts/controllers/recolte/previsionsperiodique.js"></script>
+  <script src="scripts/controllers/recolte/previsionsannuelle.js"></script>
+  <script src="scripts/services/periodeestimation.js"></script>
+  <script src="scripts/controllers/templates/prevision/previsionannuelle.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/consultationparouvrier.js"></script>
+  <script src="scripts/services/consultationparouvrier.js"></script>
+  <script src="scripts/controllers/repository/periodeestimation.js"></script>
+  <script src="scripts/services/periodeestimation.js"></script>
+  <script src="scripts/services/societe.js"></script>
+  <script src="scripts/controllers/profil/gestionprofils.js"></script>
+  <script src="scripts/services/gestionprofils.js"></script>
+  <script src="scripts/controllers/profil/profilsfermes.js"></script>
+  <script src="scripts/services/profilsfermes.js"></script>
+  <script src="scripts/controllers/recolte/previsionperiodiquegraphe.js"></script>
+  <script src="scripts/controllers/previsionreporting/multiperiodevariete.js"></script>
+  <script src="scripts/services/multiperiodevariete.js"></script>
+  <script src="scripts/directives/choosefile.js"></script>
+  <script src="scripts/services/modaladdprevisionannuel.js"></script>
+  <script src="scripts/services/periodepaie.js"></script>
+  <script src="scripts/controllers/recolte/previsiontoday.js"></script>
+  <script src="scripts/controllers/recolte/previsiondemain.js"></script>
+  <script src="scripts/controllers/recolte/gestion_notification/notif_manuel.js"></script>
+  <script src="scripts/controllers/assolement/parcel_physique.js"></script>
+  <script src="scripts/controllers/templates/addparcelphysique.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/coutparoperations.js"></script>
+  <script src="scripts/services/coutparoperations.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/atatdesvariables.js"></script>
+  <script src="scripts/services/atatdesvariables.js"></script>
+  <script src="scripts/services/jourferie.js"></script>
+  <script src="scripts/services/jourrepos.js"></script>
+  <script src="scripts/controllers/assolement/cycle_cultural.js"></script>
+  <script src="scripts/services/cycle.js"></script>
+  <script src="scripts/controllers/templates/assolement/addcycle.js"></script>
+  <script src="scripts/controllers/recolte/production_realisee.js"></script>
+  <script src="scripts/services/production_realisee.js"></script>
+  <script src="scripts/controllers/assolement/parcel_culturale.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/journaldepaie.js"></script>
+  <script src="scripts/services/journaldepaie.js"></script>
+  <script src="scripts/controllers/tableaudebord/tb_technique.js"></script>
+  <script src="scripts/controllers/templates/assolement/addparcelcutural.js"></script>
+  <script src="scripts/services/portgreffe.js"></script>
+  <script src="scripts/services/parametrespaie.js"></script>
+  <script src="scripts/controllers/recolte/gestion_notification/notif_auto.js"></script>
+  <script src="scripts/controllers/recolte/actualisation_demande.js"></script>
+  <script src="scripts/services/estimationactualise.js"></script>
+  <script src="scripts/services/pushnotifactualise.js"></script>
+  <script src="scripts/controllers/templates/prevision/notificationactualise.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/lesabsences.js"></script>
+  <script src="scripts/services/lesabsences.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/bordereaucnss.js"></script>
+  <script src="scripts/services/bordereaucnss.js"></script>
+  <script src="scripts/services/modulemanager.js"></script>
+  <script src="scripts/controllers/templates/administration/modulemanager.js"></script>
+  <script src="scripts/controllers/santeplante/comptagedesravageurmap.js"></script>
+  <script src="scripts/services/comptagedesravageurmap.js"></script>
+  <script src="scripts/controllers/mainoeuvreetats/tableau_bord.js"></script>
+  <script src="scripts/services/main_ouvre_bord.js"></script>
+  <script src="scripts/services/tb_technique.js"></script>
+
+  <script src="scripts/controllers/tableaudebord/tbrendement.js"></script>
+  <script src="scripts/services/tbrendement.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision.js"></script>
+  <script src="scripts/controllers/apporteau/bilan_hydrique.js"></script>
+
+  <script src="scripts/controllers/santeplante/piquressurfruits.js"></script>
+  <script src="scripts/services/piquressurfruits.js"></script>
+  <script src="scripts/controllers/palmierdattier/grossissementsuividecalibre.js"></script>
+  <script src="scripts/services/grossissementsuividecalibre.js"></script>
+
+  <script src="scripts/services/bilan_hydrique.js"></script>
+  <script src="scripts/controllers/apporteau/bilan_nutritionnel.js"></script>
+  <script src="scripts/services/bilannutritionnel.js"></script>
+  <script src="scripts/controllers/previsionreporting/prevision_journaliere.js"></script>
+  <script src="scripts/services/previsionjournaliere.js"></script>
+  <script src="scripts/controllers/previsionreporting/assolement.js"></script>
+
+  <script src="scripts/controllers/santeplante/changementpheromone.js"></script>
+  <script src="scripts/services/changementpheromone.js"></script>
+  <script src="scripts/controllers/recolte/expeditions.js"></script>
+  <script src="scripts/services/expeditions.js"></script>
+  <script src="scripts/controllers/palmierdattier/estimationsparparcelle.js"></script>
+  <script src="scripts/services/estimationsparparcelle.js"></script>
+  <script src="scripts/services/businessunit.js"></script>
+  <script src="scripts/controllers/operationscles/programmeapplicationpollen.js"></script>
+  <script src="scripts/services/programmeapplicationpollen.js"></script>
+  <script src="scripts/controllers/operationscles/recoltepollen.js"></script>
+  <script src="scripts/services/recoltepollen.js"></script>
+  <script src="scripts/controllers/operationscles/eclaircissagedesregimes.js"></script>
+  <script src="scripts/services/eclaircissagedesregimes.js"></script>
+  <script src="scripts/controllers/societefermes/gestiondesfermes.js"></script>
+  <script src="scripts/services/activitesfermes.js"></script>
+  <script src="scripts/controllers/societefermes/gestiondessocietes.js"></script>
+  <script src="scripts/services/gestiondessocietes.js"></script>
+  <script src="scripts/filters/numberwithspace.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/last_update_harvast.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/harvast_detail.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/realisation_detail.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/prevu_realise_semaine.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/avancement_semaine_encours.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/tlemetrie_saisie.js"></script>
+  <script src="scripts/controllers/tableaudebord/prevision_tabs/qualite_prevision_hebdo.js"></script>
+  <script src="scripts/controllers/previsionreporting/suivi_hebdo_prevu_realise.js"></script>
+  <script src="scripts/controllers/repository/refstadephenologiques.js"></script>
+  <script src="scripts/services/refstadephenologiques.js"></script>
+  <script src="scripts/controllers/synthese/nutrition/fertilisation/realisation_synthese.js"></script>
+  <script src="scripts/services/parametragestockage.js"></script>
+  <script src="scripts/directives/fileupload.js"></script>
+  <script src="scripts/services/getsuperficie.js"></script>
+  <script src="scripts/controllers/santeplante/fichesdesuividetraitementsphytosanitaire.js"></script>
+  <script src="scripts/controllers/santeplante/fichesdesuividechangementpheromone.js"></script>
+  <script src="scripts/controllers/santeplante/fichesdesuividepiquresurfruits.js"></script>
+  <script src="scripts/controllers/recolte/fichesdesuividagreagedesfruits.js"></script>
+  <script src="scripts/controllers/santeplante/fichesdesuiviramassageetdestructiondesfruits.js"></script>
+  <script src="scripts/controllers/santeplante/comptagepiegeagefichedesurveillance.js"></script>
+  <script src="scripts/services/comptagedespiegesmap.js"></script>
+  <script src="scripts/controllers/santeplante/realisationtraitementphytosanitairemap.js"></script>
+  <script src="scripts/controllers/operationscles/recoltepollenmap.js"></script>
+  <script src="scripts/controllers/operationscles/recoltepollensynthese.js"></script>
+  <script src="scripts/services/elementcomptage.js"></script>
+  <script src="scripts/controllers/palmierdattier/comptagearbresynthese.js"></script>
+  <script src="scripts/controllers/palmierdattier/comptagearbremap.js"></script>
+  <script src="scripts/controllers/operationscles/eclaircissagedesregimesmap.js"></script>
+  <script src="scripts/controllers/palmierdattier/recoltearbremap.js"></script>
+  <script src="scripts/controllers/nutrition/controlephec.js"></script>
+  <script src="scripts/services/controlephec.js"></script>
+  <script src="scripts/controllers/covid19/tb_covid19.js"></script>
+  <script src="scripts/services/covid19.js"></script>
+  <script src="scripts/controllers/palmierdattier/fichedesuiviprofilcalibre.js"></script>
+  <script src="scripts/controllers/palmierdattier/graphgrossissementsuividecalibre.js"></script>
+  <script src="scripts/controllers/recolte/expeditionssynthese.js"></script>
+  <script src="scripts/controllers/repository/codetrancheage.js"></script>
+  <script src="scripts/controllers/repository/businessunit.js"></script>
+  <script src="scripts/controllers/repository/cible.js"></script>
+  <script src="scripts/directives/readonly.js"></script>
+  <script src="scripts/services/produitrendement.js"></script>
+  <script src="scripts/services/groupeculturaloperationnel.js"></script>
+  <script src="scripts/services/sousparcelle.js"></script>
+  <script src="scripts/services/profilcultural.js"></script>
+  <script src="scripts/services/generation.js"></script>
+  <script src="scripts/services/typeconduite.js"></script>
+  <script src="scripts/filters/textforsqlserver.js"></script>
+  <script src="scripts/services/actualisercycle.js"></script>
+  <script src="scripts/controllers/plantation/syntheseouvertureparparcelle.js"></script>
+  <script src="scripts/services/savefilter.js"></script>
+  <script src="scripts/controllers/plantation/stadehenologiquesdiagrammegantt.js"></script>
+  <script src="scripts/controllers/repository/parcelleculturalgroupeoperationnel.js"></script>
+  <script src="scripts/services/parcelleculturalgroupeoperationnel.js"></script>
+  <script src="scripts/controllers/repository/groupeoperationnel.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_metio.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_fertiirrigation.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_traitementphytosanitaire.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_monitoring.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_qualite.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_telemetriesaisie.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_personnalisez.js"></script>
+  <script src="scripts/services/dashboard_access_rights.js"></script>
+  <script src="scripts/services/categoriepesticide.js"></script>
+  <script src="scripts/controllers/repository/categoriepesticide.js"></script>
+  <script src="scripts/filters/unique.js"></script>
+  <script src="scripts/filters/trustasresourceurl.js"></script>
+  <script src="scripts/controllers/repository/familleculture.js"></script>
+  <script src="scripts/services/familleculture.js"></script>
+  <script src="scripts/controllers/repository/secteurirrigation.js"></script>
+  <script src="scripts/services/secteurirrigation.js"></script>
+  <script src="scripts/services/modeirrigation.js"></script>
+  <script src="scripts/controllers/repository/generation.js"></script>
+  <script src="scripts/services/uniteoperation.js"></script>
+  <script src="scripts/controllers/repository/uniteoperation.js"></script>
+  <script src="scripts/controllers/repository/familleoperations.js"></script>
+  <script src="scripts/services/familleoperations.js"></script>
+  <script src="scripts/controllers/repository/produit.js"></script>
+  <script src="scripts/controllers/repository/produitgenerale.js"></script>
+  <script src="scripts/controllers/profil/groupe.js"></script>
+  <script src="scripts/filters/groupby.js"></script>
+  <script src="scripts/filters/ifempty.js"></script>
+  <script src="scripts/filters/floatastwodigits.js"></script>
+  <script src="scripts/filters/floatasnbrdigits.js"></script>
+  <script src="scripts/services/parametretechnique.js"></script>
+  <script src="scripts/controllers/repository/parametretechnique.js"></script>
+  <script src="scripts/controllers/tableaudebord/technique_tabs/tb_technique_rendement.js"></script>
+  <script src="scripts/controllers/nutrition/solutionmere.js"></script>
+  <script src="scripts/services/solutionmere.js"></script>
+  <script src="scripts/services/bac.js"></script>
+  <script src="scripts/services/engrais.js"></script>
+  <script src="scripts/services/programmefertilisation.js"></script>
+  <script src="scripts/controllers/nutrition/programmefertilisation.js"></script>
+  <script src="scripts/controllers/operationscles/operationdesemis.js"></script>
+  <script src="scripts/services/produit.js"></script>
+  <script src="scripts/services/operationdesemis.js"></script>
+  <script src="scripts/services/fermete.js"></script>
+  <script src="scripts/controllers/repository/fermete.js"></script>
+  <script src="scripts/controllers/repository/fermetepeau.js"></script>
+  <script src="scripts/controllers/recolte/analysequalitativefeuilles.js"></script>
+  <script src="scripts/services/analysequalitativefeuilles.js"></script>
+  <script src="scripts/controllers/recolte/analysequalitativesynthese.js"></script>
+  <script src="scripts/controllers/repository/refarbremap.js"></script>
+  <script src="scripts/controllers/repository/famille_cible.js"></script>
+  <script src="scripts/services/famille_cible.js"></script>
+  <script src="scripts/controllers/recolte/agreagefruitold.js"></script>
+  <script src="scripts/controllers/recolte/etatdesyntheseagreage.js"></script>
+  <script src="scripts/controllers/santeplante/visites.js"></script>
+  <script src="scripts/services/visites.js"></script>
+  <script src="scripts/controllers/rendement/vente.js"></script>
+  <script src="scripts/services/vente.js"></script>
+  <script src="scripts/services/translatedwords.js"></script>
+  <script src="scripts/controllers/tableaudebord/tb_organisationparcelisation.js"></script>
+  <script src="scripts/controllers/repository/refarbreqrcode.js"></script>
+  <script src="scripts/controllers/operationscles/eclaircissagedesregimesordre.js"></script>
+  <script src="scripts/controllers/operationscles/extractiondepollen.js"></script>
+  <script src="scripts/services/extractiondepollen.js"></script>
+  <script src="scripts/controllers/manager/tbmanager.js"></script>
+  <script src="scripts/controllers/palmierdattier/etatdesyntheseprofilcalibre.js"></script>
+  <script src="scripts/controllers/repository/ressources_hydriques.js"></script>
+  <script src="scripts/services/ressources_hydriques.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviressourceshydriques.js"></script>
+  <script src="scripts/services/suiviressourceshydriques.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviressourceshydriquesetat.js"></script>
+  <script src="scripts/controllers/palmierdattier/etatcomptagepararbre.js"></script>
+  <script src="scripts/services/tborganisationparcelisation.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviniveaupiezometrique.js"></script>
+  <script src="scripts/services/suiviniveaupiezometrique.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviinterventionsequipements.js"></script>
+  <script src="scripts/services/suiviinterventionsequipements.js"></script>
+  <script src="scripts/filters/setmonthname.js"></script>
+  <script src="scripts/controllers/palmierdattier/recoltearbregraphique.js"></script>
+  <script src="scripts/services/vehicule.js"></script>
+  <script src="scripts/services/chauffeur.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviressourceshydriquesmap.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviniveaupiezometriquemap.js"></script>
+  <script src="scripts/controllers/recolte/declarationrecolte.js"></script>
+  <script src="scripts/services/declarationrecolte.js"></script>
+  <script src="scripts/controllers/repository/refarbregeneratetree.js"></script>
+  <script src="scripts/controllers/bilan/bilan_technique.js"></script>
+  <script src="scripts/controllers/chute_physiologique/suivi_de_la_chute_par_fruits.js"></script>
+  <script src="scripts/controllers/chute_physiologique/suivi_de_la_chute_par_fruits_etat.js"></script>
+  <script src="scripts/controllers/chute_physiologique/suivi_de_la_chute_par_fruits_etat_graph.js"></script>
+  <script src="scripts/controllers/chute_physiologique/suivi_de_la_chute_par_rameaux.js"></script>
+  <script src="scripts/controllers/chute_physiologique/suivi_de_la_chute_par_rameaux_etat.js"></script>
+  <script src="scripts/services/chutephysiologique.js"></script>
+  <script src="scripts/controllers/repository/gestionterminaux.js"></script>
+  <script src="scripts/services/gestionterminaux.js"></script>
+  <script src="scripts/controllers/recolte/suivirecolte.js"></script>
+  <script src="scripts/controllers/recolte/expeditionpararbre.js"></script>
+  <script src="scripts/services/expeditionpararbre.js"></script>
+  <script src="scripts/controllers/recolte/analysequalitativesimplified.js"></script>
+  <script src="scripts/services/analysequalitativesimplified.js"></script>
+  <script src="scripts/controllers/recolte/analysequalitativesimplifiedchart.js"></script>
+  <script src="scripts/controllers/grandescultures/suividesstadesgc.js"></script>
+  <script src="scripts/services/suividesstadesgc.js"></script>
+  <script src="scripts/services/element_suivi_gc.js"></script>
+  <script src="scripts/controllers/grandescultures/composantes_rendement.js"></script>
+  <script src="scripts/services/composantes_rendement.js"></script>
+  <script src="scripts/controllers/operationscles/ordredetaille.js"></script>
+  <script src="scripts/services/ordredetaille.js"></script>
+  <script src="scripts/controllers/repository/elements.js"></script>
+  <script src="scripts/services/elements.js"></script>
+  <script src="scripts/controllers/repository/element_liste.js"></script>
+  <script src="scripts/controllers/palmierdattier/etat_nombre_arbre.js"></script>
+  <script src="scripts/controllers/operationscles/etat_preconisation_ordre_taille.js"></script>
+  <script src="scripts/controllers/palmierdattier/etatdesyntheseprofilcalibreprojection.js"></script>
+  <script src="scripts/controllers/grandescultures/suiviqualite.js"></script>
+  <script src="scripts/services/suiviqualite.js"></script>
+  <script src="scripts/controllers/palmierdattier/recoltearbre_check_dulication.js"></script>
+  <script src="scripts/controllers/ressourceshydriques/suiviinterventionsequipements_synthese.js"></script>
+  <script src="scripts/controllers/nutrition/controlephec_chart.js"></script>
+  <script src="scripts/controllers/recolte/scoring.js"></script>
+  <script src="scripts/services/scoring.js"></script>
+  <script src="scripts/controllers/repository/baremes.js"></script>
+  <script src="scripts/controllers/repository/classifications.js"></script>
+  <script src="scripts/services/baremes.js"></script>
+  <script src="scripts/services/classifications.js"></script>
+  <script src="scripts/controllers/recolte/etatdesynthesescroring.js"></script>
+  <script src="scripts/services/logo.js"></script>
+  <script src="scripts/controllers/recolte/profile_calibre_data_integration.js"></script>
+  <script src="scripts/controllers/recolte/ajustement_des_calibres.js"></script>
+  <script src="scripts/controllers/onboarding/onboarding_steps.js"></script>
+  <script src="scripts/services/onboarding.js"></script>
+  <script src="scripts/services/datasets/country.js"></script>
+  <script src="scripts/controllers/configuration/main_configuration.js"></script>
+  <!-- endbuild -->
+
+
+  <script type="text/javascript">
+    /*var Tawk_API = Tawk_API || {},
+      Tawk_LoadStart = new Date();
+    (function() {
+      var s1 = document.createElement("script"),
+        s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/618d3b906bb0760a49422f8a/1fk7r1bcd';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();*/
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+<md-dialog aria-label="Mango (Fruit)" style="width:800px">
+  <form ng-cloak name="form" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Gérer les accès pour" | translate}} {{profileName}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+      <md-content ng-cloak>
+
+        <div class="md-dialog-content">
+          <div layout="row" layout-wrap>
+
+            <div flex="100" flex-gt-sm="25" layout="column">
+              <md-input-container>
+                <label>{{"Modules" | translate}}</label>
+                <md-select ng-model="module" ng-change="module_changed()" multiple>
+                  <md-optgroup label="{{'Modules' | translate}}">
+                    <md-option ng-repeat="(index,module) in module_array" value="{{ module }}" ng-selected="checked_module.indexOf(module) != -1">
+                      {{module | translate}}
+                    </md-option>
+                  </md-optgroup>
+                </md-select>
+              </md-input-container>
+            </div>
+
+            <div flex="100" flex-gt-sm="25" layout="column">
+            </div>
+
+            <div flex="100" flex-gt-sm="25" layout="column">
+
+              <md-input-container class="md-block" flex-gt-xs>
+                <label>{{"Profil" | translate}}</label>
+                <md-select ng-model="profilRef" style="width:90%;" ng-change="profil_changed()">
+                  <md-option ng-repeat="profil in profils" ng-value="profil.IDcode_profil_modules">{{profil.reference}}</md-option>
+                </md-select>
+              </md-input-container>
+
+
+            </div>
+
+            <div flex="100" flex-gt-sm="25" layout="column">
+              <!--  <md-input-container class="md-block" flex-gt-xs>
+                <md-button ng-click="ValiderAffectation();" class="md-primary" ng-if="profilRef">
+                  Valider
+                </md-button>
+              </md-input-container>-->
+            </div>
+          </div>
+        </div>
+        <md-content style="height: 800px;" ng-if="module.length > 0">
+          <section ng-repeat="module_name in module">
+            <md-subheader class="md-primary">
+              <md-whiteframe class="md-whiteframe-18dp" layout layout-align="center center">
+                <span style="margin-top:10px; margin-bottom:10px;">{{module_name | translate}}</span>
+              </md-whiteframe>
+            </md-subheader>
+
+            <md-content class="md-padding">
+              <md-tabs md-selected="selectedIndex" md-border-bottom md-autoselect md-swipe-content style="max-height:500px;">
+                <md-tab ng-repeat="rubrique in getRubrique(module_name)" label="{{rubrique | translate}}">
+                  <div class="demo-tab tab{{$index%4}}">
+                    <md-input-container>
+                      <label>{{rubrique | translate}}</label>
+                      <md-select ng-model="rubrique_model" multiple style="max-width:250px">
+                        <md-optgroup label="{{'Rubriques' | translate}}">
+                          <md-option ng-repeat="(index,ss_module) in getSsModule(rubrique,module_name)" ng-value="{{ ss_module }}" ng-selected="ss_module.active && isearsh">
+                            {{ss_module.ss_menu_name | translate}}
+                          </md-option>
+                        </md-optgroup>
+                      </md-select>
+                    </md-input-container>
+                    <div ng-repeat="ss_module in rubrique_model">
+
+                      <div layout="row" layout-align="start" flex>
+                        <md-input-container flex="50">
+                          {{ ss_module.ss_menu_name | translate }}
+                        </md-input-container>
+                        <md-input-container flex="50">
+                          <md-checkbox ng-model="ss_module.a" ng-if="ss_module.ss_menu_name != 'dashboard_technique'">{{"Ajout" | translate}}</md-checkbox>
+                          <md-checkbox ng-model="ss_module.d" ng-if="ss_module.ss_menu_name != 'dashboard_technique'">{{"Suppression" | translate}}</md-checkbox>
+                          <md-checkbox ng-model="ss_module.u" ng-if="ss_module.ss_menu_name != 'dashboard_technique'">{{"Modification" | translate}}</md-checkbox>
+                          <md-checkbox ng-model="ss_module.web">{{"WEB" | translate}}</md-checkbox>
+                          <md-checkbox ng-model="ss_module.mobile" ng-if="ss_module.ss_menu_name != 'dashboard_technique'">{{"MOBILE" | translate}}</md-checkbox>
+                        </md-input-container>
+                      </div>
+                    </div>
+
+                    <br />
+                    <center>
+                      <!--ng-disabled="rubrique_model.length == 0 || !rubrique_model"-->
+                      <md-button class="md-primary md-raised" ng-click="saveModule( module_name,rubrique,rubrique_model )" layout layout-align="center center">
+                        {{"Valider l'affectation du module" | translate}}
+                      </md-button>
+                    </center>
+                  </div>
+                </md-tab>
+              </md-tabs>
+            </md-content>
+            <md-divider></md-divider>
+          </section>
+        </md-content>
+
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

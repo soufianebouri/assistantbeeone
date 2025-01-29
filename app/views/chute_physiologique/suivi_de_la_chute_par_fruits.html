@@ -1,0 +1,52 @@
+<div class="right_col" role="main">
+  <div ng-controller="ChutePhysiologiqueSuiviDeLaChuteParFruitsCtrl as pc" class="modal-demo">
+    <span> {{'Suivi_de_la_chute_physiologique' | translate}} <i class="fa fa-angle-right"></i> <b>{{'Suivi de la chute (Filet)' | translate}}</b>
+    </span>
+
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Parcellecultural' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'De' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'A' | translate}}</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle.parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" data-selected-text-format="count > 1"
+                data-size="10" title="Parcelle cultural">
+                <optgroup label="{{'Parcellecultural' | translate}}">
+                  <option ng-repeat="parcellecultural in pc.parcellescultural" ng-value="parcellecultural.ID">{{ parcellecultural.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+
+
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+
+    <div class="table-responsive">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+
+  </div>
+
+</div>

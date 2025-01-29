@@ -1,0 +1,58 @@
+<div class="right_col" role="main">
+  <div ng-controller="PalmierdattierRecoltearbremapCtrl as pc" class="modal-demo">
+    <span> {{"Récolte" | translate}} <i class="fa fa-angle-right"></i> {{"Récolte par arbre" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Vue cartographique" | translate}}</b></span>
+    <br />
+    <div class="dontshowit ">
+      <a class="dt-button pull-right" ui-sref="recolteArbre" title="{{'Récolte par arbre' | translate}}"><i class="fa fa-columns"></i></a>
+      <a class="dt-button pull-right" ui-sref="recoltearbregraphique" title="{{'Vue graphique' | translate}}"><i class="fa fa-area-chart"></i></a>
+    </div>
+    <br /><br />
+    <div id="mapComptage"></div>
+    <br /><br />
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr>
+          <td>
+            <font color="#ffffff">{{"De" | translate}}</font>
+            <input id="debut" type="date" class="" ng-model="debut" ng-change="date_debut_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <font color="#ffffff">{{"A" | translate}}</font>
+            <input id="date_fin" type="date" class="" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+        </tr>
+      </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="legend" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color: rgb(255, 255, 255);color:#000000;">
+        <table class="w3-table w3-striped">
+          <tr>
+            <td style=""><IMG src="http://maps.google.com/mapfiles/kml/pal2/icon12.png" width="20" height="20" /></td>
+            <td style=""><small>{{"Arbre" | translate}}</small></td>
+            <td style=""><small>&nbsp;&nbsp;&nbsp;&nbsp;</small></td>
+            <td style=""><IMG src="././images/red-square.png" width="20" height="20" /></td>
+            <td style=""><small>{{"Pas de récolte" | translate}}</small></td>
+            <td style=""><IMG src="././images/orange-square.png" width="20" height="20" /></td>
+            <td style=""><small>{{"En cours de récolte" | translate}}</small></td>
+          </tr>
+        </table>
+      </div>
+      <br />
+    </div>
+
+  </div>
+</div>

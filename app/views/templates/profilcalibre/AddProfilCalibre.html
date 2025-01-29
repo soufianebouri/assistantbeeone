@@ -1,0 +1,277 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'ProfilCalibre' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date' | translate}}...</label>
+                          <input type="date" ng-model="DateObservation" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'GroupeOperationnels' | translate}} ...</label>
+                          <md-select ng-model="GroupeOperationnelsel" style="width:90%;" ng-change="getParcellesByGO()" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchGroupeOperationnel" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="GroupeOperationnel.IDGroupeCultural_Operationnel" ng-repeat="GroupeOperationnel in GroupeOperationnels  | orderBy:'Intitule'  | filter:searchGroupeOperationnel">{{GroupeOperationnel.Intitule}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <div flex="100" flex-gt-sm="40" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Parcellecultural' | translate}} ...</label>
+                            <md-select ng-model="parcelleculturalsel" ng-change="getCalibreGO()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1">{{parcellecultural.Ref}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column" ng-show="visibleAtt">
+                        <div flex="100" flex-gt-sm="40" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Arbre' | translate}} ...</label>
+                            <md-select ng-model="IDArbre" style="width:90%;" data-md-container-class="selectdemoSelectHeader">
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchArbre" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="Arbre.ID" ng-repeat="Arbre in Arbres  | orderBy:'Code_Arbre' | filter:searchArbre">{{Arbre.Code_Arbre}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Nombre de fruits' | translate}}</label>
+                          <input ng-model="nbrrow" style="width:90%;" type="number" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <md-button ng-click="setrows()" class="md-primary">
+                        Ajouter {{(nbrrow) ? nbrrow : ''}} fruit(s)
+                      </md-button>
+
+                    </div>
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex data-ng-repeat="food in foods" ng-style="{'border': food.color == 'red' ? '1px solid red' : 'initial'}">
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Mensurationcalibre' | translate}}</label>
+                          <input ng-model="food.mensuration" ng-focus="food.color == 'red'" ng-change="setiadd($index)" style="width:90%;" type="number" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <!--<div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Moyen' | translate}}</label>
+                          <input ng-model="food.purcentagemensuration" ng-value="setPorcentage(food)" style="width:90%;" type="number" readonly>
+                        </md-input-container>
+                      </div>-->
+
+                      <!--<div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Calibre' | translate}} ...</label>
+                          <md-select ng-model="food.Calibre" style="width:90%;" disabled>
+                            <md-option ng-value="Calibre.IDCalibre" ng-repeat="Calibre in Calibres   | orderBy:'Calibre'" ng-selected="Calibre.val_min <= food.mensuration && Calibre.val_max > food.mensuration" tabindex="-1">{{Calibre.Calibre}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>-->
+
+                      <!--<div flex="100" flex-gt-sm="5" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <input ng-model="food.CalibrePourcentage = (foods | filter: {Calibre: food.Calibre}).length * 100 / foods.length" style="width:90%;" type="number" ng-show="false" tabindex="-1">
+                        </md-input-container>
+                      </div>-->
+
+                      <div flex="100" flex-gt-sm="5" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <span flex></span><span class="material-icons" ng-click="removeItem($index)" tabindex="-1">
+                            remove_circle_outline
+                          </span>
+                        </md-input-container>
+                      </div>
+
+
+                      <!--<div flex="100" flex-gt-sm="5" layout="column" ng-show="$last">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <span flex></span>
+                          <span class="material-icons" ng-click="cloneItem($index)" tabindex="-1">
+                            add_circle_outline
+                          </span>
+                        </md-input-container>
+                      </div>-->
+
+                    </div>
+
+                    <!--<div class="margin-left-input" layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="25" layout="column">
+
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Total' | translate}}</label>
+                          <input ng-model="AVGmensuration" ng-value="setAVGmensuration()" style="width:90%;" type="number" readonly required>
+                        </md-input-container>
+                      </div>
+
+                    </div>-->
+
+
+
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+        <md-tab label="{{'Prévision' | translate}}" ng-disabled="disablePrevision()">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Valeur à ajouter" | translate}} ...</label>
+                          <input ng-model="valueAdd" ng-change="addValue(valueAdd)" style="width:95%;" type="number">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de projection' | translate}}...</label>
+                          <input type="date" ng-model="DateProjection" style="width:90%;">
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+
+
+
+                    <div ng-if="valueAdd>=0">
+                      <div class="margin-left-input" layout="row" layout-wrap flex data-ng-repeat="foodPrev in foodsPrevision">
+
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Mensurationcalibre' | translate}}</label>
+                            <input ng-model="foodPrev.mensuration" style="width:90%;" type="number" min="0" required disabled>
+                          </md-input-container>
+                        </div>
+
+                        <!--<div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Calibre' | translate}} ...</label>
+                            <md-select ng-model="foodPrev.Calibre" style="width:90%;" disabled>
+                              <md-option ng-value="Calibre.IDCalibre" ng-repeat="Calibre in Calibres | orderBy:'Calibre'" ng-selected="Calibre.IDCalibre == foodPrev.Calibre">{{Calibre.Calibre}}</md-option>
+                            </md-select>
+                          </md-input-container>
+                        </div>-->
+
+
+                        <!--<div flex="100" flex-gt-sm="5" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <input ng-model="foodPrev.CalibrePourcentage = (foodsPrevision | filter: {Calibre: foodPrev.Calibre}).length * 100 / foodsPrevision.length" style="width:90%;" type="number" tabindex="-1" ng-show="false">
+                          </md-input-container>
+                        </div>-->
+
+
+                      </div>
+
+                    </div>
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+                      <md-input-container flex="50" ng-show="valueAdd>=0">
+                        <md-checkbox ng-model="savePrevision" class="md-primary">
+                          <span>Enregistrer cette prévision</span>
+                        </md-checkbox>
+                      </md-input-container>
+                    </div>
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

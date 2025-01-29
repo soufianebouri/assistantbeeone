@@ -1,0 +1,250 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Déclaration de la récolte' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de récolte' | translate}}...</label>
+                          <input type="date" ng-model="DateRecolte" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Référence' | translate}} ...</label>
+                          <input ng-model="Reference" style="width:95%;" type="text" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="50" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observations' | translate}}</label>
+                          <textarea ng-model="Observation" md-maxlength="100" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{'Quantités récoltée' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+                      <div flex="100" flex-gt-sm="20" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'GroupeOperationnels' | translate}} ...</label>
+                          <md-select ng-model="GroupeOperationnelsel" style="width:90%;" multiple ng-change="getParcellesByGO()" data-md-container-class="selectdemoSelectHeader">
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchGroupeOperationnel" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="GroupeOperationnel.IDGroupeCultural_Operationnel" ng-repeat="GroupeOperationnel in GroupeOperationnels  | orderBy:'Intitule'  | filter:searchGroupeOperationnel">{{GroupeOperationnel.Intitule}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div layout="row" layout-wrap flex>
+                        <div flex="80" flex-gt-sm="100" layout="column" style="top:10px;   bottom:10px;   width:100%; max-height: 150px;   overflow-y:auto;" ng-if="parcelleculturals.length>0">
+                          <table id="produit" class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>{{'Parcelles' | translate}}</th>
+                                <th>{{'Sup' | translate}}</th>
+                                <th>{{'Variete' | translate}}</th>
+                                <th>{{'Reftechnique' | translate}}</th>
+                                <th>{{'Produit' | translate}}</th>
+                                <th>{{'unite' | translate}}</th>
+                                <th>{{'PM' | translate}}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="food in parcelleculturals">
+                                <td class="th-table">
+
+                                    <md-checkbox ng-model="food.checkedChoise" ng-checked="food.checkedChoise" aria-label="Checkbox 1" class="md-primary">
+                                    </md-checkbox>
+                                </td>
+                                <td class="th-table">{{food.Ref}}</td>
+                                <td class="th-table">{{food.Sup | number:2}}</td>
+                                <td class="th-table">{{food.Variete}}</td>
+                                <td class="th-table">{{food.Ref_technique}}</td>
+                                <td class="th-table">{{food.Designation}}</td>
+                                <td class="th-table">{{food.unite}}</td>
+                                <td class="th-table">{{food.PM_estime}}</td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div flex="80" flex-gt-sm="100" layout="column" style="top:10px;   bottom:10px;   width:100%;  overflow-y:auto;" ng-if="parcelleculturals.length==0">
+                          <table id="produit" class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>{{'Parcelles' | translate}}</th>
+                                <th>{{'Sup' | translate}}</th>
+                                <th>{{'Variete' | translate}}</th>
+                                <th>{{'Reftechnique' | translate}}</th>
+                                <th>{{'Produit' | translate}}</th>
+                                <th>{{'unite' | translate}}</th>
+                                <th>{{'PM' | translate}}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                                <td class="th-table"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+
+                    <div class="form-body" layout="row" layout-wrap>
+                      <div class="margin-left-input" flex-gt-sm="100" flex="">
+                        <div layout="row" layout-wrap flex>
+                          <div flex="80" flex-gt-sm="100" layout="column">
+                            <table id="produit" class="table table-striped" style="width:100%">
+                              <thead>
+                                <tr>
+                                  <th>{{'Parcelles' | translate}}</th>
+                                  <th>{{'Sup' | translate}}</th>
+                                  <th>{{'Produit' | translate}}</th>
+                                  <th>{{'unite' | translate}}</th>
+                                  <th>{{'Quantiteunite' | translate}}</th>
+                                  <th>{{'PoidsmoyenKg' | translate}}</th>
+                                  <th>{{'Total' | translate}}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="food in parcelleculturals | filter:{ checkedChoise: true }">
+                                  <td class="th-table">{{food.Ref}}</td>
+                                  <td class="th-table">{{food.Sup | number:2}}</td>
+                                  <td class="th-table">{{food.Designation}}</td>
+                                  <td class="th-table">{{food.unite}}</td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Quantiteunite" style="width:100px;" class="right" step="any" min="0" type="number" required>
+                                    </md-input-container>
+                                  </td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.PM_estime" style="width:100px;" class="right" step="any" min="0.000001" type="number" required>
+                                    </md-input-container>
+                                  </td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="food.Total" ng-value="setTotal(food)" style="width:100px;" class="right"  type="text" disabled>
+                                    </md-input-container>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td class="th-table">
+                                    <md-input-container style="width:100px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                      <input ng-model="AllTotal" ng-value="setAllTotalTotal()" style="width:100px;" class="right" type="text" disabled>
+                                    </md-input-container>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+
+
+                      </div>
+
+
+
+
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

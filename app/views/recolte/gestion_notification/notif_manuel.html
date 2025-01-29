@@ -1,0 +1,108 @@
+<div class="right_col" role="main">
+  <div ng-controller="NotifManuelCtrl as pc" class="modal-demo">
+    <span> {{'Paramétrage' | translate}} <i class="fa fa-angle-right"></i>
+      {{'Gestion des notifcations' | translate}} <i class="fa fa-angle-right"></i>
+      <b> {{'Notifications manuelles' | translate}}</b> </span>
+
+    <center>
+      <div id="filter_form" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Société' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Producteur' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Domaine' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Parcelle culturale' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>{{'Opérateur' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Societe" name="Societe" data-actions-box='true' ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe" multiple ng-change="pc.societe_change()" data-live-search="true"
+                      title="{{'Société ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Société' | translate}}">
+                  <option ng-repeat="societe in pc.societes" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="Producteur" name="Producteur" data-actions-box='true' ng-init="pc.producteurs[0].ID" class="form-control  input-sm selectpicker" ng-model="producteur" multiple ng-change="pc.producteur_change()" data-live-search="true"
+                title="{{'Producteur ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Producteur' | translate}}">
+                  <option ng-repeat="producteur in pc.producteurs" value="{{ producteur.ID }}">{{ producteur.Libelle }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="Domaine" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="domaine" ng-change="pc.domaine_change()" data-live-search="true" multiple
+                      title="{{'Domaine ...' | translate}}" data-selected-text-format="count > 1"
+                data-size="10">
+                <optgroup label="{{'Domaine' | translate}}">
+                  <option ng-repeat="domaine in pc.domaines" value="{{domaine.IDFermes}}">{{ domaine.Nom }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+
+            <td>
+              <select id="parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true"
+                      title="{{'Parcelle ...' | translate}}" data-selected-text-format="count > 1"
+                data-size="10">
+                <optgroup label="{{'Parcelle' | translate}}">
+                  <option ng-repeat="parcelle in pc.parcelles_array" value="{{parcelle.Ref}}">{{ parcelle.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+
+            <td>
+              <select id="Opérateur" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="operateur" ng-change="pc.operateur_change()" data-live-search="true" multiple
+                      title="{{'Opérateur ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <optgroup label="{{'Opérateur' | translate}}">
+                  <option ng-repeat="operateur in pc.operateur_array" ng-value="operateur">{{ operateur.Nom }} {{ operateur.Prenom }}</option>
+                </optgroup>
+
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+          </tr>
+        </table>
+
+        <br>
+
+        <div class="table-responsive" style="width:700px">
+          <div>
+            <md-input-container class="md-block" style="background-color: white;">
+              <label>{{'Message' | translate}}</label>
+              <textarea ng-model="pc.obj.msg" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
+            <md-button class="md-fab" ng-click="sendNotif()" ng-disabled="pc.obj.msg.length < 5 && pc.obj.PARCELLE">
+              <span class="fa fa-bell"></span>
+            </md-button>
+          </div>
+        </div>
+
+      </div>
+
+
+    </center>
+
+
+  </div>
+
+</div>

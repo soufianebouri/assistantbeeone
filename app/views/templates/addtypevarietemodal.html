@@ -1,0 +1,45 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="typeVariete" ng-submit="pc.submitForm(typeVariete.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="typeVarieteName" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.TypevarieteName}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="typeVarieteName" id="typeVarieteName" ng-model="pc.typeVariete.typeVarieteName" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Type_variete" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Type_variete}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Type_variete" id="Type_variete" ng-model="pc.typeVariete.Type_variete" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="reference" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.reference}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="reference" id="reference" ng-model="pc.typeVariete.reference" required>
+      </div>
+    </div>
+
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="typeVariete.$invalid">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

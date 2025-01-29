@@ -1,0 +1,463 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'EditAnalyseQualitativeFeuille' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="Onglet 1">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Parcelles' | translate}} ...</label>
+                          <md-select ng-model="parcelleculturalsel" ng-change="parcelle_change()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="parcellecultural" ng-repeat="parcellecultural in parcelleculturals  | orderBy:'Ref' | filter:searchparcellecultural" ng-if="parcellecultural.Statut_Cycle == 1"
+                              ng-selected="data.ID_ParcelleCulturale == parcellecultural.ID">
+                              {{parcellecultural.Ref}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de Prélévement' | translate}}...</label>
+                          <input type="date" ng-model="Datedeprelevement" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Brix' | translate}} ...</label>
+                          <input ng-model="data.Brix" style="width:90%;" class="right" type="number" step="any" min="5" max="99" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observation' | translate}}</label>
+                          <textarea ng-model="data.Observation" md-maxlength="50" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </md-tab>
+
+
+        <md-tab label="Onglet 2">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Nbre Fruit échantillon' | translate}} ...</label>
+                          <input ng-model="data.NbreFruitEchantillon" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Calibre Tot' | translate}} ...</label>
+                          <input ng-model="data.Calibre_Moyen" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Poids échantillon' | translate}} ...</label>
+                          <input ng-model="data.PoidsEchantillon" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+                <div class="form-header" layout="row" layout-wrap>
+                  <h5 class="margin-left-input">{{'Coloration' | translate}}</h5>
+                </div>
+              </div>
+            </div>
+            <div class="form-body" layout="row" layout-wrap>
+              <div class="margin-left-input" flex-gt-sm="100" flex="">
+                <div layout="row" layout-wrap flex>
+                  <div flex="100" flex-gt-sm="100" layout="column">
+                    <table id="bac" class="table table-hover" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>{{'Niveau' | translate}}</th>
+                          <th>{{'Valeur' | translate}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="NiveauColorations in NiveauColoration">
+                          <td class="th-table">{{NiveauColorations.Niveau_Coloration}}</td>
+                          <td class="th-table">
+                            <md-input-container style="width:200px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                              <input ng-model="NiveauColorations.Valeur" style="width:200px;" class="right" step="any" min="0" type="number">
+                            </md-input-container>
+                          </td>
+                        </tr>
+
+
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+        </md-tab>
+
+        <md-tab label="Onglet 3">
+
+          <div class="md-dialog-content">
+            <div layout="row" layout-wrap flex>
+              <div flex="100" flex-gt-sm="50" layout="column">
+                <div layout="row" layout-wrap>
+                  <div flex-gt-sm="100" flex="">
+                    <div class="form-header" style="width:99%;" layout="row" layout-wrap>
+                      <h5 class="margin-left-input">{{'Fermeté Peau' | translate}}</h5>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-body" style="width:99%;" layout="row" layout-wrap>
+
+                  <div class="margin-left-input" flex-gt-sm="100" flex="">
+                    <div layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="100" layout="column">
+                        <table id="bac" class="table table-hover" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>{{'Fermeté' | translate}}</th>
+                              <th>{{'Valeur' | translate}}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="fermetesPeau in fermetes4Peau">
+                              <td class="th-table">{{fermetesPeau.Code}}</td>
+                              <td class="th-table">
+                                <md-input-container style="width:200px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="fermetesPeau.Valeur" style="width:200px;" class="right" step="any" min="0" type="number" required>
+                                </md-input-container>
+                              </td>
+                            </tr>
+
+
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+              <div flex="100" flex-gt-sm="50" layout="column">
+                <div layout="row" layout-wrap>
+                  <div flex-gt-sm="100" flex="">
+                    <div class="form-header" layout="row" layout-wrap>
+                      <h5 class="margin-left-input">{{'Fermeté Fruit' | translate}}</h5>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-body" layout="row" layout-wrap>
+
+                  <div class="margin-left-input" flex-gt-sm="100" flex="">
+
+                    <div layout="row" layout-wrap flex>
+                      <div flex="100" flex-gt-sm="100" layout="column">
+                        <table id="bac" class="table table-hover" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th>{{'Fermeté' | translate}}</th>
+                              <th>{{'Valeur' | translate}}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="fermete4Fruit in fermetes4Fruit">
+                              <td class="th-table">{{fermete4Fruit.Code}}</td>
+                              <td class="th-table">
+                                <md-input-container style="width:200px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                  <input ng-model="fermete4Fruit.Valeur" style="width:200px;" class="right" step="any" min="0" type="number" required>
+                                </md-input-container>
+                              </td>
+                            </tr>
+
+
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="Onglet 4">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+                <div class="form-header" layout="row" layout-wrap>
+                  <h5 class="margin-left-input">{{'Gumming' | translate}}</h5>
+                </div>
+              </div>
+            </div>
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Leger' | translate}} ...</label>
+                          <input ng-model="data.Gumming_Leger" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Moyen' | translate}} ...</label>
+                          <input ng-model="data.Gumming_Moyen" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Sever' | translate}} ...</label>
+                          <input ng-model="data.Gumming_Sever" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+                <div class="form-header" layout="row" layout-wrap>
+                  <h5 class="margin-left-input">{{'Granulation' | translate}}</h5>
+                </div>
+              </div>
+            </div>
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Leger' | translate}} ...</label>
+                          <input ng-model="data.Granulation_Leger" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Moyen' | translate}} ...</label>
+                          <input ng-model="data.Granulation_Moyen" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Sever' | translate}} ...</label>
+                          <input ng-model="data.Granulation_Sever" style="width:150px;" class="right" type="number" step="any" min="0">
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+            <br />
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Nbre fruit avec pépin' | translate}} ...</label>
+                          <input ng-model="data.Nbre_fruit_avec_pepin" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Nbre de pépin' | translate}} ...</label>
+                          <input ng-model="data.Nbre_pepin" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Poids de jus' | translate}} ...</label>
+                          <input ng-model="data.Poids_jus" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Volume de jus' | translate}} ...</label>
+                          <input ng-model="data.Volume_jus" style="width:150px;" class="right" type="number" step="any" min="0" required>
+                        </md-input-container>
+                      </div>
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </md-tab>
+
+        <md-tab label="Onglet 5">
+
+          <div class="md-dialog-content">
+
+
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Volume NaOH' | translate}} ...</label>
+                          <input ng-model="data.Volume" style="width:150px;" class="right" type="number" step="any" min="1" max="99" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container style="height:0px" class="md-block" flex-gt-xs>
+                          <label>{{'Acidité' | translate}} ...</label>
+                          <input ng-model="data.Acidite" ng-value="setAcidite()" onchange="parseFloat(this.toFixed(2))" style="width:150px;" class="right" type="number" step="any" min="1" max="99" readonly>
+                        </md-input-container>
+                      </div>
+
+
+
+                    </div>
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </md-tab>
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Modifier' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,121 @@
+<div class="right_col" role="main">
+  <div ng-controller="RepositoryRefarbregeneratetreeCtrl as pc" class="modal-demo">
+    <span> {{"Parcellisation" | translate}} <i class="fa fa-angle-right"></i> {{"Gestion des arbres" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Generate trees" | translate}}</b></span>
+    <br />
+    <div class="dontshowit ">
+
+      <a class="dt-button pull-right" ui-sref="RefArbre" title='{{"Gestion des arbres" | translate}}'><i class="fa fa-columns"></i></a>
+      <a class="dt-button pull-right" ui-sref="refarbremap" title='{{"Vue cartographique" | translate}}'><i class="fa fa-map-marker"></i></a>
+      <a class="dt-button pull-right" ui-sref="refarbreqrcode" title='{{"QR CODE" | translate}}'><i class="fa fa-qrcode"></i></a>
+
+    </div>
+    <br /><br />
+    <div id="mapComptage"></div>
+
+
+    <br /><br />
+
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr style="background-color: unset !important;    color: unset !important;">
+          <td>
+            <font color="#ffffff">{{"Parcelle culturale" | translate}} <font color="red">*</font></font>
+            <select id="Parcelle" name="Parcelle" class="form-control  input-sm selectpicker" ng-model="parcelle" ng-change="pc.parcelle_change()" data-live-search="true" title="{{'Parcelle culturale' | translate}}..."
+              data-selected-text-format="count > 1" data-size="10">
+              <option selected disabled value="" style="background-color: #ffffff;"> {{"Parcelle culturale" | translate}} ..</option>
+              <option ng-repeat="parcelle in pc.ALLParcelle" ng-value="parcelle">{{ parcelle.Ref }}</option>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+
+          <td style='padding-top: 5px;' ng-if='new_tracage' class="animated fadeIn">
+            <br />
+            <button type='button' class='btn btn-warning btn-sm' ng-click='Retracer()'>Tracer</button>
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+
+
+          <td style='padding-top: 5px;' ng-if='pc.obj.oldarbre.length>0 ' class="animated fadeIn">
+            <br />
+            <button type='button' class='btn btn-danger btn-sm' ng-click='ShowOldTree()' ng-if='!hidetrees'><u>Show</u> ({{pc.obj.oldarbre.length}}) old tree(s)</button>
+
+            <button type='button' class='btn btn-success btn-sm' ng-click='HideOldTree()' ng-if='hidetrees'><u>Hide</u> ({{pc.obj.oldarbre.length}}) old tree(s)&nbsp;</button>
+          </td>
+
+
+          <td>&nbsp;&nbsp;&nbsp;</td>
+
+          <td style='padding-top: 5px;' id='distance_id' class="animated fadeIn">
+            <font color="#ffffff">{{"Distance" | translate}} <font color="red">*</font></font>
+            <input type='number' ng-model="distance" class="form-control  input-sm" placeholder="Distance ..." />
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td style='padding-top: 5px;' id='line_number' class="animated fadeIn">
+            <font color="#ffffff">{{"Line number" | translate}} <font color="red">*</font></font>
+            <input type='number' ng-model="line_number" min="0" step="1" class="form-control  input-sm" placeholder="Line number ..." />
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+          <td style='padding-top: 5px;' id='tree_number' class="animated fadeIn">
+            <font color="#ffffff">{{"Tree number" | translate}} <font color="red">*</font></font>
+            <input type='number' ng-model="tree_number" min="0" step="1" class="form-control  input-sm" placeholder="Tree number ..." />
+          </td>
+          <td>&nbsp;&nbsp;&nbsp;</td>
+
+          <td style='padding-top: 5px;' id='genrate_tree' class="animated fadeIn ">
+            <br />
+            <button type='button' class='btn btn-primary btn-sm' ng-click='Get_trees()'>Get trees</button>
+          </td>
+
+
+          <td style='padding-top: 5px;' id='annuler' class="animated fadeIn ">
+            <br />
+            <button type='button' class='btn btn-danger btn-sm' ng-click='annuler()'>Cancel</button>
+          </td>
+
+          <td style='padding-top: 5px;' id='valider' class="animated fadeIn ">
+            <br />
+            <button type='button' class='btn btn-info btn-sm' ng-click='valider()'>Save</button>
+          </td>
+
+
+
+        </tr>
+      </table>
+    </div>
+
+    <div id="legend" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color:#fff;color:#000000;">
+        <table class="w3-table w3-striped" ng-if="!showwarnning">
+          <tr style="background-color: unset !important;    color: unset !important;">
+            <td style="vertical-align: middle;"><IMG src="././images/fermes.png" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"New trees" | translate}}</font>
+              </small></td>
+            <td style="vertical-align: middle;"><small></small></td>
+            <td style="vertical-align: middle;"><IMG src="././images/fermedd.png" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small>
+                <font color="#666666">{{"Old trees" | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</font>
+              </small></td>
+
+              <td style="vertical-align: middle;"><small></small></td>
+
+              <td style="vertical-align: middle;"><a href="https://doc.clickup.com/d/h/2g6uu-12484/a58fd39bb76cf7b/2g6uu-2544" target="_blank"><IMG src="././images/clipart.png" width="20" height="20" /></a></td>
+              <td style="vertical-align: middle;"><small>
+                  <a href="https://doc.clickup.com/d/h/2g6uu-12484/a58fd39bb76cf7b/2g6uu-2544" target="_blank"><font color="#666666">{{"Tutorial" | translate}}&nbsp;&nbsp;&nbsp;&nbsp;</font></a>
+                </small></td>
+          </tr>
+        </table>
+        <div id="snackbar"></div>
+        <div id="snackbardone"></div>
+        <div id="snackbarload" class="animated infinite  swing">Loading please wait <bn>...</bn>
+        </div>
+      </div>
+      <br />
+    </div>
+
+
+
+  </div>
+</div>

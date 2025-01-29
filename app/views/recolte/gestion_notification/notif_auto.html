@@ -1,0 +1,214 @@
+<div class="right_col" role="main">
+  <div ng-controller="NotifAutoCtrl as pc" class="modal-demo">
+    <span> {{'Paramétrage' | translate}} <i class="fa fa-angle-right"></i>
+      {{'Gestion des notifcations' | translate}} <i class="fa fa-angle-right"></i>
+      <b> {{'Notifications automatisées' | translate}}</b> </span>
+
+    <center style="padding-left: 5%;padding-right: 5%;margin-top: 45px;">
+      <table>
+        <tr>
+          <td>{{'Société' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Producteur' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Domaine' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Opérateur' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td>
+            <select id="Societe" name="Societe" data-actions-box='true' ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe" multiple ng-change="pc.societe_change()" data-live-search="true"
+                    title="{{'Société ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Société' | translate}}">
+                <option ng-repeat="societe in pc.societes" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="Producteur" data-actions-box='true' name="Producteur" ng-init="pc.producteurs[0].ID" class="form-control  input-sm selectpicker" ng-model="producteur" multiple ng-change="pc.producteur_change()" data-live-search="true"
+              title="{{'Producteur ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Producteur' | translate}}">
+                <option ng-repeat="producteur in pc.producteurs" value="{{ producteur.ID }}">{{ producteur.Libelle }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="Domaine" data-actions-box='true' class="form-control  input-sm selectpicker" ng-model="domaine" ng-change="pc.domaine_change()" data-live-search="true" multiple
+                    title="{{'Domaine ...' | translate}}" data-selected-text-format="count > 1"
+              data-size="10">
+              <optgroup label="{{'Domaine' | translate}}">
+                <option ng-repeat="domaine in pc.domaines" value="{{domaine.IDFermes}}">{{ domaine.Nom }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="Operateur" data-actions-box='true' class="form-control  input-sm selectpicker" ng-model="operateur" ng-change="pc.operateur_change()" data-live-search="true" multiple
+                    title="{{'Opérateur ...' | translate}}" data-selected-text-format="count > 1"
+              data-size="10">
+              <optgroup label="{{'Opérateur' | translate}}">
+                <option ng-repeat="operateur in pc.operateur_array" ng-value="operateur">{{ operateur.Nom }} {{ operateur.Prenom }}</option>
+              </optgroup>
+
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="7" style="padding-top: 30px;">
+
+            <div ng-cloak>
+              <md-content>
+                <md-tabs md-dynamic-height md-border-bottom>
+                  <md-tab label="{{'Périodique' | translate}}">
+                    <md-content class="md-padding">
+                      <center>
+                        <h5>
+                          {{'Alerter les operateurs' | translate}}
+                          <md-input-container>
+                            <label>{{'jours' | translate}}</label>
+                            <md-select ng-model="periode_days">
+                              <md-option ng-repeat="day in days" value="{{day}}">
+                                {{day}}
+                              </md-option>
+                            </md-select>
+                          </md-input-container>
+                          {{'à' | translate}}
+
+                          <div uib-timepicker ng-model="mytime_period" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="false"></div>
+                          {{'avant début de la période prochaine' | translate}}
+                        </h5>
+
+                        <md-input-container class="md-block" style="background-color: white;">
+                          <label>{{'Contenu de la notification' | translate}}</label>
+                          <textarea ng-model="pc.obj.msg_periodique" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                        </md-input-container>
+
+                        <md-button ng-click="pc.addPeriodique()" class="md-fab md-primary md-mini" aria-label="add"
+                          ng-disabled="pc.obj.msg_periodique.length < 5 || mytime_period == null || operateur == null || operateur.length == 0 || !periode_days">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </md-button>
+
+                        <div ng-if="periodique.length > 0">
+                          <md-divider></md-divider>
+                          <md-subheader class="md-no-sticky">{{'Liste des rappels' | translate}}</md-subheader>
+                          <md-list-item ng-repeat="elm in periodique" class="noright">
+                            <p>{{ elm.days }} {{'jour(s)' | translate}}</p>
+                            <p>{{ elm.time }}</p>
+                            <p style="text-overflow: ellipsis;
+                                      width: 5%;
+                                      white-space: nowrap;
+                                      overflow:hidden; ">{{ elm.msg }}</p>
+                            <md-button class="md-icon-button md-warn" aria-label="del" ng-click="deletePeriodique(elm)">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                          </md-list-item>
+                          <md-divider></md-divider>
+                          <md-button class="md-raised md-warn md-mini" aria-label="ok" ng-click="sendNotif(1)" ng-disabled="operateur == null || operateur.length == 0 || !periode_days">
+                            {{'Envoyer' | translate}}
+                          </md-button>
+                        </div>
+                      </center>
+                    </md-content>
+                  </md-tab>
+                  <md-tab label="{{'Aujourd hui' | translate}}">
+                    <md-content class="md-padding">
+                      <center>
+                        <h5>
+                          {{'Alerter les operateurs chaque jour à' | translate}}
+                          <div uib-timepicker ng-model="mytime_today" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="false"></div>
+                        </h5>
+
+                        <md-input-container class="md-block" style="background-color: white;">
+                          <label>{{'Contenu de la notification' | translate}}</label>
+                          <textarea ng-model="pc.obj.msg_today" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                        </md-input-container>
+
+                        <md-button ng-click="pc.addToday()" class="md-fab md-primary md-mini" aria-label="add" ng-disabled="pc.obj.msg_today.length < 5 || mytime_today == null || operateur == null || operateur.length == 0 ">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </md-button>
+
+                        <div ng-if="today.length > 0">
+                          <md-divider></md-divider>
+                          <md-subheader class="md-no-sticky">{{'Liste des rappels' | translate}}</md-subheader>
+                          <md-list-item ng-repeat="elm in today" class="noright">
+                            <p>{{ elm.time }}</p>
+                            <p style="text-overflow: ellipsis;
+                                        width: 5%;
+                                        white-space: nowrap;
+                                        overflow:hidden; ">{{ elm.msg }}</p>
+                            <md-button class="md-icon-button md-warn" aria-label="del" ng-click="deleteToday(elm)">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                          </md-list-item>
+                          <md-divider></md-divider>
+                          <md-button class="md-raised md-warn md-mini" ng-click="sendNotif(2)" ng-disabled="operateur == null || operateur.length == 0">
+                            {{'Envoyer' | translate}}
+                          </md-button>
+                        </div>
+                      </center>
+                    </md-content>
+                  </md-tab>
+                  <md-tab label="{{'Demain' | translate}}">
+                    <md-content class="md-padding">
+                      <center>
+                        <h5>
+                          {{'Alerter les operateurs pour les saisies nommées demain' | translate}} {{'à' | translate}}
+                          <div uib-timepicker ng-model="mytime_tomorrow" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="false"></div>
+                        </h5>
+
+                        <md-input-container class="md-block" style="background-color: white;">
+                          <label>{{'Contenu de la notification' | translate}}</label>
+                          <textarea ng-model="pc.obj.msg_tomorrow" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                        </md-input-container>
+
+                        <md-button ng-click="pc.addTomorrow()" class="md-fab md-primary md-mini" aria-label="add" ng-disabled="pc.obj.msg_tomorrow.length < 5 || mytime_tomorrow == null || operateur == null || operateur.length == 0 ">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </md-button>
+
+                        <div ng-if="tomorrow.length > 0">
+                          <md-divider></md-divider>
+                          <md-subheader class="md-no-sticky">{{'Liste des rappels' | translate}}</md-subheader>
+                          <md-list-item ng-repeat="elm in tomorrow" class="noright">
+                            <p>{{ elm.time }}</p>
+                            <p style="text-overflow: ellipsis;
+                                        width: 5%;
+                                        white-space: nowrap;
+                                        overflow:hidden; ">{{ elm.msg }}</p>
+                            <md-button class="md-icon-button md-warn" aria-label="del" ng-click="deleteTomorrow(elm)">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                          </md-list-item>
+                          <md-divider></md-divider>
+                          <md-button class="md-raised md-warn md-mini" ng-click="sendNotif(3)" ng-disabled="operateur == null || operateur.length == 0">
+                            {{'Envoyer' | translate}}
+                          </md-button>
+                        </div>
+                      </center>
+                    </md-content>
+                  </md-tab>
+                </md-tabs>
+              </md-content>
+            </div>
+
+          </td>
+        </tr>
+      </table>
+
+
+    </center>
+
+
+  </div>
+
+</div>

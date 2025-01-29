@@ -1,0 +1,116 @@
+<div ng-app="beeOneWebFrontApp" class="right_col" role="main" ng-controller="Covid19TbCovid19Ctrl as pc">
+  <center>
+    <table>
+      <tr>
+        <td>{{'De' | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+        <td>{{'A' | translate}}</td>
+        <td>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>
+          <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+        </td>
+        <td>&nbsp;&nbsp;</td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm" style="margin-top:7px;" ng-click="pc.rechercher();"
+                  title="{{'Rechercher' | translate}}">{{'Valider' | translate}}</button>
+        </td>
+      </tr>
+
+    </table>
+  </center>
+  <!-- top tiles -->
+  <center>
+    <div class="row tile_count">
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Présents' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.effectifspresents[0].nbrPresenceCumule || '0' | getNumberAsSpace}}</font>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Questionnés' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.effectifsquestiones[0].nbrEffectifQuestionne || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.effectifsquestiones[0].nbrEffectifQuestionne / pc.effectifspresents[0].nbrPresenceCumule) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'avec 0 Symptôme' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.aveczerosymptome[0].AvecSymptome || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.aveczerosymptome[0].AvecSymptome / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'au moins un symptôme' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.aumoinsunsymptome[0].SansSymptome || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.aumoinsunsymptome[0].SansSymptome / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+
+    </div>
+
+    <br /><br />
+
+
+    <div class="row tile_count">
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Entourage avec 0 Symptôme' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.entourageaveczerosymptomes[0].EntourageAvecSymptome || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.entourageaveczerosymptomes[0].EntourageAvecSymptome / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Entourage avec au moins un symptôme' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.entourageavecaumoinsunsymptome[0].EntourageSansSymptome || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.entourageavecaumoinsunsymptome[0].EntourageSansSymptome / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Entourage a Covid 19' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.entouragealecovide[0].nbrCovid || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.entouragealecovide[0].nbrCovid / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"> {{'Avec température > 38°' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.avectemperature[0].nbrTmp38 || '0' | getNumberAsSpace}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{((pc.avectemperature[0].nbrTmp38 / pc.effectifsquestiones[0].nbrEffectifQuestionne) * 100)  || '0' | getNumberAsSpace}} % </span>
+      </div>
+
+
+    </div>
+
+    <br /><br />
+
+    <div class="row tile_count">
+      <div class="col-md-12 col-sm-12 col-xs-12 tile_stats_count">
+        <span class="count_top"> {{'Thermomètre' | translate}} </span>
+        <div class="count green">
+          <font size="6px">{{pc.disponibilitethermometre[0].DisponibiliteThemro || '...' }}</font>
+        </div>
+      </div>
+    </div>
+  </center>
+  <!-- /top tiles -->
+</div>

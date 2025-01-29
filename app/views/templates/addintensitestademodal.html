@@ -1,0 +1,30 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="intensiteObject" ng-submit="pc.submitForm(intensiteObject.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="Intensite_Stade" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.intensite}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Intensite_Stade" id="Intensite_Stade" ng-model="pc.intensiteStade.Intensite_Stade" required>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="intensiteObject.$invalid">
+      {{'Valider' | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{'Quitter' | translate}}</button>
+</div>

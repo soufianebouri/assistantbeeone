@@ -1,0 +1,26 @@
+/* for form header */
+.form-header {
+  background-color: #ffff !important;
+  padding: 5px !important;
+  margin-top: 10px !important;
+  margin-bottom: 5px !important;
+  border-radius: 5px !important;
+}
+.form-body {
+  background-color: #ffff;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%
+}
+.margin-left-input {
+  margin-left: 20px;
+}
+.th-table {
+  font-size: 13px;
+}
+.radio-display {
+  display: inline !important;
+}
+.elimine-margin {
+  margin: 0px;
+}

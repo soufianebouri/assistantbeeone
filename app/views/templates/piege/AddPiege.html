@@ -1,0 +1,121 @@
+<md-dialog aria-label="ADATA formulaire" style="width:100%;">
+  <form ng-cloak name="formulaire">
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Ajouter un piège' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Code piège' | translate}}</label>
+              <input ng-model="code" style="width: 250px;" ng-value="" md-autofocus required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Parcelle physique' | translate}} ...</label>
+              <md-select ng-model="physique" style="width: 250px;" ng-change="setPolygone()" required>
+                <md-option ng-value="ParcellePhysique" ng-repeat="ParcellePhysique in ParcellePhysiques">{{ParcellePhysique.Ref}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Cible' | translate}} ...</label>
+              <md-select ng-model="cible" style="width: 250px;" required>
+                <md-option ng-value="cible.ID_cible" ng-repeat="cible in cibles">{{cible.Cible}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Date d'instalation" | translate}} ...</label>
+              <md-datepicker ng-model="dateinstalation" md-placeholder="aaaa-mm-dd" style="width:90%;" readonly md-hide-icons="calendar" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Ligne' | translate}}</label>
+              <input ng-model="Ligne" style="width: 250px;" id="areaHa" value="0" type="number" min="0" step="1" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Arbre' | translate}}</label>
+              <input ng-model="Arbre" style="width: 250px;" id="areaHa" value="0" type="number" min="0" step="1" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'QR CODE' | translate}}</label>
+              <input ng-model="qr_code" style="width: 250px;" ng-value="" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Numéro iteration ' | translate}}</label>
+              <input ng-model="numero_iteration" style="width: 250px;" id="numero_iteration" value="0" type="number" min="0" step="1">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Latitude' | translate}}</label>
+              <input ng-model="Latitude" style="width: 250px;" value="0" id="t1" name="t1" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Longitude' | translate}}</label>
+              <input ng-model="Longitude" style="width: 250px;" value="0" id="t2" name="t2" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+            </md-input-container>
+          </div>
+
+
+          <br />
+          <label class="control-label" for="basicinput"></label>
+          {{'Positionnez votre piège sur la parcelle physique choisie' | translate}}
+          <div id="parcellemap" style="width:100%;"></div>
+          <br />
+
+          <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+
+
+        </div>
+      </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()">
+        {{'Ajouter' | translate}}
+      </md-button>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

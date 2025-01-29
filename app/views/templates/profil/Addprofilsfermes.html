@@ -1,0 +1,67 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Affectation des domaines au utilisateur' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <fieldset class="standard">
+              <legend>{{'Utilisateur' | translate}}</legend>
+              <md-input-container>
+                <md-select ng-model="selectedUser" ng-change="refresh();" style="width: 200px;">
+                  <label>{{'Utilisateur ...' | translate}}</label>
+                  <md-option ng-value="users" ng-repeat="users in dmyusers | orderBy:'Nom'" ng-if="!users.isAdmin">{{users.Nom + ' ' + users.Prenom}}</md-option>
+                </md-select>
+              </md-input-container>
+              <div ng-if="selectedUser.length != 0">
+                <span class="badge-green_withe">
+                  {{selectedUser.Nom + ' ' + selectedUser.Prenom}}
+                </span>
+              </div>
+            </fieldset>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <fieldset class="standard">
+              <legend>{{'Domaines' | translate}}</legend>
+
+              <md-input-container>
+                <md-select ng-model="selectedDomaines" multiple style="width: 200px;">
+                  <label>{{'Domaines ...' | translate}}</label>
+                  <md-option ng-value="selectAll" ng-click="selectAllItems(dmydomaines)">Select All</md-option>
+                  <!--ng-if="(dmyprofilferme | filter : {'ID_Ferme' : domaines.IDFermes, 'ID_Profil' : selectedUser.ID}).length == 0"-->
+                  <md-option ng-value="domaines" ng-repeat="domaines in dmydomaines | orderBy:'Nom'">{{domaines.Nom}}</md-option>
+                </md-select>
+              </md-input-container>
+
+              <div ng-if="selectedDomaines">
+                <div ng-repeat="myselectedDomaines in selectedDomaines" style="display: inline-block;">
+                  <span class="badge-blue-unclear_withe" ng-if="myselectedDomaines">
+                    {{myselectedDomaines.Nom}}
+                  </span>&nbsp;
+                </div>
+              </div>
+
+            </fieldset>
+          </div>
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()">
+        {{'Ajouter' | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

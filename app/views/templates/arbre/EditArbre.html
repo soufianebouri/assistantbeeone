@@ -1,0 +1,113 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 70%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier l'arbre" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Parcelle culturale" | translate}} ...</label>
+              <md-select ng-model="culturale" style="width: 250px;" ng-change="setPolygoneEdit()" md-autofocus required>
+                <md-option ng-value="ParcellesCultural" ng-repeat="ParcellesCultural in ParcelleCultural" ng-selected="data.ID_ParcelleCulturale == ParcellesCultural.ID">{{ParcellesCultural.Ref}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Code Arbre" | translate}}</label>
+              <input ng-model="data.Code_Arbre" style="width: 250px;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="25" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Date de plantation ...' | translate}}...</label>
+              <input type="date" ng-model="Date_Plantation" style="width:90%;" required>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Num de lot pépinière" | translate}}</label>
+              <input ng-model="data.NumLotPepiniere" style="width: 250px;">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"QR code (Auto)" | translate}}</label>
+              <table>
+                <tr>
+                  <td><input ng-model="data.QR_CODE" style="width: 150px;" type="text" required></td>
+                  <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                  <td>
+                    <div id="QrCodeImg"></div>
+                  </td>
+                </tr>
+              </table>
+
+
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Statut (En cours / Arrachée)" | translate}}</label>
+              <md-switch ng-model="statutArchive" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                <span class="badge-green_withe" ng-if="statutArchive == 0">{{"En cours" | translate}}</span>
+                <span class="badge-red_withe" ng-if="statutArchive == 1">{{"Archivée" | translate}}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Latitude" | translate}}</label>
+              <input ng-model="Latitude" style="width: 250px;" value="0" id="t1" name="t1" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Longitude" | translate}}</label>
+              <input ng-model="Longitude" style="width: 250px;" value="0" id="t2" name="t2" type="number">
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+            </md-input-container>
+          </div>
+
+
+          <br />
+          <label class="control-label" for="basicinput"></label>
+          {{"Modifier la position de votre arbre sur la parcelle culturale choisie" | translate}}
+          <div id="parcellemap" style="width:100%;"></div>
+          <br />
+
+          <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{"Modifier" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

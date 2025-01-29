@@ -1,0 +1,138 @@
+<div class="right_col" role="main">
+  <div ng-controller="PrevisionreportingMultiperiodevarieteCtrl as pc" class="modal-demo">
+    <span class="dontshowit"> {{'Prévision' | translate}} <i class="fa fa-angle-right"></i>
+      {{'Reporting' | translate}} <i class="fa fa-angle-right"></i>
+      <b>{{'Analyse multi-périodes / variétés' | translate}}</b></span>
+    <center class="dontDisplay">
+      <div id="filter_form" style="" class="animated fadeIn selectpicker_widget">
+
+
+        <table>
+          <tr>
+            <td>{{'Société' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Domaines' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Campagne' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Période d estimation' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'Variété' | translate}}</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Societe" name="Societe" ng-init="pc.societes[0].ID" class="form-control  input-sm selectpicker" ng-model="societe.societe" ng-change="societe_change()" data-live-search="true"
+                      title="{{'Société ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;">{{'Societe ...' | translate}} </option>
+                <option ng-repeat="societe in pc.societes" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Domaine" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="domaine.domaine" ng-change="domaine_change()" multiple data-live-search="true"
+                      title="{{'Domaines ...' | translate}}" data-selected-text-format="count > 1"
+                data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;">{{'Domaines ...' | translate}} </option>
+                <optgroup label="{{'domaine' | translate}}">
+                  <option ng-repeat="domaine in pc.domaines" ng-value="domaine.IDFermes" ng-if="domaine.ID_societe == societe_sel && pc.societes.length > 0">{{ domaine.Nom }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Campagne" class="form-control  input-sm selectpicker" ng-model="campagne.campagne" ng-change="campagne_change()" data-live-search="true"
+                      title="{{'Campagne ...' |translate}}" data-selected-text-format="count > 1" data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> {{'Campagne ...' | translate}}</option>
+                <option ng-repeat="campagne in pc.campagneagricole" value="{{ campagne.Code }}" ng-if="pc.societes.length > 0 && campagne.IDsociete == pc.societes[0].ID">{{ campagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Periode" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="periode.periode" ng-change="periode_change()" multiple data-live-search="true"
+                      title="{{'Période d estimation ...' | translate}}"
+                data-selected-text-format="count > 1" data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> {{'Période d estimation ...' | translate}}</option>
+                <optgroup label="{{'période' | translate}}">
+                  <option ng-repeat="periode in pc.periodes" ng-value="periode.ID" ng-if="pc.societes.length > 0">{{ periode.CodePeriode }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete.variete" ng-change="variete_change()" multiple data-live-search="true"
+                      title="{{'Variété ...' | translate}}" data-selected-text-format="count > 1"
+                data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> {{'Variété ...' | translate}}</option>
+                <optgroup label="{{'variété' | translate}}">
+                  <option ng-repeat="variete in pc.varietes" ng-value="variete.ID" ng-if="pc.varietes[$index].ID != pc.varietes[$index - 1].ID && pc.societes.length > 0">{{ variete.Variete }}</option>
+                </optgroup>
+              </select>
+            </td>
+          </tr>
+        </table>
+
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+      </div>
+      <br />
+    </center>
+    <div class="dontshowit">
+      <a class="dt-button pull-right" ng-click="pc.printExcel($e)" title="EXCEL"><i class="fa fa-file-excel-o"></i></a>
+      <a class="dt-button pull-right" ng-click="ReverseDisplay('filter_form');" title="{{'Rechercher' | translate}}"><i class="fa fa-search"></i></a>
+    </div>
+
+
+    <br /><br />
+    <div class="table-responsive dontDisplay" id="search_div">
+      <div class="dt-buttons" style="float:right ; margin-top:5px">
+        <label>{{'Rechercher:' |translate}} <input type="search" id="search" class="" placeholder="" aria-controls="DataTables_Table_0"></label>
+      </div>
+    </div>
+    <div class="flex-container" id="loadingData">
+      <img src="././images/loading.gif" />
+    </div>
+    <div class="table-responsive" id="printThis">
+      <table id="tableDataShow" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+
+        <tr style="background-color: #eee">
+          <th><b>{{'Périodes' | translate}}</b></th>
+          <th ng-repeat="AllVariete in pc.AllVariete" style="white-space: nowrap;"><b>{{ AllVariete.NomVariete}}(Kg)</b></th>
+          <th><b>{{'Quantité Total' | translate}}</b></th>
+        </tr>
+
+        <tr ng-repeat="AllPeriode in pc.AllPeriode" class="{{AllPeriode.CodePeriode | TextWithoutSpace}}" ng-mouseover="pc.markThoseLine(AllPeriode.CodePeriode)">
+          <td style="white-space: nowrap;">{{AllPeriode.CodePeriode}}</td>
+          <td ng-repeat="AllVariete in pc.AllVariete" style="white-space: nowrap;">
+            {{ pc.gettotalCell(pc.AllQauntite, AllVariete.IDvariete, AllPeriode.ID)}}
+          </td>
+          <td align="right" style="white-space: nowrap;">{{pc.gettotalperiode(pc.AllQauntite, AllPeriode.ID)}}</td>
+        </tr>
+
+        <tr ng-if="pc.AllPeriode.length != 0">
+          <td style="white-space: nowrap;">{{'Quantité Total' | translate}}</td>
+          <td ng-repeat="AllVariete in pc.AllVariete" style="white-space: nowrap;" align="right">
+            {{pc.gettotalvariete(pc.AllQauntite, AllVariete.IDvariete)}}
+          </td>
+          <td style="white-space: nowrap;" align="right">
+            {{pc.gettotal(pc.AllQauntite)}}
+          </td>
+        </tr>
+
+        <tbody>
+          <tr ng-if="pc.AllPeriode.length == 0">
+            <td colspan="{{2}}">
+              <center><br /><br /><br /><br /><br /><br /><br /><br /><img src='././images/ic_notfound_c.png' /><br />
+                <font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry</b> Data Not Available, Please Check The
+                  <b> {{'Filtre Settings' | translate}}</b></font>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+              </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <br /><br /><br /><br />
+
+</div>

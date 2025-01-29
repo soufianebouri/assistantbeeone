@@ -1,0 +1,254 @@
+<md-dialog aria-label="Mango (Fruit)" style="width:100%">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Ajouter un secteur d irrigation' | translate}} </h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+
+        <div layout="row" layout-wrap>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Propriétés' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Bloc d irrigation ...' | translate}}</label>
+                    <md-select ng-model="blocirrigation" style="width:90%;">
+                      <md-option ng-value="bloc" ng-repeat="bloc in blocs  | orderBy:'BLOC'" required>{{bloc.BLOC}}</md-option>
+                    </md-select>
+                    <a href="" ng-click="AddBloc()">{{'+ Ajouter' | translate}}</a>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Satation de tête' | translate}}</label>
+                    <input ng-model="Satation_de_tete" style="width:90%;" type="text" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Désignation secteur' | translate}}</label>
+                    <input ng-model="designationsecteur" style="width:90%;" type="text" required>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Mode d irrigation ...' | translate}}</label>
+                    <md-select ng-model="modeirrigation" style="width:90%;">
+                      <md-option ng-value="modeirrigation.IDMode_Irrigation" ng-repeat="modeirrigation in modeirrigations | orderBy:'Libelle'" required>{{modeirrigation.Libelle}}</md-option>
+                    </md-select>
+                    <a href="" ng-click="AddModeIrrigation()">{{'+ Ajouter' | translate}}</a>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Efficience(%)' | translate}}</label>
+                    <input ng-model="Efficience" ng-min="0" style="width:90%;" class="right" type="number" required>
+                  </md-input-container>
+                </div>
+              </div>
+            </md-content>
+          </div>
+          <div flex-gt-sm="50" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Statut (Clôturer / En cours)' | translate}}</label>
+                    <md-switch ng-model="Statut" style="width:90%;" aria-label="Switch 2" ng-true-value="0" ng-false-value="1" class="md-warn">
+                      <span class="badge-green_withe" ng-if="Statut == 0">{{'En cours' | translate}}</span>
+                      <span class="badge-red_withe" ng-if="Statut == 1">{{'Clôturer' | translate}}</span>
+                    </md-switch>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="50" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Coefficient cultural(KC)' | translate}}</label>
+                    <input ng-model="Coefficient" ng-min="0" style="width:90%;" class="right" type="number" required>
+                  </md-input-container>
+                </div>
+
+              </div>
+            </md-content>
+          </div>
+        </div>
+
+
+        <div layout="row" layout-wrap>
+
+          <div flex-gt-sm="100" flex="">
+            <md-toolbar layout="row" class="md-hue-3" style="min-height: 30px !important; height: 30px !important;color: rgba(255, 255, 255, 0.87)  !important;">
+              <small>&nbsp;&nbsp;{{'Parcelles et distributeurs' | translate}}</small>
+            </md-toolbar>
+            <md-content style="background-color:transparent">
+              <br />
+              <div layout="row" layout-wrap flex data-ng-repeat="food in foods">
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Parcelle physique ...' | translate}}</label>
+                    <md-select ng-model="food.physique" style="width:90%;" required ng-disabled="!$last">
+                      <md-option ng-value="ParcellePhysique" ng-repeat="ParcellePhysique in ParcellePhysiques | orderBy:'Ref'">{{ParcellePhysique.Ref}}</md-option>
+                    </md-select>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Sous-parcelle' | translate}}</label>
+                    <input ng-model="food.sousparcelle" style="width:90%;" type="text" required ng-disabled="!$last">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Superficie(Ha)' |translate}}</label>
+                    <input ng-model="food.SuperficieSousPrcelle" ng-min="0.000000001" style="width:90%;" class="right" type="number" required ng-disabled="!$last">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Vanne' | translate}}</label>
+                    <input ng-model="food.Vanne" style="width:90%;" type="text" ng-disabled="!$last">
+                  </md-input-container>
+                </div>
+
+
+                <div flex=" 100" flex-gt-sm="15" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Nbre de distributeurs' | translate}}</label>
+                    <input ng-model="food.nbrdistributeurs" class="right" ng-min="0" style="width:90%;" type="number" required ng-disabled="!$last">
+                  </md-input-container>
+                </div>
+
+                <div flex=" 100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Débit(l/h)' |translate}}</label>
+                    <input ng-model="food.debit" ng-min="0" style="width:90%;" class="right" type="number" required ng-disabled="!$last">
+                  </md-input-container>
+                </div>
+
+                <div flex=" 100" flex-gt-sm="20" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Débit de la sous-parcelle(l/h)' |translate}}</label>
+                    <input ng-model="food.debitSouParcelle" ng-value="food.debit * food.nbrdistributeurs" ng-min="0" style="width:90%;" class="right" type="number" ng-disabled="true">
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="5" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <span flex></span>
+                  </md-input-container>
+                </div>
+
+                <div flex="100" flex-gt-sm="5" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <span flex></span><span class="material-icons" ng-click="removeItem($index)">
+                      {{'remove_circle_outline' |translate}}
+                    </span>
+                  </md-input-container>
+                </div>
+
+
+                <div flex="100" flex-gt-sm="5" layout="column" ng-show="$last">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <span flex></span>
+                    <span class="material-icons" ng-click="cloneItem($index)">
+                      {{'add_circle_outline' |translate}}
+                    </span>
+                  </md-input-container>
+                </div>
+
+              </div>
+
+
+
+              <div layout="row" layout-wrap flex>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Total (Ha)' |translate}}</label>
+                    <input ng-model="SuperficieSousPrcelleTotal" ng-value="getSumSup()" ng-min="0.000000001" style="width:90%;" class="right" type="number" ng-disabled="true">
+                  </md-input-container>
+                </div>
+                <div flex="100" flex-gt-sm="10" layout="column">
+                </div>
+                <div flex="100" flex-gt-sm="15" layout="column">
+                </div>
+
+                <div flex="100" flex-gt-sm="10" layout="column">
+                </div>
+
+                <div flex="100" flex-gt-sm="20" layout="column">
+                  <md-input-container class="md-block" flex-gt-xs>
+                    <label>{{'Pluviométrie système' | translate}}</label>
+                    <input ng-model="pulvSystem" ng-value="getSumPluviometrie()" ng-min="0.000000001" style="width:90%;" class="right" type="number" ng-disabled="true" required>
+                  </md-input-container>
+                </div>
+
+                <div flex=" 100" flex-gt-sm="5" layout="column">
+                </div>
+
+                <div flex="100" flex-gt-sm="5" layout="column">
+                </div>
+
+
+                <div flex="100" flex-gt-sm="5" layout="column">
+                </div>
+
+              </div>
+            </md-content>
+          </div>
+
+
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="AnnulerSecteurIrrigation();" class="md-primary">
+        {{'Annuler' |translate}}
+      </md-button>
+      <md-button ng-click="AjouterSecteurIrrigation()" ng-if="!progress">
+        {{'Ajouter' |translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

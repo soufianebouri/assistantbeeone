@@ -1,0 +1,465 @@
+.label {
+  background-color: #b5b5b5;
+  color: #fff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.badge-yellow {
+  background-color: yellow;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-green {
+  background-color: #85ce36;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-green_withe {
+  background-color: #85ce36;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-nobackground {
+  color: #8d9dae;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-green_withe_size {
+  background-color: #85ce36;
+  color: #ffffff;
+  font-size: 10px;
+  font-size: 0.9rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-red_withe_size {
+  background-color: red;
+  color: #ffffff;
+  font-size: 10px;
+  font-size: 0.9rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-parcelletraiter {
+  background-color: #8bc980;
+  color: #ffffff;
+  font-size: 10px;
+  font-size: 0.9rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-parcelleencourstraiter {
+  background-color: #f2b531;
+  color: #ffffff;
+  font-size: 10px;
+  font-size: 0.9rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-parcellenonencoretraiter {
+  background-color: #ff0101;
+  color: #ffffff;
+  font-size: 10px;
+  font-size: 0.9rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-red {
+  background-color: red;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-red_withe {
+  background-color: red;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-blue-unclear {
+  background-color: #1abb9c;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-red_withe {
+  background-color: red;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-blue-unclear_withe {
+  background-color: #81bb26;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-blue-unclear_withe_small {
+  background-color: #81bb26;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 2px 2px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-orange {
+  background-color: #f3b632;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-orange_withe {
+  background-color: #f3b632;
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+
+.badge-pink_withe {
+  background-color: rgb(193 163 154);
+  color: #ffffff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+
+.badge-orange-squar {
+  background-color: #f3b632;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.badge-yellew {
+  background-color: yellew;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}
+
+.badge-budget {
+  background-color: #597fcc;
+  color: #7a7676;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.styled-select {
+  overflow: hidden;
+  height: 20px;
+  float: left;
+  width: 150px;
+  margin-right: 10px;
+}
+
+.styled-select-culture {
+  overflow: hidden;
+  border: 0 !important;
+  height: 60px;
+  float: left;
+  width: 200px;
+  margin-right: 10px;
+}
+
+.badge-consommation {
+  background-color: #dbd259;
+  color: #fff;
+  font-size: 12px;
+  font-size: 1.2rem;
+  line-height: 2;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.label {
+  border-radius: 4px;
+  display: inline;
+}
+
+.badge {
+  border-radius: 10px;
+  display: inline-block;
+  padding: 1px 7px;
+}
+
+.label[href]:hover,
+.label[href]:focus {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.badge:hover {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.badge:focus {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.label a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.label:empty {
+  display: none;
+}
+
+.badge a {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.badge:empty {
+  display: none;
+}
+
+::selection {
+  background: #85ce36;
+  /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+  background: #85ce36;
+  /* Gecko Browsers */
+}
+
+.main-wrapper-btn {
+  width: 100px;
+  height: 50px;
+}
+
+.wiggle:hover {
+  animation: wiggle 75ms infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: translate(2px, 0);
+  }
+
+  50% {
+    transform: translate(-2px, 0);
+  }
+
+  100% {
+    transform: translate(2px, 0);
+  }
+}
+
+/***** Shake *****/
+.shake:hover {
+  animation: shake 75ms infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0.5deg);
+  }
+
+  50% {
+    transform: rotate(-0.5deg);
+  }
+
+  100% {
+    transform: rotate(0.5deg);
+  }
+}
+
+/***** Pulse *****/
+.pulse:hover {
+  animation: pulse 1s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+/***** Zoom *****/
+.zoom:hover {
+  transform: scale(1.08);
+  transition: all ease 500ms;
+}

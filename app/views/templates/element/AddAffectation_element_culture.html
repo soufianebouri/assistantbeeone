@@ -1,0 +1,82 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Affectation élément/culture' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+
+          {{cultures}}
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Culture' | translate}} ...</label>
+              <md-select ng-model="cultureselsel" ng-change="getCalibre()" style="width:90%;" multiple data-md-container-class="selectdemoSelectHeader" required>
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchCulture" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                </md-select-header>
+                <md-option ng-value="culture" ng-repeat="culture in cultures  | orderBy:'Culture'  | filter:searchCulture" ng-if="culture.Famiile == 3">{{culture.Culture}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Élément' | translate}} ...</label>
+              <md-select ng-model="elementsel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchelement" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                </md-select-header>
+                <md-option ng-value="element" ng-repeat="element in elements  | orderBy:'Culture'  | filter:searchelement">{{element.designation}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Etat (Saisir / Calculer)' |translate}}</label>
+              <md-switch ng-model="etat" ng-change="changeEtat()" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                <span class="badge-green_withe" ng-if="etat == 0">{{'Saisir' |translate}}</span>
+                <span class="badge-red_withe" ng-if="etat == 1">{{'Calculer' | translate}}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{'Formule de calcule' | translate}} ...</label>
+              <md-select ng-model="formulesel" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required ng-disabled="etat==0">
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchelement" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                </md-select-header>
+                <md-option ng-value="formule.id" ng-repeat="formule in formules  | orderBy:'formule_calcule'  | filter:searchelement">{{formule.formule_calcule}}
+                </md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+
+
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="Anuuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-if="!progress">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

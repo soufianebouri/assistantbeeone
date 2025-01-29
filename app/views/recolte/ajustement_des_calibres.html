@@ -1,0 +1,107 @@
+<div class="right_col" role="main">
+    <div ng-controller="RecolteAjustementDesCalibresCtrl as pc">
+      <span> {{"Suivi qualitatif" | translate}} <i class="fa fa-angle-right"></i> {{"Scoring" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Ajustement des calibres" | translate}}</b></span>
+      <center class="dontDisplay">
+        <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+  
+          <table>
+            <tr>
+              <td></td>
+              <td></td>
+              <td colspan="3">
+                <center>Date de scoring</center>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{{"Ferme" | translate}} (*)</td>
+              <td>&nbsp;&nbsp;</td>
+              <td>{{"De" | translate}}</td>
+              <td>&nbsp;&nbsp;</td>
+              <td>{{"A" | translate}}</td>
+              <td>&nbsp;&nbsp;</td>
+              <td>&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+              <td>
+                <select id="Ferme" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="ferme.ferme" ng-change="pc.Ferme_change()" multiple data-live-search="true" title="{{'Ferme' | translate}}..."
+                  data-selected-text-format="count > 1" data-size="10">
+                  <optgroup label="{{'Ferme' | translate}}">
+                    <option ng-repeat="Fermes in pc.fermes | orderBy:'Nom'" ng-value="Fermes.IDFermes">{{ Fermes.Nom }}</option>
+                  </optgroup>
+                </select>
+              </td>              <td>&nbsp;&nbsp;</td>
+             
+              <td>
+                <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+              </td>
+              <td>&nbsp;&nbsp;</td>
+              <td>
+                <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+              </td>
+              <td>&nbsp;&nbsp;</td>
+              <td>
+                <md-button class="md-raised" id="btn_action" ng-click="pc.Search()" title="{{'Rechercher' | translate}}">{{"Valider" | translate}}</md-button>
+              </td>
+  
+            </tr>
+  
+          </table>
+          <a class="btn" href="" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+  
+  
+        </div>
+      </center>
+      <br />
+  
+      <div class="table-responsive dontDisplay">
+        <div class="dt-buttons" style="float:right">
+          <a class="dt-button pull-right" ui-sref="scoring" title="{{'Scoring' | translate}}"><i class="fa fa-columns"></i></a>
+          <button class="dt-button buttons-copy buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.ReverseDisplay('filter_form')" title="{{'Rechercher' | translate}}"><span><i class="fa fa-search"></i></span></button>
+          <button class="dt-button buttons-excel buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" ng-click="pc.printExcel($e)" title="EXCEL"><span><i class="fa fa-file-excel-o"></i></span></button>
+        </div>
+      </div>
+      <br />
+      <div class="table-responsive " id="printThis" style="overflow-x:  auto !important;  overflow-y: hidden !important; height: auto !important;">
+        <!--tableFixHead-->
+        <div style="overflow-x:auto;max-height: 500px;">
+          <table style="background-color: white;" id="scoring" border="1" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action  printtable">
+            <thead>
+              <tr>
+                <th>Scoring size</th>  
+              </tr>
+            </thead>
+  
+  
+            <tr ng-if="pc.scoring_size.size > 0">
+              <td>{{pc.scoring_size.size}} ligne(s) à vérifier.</td>
+            </tr>
+  
+  
+            <tr ng-if="pc.scoring_size.size == 0 || !pc.scoring_size.size">
+              <td>
+                <center>
+                  <br /><br />
+                  <img src='././images/ic_notfound_c.png' /><br />
+                  <font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry,</b> <b>Data Not Available</b>, Please Check The <b>Filtre Settings</b></font>
+                  <br /><br /><br /><br /><br /><br /><br />
+                </center>
+              </td>
+            </tr>
+  
+  
+  
+          </table>
+<center>
+          <br ng-if="pc.scoring_size.size > 0==0">
+          <md-button class="md-primary" ng-click="pc.adjust_data()" ng-if="pc.scoring_size.size > 0"><i class='fa fa-sliders'></i> Commencer l'ajustement des calibres</md-button>
+        </center>
+
+        </div>
+      </div>
+      <div class="flex-container" id="loadingData">
+        <img src="././images/loading.gif" />
+      </div>
+    </div>
+  </div>

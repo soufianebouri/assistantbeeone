@@ -1,0 +1,371 @@
+<div ng-app="beeOneWebFrontApp" class="right_col" role="main" ng-controller="TableaudebordTbTechniqueCtrl as pc" ng-show="isInLevelThree('dashboard_technique')">
+
+
+  <!-- top tiles -->
+  <center>
+    <p style="font-family:poppins;">{{"Depuis le début de la campagne jusqu'à la date d'aujourd'hui" | translate}}</p>
+    <div class="row tile_count">
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="bottom" fixed-position="true">
+        <span class="count_top"> &#931; {{"Pluvimoétrique" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{Cumulpluvimoetriques || '0' | getNumberAsSpace}}</font>
+          <font size="3px">mm</font>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="bottom" fixed-position="true">
+        <span class="count_top"> &#931; {{"Des apports en eau" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{TotalApportsEaus || '0' | getNumberAsSpace}}</font>
+          <font size="3px">m<sup>3</sup></font>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="bottom" fixed-position="true">
+        <span class="count_top">{{"Sup en production" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{SuperficieProd || '0' | getNumberAsSpace}}</font>
+          <font size="3px">Ha</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i> </i> {{SuperficiePhysique || '0' | getNumberAsSpace}} % {{"En production" | translate}}</span>
+      </div>
+
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="bottom" fixed-position="true">
+        <span class="count_top">{{"Ordre de fertilisation" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{OrdreFertilisationNRealise || '0' | getNumberAsSpace}}</font>
+          <font size="3px">{{"Ordre(s)" | translate}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-sort-desc"></i> </i>{{"Non réalisés" | translate}}</span>
+      </div>
+
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="bottom" fixed-position="true">
+        <span class="count_top">{{"Ordre de traitetment phyto" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{OrdreTraitetmentPhytoNRealis || '0' | getNumberAsSpace}}</font>
+          <font size="3px">{{"Ordre(s)" | translate}}</font>
+        </div>
+        <span class="count_bottom"><i class="green"><i class="fa fa-clock-o"></i> </i>{{"En cours" | translate}}</span>
+      </div>
+
+      <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" title-direction="left" fixed-position="true">
+        <span class="count_top">{{"Réseau d'irrigation" | translate}}</span>
+        <div class="count green">
+          <font size="5px">{{ReseauIrrigation || '0'  | getNumberAsSpace}} </font>
+          <font size="3px">{{"Inconformité" | translate}}</font>
+        </div>
+      </div>
+    </div>
+  </center>
+
+
+  <!-- /top tiles -->
+  <div class="form-inline">
+    <md-content class="md-padding form-group col-md-12" style="width:98%">
+      <md-tabs md-selected="0" md-border-bottom="" md-autoselect="" md-swipe-content="" md-dynamic-height>
+        <md-tab label='{{"Télémétrie de la saisie" | translate}}' md-on-select="template=templates[6]" ng-disabled="!tb_technique_TelemetrieSaisies"></md-tab>
+        <md-tab label='{{"Météo" | translate}}' md-on-select="template=templates[0]" ng-disabled="!tb_technique_Metio"> </md-tab>
+        <md-tab label='{{"Ferti-irrigation" | translate}}' md-on-select="template=templates[1]" ng-disabled="!tb_technique_FertiIrrigation"></md-tab>
+        <md-tab label='{{"Traitement Phytosanitaire" | translate}}' md-on-select="template=templates[2]" ng-disabled="!tb_technique_TraitementPhytosanitaire"></md-tab>
+        <md-tab label='{{"Monitoring" | translate}}' md-on-select="template=templates[3]" ng-disabled="!tb_technique_Monitoring"></md-tab>
+        <md-tab label='{{"Qualité" | translate}}' md-on-select="template=templates[4]" ng-disabled="!tb_technique_Qualite"></md-tab>
+        <md-tab label='{{"Rendement" | translate}}' md-on-select="template=templates[5]" ng-disabled="!tb_technique_Rendement"></md-tab>
+      </md-tabs>
+    </md-content>
+
+    <div style="width:2%;height:100%;" class=" form-group">
+      <span class="material-icons" ng-click="toggleRight();" style="font-size: 25px;padding-top:15px;" title='{{"Personnalisez" | translate}}' title-direction="left" fixed-position="true">
+        settings
+      </span>
+    </div>
+  </div>
+
+  <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" style="position:fixed">
+
+    <md-toolbar class="md-theme-light">
+      <div class="md-toolbar-tools">
+        <h5>{{"Personnalisez votre tableau de bords" | translate}}</h5>
+      </div>
+    </md-toolbar>
+
+    <md-content layout-padding="">
+      <form>
+        <md-input-container>
+          <fieldset>
+            <md-checkbox aria-label="Météo" ng-model="tb_technique_Metio" class="md-primary">
+              <span>{{"Météo" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Forecast (météogramme)" ng-model="tb_technique_metio_ForecastMetiogramme" ng-checked="tb_technique_metio_ForecastMetiogramme && tb_technique_Metio" ng-disabled="!tb_technique_Metio"
+                class="md-primary">
+                <span>{{"Forecast (météogramme)" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Forecast (Général)" ng-model="tb_technique_metio_ForecastGeneral" ng-checked="tb_technique_metio_ForecastGeneral && tb_technique_Metio" ng-disabled="!tb_technique_Metio"
+                class="md-primary">
+                <span>{{"Relevé climatique" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="Ferti-irrigation" ng-model="tb_technique_FertiIrrigation" class="md-primary">
+              <span>{{"Ferti-irrigation" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique des apports par culture" ng-model="tb_technique_fertiIrrigation_GraphiqueAapportsParCulture"
+                ng-checked="tb_technique_fertiIrrigation_GraphiqueAapportsParCulture && tb_technique_FertiIrrigation" ng-disabled="!tb_technique_FertiIrrigation" class="md-primary">
+                <span>{{"Graphique des apports par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique des apports par variété" ng-model="tb_technique_fertiIrrigation_GraphiqueApportsParVariete"
+                ng-checked="tb_technique_fertiIrrigation_GraphiqueApportsParVariete && tb_technique_FertiIrrigation" ng-disabled="!tb_technique_FertiIrrigation" class="md-primary">
+                <span>{{"Graphique des apports par variété" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau des apports par culture" ng-model="tb_technique_fertiIrrigation_TableauApportsParCulture"
+                ng-checked="tb_technique_fertiIrrigation_TableauApportsParCulture && tb_technique_FertiIrrigation" ng-disabled="!tb_technique_FertiIrrigation" class="md-primary">
+                <span>{{"Tableau des apports par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau des apports par variété" ng-model="tb_technique_fertiIrrigation_TableauApportsParVariete"
+                ng-checked="tb_technique_fertiIrrigation_TableauApportsParVariete && tb_technique_FertiIrrigation" ng-disabled="!tb_technique_FertiIrrigation" class="md-primary">
+                <span>{{"Tableau des apports par variété" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="Traitement phytosanitaire" ng-model="tb_technique_TraitementPhytosanitaire" class="md-primary">
+              <span>{{"Traitement phytosanitaire" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Carte des applications phytosanitaires" ng-model="tb_technique_traitementPhytosanitaire_CarteApplicationsPhytosanitaires"
+                ng-checked="tb_technique_traitementPhytosanitaire_CarteApplicationsPhytosanitaires && tb_technique_TraitementPhytosanitaire" ng-disabled="!tb_technique_TraitementPhytosanitaire" class="md-primary">
+                <span>{{"Carte des applications phytosanitaires" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="Monitoring" ng-model="tb_technique_Monitoring" class="md-primary">
+              <span>{{"Monitoring" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Alertes ravageurs" ng-model="tb_technique_monitoring_AlertesRavageurs" ng-checked="tb_technique_monitoring_AlertesRavageurs && tb_technique_Monitoring"
+                ng-disabled="!tb_technique_Monitoring" class="md-primary">
+                <span>{{"Alertes ravageurs" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau du % d'infestation" ng-model="tb_technique_monitoring_TableauInfestation" ng-checked="tb_technique_monitoring_TableauInfestation && tb_technique_Monitoring"
+                ng-disabled="!tb_technique_Monitoring" class="md-primary">
+                <span>{{"Tableau du % d'infestation" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique du % d'infestation" ng-model="tb_technique_monitoring_GraphiqueInfestation" ng-checked="tb_technique_monitoring_GraphiqueInfestation && tb_technique_Monitoring"
+                ng-disabled="!tb_technique_Monitoring" class="md-primary">
+                <span>{{"Graphique du % d'infestation" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="Qualité" ng-model="tb_technique_Qualite" class="md-primary">
+              <span>{{"Qualité" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique du suivi qualité par culture" ng-model="tb_technique_qualite_GraphiqueSuiviQualiteParCulture"
+                ng-checked="tb_technique_qualite_GraphiqueSuiviQualiteParCulture && tb_technique_Qualite" ng-disabled="!tb_technique_Qualite" class="md-primary">
+                <span>{{"Graphique du suivi qualité par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique du suivi qualité par variété" ng-model="tb_technique_qualite_GraphiqueSuiviQualiteParVariete"
+                ng-checked="tb_technique_qualite_GraphiqueSuiviQualiteParVariete && tb_technique_Qualite" ng-disabled="!tb_technique_Qualite" class="md-primary">
+                <span>{{"Graphique du suivi qualité par variété" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau du suivi qualité par culture" ng-model="tb_technique_qualite_TableauSuiviQualiteCulture" ng-checked="tb_technique_qualite_TableauSuiviQualiteCulture && tb_technique_Qualite"
+                ng-disabled="!tb_technique_Qualite" class="md-primary">
+                <span>{{"Tableau du suivi qualité par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau du suivi qualité par variété" ng-model="tb_technique_qualite_TableauSuiviQualiteVariete" ng-checked="tb_technique_qualite_TableauSuiviQualiteVariete && tb_technique_Qualite"
+                ng-disabled="!tb_technique_Qualite" class="md-primary">
+                <span>{{"Tableau du suivi qualité par variété" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="Qualité" ng-model="tb_technique_Rendement" class="md-primary">
+              <span>{{"Rendement" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique du suivi rendement  par culture" ng-model="tb_technique_qualite_GraphiqueSuiviRendementParCulture"
+                ng-checked="tb_technique_qualite_GraphiqueSuiviRendementParCulture && tb_technique_Rendement" ng-disabled="!tb_technique_Rendement" class="md-primary">
+                <span>{{"Graphique du suivi rendement par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Graphique du suivi rendement par variété" ng-model="tb_technique_qualite_GraphiqueSuiviRendementParVariete"
+                ng-checked="tb_technique_qualite_GraphiqueSuiviRendementParVariete && tb_technique_Rendement" ng-disabled="!tb_technique_Rendement" class="md-primary">
+                <span>{{"Graphique du suivi rendement par variété" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau du suivi rendement par culture" ng-model="tb_technique_qualite_TableauSuiviRendementParCulture"
+                ng-checked="tb_technique_qualite_TableauSuiviRendementParCulture && tb_technique_Rendement" ng-disabled="!tb_technique_Rendement" class="md-primary">
+                <span>{{"Tableau du suivi rendement par culture" | translate}}</span>
+              </md-checkbox><br />
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau du suivi rendement par variété" ng-model="tb_technique_qualite_TableauSuiviRendementParVariete"
+                ng-checked="tb_technique_qualite_TableauSuiviRendementParVariete && tb_technique_Rendement" ng-disabled="!tb_technique_Rendement" class="md-primary">
+                <span>{{"Tableau du suivi rendement par variété" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+            <md-checkbox aria-label="tb_technique_TelemetrieSaisies" ng-model="tb_technique_TelemetrieSaisies" class="md-primary">
+              <span>{{"Télémétrie de la saisie" | translate}}</span>
+            </md-checkbox>
+            <div class="demo-select-all-checkboxes">
+              &nbsp;&nbsp;&nbsp;&nbsp;<md-checkbox aria-label="Tableau des dernières saisies par utilisateur" ng-model="tb_technique_telemetrieSaisies_TableauDernieresSaisiesParUtilisateur"
+                ng-checked="tb_technique_telemetrieSaisies_TableauDernieresSaisiesParUtilisateur && tb_technique_TelemetrieSaisies" ng-disabled="!tb_technique_TelemetrieSaisies" class="md-primary">
+                <span>{{"Tableau des dernières saisies par utilisateur" | translate}}</span>
+              </md-checkbox>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend></legend>
+          </fieldset>
+
+
+        </md-input-container>
+
+
+
+
+      </form>
+
+
+      <md-input-container layout="row">
+        <span flex></span>
+        <md-button ng-click="close();" class="md-primary">
+          {{"Fermer" | translate}}
+        </md-button>
+        <md-button ng-click="Sauvegarder()">
+          {{"Sauvegarder" | translate}}
+        </md-button>
+      </md-input-container>
+
+    </md-content>
+
+
+
+  </md-sidenav>
+
+  <div ng-include="template.url"></div>
+
+
+  <!--<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Météo depuis 30 jours</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdivMetio30j"></div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+
+  <!--  <div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="x_panel" style="height:400px;overflow-y:scroll;">
+        <div class="x_title">
+          <h2>Alerte maladies et ravageurs depuis 7 jours</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <article class="media event" ng-repeat="AlerteMaladiesRavageur in pc.AlerteMaladiesRavageurs">
+            <a class="pull-left date">
+              <p class="day">{{AlerteMaladiesRavageur.nbr}}</p>
+            </a>
+            <div class="media-body">
+              <a class="title" href="#">{{AlerteMaladiesRavageur.Cible}} {{AlerteMaladiesRavageur.Code_Piege}}</a>
+              <p>{{AlerteMaladiesRavageur.DateCreated | date:"MM/dd/yyyy"}}</p>
+            </div>
+          </article>
+          <div ng-show="pc.AlerteMaladiesRavageurs.length == 0">
+            <center>
+              <br />Pas de données à afficher
+            </center>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- start of weather widget -->
+  <!--<div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="x_panel" style="height:400px;overflow-y:scroll;">
+      <div class="x_title">
+        <h2>Forcast météo </h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="temperature" ng-if="latlongValidate"><b>{{pc.NomFerme}}</b>
+            </div>
+          </div>
+          <div class="col-sm-8">
+            <div class="temperature"><b>{{ForcastActuel[0].datetime}}</b>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="weather-icon">
+            <img height="50" width="50" ng-if="latlongValidate" ng-src="https://www.weatherbit.io/static/img/icons/{{ForcastActuel[0].weather.icon}}.png">
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="weather-text">
+            <h2>{{ForcastActuel[0].weather.description}}</h2>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="weather-text pull-right">
+            <h3 class="degrees" ng-if="latlongValidate">{{ForcastActuel[0].app_temp}}</h3>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row weather-days">
+        <div class="col-sm-2" ng-repeat="Forcasts in Forcast" ng-hide="$first">
+          <div class="daily-weather">
+            <h2 class="day">{{Forcasts.datetime | uppercase}}</h2>
+            <h3 class="degrees">{{Forcasts.max_temp}}</h3>
+            <h3 class="degrees">{{Forcasts.min_temp}}</h3>
+            <img height="50" width="50" ng-src="https://www.weatherbit.io/static/img/icons/{{Forcasts.weather.icon}}.png">
+            <h5 class="day">{{Forcasts.weather.description}} </h5>
+            <h5>{{Forcasts.wind_spd | number:2}} <i>km/h</i></h5>
+          </div>
+        </div>
+
+        <div class="col-sm-12" ng-if="!latlongValidate && pc.NomFerme">
+          <center>Veuillez indiquer la position geographique de la ferme</center>
+        </div>
+        <div class="col-sm-12" ng-if="!pc.NomFerme">
+          <center>Veuillez choisir une ferme</center>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <br />
+  <br />
+  <br />
+</div>

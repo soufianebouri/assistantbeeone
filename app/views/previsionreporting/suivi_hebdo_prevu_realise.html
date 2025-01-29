@@ -1,0 +1,120 @@
+<div class="right_col" role="main" ng-controller="SuiviHebdoPrevuRealiseCtrl as pc">
+
+  <div class="modal-demo">
+    <span> {{'Previsions' | translate}} <i class="fa fa-angle-right"></i> {{'Reporting' | translate}} <i class="fa fa-angle-right"></i>
+      <b> {{'Suivi hebdomadaire prévu/réalisé' | translate}}</b></span>
+    <center class="dontDisplay">
+      <table>
+        <tr>
+          <td>{{'Société' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Campagne' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Producteur' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Ferme' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Type variété' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>{{'Variété' | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>
+            <select id="societe" class="form-control  input-sm selectpicker" ng-model="societe" ng-change="pc.societe_change()" data-live-search="true" title="{{'Société ...' | translate}}" data-selected-text-format="count > 1" data-size="10">
+              <option ng-repeat="societe in pc.societe_array" value="{{ societe.ID }}">{{ societe.Rais_Social }}</option>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="compagne" name="compagne" class="form-control  input-sm selectpicker" ng-model="compagne" ng-change="pc.compagne_change()" data-live-search="true" title="{{'Campagne ...' | translate}}" data-selected-text-format="count > 1"
+              data-size="10">
+              <option ng-repeat="compagne in pc.compagne_array" value="{{compagne.ID_compagne}}">{{ compagne.Code }}</option>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="producteur" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="producteur" ng-change="pc.producteur_change()" multiple data-live-search="true" title="{{'Producteur ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Producteur' | translate}}">
+                <option ng-repeat="producteur in pc.producteur_array" ng-value="producteur.ID" ng-show="producteur.ID_societe == societe">{{ producteur.Libelle }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="ferme" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="ferme" ng-change="pc.ferme_change()" multiple data-live-search="true" title="{{'Ferme ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Ferme' | translate}}">
+                <option ng-repeat="ferme in pc.ferme_array" ng-value="ferme.IDFermes" ng-show="producteur.length == 0 || producteur.indexOf(0)!=-1 ||producteur.indexOf(ferme.IDBusiness_unit) != -1">{{ ferme.Nom }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="culture" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="culture" ng-change="pc.culture_change()" multiple data-live-search="true" title="{{'Type variété ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Type variété' | translate}}">
+                <option ng-repeat="culture in pc.culture_array" ng-value="culture.idfamille_variete">{{ culture.Libile }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+
+          <td>
+            <select id="variete" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="variete" ng-change="pc.variete_change()" multiple data-live-search="true" title="{{'Variété ...' | translate}}"
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Variété' | translate}}">
+                <option ng-repeat="variete in pc.variete_array" ng-value="variete.ID" ng-show="culture.length == 0 || culture.indexOf(0)!=-1 ||culture.indexOf(variete.IDFamille_variete) != -1">{{ variete.Variete }}</option>
+              </optgroup>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <md-button class="md-raised md-warn" ng-click="search()" title="{{'Valider' | translate}}" ng-disabled="pc.obj.DATE_DEBUT == 0 ">
+              {{'Valider' | translate}}
+            </md-button>
+          </td>
+        </tr>
+
+      </table>
+    </center>
+  </div>
+  <br>
+
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="row">
+        <div class="col-md-12">
+          <button class="button_web_data_rocks" ng-click="exportData('excel')" title="{{'EXCEL' | translate}}"><i class="fa fa-file-excel-o"></i></button>
+          <button class="button_web_data_rocks" ng-click="exportData('pdf')" title="{{'Imprimer' | translate}}"><i class="fa fa-print"></i></button>
+          <div id="wdr-component"></div>
+        </div>
+        <div class="col-md-6">
+          <br><br><br>
+          <h4>
+            <center>{{'Total prévu' | translate}}</center>
+          </h4>
+          <div id="googlechart-container-prevu" style="height:500px;"></div>
+        </div>
+        <div class="col-md-6">
+          <br><br><br>
+          <h4>
+            <center>{{'Total réalisé' | translate}}</center>
+          </h4>
+          <div id="googlechart-container-realise" style="height:500px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

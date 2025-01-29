@@ -1,0 +1,111 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="ferme" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.ferme}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" ng-change="pc.loadDataParcelle()" ng-init="pc.loadDataFarms()" name="ferme" id="ferme" ng-model="pc.obj.ID_Ferme" required>
+          <option value="{{Ferme.IDFermes}}" ng-repeat="Ferme in pc.data.farmsArray track by $index" ng-selected="pc.obj.ID_Ferme == Ferme.IDFermes">{{Ferme.Nom}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="parcelle" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.parcelle}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" name="parcelle" id="parcelle" ng-model="pc.obj.ID_Parcelle" required>
+          <option value="{{Parcelle.ID}}" ng-repeat="Parcelle in pc.data.parcelsArray track by $index" ng-selected="pc.obj.ID_Parcelle == Parcelle.ID">{{Parcelle.Ref}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="cible" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.cible}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" name="cible" id="cible" ng-model="pc.obj.ID_cible" ng-init="pc.loadDataTarget()" required>
+          <option value="{{target.ID_cible}}" ng-repeat="target in pc.data.targetArray track by $index" ng-selected="pc.obj.ID_cible == target.ID_cible">{{target.Cible}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Code_Piege" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Code_Piege}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Code_Piege" id="Code_Piege" ng-model="pc.obj.Code_Piege" required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Date_Installation" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Date_Installation}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="date" class="form-control" name="Date_Installation" id="Date_Installation" ng-model="pc.obj.Date_Installation" ng-change="pc.checkdate()" string-to-date required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Ligne" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Ligne}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" ng-pattern="/^-?[0-9][^\.]*$/" class="form-control" name="Ligne" id="Ligne" ng-model="pc.obj.Ligne" string-to-number required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Arbre" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Arbre}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" ng-pattern="/^-?[0-9][^\.]*$/" class="form-control" name="Arbre" id="Arbre" ng-model="pc.obj.Arbre" string-to-number required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Lat_Piege" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Lat_Piege}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="Lat_Piege" id="Lat_Piege" ng-model="pc.obj.Lat_Piege" string-to-number required>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Long_Piege" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Long_Piege}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" class="form-control" name="Long_Piege" id="Long_Piege" ng-model="pc.obj.Long_Piege" string-to-number required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Etat_Piege" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Etat_Piege}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 btn-group btn-group-toggle" data-toggle="buttons">
+        <label ng-class="{ active : pc.obj.Etat_Piege == 1 , 'btn btn-secondary':true}">
+          <input type="radio" name="trapeOptions" id="openedTrape" autocomplete="off" ng-model="pc.obj.Etat_Piege" value="1"> {{"Piège ouvert" | translate}}
+        </label>
+        <label ng-class="{ active : pc.obj.Etat_Piege == 0, 'btn btn-secondary':true }">
+          <input type="radio" name="trapeOptions" id="ClosedTrape" autocomplete="off" ng-model="pc.obj.Etat_Piege" value="0"> {{"Piège fermé" | translate}}
+        </label>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="Caracteristique" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.Caracteristique}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 btn-group btn-group-toggle" data-toggle="buttons">
+        <label ng-class="{ active : pc.obj.Caracteristique == 1 , 'btn btn-secondary':true}">
+          <input type="radio" name="carOptions" id="Male" autocomplete="off" ng-model="pc.obj.Caracteristique" value="1"> {{"Mâle" | translate}}
+        </label>
+        <label ng-class="{ active : pc.obj.Caracteristique == 0, 'btn btn-secondary':true}">
+          <input type="radio" name="carOptions" id="Femalle" autocomplete="off" ng-model="pc.obj.Caracteristique" value="0"> {{"Femalle" | translate}}
+        </label>
+      </div>
+    </div>
+
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !pc.validateDate">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

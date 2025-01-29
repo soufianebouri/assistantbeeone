@@ -1,0 +1,73 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak name="form" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{'Envoyer une demande d actualisation' | translate}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+
+      <md-content layout-padding ng-cloak>
+
+        <div layout-gt-xs="row">
+          <md-input-container>
+            <label>{{'Culture' | translate}}</label>
+            <md-select ng-model="culture" ng-change="culture_changed()">
+              <md-option disabled><em>{{'Culture' | translate}}</em></md-option>
+              <md-option ng-repeat="culture in culture_array" value="{{ culture.ID }}">
+                {{culture.Culture}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Variété' | translate}}</label>
+            <md-select placeholder="{{'Variété ...' | translate}}" ng-model="variete" style="min-width: 200px;" ng-change="variete_change()" multiple>
+              <md-optgroup label="Tous">
+                <md-option value="0">{{'Tous' | translate}}</md-option>
+              </md-optgroup>
+
+              <md-optgroup label="{{'Variété' | translate}}">
+                <md-option ng-repeat="variete in variete_array" value="{{variete.ID}}" ng-if="variete.culture == culture">
+                  {{ variete.Variete }}
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Profile' | translate}}</label>
+            <md-select placeholder="{{'Profile ...' | translate}} " ng-model="profile" style="min-width: 200px;" ng-change="profile_change()" multiple>
+              <md-optgroup label="{{'Tous' | translate}}">
+                <md-option value="0">Tous</md-option>
+              </md-optgroup>
+
+              <md-optgroup label="{{'Operateur' | translate}}">
+                <md-option ng-repeat="profile in profile_array" value="{{profile.id}}">
+                  {{ profile.nom }} {{ profile.prenom }}
+                </md-option>
+              </md-optgroup>
+            </md-select>
+          </md-input-container>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <md-input-container>
+            <label>{{'Les dates à actualiser' | translate}}</label>
+            <input type="text" class="date">
+          </md-input-container>
+
+        </div>
+
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="saveData()" ng-disabled="form.$invalid || isItOkey()">
+        {{'Envoyer la demande' | translate}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -1,0 +1,101 @@
+<div class="right_col" role="main" ng-controller="TbrendementCtrl">
+
+
+  <div id="CultureRangeDiv">
+    <center>
+      <table>
+        <tr>
+          <td>{{"Culture" | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+          <td>{{"Variété" | translate}}</td>
+          <td>&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;</td>
+        </tr>
+        <tr>
+          <td>
+            <select id="culture" class="form-control input-sm selectpicker" ng-model="CULTURE" ng-change="Culture_change()" data-actions-box='true' multiple data-live-search="true" title="{{'Culture' | translate}}..." data-selected-text-format="count > 1">
+              <option selected disabled value="" style="background-color: #ffffff;width:150px;"> {{"Culture" | translate}} ..</option>
+              <option ng-repeat="Culture in Cultures" value="{{Culture.ID}}">{{ Culture.Culture }}</option>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <select id="variete" class="form-control input-sm selectpicker" ng-model="VARIETE" ng-change="Variete_change()" data-actions-box='true' multiple data-live-search="true" title="{{'Variété' | translate}} ..." data-selected-text-format="count > 1">
+              <option selected disabled value="" style="background-color: #ffffff;width:150px;"> {{"Variete" | translate}} ..</option>
+              <option ng-repeat="Variete in Varietes" value="{{Variete.id}}">{{ Variete.Variete }}</option>
+            </select>
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <md-button class="md-raised" ng-click="search()" title="{{'Rechercher' | translate}}">{{"Valider" | translate}}</md-button>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </div>
+
+  <!-- top tiles -->
+  <div class="row tile_count">
+    <center>
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-crop"></i> {{"Superficie en production" | translate}}</span>
+        <div class="count">
+          <font size="6px">{{(CultureSuperficie == 'NaN')?0:CultureSuperficie || '0' | getNumberAsSpace}} <small>Ha</small></font>
+        </div>
+
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-cube"></i> {{"Récolte d'aujourd'hui" | translate}}</span>
+        <div class="count green" id="sn">
+          <font size="6px">{{(RecolteToday == 'NaN')?0:RecolteToday || '0' | getNumberAsSpace}} <small>Kg</small></font>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-cubes"></i> {{"Récolte à date" | translate}}</span>
+        <div class="count">
+          <font size="6px">{{(RecolteADate == 'NaN')?0:RecolteADate || '0' | getNumberAsSpace}} <small> T </small></font>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-crop"></i> {{"Rendement à date" | translate}} </span>
+        <div class="count">
+          <font size="6px">{{(RecolteADate == 'NaN') ? 0 : RecolteADate / CultureSuperficie || '0' | getNumberAsSpace }} <small>T/Ha</small></font>
+        </div>
+      </div>
+    </center>
+  </div>
+  <!-- /top tiles -->
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>{{"Récolte à date par culture" | translate}}</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdivtonnage"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>{{"Récolte à date par variété" | translate}}</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <div id="chartdivtonnageVariete"></div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <br />
+
+  </div>

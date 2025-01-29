@@ -1,0 +1,76 @@
+<div ng-class="{'alert-success modal-header':pc.data.action == 'insert', 'alert-warning modal-header':pc.data.action != 'insert'}">
+  <h3 class="modal-title" id="modal-title">
+    <span ng-if="pc.data.action == 'insert'">{{pc.data.modalTitle.create}}</span>
+    <span ng-if="pc.data.action != 'insert'">{{pc.data.modalTitle.update}}</span>
+  </h3>
+</div>
+<div class="modal-body" id="modal-body" loading="pc.loading">
+
+  <form name="form" ng-submit="pc.submitForm(form.$valid)" novalidate>
+
+    <div class="form-group row">
+      <label for="ferme" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.ferme}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" ng-change="pc.loadDataParcelle()" ng-init="pc.loadDataFarms()" name="ferme" id="ferme" ng-model="pc.obj.ID_Ferme" required>
+          <option value="{{Ferme.IDFermes}}" ng-repeat="Ferme in pc.data.farmsArray track by $index" ng-selected="pc.obj.ID_Ferme == Ferme.IDFermes">{{Ferme.Nom}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="parcelle" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.parcelle}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <select class="form-control input-sm" name="parcelle" id="parcelle" ng-model="pc.obj.ID_ParcelleCulturale" required>
+          <option value="{{Parcelle.ID}}" ng-repeat="Parcelle in pc.data.parcelsArray track by $index" ng-selected="pc.obj.ID_ParcelleCulturale == Parcelle.ID">{{Parcelle.Ref}}</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label for="Code_Arbre" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.codeArbre}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="Code_Arbre" id="Code_Arbre" ng-model="pc.obj.Code_Arbre" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="Date_Plantation" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.date}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="date" class="form-control" name="Date_Plantation" id="Date_Plantation" ng-model="pc.obj.Date_Plantation" ng-change="pc.checkdate()" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="NumLotPepiniere" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.numLot}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="number" ng-pattern="/^-?[0-9][^\.]*$/" class="form-control" name="NumLotPepiniere" id="NumLotPepiniere" ng-model="pc.obj.NumLotPepiniere" required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="QR_CODE" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.qrCode}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <input type="text" class="form-control" name="QR_CODE" id="QR_CODE" ng-model="pc.obj.QR_CODE" ng-init="pc.generateCode()" required disabled>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="img" class="col-sm-2 col-xs-12 col-md-2  control-label">{{pc.data.img}}</label>
+      <div class="col-sm-10 col-xs-12 col-md-10 ">
+        <div id="QrCodeImg"></div>
+      </div>
+    </div>
+    <div class="alert alert-danger row" role="alert" ng-show="pc.errPushInsert != 'Error :'">
+      {{pc.errPushInsert}}
+    </div>
+
+    <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !pc.validateDate">
+      {{"Valider" | translate}}
+    </button>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" type="button" ng-click="pc.cancel()">{{"Quitter" | translate}}</button>
+</div>

@@ -1,0 +1,192 @@
+<div class="right_col" role="main">
+  <div ng-controller="MainoeuvreetatsAtatdesvariablesCtrl as pc" class="modal-demo">
+    <span class="dontshowit"> Main d’oeuvre <i class="fa fa-angle-right"></i> Edition paie <i class="fa fa-angle-right"></i> <b>Etat des variables</b></span>
+    <center>
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+        <center>
+          <a class="btn btn-success btn-sm" data-toggle="happy" data-title="0" ng-click="type_change(1);" id="sansprimes"><i class="fa fa-remove"></i>&nbsp;&nbsp;Sans primes</a>&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-sm" data-toggle="happy" data-title="1" ng-click="type_change(2);" id="avecprime"><i class="fa fa-dollar"></i>&nbsp;&nbsp;Avec primes</a>
+        </center>
+        <table>
+          <tr>
+            <td>Personnel</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>Campagne</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>Période de paie</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>De</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>A</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Personnel" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="personnel.personnel" ng-change="personnel_change()" multiple data-live-search="true" title="{{'Personnel' | translate}} ..."
+                data-selected-text-format="count > 1" data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> Personnel ..</option>
+                <optgroup label="{{'personnel' | translate}}">
+                  <option ng-repeat="personnel in pc.personnels" ng-value="personnel.ID">{{ personnel.Matricule + ' ' + personnel.Nom + ' ' + personnel.Prenom }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Campagne" class="form-control  input-sm selectpicker" ng-model="campagne.campagne" ng-change="campagne_change()" data-live-search="true" title="{{'Campagne' | translate}}..." data-selected-text-format="count > 1"
+                data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> Campagne ..</option>
+                <option ng-repeat="campagne in pc.campagneagricole" ng-value="campagne">{{ campagne.Code }}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <select id="Periode" class="form-control  input-sm selectpicker" ng-model="periode.periode" ng-change="periode_change()" data-live-search="true" title="{{'Période' | translate}} ..." data-selected-text-format="count > 1" data-size="10">
+                <option selected disabled value="" style="background-color: #ffffff;"> Période de paie ..</option>
+                <option ng-repeat="periode in pc.periodepaies" ng-value="periode" ng-if="periode.IDsociete == pc.IDSociete && periode.compagne == campagne_sel">{{ periode.Periode | date:'dd/MM/yyyy'}} {{ periode.date_debut | date:'dd/MM/yyyy'}}
+                  {{ periode.Date_fin | date:'dd/MM/yyyy'}}</option>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+
+          </tr>
+
+        </table>
+
+        <br />
+        <center>
+          <a class="btn btn-warning btn-sm" data-toggle="happy" data-title="0" ng-click="cnss_change(1);" id="sanscnss"><i class="fa fa-square-o"></i>&nbsp;&nbsp;Sans CNSS</a>&nbsp;&nbsp;&nbsp;
+          <a class="btn btn-sm" data-toggle="happy" data-title="1" ng-click="cnss_change(2);" id="aveccnss"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;Déclaré CNSS</a>
+          <a class="btn btn-sm" data-toggle="happy" data-title="1" ng-click="cnss_change(3);" id="touscnss"><i class="fa fa-square"></i>&nbsp;&nbsp;Tout</a>
+        </center>
+
+        <md-button class="md-raised" ng-click="pc.rechercher()" title="{{'Rechercher' | translate}}">Rechercher</md-button><br />
+
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')" title="{{'Cacher le formulaire' | translate}}"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+      <br />
+    </center>
+    <div class="dontshowit">
+      <a class="dt-button pull-right" ng-click="pc.printExcel($e)" title="EXCEL" ng-show="sansprimeschange == 1"><i class="fa fa-file-excel-o"></i></a>
+      <a class="dt-button pull-right" ng-click="pc.tableDataShowAvecPrime($e)" title="EXCEL" ng-show="sansprimeschange == 2"><i class="fa fa-file-excel-o"></i></a>
+      <a class="dt-button pull-right" ng-click="ReverseDisplay('filter_form');" title="{{'Rechercher' | translate}}"><i class="fa fa-search"></i></a>
+      <a class="dt-withcolor-button-conge pull-left" ng-click="pc.searchByCategorieOnTable('Permanent');">Permanent</a>
+      <a class="dt-withcolor-button-ferie pull-left" ng-click="pc.searchByCategorieOnTable('Occasionnel');">Occasionnel</a>
+    </div>
+
+    <br /><br />
+    <div class="table-responsive dontDisplay" id="search_div">
+      <div class="dt-buttons" style="float:right ; margin-top:5px">
+        <label>Rechercher: <input type="search" id="search" class="" placeholder="" aria-controls="DataTables_Table_0"></label>
+      </div>
+    </div>
+    <div class="flex-container" id="loadingData">
+      <img src="././images/loading.gif" />
+    </div>
+    <div class="table-responsive" ng-show="sansprimeschange == 1" id="printThis">
+      <table id="tableDataShow" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+
+        <tr style="background-color: #eee">
+          <th><b>Matricule</b></th>
+          <th><b>Personnel</b></th>
+          <th><b>Catégorie</b></th>
+          <th><b>Nbr de jours</b></th>
+          <th><b>Nbr de jours chômé payé</b></th>
+          <th><b>Nbr de jours ferié travaillé</b></th>
+          <th><b>Nbr de jours congé</b></th>
+          <th><b>Heures sup à 100%</b></th>
+          <th><b>Heures sup à 125%</b></th>
+          <th><b>Heures sup à 150%</b></th>
+          <th ng-repeat="AllOperationPrincipale in pc.AllOperationPrincipale"><b>{{AllOperationPrincipale.OpeRef_Intitule}}</b></th>
+          <th><b>Autre opération</b></th>
+        </tr>
+
+        <tr ng-repeat="Alletatvarieble in pc.Alletatvarieble" class="{{Alletatvarieble.Mat | TextWithoutSpace}}">
+          <td style="white-space: nowrap;">{{Alletatvarieble.Mat}}</td>
+          <td style="white-space: nowrap;">{{Alletatvarieble.Nom + ' ' + Alletatvarieble.Prenom}}</td>
+          <td style="white-space: nowrap;">{{Alletatvarieble.Categorie}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.nbr_jour | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.Jour_chome_paye | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.Jour_ferie_travaille | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">
+            {{pc.setcells_getnbrconge(Alletatvarieble.ID) | number:2}}
+          </td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_100 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_25 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_50 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;" ng-repeat="AllOperationPrincipale in pc.AllOperationPrincipale">
+            {{pc.setcells_getnbrjourparpersonnel(Alletatvarieble.ID , AllOperationPrincipale.OpeRef_Id) | number:2}}
+          </td>
+          <td align="right" style="white-space: nowrap;">
+            {{pc.setcells_getnbrjourparpersonnelothers(Alletatvarieble.ID) | number:2}}
+          </td>
+        </tr>
+
+        <tbody>
+          <tr ng-if="pc.Alletatvarieble.length == 0">
+            <td colspan="{{12}}">
+              <center><br /><br /><br /><br /><br /><br /><br /><br /><img src='././images/ic_notfound_c.png' /><br />
+                <font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry</b> Data Not Available, Please Check The <b>Filtre Settings</b></font>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+              </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--avev prime-->
+    <div class="table-responsive" ng-show="sansprimeschange == 2" id="printThis">
+      <table id="tableDataShow" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+
+        <tr style="background-color: #eee">
+          <th><b>Matricule</b></th>
+          <th><b>Personnel</b></th>
+          <th><b>Catégorie</b></th>
+          <th><b>Total jours travail</b></th>
+          <th><b>Ferié</b></th>
+          <th><b>Jours Sup</b></th>
+          <th><b>Congé</b></th>
+          <th><b>HS 25%</b></th>
+          <th><b>HS 50%</b></th>
+          <th><b>HS 100%</b></th>
+          <th ng-repeat="AllNamesPrime in pc.AllNamesPrime"><b>{{AllNamesPrime.Nom_prime}}</b></th>
+        </tr>
+
+        <tr ng-repeat="Alletatvarieble in pc.Alletatvarieble" class="{{Alletatvarieble.Mat | TextWithoutSpace}}">
+          <td style="white-space: nowrap;">{{Alletatvarieble.Mat}}</td>
+          <td style="white-space: nowrap;">{{Alletatvarieble.Nom + ' ' + Alletatvarieble.Prenom}}</td>
+          <td style="white-space: nowrap;">{{Alletatvarieble.Categorie}}</td>
+          <td align="right" style="white-space: nowrap;">{{pc.setcells_getJrSup(Alletatvarieble.nbr_jour, pc.setcells_getnbrconge(Alletatvarieble.ID))[0] | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{(Alletatvarieble.Jour_chome_paye + Alletatvarieble.Jour_ferie_travaille) | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{pc.setcells_getJrSup(Alletatvarieble.nbr_jour, pc.setcells_getnbrconge(Alletatvarieble.ID))[1] | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{pc.setcells_getnbrconge(Alletatvarieble.ID) | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_100 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_25 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;">{{Alletatvarieble.hs_50 | number:2}}</td>
+          <td align="right" style="white-space: nowrap;" ng-repeat="AllNamesPrime in pc.AllNamesPrime">{{pc.setcells_getPrime(Alletatvarieble.ID, AllNamesPrime.IDPrime) | number:2}}</td>
+        </tr>
+
+        <tbody>
+          <tr ng-if="pc.Alletatvarieble.length == 0">
+            <td colspan="{{12}}">
+              <center><br /><br /><br /><br /><br /><br /><br /><br /><img src='././images/ic_notfound_c.png' /><br />
+                <font color='#a5a5a5' size='4' style='font-family:system-ui;'><b>Sorry</b> Data Not Available, Please Check The <b>Filtre Settings</b></font>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+              </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br /><br />
+  </div>
+
+</div>

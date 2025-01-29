@@ -1,0 +1,345 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'suivi_interventions_equipements' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{1}}. {{'Informations générales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de suivi' | translate}}...</label>
+                          <input type="date" ng-model="DateSuivi" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Référence de la ressource" | translate}} ...</label>
+                          <md-select ng-model="referenceRessourcesel" style="width:90%;" ng-change="setfoodsRef()" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchRef" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="AllRessourcesHydrique.ID" ng-repeat="AllRessourcesHydrique in AllRessourcesHydriques | filter:searchRef | filter:{'Type': 1} | orderBy:'ReferenceRessourceHydrique' ">
+                              {{AllRessourcesHydrique.ReferenceRessourceHydrique}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block">
+                          <label>{{'Observation' | translate}}</label>
+                          <textarea ng-model="Observations" md-maxlength="100" rows="3" md-select-on-focus style="width:90%;"></textarea>
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{2}}. {{'Pompes' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+                    <div class="margin-left-input" flex-gt-sm="100" flex="">
+                      <div layout="row" layout-wrap flex>
+                        <div flex="100" flex-gt-sm="100" layout="column">
+                          <table id="bac" class="table table-striped" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th>{{'Marque' | translate}} *</th>
+                                <th>{{'Modèle' | translate}} *</th>
+                                <th>{{'Puissance (kw)' | translate}}</th>
+                                <th>{{'Nombre des turbines' | translate}}</th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="food in foodsPonpes">
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Marque" style="width:180px;" type="text" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Modele" style="width:180px;" type="text" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Puissance" style="width:180px;" class="right" type="number" step="any" min="0">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.NombreTurbines" style="width:180px;" class="right" type="number" step="any" min="0">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-button ng-click="AddPonpes($index)" ng-show="$last">
+                                    <md-icon>add_outline</md-icon>
+                                  </md-button>
+                                </td>
+                                <td class="th-table">
+                                  <md-button ng-click="RetirerPonpes($index)" ng-hide="$first && foodsPonpes.length<1">
+                                    <md-icon>delete_outline</md-icon>
+                                  </md-button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{3}}. {{'Canalisation de remontée d\'eau' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+                    <div class="margin-left-input" flex-gt-sm="100" flex="">
+                      <div layout="row" layout-wrap flex>
+                        <div flex="100" flex-gt-sm="100" layout="column">
+                          <table id="bac" class="table table-striped" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th>{{'Diamètre (mm)' | translate}} *</th>
+                                <th>{{'Type bride' | translate}}</th>
+                                <th>{{'Longeur par unité (m)' | translate}}</th>
+                                <th>{{'Nombre' | translate}} *</th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="food in foodsCanalisation">
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Diametre" style="width:180px;" class="right" type="number" step="any" min="0" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.TypeBride" style="width:180px;" type="text">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.LongeurUnite" style="width:180px;" class="right" step="any" min="0" type="number">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-input-container style="width:180px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Nombre" style="width:180px;" class="right" step="1" min="0" type="number" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table">
+                                  <md-button ng-click="AddCanalisation($index)" ng-show="$last">
+                                    <md-icon>add_outline</md-icon>
+                                  </md-button>
+                                </td>
+                                <td class="th-table">
+                                  <md-button ng-click="RetirerCanalisation($index)" ng-hide="$first && foodsCanalisation.length<1">
+                                    <md-icon>delete_outline</md-icon>
+                                  </md-button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{4}}. {{'Composantes électriques' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+
+                    <div class="margin-left-input" flex-gt-sm="100" flex="">
+                      <div layout="row" layout-wrap flex>
+                        <div flex="100" flex-gt-sm="100" layout="column">
+                          <table id="bac" class="table table-striped" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th>{{"Type de démarrage" | translate}} *</th>
+                                <th>{{"Marque" | translate}} *</th>
+                                <th>{{"Modèle" | translate}}</th>
+                                <th>{{"Puissance nominale (kw)" | translate}}</th>
+                                <th>{{"Diamètre cable (mm)" | translate}}</th>
+                                <th>{{"Longueur cable (m)" | translate}}</th>
+                                <th>{{'Contrôle de niveau (Non / Oui)' | translate}}</th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr ng-repeat="food in foodselectrique">
+                                <td class="th-table">
+                                  <md-input-container class="md-block" flex-gt-xs>
+                                    <md-select ng-model="food.TypeDemarrage" style="width:140px;" data-md-container-class="selectdemoSelectHeader" required>
+                                      <md-option ng-value="AllTypeDemarrage.name" ng-repeat="AllTypeDemarrage in AllTypeDemarrages | orderBy:'name' | filter:searchTypeDemarrage ">
+                                        {{AllTypeDemarrage.name}}
+                                      </md-option>
+                                    </md-select>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container style="width:140px;height:0px;margin:0;padding-bottom: 35px;" class="md-block" flex-gt-xs>
+                                    <input ng-model="food.Marque" style="width:90%;" type="text" required>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container class="md-block" style="width:140px;height:0px;margin:0;padding-bottom: 35px;" flex-gt-xs>
+                                    <input ng-model="food.Modele" style="width:90%;" type="text">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container class="md-block" style="width:140px;height:0px;margin:0;padding-bottom: 35px;" flex-gt-xs>
+                                    <input ng-model="food.PuissanceNominale" style="width:90%;" type="number" class="right" step="any" min="0">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container class="md-block" style="width:140px;height:0px;margin:0;padding-bottom: 35px;" flex-gt-xs>
+                                    <input ng-model="food.DiametreCable" style="width:90%;" type="number" class="right" step="any" min="0">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container class="md-block" style="width:140px;height:0px;margin:0;padding-bottom: 35px;" flex-gt-xs>
+                                    <input ng-model="food.LongueurCable" style="width:90%;" type="number" class="right" step="any" min="0">
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-input-container class="md-block" style="width:140px;height:0px;margin:0;padding-bottom: 35px;" flex-gt-xs>
+                                    <md-switch ng-model="food.ControleNiveau" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                      <span class="badge-red_withe" ng-if="food.ControleNiveau">{{'Oui' | translate}}</span>
+                                      <span class="badge-green_withe" ng-if="!food.ControleNiveau">{{'Non' | translate}}</span>
+                                    </md-switch>
+                                  </md-input-container>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-button ng-click="Addfoodselectrique($index)" ng-show="$last">
+                                    <md-icon>add_outline</md-icon>
+                                  </md-button>
+                                </td>
+                                <td class="th-table"><br />
+                                  <md-button ng-click="Retirerfoodselectrique($index)" ng-hide="$first && foodselectrique.length<1">
+                                    <md-icon>delete_outline</md-icon>
+                                  </md-button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </md-content>
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-if="!progress" ng-disabled="!letmeclick">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('Quitter Fullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

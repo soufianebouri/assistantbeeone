@@ -1,0 +1,198 @@
+<div class="right_col" role="main">
+  <div ng-controller="ChutePhysiologiqueSuiviDeLaChuteParRameauxCtrl as pc" class="modal-demo">
+    <span> {{'Suivi_de_la_chute_physiologique' | translate}} <i class="fa fa-angle-right"></i> <b>{{'Suivi de la chute (Par Rameau)' | translate}}</b>
+      <bn ng-if="!pc.showtable"><i class="fa fa-angle-right"></i> <b>{{'Details' | translate}}</b></bn>
+      <a class="dt-button pull-right" ng-click="pc.showtable_toggle();" ng-if="!pc.showtable"><i class="fa fa-remove"></i></a>
+    </span>
+
+    <center class="dontDisplay">
+      <div id="filter_form" style="display:none;" class="animated fadeIn selectpicker_widget">
+
+        <table>
+          <tr>
+            <td>{{'Parcellecultural' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'De' | translate}}</td>
+            <td>&nbsp;&nbsp;</td>
+            <td>{{'A' | translate}}</td>
+          </tr>
+          <tr>
+            <td>
+              <select id="Parcelle" class="form-control  input-sm selectpicker" data-actions-box='true' ng-model="parcelle.parcelle" ng-change="pc.parcelle_change()" multiple data-live-search="true" data-selected-text-format="count > 1"
+                data-size="10" title="Parcelle cultural">
+                <optgroup label="{{'Parcellecultural' | translate}}">
+                  <option ng-repeat="parcellecultural in pc.parcellescultural" ng-value="parcellecultural.ID">{{ parcellecultural.Ref }}</option>
+                </optgroup>
+              </select>
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_debut" type="date" class="form-control  input-sm" ng-model="date_debut" ng-change="pc.date_debut_change()" max="{{date_fin | date:'yyyy-MM-dd'}}">
+            </td>
+            <td>&nbsp;&nbsp;</td>
+            <td>
+              <input id="date_fin" type="date" class="form-control  input-sm" ng-model="date_fin" ng-change="pc.date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}">
+            </td>
+
+
+          </tr>
+
+        </table>
+        <a class="btn" href="" ng-click="ReverseDisplay('filter_form')"><i class="fa fa-chevron-down "></i></a>
+
+
+      </div>
+    </center>
+
+    <div class="table-responsive" ng-show="pc.showtable">
+      <table style="background-color: white" datatable="" dt-options="pc.dtOptions" dt-columns="pc.dtColumns" dt-instance="pc.dtInstance" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+      </table>
+    </div>
+
+
+    <div ng-show="!pc.showtable">
+      <br />
+      <div style="overflow-x:auto;">
+        <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+          <thead>
+            <tr>
+              <th>{{'Parcelle culturale' | translate}}</th>
+              <th>{{'Date de contrôle' | translate}}</th>
+              <th>{{'Nombre total de fruits' | translate}}</th>
+              <th>{{'Observation' | translate}}</th>
+              <th>{{'Opérateur' | translate}}</th>
+            </tr>
+          </thead>
+          <tr>
+            <td>{{ pc.ChuttByID.Parcelle }}</td>
+            <td>{{ pc.ChuttByID.Date_Controle | date:'dd/MM/yyyy'}}</td>
+            <td>{{ pc.ChuttByID.Total_nbr_fruit  | AsTwoDigitForExel}}</td>
+            <td>{{ pc.ChuttByID.Observation }}</td>
+            <td>{{ pc.ChuttByID.Nom + ' ' +  pc.ChuttByID.Prenom }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <fieldset>
+            <legend>{{'Nombre de fruits' | translate}}</legend>
+            <div style="overflow-x:auto;">
+              <table style="background-color: white;" class="table table-striped table-sm table-responsive-sm table-hover  jambo_table bulk_action ">
+                <thead>
+                  <tr>
+                    <th><b></b></th>
+                    <th colspan="3">
+                      <center><b>{{'Haut' | translate}}</b< /center>
+                    </th>
+
+                    <th colspan="1">
+                      <center><b></b< /center>
+                    </th>
+                    <th colspan="3">
+                      <center><b>{{'Bas' | translate}}</b< /center>
+                    </th>
+                  </tr>
+
+                  <tr>
+                    <th>
+                      <hr>
+                      </hr>
+                    </th>
+                    <th><b>D < 10 mm</b>
+                          <hr>
+                          </hr>
+                    </th>
+                    <th><b>10 <span>&#8804;</span> D < 20 mm</b>
+                          <hr>
+                          </hr>
+                    </th>
+                    <th><b>20 mm < D</b>
+                          <hr>
+                          </hr>
+                    </th>
+
+                    <th></th>
+
+                    <th><b>D < 10 mm</b>
+                          <hr>
+                          </hr>
+                    </th>
+                    <th><b>10 <span>&#8804;</span> D < 20 mm</b>
+                          <hr>
+                          </hr>
+                    </th>
+                    <th><b>20 mm <span>&#8804;</span> D</b>
+                      <hr>
+                      </hr>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="d in pc.ChuteRameaux_fruitByID_formed" ng-if="pc.ChuteRameaux_fruitByID.length != 0">
+                    <td class="th-table">{{d.Position}}</td>
+
+                    <td class="th-table">
+                      {{d.Val_D_10_H | AsTwoDigitForExel}}
+                    </td>
+
+                    <td class="th-table">
+                      {{d.Val_10_D_20_H | AsTwoDigitForExel}}
+                    </td>
+
+                    <td class="th-table">
+                      {{d.Val_20_D_H | AsTwoDigitForExel}}
+                    </td>
+                    <td class="th-table">
+
+                    </td>
+
+                    <td class="th-table">
+                      {{d.Val_D_10_B | AsTwoDigitForExel}}
+                    </td>
+
+
+                    <td class="th-table">
+                      {{d.Val_10_D_20_B | AsTwoDigitForExel}}
+                    </td>
+
+                    <td class="th-table">
+                      {{d.Val_20_D_B | AsTwoDigitForExel}}
+                    </td>
+
+                  </tr>
+
+
+
+
+                </tbody>
+
+                <tr ng-if="pc.ChuteRameaux_fruitByID.length == 0">
+                  <td colspan="7">
+                    <center>{{'Aucunedonneedisponible' | translate}}</center>
+                  </td>
+                </tr>
+
+              </table>
+            </div>
+          </fieldset>
+        </div>
+
+
+        <!-- /form input mask -->
+
+        <!-- form color picker -->
+
+
+        <!-- /form color picker -->
+      </div>
+
+
+    </div>
+
+  </div>
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+  <br /><br /><br /><br /><br /><br />
+
+</div>

@@ -1,0 +1,61 @@
+<div class="right_col" role="main">
+  <div ng-controller="RessourceshydriquesSuiviniveaupiezometriquemapCtrl as pc" class="modal-demo">
+    <span> {{"Ressources hydriques" | translate}} <i class="fa fa-angle-right"></i> {{"Suivi du niveau piézométrique" | translate}} <i class="fa fa-angle-right"></i> <b>{{"Vue cartographique" | translate}}</b></span>
+    <br />
+    <div class="dontshowit ">
+
+
+      <a class="dt-button pull-right" ui-sref="suiviniveaupiezometrique" title="{{'Suivi du niveau piézométrique' | translate}}"><i class="fa fa-columns"></i></a>
+
+    </div>
+    <br /><br />
+    <div id="mapComptage"></div>
+    <br /><br />
+
+    <div id="filterDev" class="animated fadeIn" style="display:none;">
+      <br />
+      <table style="border-collapse: collapse;">
+        <tr style="background-color: unset !important;    color: unset !important;">
+          <td>  <font color="#ffffff">{{"De" | translate}}</font>
+            <input id="debut" type="date" class="form-control  input-sm" ng-model="debut" ng-change="date_debut_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>  <font color="#ffffff">{{"A" | translate}}</font>
+            <input id="date_fin" type="date" class="form-control  input-sm " ng-model="date_fin" ng-change="date_fin_change()" max="{{current_date | date:'yyyy-MM-dd'}}" style="width:150px;height:35px;" onkeypress="return false">
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <font color="#ffffff">{{"Type de ressources" | translate}}</font>
+            <select id="Type" class="form-control  input-sm selectpicker"  data-actions-box='true' ng-model="Type" ng-change="pc.type_change()" multiple data-live-search="true" title="{{'Type de ressource ' | translate}}..."
+              data-selected-text-format="count > 1" data-size="10">
+              <optgroup label="{{'Type de la ressource hydrique' | translate}}">
+                <option ng-repeat="Type in pc.Types" ng-value="Type.Type">{{ Type.Name }}</option>
+              </optgroup>
+            </select>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="legend" style="display:none;" class="animated fadeIn">
+      <div class="font-map" style="background-color:#fff;color:#000000;">
+        <table class="w3-table w3-striped">
+          <tr style="background-color: unset !important;    color: unset !important;">
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_souterraines.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small><font color="#666666">{{"Eaux souterraines" | translate}}</font></small></td>
+            <td style="vertical-align: middle;"><small>&nbsp;&nbsp;&nbsp;&nbsp;</small></td>
+            <td style="vertical-align: middle;"><IMG src="././images/Eaux_de_surface.svg" width="20" height="20" /></td>
+            <td style="vertical-align: middle;"><small><font color="#666666">{{"Eaux de surface" | translate}}</font></small></td>
+          </tr>
+        </table>
+      </div>
+      <br />
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<md-dialog aria-label="Mango (Fruit)" style="width: 600px;">
+  <form ng-cloak novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{"Modifier" | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <div layout="row" layout-wrap>
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Date de création" | translate}} ...</label>
+              <md-datepicker ng-model="datedecreation" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Date de ramassage" | translate}} ...</label>
+              <md-datepicker ng-model="datederamassage" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Date de destruction" | translate}} ...</label>
+              <md-datepicker ng-model="datededestruction" md-placeholder="aaaa-mm-dd" readonly md-hide-icons="calendar" md-autofocus style="width: 250px;" required></md-datepicker>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="50" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Parcelle culturale" | translate}} ...</label>
+              <md-select ng-model="parcelleculturale" style="width: 250px;" required>
+                <md-option ng-value="myParcelleCulturale.ID" ng-repeat="myParcelleCulturale in ParcelleCulturale" ng-selected="data.ID_ParcelleCulturale == myParcelleCulturale.ID">{{myParcelleCulturale.Ref}}</md-option>
+              </md-select>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Déchargement" | translate}}</label>
+              <md-switch ng-model="data.Decharge" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                <span class="badge-green_withe" ng-if="data.Decharge">{{"Oui" | translate}}</span>
+                <span class="badge-orange_withe" ng-if="!data.Decharge">{{"Non" | translate}}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Enfouissement" | translate}}</label>
+              <md-switch ng-model="data.Enfouissement" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                <span class="badge-green_withe" ng-if="data.Enfouissement">{{"Oui" | translate}}</span>
+                <span class="badge-orange_withe" ng-if="!data.Enfouissement">{{"Non" | translate}}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+          <div flex="100" flex-gt-sm="33" layout="column">
+            <md-input-container class="md-block" flex-gt-xs>
+              <label>{{"Incinération" | translate}}</label>
+              <md-switch ng-model="data.Incineration" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                <span class="badge-green_withe" ng-if="data.Incineration">{{"Oui" | translate}}</span>
+                <span class="badge-orange_withe" ng-if="!data.Incineration">{{"Non" | translate}}</span>
+              </md-switch>
+            </md-input-container>
+          </div>
+
+
+
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{"Annuler" | translate}}
+      </md-button>
+      <md-button ng-click="Modifier()" type="submit" ng-if="!progress">
+        {{"Modifier" | translate}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-if="progress"></md-progress-circular>
+    </md-dialog-actions>
+
+  </form>
+</md-dialog>

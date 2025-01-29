@@ -1,0 +1,375 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width:100%;">
+  <form ng-cloak name="formulaire">
+    <md-toolbar>
+      <div class="md-toolbar-tools" style="background-color: #58aa4a;">
+        <h2>{{'Ressources hydriques' | translate}}</h2>
+      </div>
+    </md-toolbar>
+
+
+    <md-dialog-content style="background-color: #DCDCDC">
+
+      <md-tabs md-dynamic-height="" md-border-bottom="">
+        <md-tab label="{{1}}. {{'Informationsgenerales' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+
+                    <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Domaine' | translate}} ...</label>
+                          <md-select ng-model="Ferme" ng-change="initMap()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="searchFerme" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="AllFermes" ng-repeat="AllFermes in fermes  | orderBy:'Nom' | filter:searchFerme">{{AllFermes.Nom}}
+                            </md-option>
+                          </md-select>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Référence de la ressource' | translate}} ...</label>
+                          <input ng-model="ReferenceRessourceHydrique" style="width:95%;" type="text" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Type de la ressource hydrique' | translate}}</label>
+                          <md-switch ng-model="Type" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="2" class="md-warn">
+                            <span class="badge-green_withe" ng-show="Type == 1">{{'Eaux souterraines' | translate}}</span>
+                            <span class="badge-orange_withe" ng-show="Type == 2">{{'Eaux de surface' | translate}}</span>
+                          </md-switch>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Date de mise en service' | translate}}...</label>
+                          <input type="date" ng-model="DateMiseEnService" style="width:90%;" required>
+                        </md-input-container>
+                      </div>
+
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column" ng-show="Type == 1">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Date d'approfondissement" | translate}}...</label>
+                          <input type="date" ng-model="DateApprofondissement" style="width:90%;">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column" ng-show="mono_or_multi_revers(Type)">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Profondeur (m)' | translate}}</label>
+                          <input ng-model="Profondeur" style="width:90%;" type="number" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column" ng-show="mono_or_multi_revers(Type)">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Diamètre (mm)' | translate}}</label>
+                          <input ng-model="Diametre" style="width:90%;" type="number" required>
+                        </md-input-container>
+                      </div>
+
+
+                    </div>
+
+                    <div class="form-body" layout="row" ng-repeat="diametre in diametres" ng-show="mono_or_multi(Type)" layout-wrap>
+                      <div class="margin-left-input" layout="row" layout-wrap flex>
+
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Diamètre' | translate}}</label>
+                            <input ng-model="diametre.value" style="width:90%;" type="number" min="0" required>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="25" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <label>{{'Profondeur (m)' | translate}}</label>
+                            <input ng-model="diametre.profondeur" style="width:90%;" type="number" min="0" required>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="5" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs>
+                            <span flex></span><span class="material-icons" ng-click="removeItem($index)">
+                              remove_circle_outline
+                            </span>
+                          </md-input-container>
+                        </div>
+
+                        <div flex="100" flex-gt-sm="5" layout="column">
+                          <md-input-container class="md-block" flex-gt-xs ng-show="$last">
+                            <span flex></span>
+                            <span class="material-icons" ng-click="cloneItem($index)">
+                              add_circle_outline
+                            </span>
+                          </md-input-container>
+                        </div>
+
+
+
+                      </div>
+
+                    </div>
+
+
+
+
+
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{2}}. {{'Essai de pompage' | translate}}" ng-if="Type == 1">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Date de l'essai" | translate}}...</label>
+                          <input type="date" id="DateEssai" ng-model="DateEssai" style="width:90%;">
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Débit d'exploitation (m3/h)" | translate}}</label>
+                          <input ng-model="DebitExploitation" id="DebitExploitation" style="width:90%;" type="number">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Niveau statique (m)' | translate}}</label>
+                          <input ng-model="NiveauStatique" id="NiveauStatique" style="width:90%;" type="number" />
+                        </md-input-container>
+                        <font color="red" size="1px" ng-if="!checkniveau()">{{"Niveau statique doit être inférieur au dynamique" | translate}}</font>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Niveau dynamique (m)' | translate}}</label>
+                          <input ng-model="NiveauDynamique" name="NiveauDynamique" id="NiveauDynamique" style="width:90%;" type="number" />
+                        </md-input-container>
+                        <font color="red" size="1px" ng-if="!checkniveau()">{{"Niveau dynamique doit être supérieur au statique" | translate}}</font>
+
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'EC (mS/cm)' | translate}}</label>
+                          <input ng-model="EC" id="EC" style="width:90%;" type="number">
+                        </md-input-container>
+                      </div>
+
+                    </div>
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+        <md-tab label="{{3}}. {{'Autorisation de pompage' | translate}}" ng-if="Type == 1">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Référence de l'autorisation" | translate}} ...</label>
+                          <input ng-model="ReferenceAutorisation" id="ReferenceAutorisation" style="width:95%;" type="text">
+                        </md-input-container>
+                      </div>
+
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{"Date de l'autorisation" | translate}}...</label>
+                          <input type="date" ng-model="DateAutorisation" id="DateAutorisation" style="width:90%;">
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Volume annuel alloué (m3)' | translate}}</label>
+                          <input ng-model="DebitAnnuelAlloue" id="DebitAnnuelAlloue" style="width:90%;" type="number" required>
+                        </md-input-container>
+                      </div>
+
+                      <div flex="100" flex-gt-sm="25" layout="column">
+                        <md-input-container class="md-block" flex-gt-xs>
+                          <label>{{'Débit journalier alloué (m3/j)' | translate}}</label>
+                          <input ng-model="DebitJournalierAlloue" id="DebitJournalierAlloue" style="width:90%;" type="number">
+                        </md-input-container>
+                      </div>
+
+                    </div>
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+        <md-tab label="{{(Type == 1) ? 4 : 2}}. {{'Géolocalisation' | translate}}">
+
+          <div class="md-dialog-content">
+
+            <div layout="row" layout-wrap>
+              <div flex-gt-sm="100" flex="">
+
+                <div class="form-body" layout-wrap>
+                  <md-content style="background-color:transparent">
+                    <div class="form-body" layout="row" layout-wrap>
+
+
+                      <div flex-gt-sm="30" flex="">
+
+                        <md-content style="background-color:transparent">
+                          <br />
+                          <div layout="row" layout-wrap flex>
+
+
+
+
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'Domaine' | translate}} ...</label>
+                                <md-select ng-model="Ferme" ng-change="initMap()" style="width:90%;" data-md-container-class="selectdemoSelectHeader" required>
+                                  <md-select-header class="demo-select-header">
+                                    <input ng-model="searchFerme" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                  </md-select-header>
+                                  <md-option ng-value="AllFermes" ng-repeat="AllFermes in fermes  | orderBy:'Nom' | filter:searchFerme">{{AllFermes.Nom}}
+                                  </md-option>
+                                </md-select>
+                              </md-input-container>
+                            </div>
+
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'Latitude' | translate}}</label>
+                                <input ng-model="Latitude" style="width:90%;" value="0" id="t1" name="t1" type="number" ng-change="newLocation(Latitude,Longitude)">
+                              </md-input-container>
+                            </div>
+
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <md-input-container class="md-block" flex-gt-xs>
+                                <label>{{'Longitude' | translate}}</label>
+                                <input ng-model="Longitude" style="width:90%;" value="0" id="t2" name="t2" type="number">
+                              </md-input-container>
+                            </div>
+
+
+
+
+
+
+
+                          </div>
+
+                        </md-content>
+                      </div>
+
+
+
+                      <div flex-gt-sm="70" flex="">
+
+                        <md-content style="background-color:transparent">
+                          <div layout="row" layout-wrap flex>
+                            <div flex="100" flex-gt-sm="100" layout="column">
+                              <div id="Ressourceshydriques" style="width:100%;height:70%;"></div>
+                            </div>
+                          </div>
+
+                        </md-content>
+                      </div>
+
+
+
+
+
+
+
+                    </div>
+                  </md-content>
+                </div>
+              </div>
+
+            </div>
+
+
+          </div>
+        </md-tab>
+
+
+
+
+
+      </md-tabs>
+
+    </md-dialog-content>
+
+
+
+    <md-dialog-actions layout="row" style="">
+      <span flex></span>
+      <md-button ng-click="Annuler();" class="md-primary">
+        {{'Annuler' | translate}}
+      </md-button>
+      <md-button ng-click="Ajouter()" ng-show="!progress" ng-disabled="!letmeclick">
+        {{'Ajouter' | translate}}
+      </md-button>
+      <md-button ng-click="Fullscreen();" class="md-primary">
+        {{(!Ifullscreen) ? ('Fullscreen' | translate) : ('QuitterFullscreen' | translate)}}
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" ng-show="progress"></md-progress-circular>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

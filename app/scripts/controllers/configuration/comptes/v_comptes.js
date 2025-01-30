@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationComptesVComptesCtrl', function($scope, $timeout, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
+  .controller('ConfigurationComptesVComptesCtrl', function($scope, toastr, _url, $window, $translatePartialLoader, $translate,_version) {
     var vm = this;
     vm._version = _version;
     $translatePartialLoader.addPart('conduitetechnique');
@@ -38,6 +38,84 @@ angular.module('beeOneWebFrontApp')
         $scope.$apply();
       }
     };
+
+    $scope.isDragging = false;
+
+    // Trigger file input when clicking on the card
+    $scope.triggerFileInput = function() {
+        document.getElementById('fileInput').click();
+    };
+
+    let allowedExtensions = ["xls", "xlsx"];
+    // Handle file selection (when clicked)
+    $scope.onFileSelected = function(file) {
+      if (file) {
+          // Get file extension (convert to lowercase for case-insensitive check)
+          let fileExtension = file.name.split('.').pop().toLowerCase();
+          
+          // Allowed extensions
+         
+  
+          if (allowedExtensions.includes(fileExtension)) {
+              vm.isFileSelected = true;
+              vm.fileName = file.name;
+  
+              if (file.size >= 1024 * 1024) {
+                  vm.fileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+              } else {
+                  vm.fileSize = (file.size / 1024).toFixed(2) + " KB";
+              }
+          } else {
+              vm.isFileSelected = false;
+              toastr.clear();
+              toastr.warning("Only XLS and XLSX files are allowed.", {
+                  closeButton: true,
+                }
+              );
+          }
+      } else {
+          vm.isFileSelected = false;
+      }
+  };
+  
+
+    vm.delete_file = function() {      
+        vm.isFileSelected = false;  
+    };
+
+    // Handle drag events
+    $scope.onDragOver = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        $scope.isDragging = true;
+        $scope.$apply();
+    };
+
+    $scope.onDragLeave = function(event) {
+        $scope.isDragging = false;
+        $scope.$apply();
+    };
+
+    // Handle file drop
+    $scope.onDrop = function(file) {
+        $scope.isDragging = false;
+        if (file.length > 0) {
+         vm.isFileSelected = true;         
+         vm.fileName = file.name;
+         if (file.size >= 1024 * 1024) {
+          // If size is 1MB or more, show in MB
+          vm.fileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+      } else {
+          // Otherwise, show in KB
+          vm.fileSize = (file.size / 1024).toFixed(2) + " KB";
+      }
+        }else{
+          vm.isFileSelected = false;
+        }
+        
+    };
+
+    
 
     /**** Step 1 *****/
 

@@ -4,7 +4,7 @@
 
   <div layout="row" layout-padding style="padding: 0px;">
 
-    <table class="table_multi_form">
+    <table class="table_multi_form" style="padding: 0;">
       <tr>
         <td colspan="2">
           <md-card flex class="card_form_multi">
@@ -201,7 +201,7 @@
 
 
               <div class="row" style="display: flex; gap: 16px;">
-                <div flex="30" layout="column">
+                <div flex="20" layout="column">
                   <md-input-container class="flex">
                     <md-button class="reset_btn" ng-click="vm.add_societe(vm.societe)" style="color:#215f16;">
                       Réinitialiser
@@ -209,7 +209,7 @@
                   </md-input-container>
                 </div>
 
-                <div flex="70" layout="column">
+                <div flex="80" layout="column">
                   <md-input-container class="flex">
                     <md-button class="add_btn" ng-click="vm.add_societe(vm.societe)" style="color:#ffffff;">
                       <i class="fa fa-plus" style="color: #ffffff; margin-right: 5px;"></i> Ajouter
@@ -247,15 +247,80 @@
               </p>
           </md-card>
 
-          <md-card class=" centered-card" layout="column" style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;">
+          <md-card>
+            <div class="centered-card hover_card" ng-if="!vm.isFileSelected"
+            layout="column" 
+            style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;cursor: pointer;"
+            ngf-drop="onDrop($files)"
+            ng-click="triggerFileInput()">
+            <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
+  
             <!-- First row: Image + Text on the left, Button on the right -->
-            <img src="././images/main_configuration/xls.svg" alt="time" style="width: 20px; height: 20px; margin-right: 5px;">
+            <img src="././images/main_configuration/file.svg" alt="time" style="width: 20px; height: 20px; margin-right: 5px;">
     
             <!-- Second row: Paragraph spanning the full width -->
             <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
               Drop your file here, or <font color="#81BB26">browse</font>
             </p>
+            </div>
+
+
+            <div class="centered-card " ng-if="vm.isFileSelected"
+            layout="column" 
+            style="padding: 40px;background: #F8F8F9;border: 2px dashed rgb(129 187 38);"
+             >
+            
+  
+            <!-- First row: Image + Text on the left, Button on the right -->
+            <img src="././images/main_configuration/file.svg" alt="time" style="width: 20px; height: 20px; margin-right: 5px;">
+    
+            <!-- Second row: Paragraph spanning the full width -->
+            <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+              Well uploaded
+            </p>
+            </div>
+         
         </md-card>
+
+        <div layout="row" layout-align="space-between center">
+          <div layout="row" layout-align="start center">
+              <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">Supported formats: XLS, XLSX</p>
+          </div>
+        <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">Maximum size: 25MB</p>
+       </div>
+
+
+
+       <md-card class="card" layout="column" style="padding: 10px; background: #c2c5c7;" ng-if="vm.isFileSelected">
+        <!-- First row: Image + Text on the left, Button on the right -->
+        <div layout="row" layout-align="space-between center">
+            <!-- Left section: Icon + File details -->
+            <div layout="row">
+                <img src="././images/main_configuration/file.svg" alt="file-icon" style="width: 20px; height: 20px; margin-right: 5px;">   
+                <!-- Column for file name and size -->
+                <div layout="column" style="line-height: 1.2;">
+                    <h3 style="color: #1e2317; font-family: Poppins; font-size: 11px; margin: 0;">
+                        {{vm.fileName}}
+                    </h3>
+                    <p style="color: #63675d; font-family: Poppins; font-size: 10px; margin: 0;">
+                        {{vm.fileSize}}
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Close button -->
+            <p style="margin: 0;" ng-click="vm.delete_file()">
+                <img src="././images/main_configuration/close.svg" alt="close" style="width: 20px; height: 20px; cursor: pointer;">
+            </p>
+        </div>
+    </md-card>
+    <md-button class="md-raised md-primary btn-primary" >
+       Intégrer
+    </md-button>
+            
+
+        
+
 
 
         </md-card>
@@ -272,7 +337,7 @@
             <md-card-content>
               <div class="file-upload">
                 <p>Glissez un fichier ici, ou <label for="fileInput" class="upload-label">choisissez-en un</label></p>
-                <input id="fileInput" type="file" ng-change="uploadFile(this)" ng-change="uploadFile(this)" hidden>
+                <input id="fileInput" type="file"  ng-change="uploadFile(this)" hidden>
                 <p class="file-name">{{ fileName }}</p>
                 <md-progress-linear md-mode="determinate" value="50"></md-progress-linear>
               </div>

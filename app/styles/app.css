@@ -786,11 +786,11 @@ font-weight: bold;
     width: 100%;
     background-color: #ffffff;
     color: white;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
-    border: 1.7px solid #215f16;
+    /*border: 1.7px solid #215f16;*/
 }
 
 .row {
@@ -813,3 +813,72 @@ font-weight: bold;
     text-align: center;
     height: 100%; /* Adjust height as needed */
   }
+
+
+
+  .upload-card {
+    padding: 40px;
+    background: #F8F8F9;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  /* Background color change on drag */
+.upload-card.dragover {
+    border-color: #0f100e !important;
+    background: #eef7e4 !important;
+  }
+  
+  /* Background color change when file is selected */
+  .upload-card.file-selected {
+    background: #070707 !important;
+    border-color: #28a745 !important;
+  }
+
+  .btn-primary{
+    background-color: rgb(129 187 38) !important;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+    .btn-reset{
+    background-color: rgb(129 187 38);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+
+
+  .top-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Left shadow */
+  .left-shadow {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+  }
+  
+  /* Right shadow */
+  .right-shadow {
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Bottom shadow */
+  .bottom-shadow {
+    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2); /* Adjust if needed */
+  }
+
+  md-card {
+    box-shadow: 0 1px 3px 0 rgba(255, 255, 255, 0.26), 0 1px 1px 0 rgba(255, 255, 255, 0.12), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+
+  md-input-container {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 12px;
+    color:#505647;
+  }
+  

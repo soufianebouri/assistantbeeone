@@ -19,11 +19,6 @@ angular.module('beeOneWebFrontApp')
 
     vm.step_1 = true;
 
-    /**demo deffault */
-    vm.langue = "langue"
-    vm.country = "dd"
-    vm.nom  = "dd"
-    vm.prenom= "langue"
 
     vm.steps = async function (step){    
       NProgress.start();

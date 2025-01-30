@@ -960,3 +960,17 @@ font-weight: bold;
     padding: 0px;
 }
   
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.fade.ng-show {
+    opacity: 1;
+}
+
+.show-more {
+    cursor: pointer;
+    color: #007bff;
+    font-weight: bold;
+}

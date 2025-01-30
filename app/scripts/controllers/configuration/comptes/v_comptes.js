@@ -140,18 +140,54 @@ angular.module('beeOneWebFrontApp')
       { "start": 58, "end": 63, "text": "You become good at things through hard work. You become good at all things. You become good at things through hard work." }
     ]
 
-    vm.get_time = function(entry) {
-      const seconds = entry;
-      
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-    
-      const formattedTime = (minutes < 60)
-        ? (minutes < 10 ? '0' + minutes : minutes) + ':' + (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds)
-        : Math.floor(minutes / 60) + ':' + (minutes % 60) + ':' + (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds);
-    
-      return formattedTime;
-    };
+    vm.videoDuration = 0;  // Initialize the video duration
+
+// Access the video element and get the duration
+var videoElement = document.getElementById('videoPlayer');
+
+// Listen for the 'loadedmetadata' event to get the duration once the video metadata is loaded
+videoElement.addEventListener('loadedmetadata', function() {
+  // Set the video duration in seconds
+  vm.videoDuration = videoElement.duration;
+  // Trigger the digest cycle to update the view
+  $scope.$apply();
+});
+
+
+var description_support = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum";
+        
+// Shorten text for initial view
+$scope.shortText = description_support.substring(0, 100); // Show first 100 characters
+$scope.longText = description_support; // Full text
+
+// Set the ellipsis
+$scope.ellipsis = '...';
+
+// Initialize expanded state
+$scope.isExpanded = false;
+
+// Toggle show more/less
+$scope.toggleText = function() {
+    $scope.isExpanded = !$scope.isExpanded;
+};
+
+
+
+vm.get_time = function(seconds) {
+  const hours = Math.floor(seconds / 3600);          // Calculate hours
+  const minutes = Math.floor((seconds % 3600) / 60); // Calculate minutes
+  const remainingSeconds = Math.floor(seconds % 60); // Calculate remaining seconds
+
+  // If hours are greater than zero, format as HH:MM:SS, otherwise just MM:SS
+  if (hours > 0) {
+    return (hours < 10 ? '0' + hours : hours) + ':' +
+           (minutes < 10 ? '0' + minutes : minutes) + ':' +
+           (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds);
+  } else {
+    return (minutes < 10 ? '0' + minutes : minutes) + ':' +
+           (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds);
+  }
+};
   
     const video = document.getElementById("videoPlayer");
   

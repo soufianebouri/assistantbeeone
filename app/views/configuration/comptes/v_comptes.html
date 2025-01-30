@@ -32,7 +32,7 @@
 
     <table class="table_multi_form" style="padding: 0;">
       <tr>
-        <td colspan="4">
+        <td colspan="4" class="no-space-td">
           <md-card flex class="card_form_multi">
             <div layout="row" layout-align="center center" class="step-container">
               <!-- Step 1 -->
@@ -113,7 +113,7 @@
       </tr>
 
       <tr>
-        <td>
+        <td class="no-space-td">
           <md-card flex class="card_form_multi" style="padding: 9px;">
             <h2 style="font-size: 16px; font-family: Poppins;">Informations Sur La Société</h2>
             <p style="color: #63675d; font-family: Poppins; font-size: 11px;">Suivez les étapes indiquées ci-dessous
@@ -248,7 +248,7 @@
             </md-content>
           </md-card>
         </td>
-        <td class="block">
+        <td class="no-space-td">
           <md-card flex class="card_form_multi" style="padding: 9px;">
             <h2 style="font-size: 16px; font-family: Poppins;">Importation En Masse ?</h2>
             <p style="color: #63675d; font-family: Poppins; font-size: 11px;">
@@ -389,7 +389,39 @@
               <video id="videoPlayer" class="video-player" controls>
                 <source src="./vids/barackObama.mp4" type="video/mp4">
               </video>
-          
+              <div layout="row" layout-align="space-between right">
+                <div layout="row" layout-align="start center">
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <img src="././images/main_configuration/time.svg" alt="headphone" style="width: 11px; height: 1px;padding-top: 1px;"> {{ vm.get_time(vm.videoDuration) }}
+              </p>
+             </div>
+             <div layout="row" layout-align="start center">
+              <h2 style="color: #0e0e0d;font-family: 'Poppins';font-size: 16px;">Introduction sur la configuration</h2>
+              
+          </div>
+          <p style="color: #63675d; font-family: Poppins; font-size: 11px;">
+            {{ shortText }}
+            <span ng-if="!isExpanded">{{ ellipsis }}</span>
+        <span ng-if="isExpanded">{{ longText.substring(shortText.length) }}</span>
+        <bn ng-if="longText.length > shortText.length" ng-click="toggleText()"  style="cursor: pointer; color: #044b24;">
+          {{ isExpanded ? 'Show Less' : 'Show More' }}
+      </bn>
+            
+        </p>
+<br/>
+        <div layout="row" layout-align="space-between right">
+          <div layout="row" layout-align="start center" style="color: #0b0b0b;font-family: Poppins;font-size: 14px;">
+            Transcrypt
+        </div>
+        <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+          <md-switch ng-model="transcriptionEnabled">
+            {{ transcriptionEnabled ? 'Auto Scroll' : '' }}
+          </md-switch>
+        </p>
+       </div>
+
+       
               <div layout="row" layout-align="center center" style="margin-top: 10px;">
                 <span style="color: white; margin-right: 8px;">Transcription</span>
                 <md-switch ng-model="transcriptionEnabled">

@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationComptesVComptesCtrl', function($scope, $state,toastr, _url, $window, $translatePartialLoader, $translate,_version) {
+  .controller('ConfigurationComptesVComptesCtrl', function($scope, $state,toastr, $timeout, _url, $window, $translatePartialLoader, $translate,_version) {
     var vm = this;
     vm._version = _version;
     $translatePartialLoader.addPart('conduitetechnique');
@@ -119,6 +119,60 @@ angular.module('beeOneWebFrontApp')
         
     };
 
+    /***transcription */
+    $scope.transcriptionEnabled = true;
+
+    // Transcript JSON
+    $scope.transcript =  [
+      { "start": 0, "end": 5, "text": "Some of the most successful people in the world are the ones who've had the most failures." },
+      { "start": 5, "end": 8, "text": "J.K. Rawlings, who wrote Harry Potter." },
+      { "start": 8, "end": 14, "text": "Her first Harry Potter book was rejected 12 times before it was finally published." },
+      { "start": 14, "end": 17, "text": "Michael Jordan was cut from his high school basketball team." },
+      { "start": 17, "end": 26, "text": "He lost hundreds of games and missed thousands of shots during his career." },
+      { "start": 26, "end": 27, "text": "But he once said, I have failed over and over and over again in my life, and that's why." },
+      { "start": 27, "end": 41, "text": "I succeed. These people succeeded because they understood that you can't let your failures define you. You have to let your failures teach you. You have to let them show you what to do differently the next time." },
+      { "start": 42, "end": 45, "text": "So if you get into trouble, that doesn't mean you're a troublemaker." },
+      { "start": 45, "end": 49, "text": "It means you need to try harder to act right." },
+      { "start": 49, "end": 51, "text": "If you get a bad grade, that doesn't mean you're stupid." },
+      { "start": 51, "end": 58, "text": "It just means you need to spend more time studying. No one's born being good at all things." },
+      { "start": 58, "end": 63, "text": "You become good at things through hard work. You become good at all things. You become good at things through hard work." }
+    ]
+    
+  
+    const video = document.getElementById("videoPlayer");
+  
+    // Function to check which transcript is active
+    $scope.isCurrentSubtitle = function (entry) {
+      if (!video || !$scope.transcriptionEnabled) return false;
+      const currentTime = video.currentTime;
+      return currentTime >= entry.start && currentTime <= entry.end;
+    };
+  
+    // Function to auto-scroll to the active subtitle
+    function scrollToActiveSubtitle() {
+      $timeout(function () {
+        // Find the active subtitle with the 'highlight' class
+        const activeSubtitle = document.querySelector(".transcript-item.highlight");
+        const transcriptContainer = document.querySelector(".transcript-container");
+    
+        // If active subtitle and container exist, scroll the container
+        if (activeSubtitle && transcriptContainer) {
+          transcriptContainer.scrollTop = activeSubtitle.offsetTop - transcriptContainer.offsetTop;
+        }
+      }, 100); // Delay to ensure DOM updates first
+    }
+  
+    // Function to update transcript and auto-scroll
+    function updateTranscript() {
+      if (!$scope.transcriptionEnabled) return;
+  
+      $scope.$applyAsync(); // Prevents "digest already in progress" error
+      scrollToActiveSubtitle(); // Scroll to active subtitle
+  
+      $timeout(updateTranscript, 500); // Recursive update
+    }
+  
+    updateTranscript(); // Start updating subtitles
     
 
     /**** Step 1 *****/

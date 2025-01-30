@@ -881,4 +881,52 @@ font-weight: bold;
     font-size: 12px;
     color:#505647;
   }
+
+  .no-space-td {
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+  }
+
+  .video-card {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 16px;
+    background: #1e1e1e;
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-player {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  
+  .transcript-container {
+    max-height: 300px; /* Adjust to your preferred height */
+    overflow-y: auto;  /* Allow scrolling */
+    background: rgba(0, 0, 0, 0.7); /* Optional: Background styling */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .transcript-item {
+    padding: 5px;
+    color: white;
+    transition: 0.3s;
+  }
+  
+  .transcript-item.highlight {
+    background: #4caf50;
+    color: white;
+    /* font-weight: bold; */
+    /* border-radius: 5px; */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+  }
   

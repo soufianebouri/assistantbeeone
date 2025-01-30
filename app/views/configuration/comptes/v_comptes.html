@@ -28,11 +28,11 @@
     </div>
 </md-card>
 
-  <div layout="row" layout-padding style="padding: 0px;">
+  <div layout="row" layout-padding style="padding: 0px;overflow-x: auto;">
 
     <table class="table_multi_form" style="padding: 0;">
       <tr>
-        <td colspan="2">
+        <td colspan="4">
           <md-card flex class="card_form_multi">
             <div layout="row" layout-align="center center" class="step-container">
               <!-- Step 1 -->
@@ -109,14 +109,7 @@
             </div>
           </md-card>
         </td>
-        <td rowspan="2" class="block">
-          <md-card flex class="card_form_multi" >
-            <video controls width="300">
-              <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-              Votre navigateur ne supporte pas la lecture vidéo.
-            </video>
-          </md-card>
-        </td>
+       
       </tr>
 
       <tr>
@@ -388,6 +381,71 @@
             </md-button>
           </md-card>-->
 
+        </td>
+
+         <td class="no-space-td">
+          <md-card class="video-card">
+            <md-card-content>
+              <video id="videoPlayer" class="video-player" controls>
+                <source src="./vids/barackObama.mp4" type="video/mp4">
+              </video>
+          
+              <div layout="row" layout-align="center center" style="margin-top: 10px;">
+                <span style="color: white; margin-right: 8px;">Transcription</span>
+                <md-switch ng-model="transcriptionEnabled">
+                  {{ transcriptionEnabled ? 'Enabled' : 'Disabled' }}
+                </md-switch>
+              </div>
+          
+              <p style="color: white; text-align: center;">
+                Status: <span ng-if="transcriptionEnabled" style="color: lightgreen;">ON</span>
+                <span ng-if="!transcriptionEnabled" style="color: red;">OFF</span>
+              </p>
+          
+              <div class="transcript-container" id="transcriptContainer">
+                <div class="transcript-item" 
+                     ng-repeat="entry in transcript track by $index" 
+                     ng-class="{'highlight': isCurrentSubtitle(entry)}">
+                     <md-card class="card" 
+                     ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff'}" 
+                     layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;" >
+                      <!-- First row: Image + Text on the left, Button on the right -->
+                      <div layout="row" layout-align="space-between center">
+                          <!-- Left section: Icon + File details -->
+                          <div layout="row">
+                              <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
+                              background: #f0f0f0;   
+                              display: block;" >   
+                              <!-- Column for file name and size -->
+                              <div layout="column" style="line-height: 1.2;">
+                                  <strong>Barack Obama</strong>
+                                  <!--<p style="color: #63675d; font-family: Poppins; font-size: 12px; margin: 0;">
+                                    Amet minim mollit non deserunt ullamco est sit aliqua dolor.
+                                  </p>-->
+                              </div>
+                          </div>
+                  
+                          <!-- Close button -->
+                          <p style="margin: 0;" ng-click="vm.delete_file()">
+                              <img src="././images/main_configuration/headphone.svg" alt="headphone" style="width: 20px; height: 20px; cursor: pointer;">
+                          </p>
+                      </div>
+                      {{ entry.text }}
+                  </md-card>
+                  
+                </div>
+              </div>
+            </md-card-content>
+          </md-card>
+          
+
+          
+          <!--<md-card flex class="card_form_multi" >
+            <video controls width="300">
+              <source src="././vids/barackObama.mp4" type="video/mp4">
+              Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+          </md-card>-->
         </td>
       </tr>
 

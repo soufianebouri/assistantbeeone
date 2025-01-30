@@ -128,16 +128,30 @@ angular.module('beeOneWebFrontApp')
       { "start": 5, "end": 8, "text": "J.K. Rawlings, who wrote Harry Potter." },
       { "start": 8, "end": 14, "text": "Her first Harry Potter book was rejected 12 times before it was finally published." },
       { "start": 14, "end": 17, "text": "Michael Jordan was cut from his high school basketball team." },
-      { "start": 17, "end": 26, "text": "He lost hundreds of games and missed thousands of shots during his career." },
-      { "start": 26, "end": 27, "text": "But he once said, I have failed over and over and over again in my life, and that's why." },
-      { "start": 27, "end": 41, "text": "I succeed. These people succeeded because they understood that you can't let your failures define you. You have to let your failures teach you. You have to let them show you what to do differently the next time." },
+      { "start": 17, "end": 22, "text": "He lost hundreds of games and missed thousands of shots during his career." },
+      { "start": 22, "end": 27, "text": "But he once said, I have failed over and over and over again in my life, and that's why." },
+      { "start": 27, "end": 34, "text": "I succeed. These people succeeded because they understood that you can't let your failures define you."},
+      { "start": 34, "end": 37, "text": "end You have to let your failures teach you. " },
+      { "start": 37, "end": 42, "text": "You have to let them show you what to do differently the next time." },
       { "start": 42, "end": 45, "text": "So if you get into trouble, that doesn't mean you're a troublemaker." },
       { "start": 45, "end": 49, "text": "It means you need to try harder to act right." },
       { "start": 49, "end": 51, "text": "If you get a bad grade, that doesn't mean you're stupid." },
       { "start": 51, "end": 58, "text": "It just means you need to spend more time studying. No one's born being good at all things." },
       { "start": 58, "end": 63, "text": "You become good at things through hard work. You become good at all things. You become good at things through hard work." }
     ]
+
+    vm.get_time = function(entry) {
+      const seconds = entry;
+      
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
     
+      const formattedTime = (minutes < 60)
+        ? (minutes < 10 ? '0' + minutes : minutes) + ':' + (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds)
+        : Math.floor(minutes / 60) + ':' + (minutes % 60) + ':' + (remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds);
+    
+      return formattedTime;
+    };
   
     const video = document.getElementById("videoPlayer");
   

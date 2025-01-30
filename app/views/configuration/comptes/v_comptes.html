@@ -426,11 +426,14 @@
                           </div>
                   
                           <!-- Close button -->
-                          <p style="margin: 0;" ng-click="vm.delete_file()">
-                              <img src="././images/main_configuration/headphone.svg" alt="headphone" style="width: 20px; height: 20px; cursor: pointer;">
+                          <p style="margin: 0;" >
+                              <img src="././images/main_configuration/time.svg" alt="headphone" style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
                           </p>
                       </div>
-                      {{ entry.text }}
+                      <div style="padding-left: 32px;">
+                        {{ entry.text }}
+                      </div>
+                      
                   </md-card>
                   
                 </div>

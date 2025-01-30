@@ -266,6 +266,32 @@ body, html {
     border-top: 1px solid rgba(255, 255, 255, 0.2);display: flex;
 }
 
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 6px; /* Adjust width as needed */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Track color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(129, 187, 38); /* Thumb color */
+    border-radius: 10px; /* Optional: round edges */
+  }
+  
+  /* For Firefox */
+  scrollbar {
+    width: 6px; /* Adjust width as needed */
+    background-color: #f1f1f1;
+  }
+  
+  scrollbar-thumb {
+    background-color: rgb(129, 187, 38);
+    border-radius: 10px;
+  }
+  
+
 .quote_onboarding {  
         padding-top: 90px;
 }
@@ -892,12 +918,12 @@ font-weight: bold;
     width: 100%;
     max-width: 700px;
     margin: auto;
-    padding: 16px;
-    background: #1e1e1e;
+    /* padding: 16px; */
+    /* background: #1e1e1e; */
     color: white;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-  }
+    /* border-radius: 12px; */
+    /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); */
+}
   
   .video-player {
     width: 100%;
@@ -908,20 +934,18 @@ font-weight: bold;
   .transcript-container {
     max-height: 300px; /* Adjust to your preferred height */
     overflow-y: auto;  /* Allow scrolling */
-    background: rgba(0, 0, 0, 0.7); /* Optional: Background styling */
     padding: 0px;
     font-size: 11px;
     font-family: 'Poppins', sans-serif;
   }
   
   .transcript-item {
-    padding: 5px;
     color: white;
     transition: 0.3s;
   }
   
   .transcript-item.highlight {
-    background: #4caf50;
+    /*background: #4caf50;*/
     color: white;
     /* font-weight: bold; */
     /* border-radius: 5px; */
@@ -929,4 +953,10 @@ font-weight: bold;
     font-size: 11px;
     font-family: 'Poppins', sans-serif;
   }
+
+
+  md-card md-card-content {
+    display: block;
+    padding: 0px;
+}
   

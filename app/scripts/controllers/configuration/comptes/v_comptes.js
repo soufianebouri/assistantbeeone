@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationComptesVComptesCtrl', function($scope, toastr, _url, $window, $translatePartialLoader, $translate,_version) {
+  .controller('ConfigurationComptesVComptesCtrl', function($scope, $state,toastr, _url, $window, $translatePartialLoader, $translate,_version) {
     var vm = this;
     vm._version = _version;
     $translatePartialLoader.addPart('conduitetechnique');
@@ -25,6 +25,10 @@ angular.module('beeOneWebFrontApp')
     };
 
     /**** all steps **/
+
+    $scope.go_back = function(){
+      $state.go("main_configuration");
+    }
 
     vm.currect_step = 1;
     vm.step = async function (params) {

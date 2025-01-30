@@ -1,6 +1,32 @@
 <div ng-controller="ConfigurationComptesVComptesCtrl as vm">
 
 
+  <md-card class="card" layout="column" style="padding: 10px;background: #fafafa;box-shadow: none;" >
+    <!-- First row: Image + Text on the left, Button on the right -->
+    <div layout="row" layout-align="space-between center">
+        <!-- Left section: Icon + File details -->
+        <div layout="row">
+            <img src="././images/main_configuration/back.svg" alt="back" style="margin-right: 10px;cursor: pointer;border: none;border-radius: 60px;
+            background: #f0f0f0;   
+            display: block;" 
+            ng-click="go_back()">   
+            <!-- Column for file name and size -->
+            <div layout="column" style="line-height: 1.2;">
+                <h3 style="color: #1e2317; font-family: Poppins; font-size: 18px; margin: 0;">
+                  Configuration Du Compte
+                </h3>
+                <p style="color: #63675d; font-family: Poppins; font-size: 12px; margin: 0;">
+                  Amet minim mollit non deserunt ullamco est sit aliqua dolor.
+                </p>
+            </div>
+        </div>
+
+        <!-- Close button -->
+        <p style="margin: 0;" ng-click="vm.delete_file()">
+            <img src="././images/main_configuration/headphone.svg" alt="headphone" style="width: 20px; height: 20px; cursor: pointer;">
+        </p>
+    </div>
+</md-card>
 
   <div layout="row" layout-padding style="padding: 0px;">
 
@@ -83,8 +109,13 @@
             </div>
           </md-card>
         </td>
-        <td rowspan="2">
-          <md-card flex class="card_form_multi">video AI</md-card>
+        <td rowspan="2" class="block">
+          <md-card flex class="card_form_multi" >
+            <video controls width="300">
+              <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+              Votre navigateur ne supporte pas la lecture vidéo.
+            </video>
+          </md-card>
         </td>
       </tr>
 

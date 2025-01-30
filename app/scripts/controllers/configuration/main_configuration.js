@@ -21,7 +21,7 @@ angular.module('beeOneWebFrontApp')
       $timeout(function () {
         $scope.loading = false;
         $state.go('v_comptes');
-      }, 3000);
+      }, 2000);
     }
    }
 

@@ -383,12 +383,14 @@
 
         </td>
 
-         <td class="no-space-td">
+         <td class="no-space-td" style="width: 30%;">
           <md-card class="video-card">
             <md-card-content>
-              <video id="videoPlayer" class="video-player" controls>
+              <video id="videoPlayer" class="video-player" controls >
                 <source src="./vids/barackObama.mp4" type="video/mp4">
               </video>
+              <canvas id="thumbnailCanvas" style="display: none;"></canvas> <!-- Hidden Canvas -->
+
               <div layout="row" layout-align="space-between right">
                 <div layout="row" layout-align="start center">
               </div>
@@ -409,7 +411,7 @@
       </bn>
             
         </p>
-<br/>
+
         <div layout="row" layout-align="space-between right">
           <div layout="row" layout-align="start center" style="color: #0b0b0b;font-family: Poppins;font-size: 14px;">
             Transcrypt
@@ -420,21 +422,8 @@
           </md-switch>
         </p>
        </div>
-
        
-              <div layout="row" layout-align="center center" style="margin-top: 10px;">
-                <span style="color: white; margin-right: 8px;">Transcription</span>
-                <md-switch ng-model="transcriptionEnabled">
-                  {{ transcriptionEnabled ? 'Enabled' : 'Disabled' }}
-                </md-switch>
-              </div>
-          
-              <p style="color: white; text-align: center;">
-                Status: <span ng-if="transcriptionEnabled" style="color: lightgreen;">ON</span>
-                <span ng-if="!transcriptionEnabled" style="color: red;">OFF</span>
-              </p>
-          
-              <div class="transcript-container" id="transcriptContainer">
+       <div class="transcript-container" id="transcriptContainer">
                 <div class="transcript-item" 
                      ng-repeat="entry in transcript track by $index" 
                      ng-class="{'highlight': isCurrentSubtitle(entry)}">
@@ -470,7 +459,13 @@
                   
                 </div>
               </div>
+
+              
             </md-card-content>
+
+            
+
+
           </md-card>
           
 
@@ -485,11 +480,34 @@
       </tr>
 
       <tr>
-        <td colspan="2">
+        <td colspan="2" class="no-space-td">
           <md-card flex class="card_form_multi">Section 1</md-card>
         </td>
-        <td>
-          <md-card flex class="card_form_multi">Section 1</md-card>
+        <td class="no-space-td">
+
+          <md-card flex class="card_form_multi" >
+
+            <div style="padding: 12px;">
+              <div layout="row" layout-align="space-between right">
+                <img src="././images/main_configuration/headphone.svg" alt="headphone" style="width: 20px; height: 20px; cursor: pointer;">
+             </div>
+             <h2 style="color: #0e0e0d;font-family: 'Poppins';font-size: 16px;">Having Trouble ?</h2>
+             <p style="color: #63675d; font-family: Poppins; font-size: 11px;">
+              Fell free to contact us and we will always help you throughout the process
+          </p>
+          
+          <div class="step-btn-container">
+            <div class="stepbtn_contact" ng-click="vm.makeCall()" style="cursor: pointer;">
+              <img src="././images/main_configuration/phone.svg" alt="phone">
+            </div>
+            
+            <div class="stepbtn_contact" ng-click="vm.sendEmail()" style="cursor: pointer;">
+              <img src="././images/main_configuration/letter.svg" alt="main">
+            </div>
+          </div>
+        </div>
+
+          </md-card>
         </td>
       </tr>
 

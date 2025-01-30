@@ -718,6 +718,18 @@ md-card-content {
     cursor: pointer;
     transition: transform 0.3s ease;
 }
+
+.stepbtn_contact {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
 .step-btn:hover {
     transform: scale(1.1);
 }
@@ -927,7 +939,7 @@ font-weight: bold;
   
   .video-player {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 0px;object-fit: cover;
   }
 
   
@@ -974,3 +986,34 @@ font-weight: bold;
     color: #007bff;
     font-weight: bold;
 }
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-thumb, md-switch.md-checked:not([disabled]) .md-thumb {
+    background-color: rgb(129 187 38);
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-checked:not([disabled]) .md-bar {
+    background-color: rgba(135, 196, 37, 0.501);
+}
+
+.switch-container {
+    display: flex;
+    align-items: center; /* Vertically align the text and switch */
+  }
+
+  .switch-container span {
+    margin-right: 10px;
+    color: #27454f;
+    font-size: 10px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .step-btn-container {
+    display: flex;         /* Use flexbox for horizontal alignment */
+    gap: 10px;                   /* Ensure no gap between the divs */
+    padding: 10px;
+  }
+  
+  .step-btn-container div {
+    margin: 0;             /* Remove any default margins */
+    padding: 0;            /* Remove any default padding */
+  }

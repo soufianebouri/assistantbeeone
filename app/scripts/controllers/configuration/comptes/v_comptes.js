@@ -190,6 +190,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     const video = document.getElementById("videoPlayer");
+    video.play()
 
     // Function to check which transcript is active
     $scope.isCurrentSubtitle = function (entry) {
@@ -264,33 +265,7 @@ angular.module('beeOneWebFrontApp')
       window.location.href = "mailto:" + email ;
     };
 
-    document.addEventListener("DOMContentLoaded", function () {
-     
-      const canvas = document.getElementById("thumbnailCanvas");
-      const context = canvas.getContext("2d");
-    
-      video.addEventListener("loadedmetadata", function () {
-        // Set a specific time (in seconds) to capture the frame
-        video.currentTime = 5; // Change this value to your desired timestamp
-    
-        video.addEventListener("seeked", function () {
-          // Set canvas size to match video
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-    
-          // Draw the frame from the video onto the canvas
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-          // Convert canvas to image and set it as poster
-          video.setAttribute("poster", canvas.toDataURL("image/jpeg"));
-    
-          // Reset video time to 0
-          video.currentTime = 0;
-        }, { once: true }); // Ensure it only runs once
-      });
-    });
-    
-
+   
 
     /**** Step 1 *****/
 

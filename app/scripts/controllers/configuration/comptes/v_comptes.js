@@ -10,7 +10,7 @@
 angular.module('beeOneWebFrontApp')
   .controller('ConfigurationComptesVComptesCtrl', function (
     $q,
-    $scope, $state, toastr, $timeout, _url, $window, $translatePartialLoader,$translate,$cookies,translatedwords , _version, DTOptionsBuilder, suivimeteo, DTColumnBuilder, DTDefaultOptions   ) {
+    $scope, $state, toastr, $timeout, _url, $window, $translatePartialLoader,$translate , _version, DTOptionsBuilder, $compile, DTColumnBuilder, DTDefaultOptions   ) {
     var vm = this;
     vm._version = _version;
     $translatePartialLoader.addPart('conduitetechnique');
@@ -275,14 +275,12 @@ angular.module('beeOneWebFrontApp')
    vm.dtInstance = {};
    vm.selected = {};
    vm.selectAll = false;
-   vm.metio = {};
+   vm.societes = {};
    
 
 
    //get data and refresh datatable
-   $scope.updateDataMeteo = function(data) {
-     return suivimeteo.getByFiltre(data);
-   };
+   vm.data_societe = [];
 
 
    vm.obj = {
@@ -292,11 +290,11 @@ angular.module('beeOneWebFrontApp')
   };
    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
        var defer = $q.defer();
-       $scope.updateDataMeteo(vm.obj).then(function(res) {
+       /*$scope.updateDataMeteo(vm.obj).then(function(res) {
          defer.resolve(res.data);
          NProgress.done();
-       });
-       return defer.promise;
+       });*/
+       return $q.resolve(vm.data_societe);
      })
      .withOption('createdRow', createdRow)
      .withDOM('<lf<t>ip>')
@@ -328,79 +326,54 @@ angular.module('beeOneWebFrontApp')
 
 
    vm.dtColumns = [
-     DTColumnBuilder.newColumn('Date').withTitle("Date").renderWith(function(data, type, full, meta) {
-       return moment(full.Date).format('DD/MM/YYYY');
-     }),
-     DTColumnBuilder.newColumn('TMax').withTitle("Tmax (°C)").renderWith(function(data, type, full, meta) {
-       if (full.TMax)
-         return '<p align="right">' + full.TMax.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('Tmin').withTitle("Tmin (°C)").renderWith(function(data, type, full, meta) {
-       if (full.TMax)
-         return '<p align="right">' + full.Tmin.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('Tmoy').withTitle("Tmoy (°C)").renderWith(function(data, type, full, meta) {
-       if (full.Tmoy)
-         return '<p align="right">' + full.Tmoy.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('Vent').withTitle("Vent (Km/h)").renderWith(function(data, type, full, meta) {
-       if (full.Vent)
-         return '<p align="right">' + full.Vent.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('HR').withTitle("HR (%)").renderWith(function(data, type, full, meta) {
-       if (full.HR)
-         return '<p align="right">' + full.HR.toFixed(2) + '</p>';
-       return '0';
-     }),
-     DTColumnBuilder.newColumn('Hmin').withTitle("Hmin (%)").renderWith(function(data, type, full, meta) {
-       if (full.Hmin)
-         return '<p align="right">' + full.Hmin.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('Pluvio').withTitle("Pluviométrie (mm)").renderWith(function(data, type, full, meta) {
-       if (full.Pluvio)
-         return '<p align="right">' + full.Pluvio.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('E0').withTitle("ETO (mm)").renderWith(function(data, type, full, meta) {
-       if (full.E0)
-         return '<p align="right">' + full.E0.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('RG').withTitle("RG (W/m2)").renderWith(function(data, type, full, meta) {
-       if (full.RG)
-         return '<p align="right">' + full.RG.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('BAC').withTitle("BAC (mm)").renderWith(function(data, type, full, meta) {
-       if (full.BAC)
-         return '<p align="right">' + full.BAC.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('BAC').withTitle("BAC (mm)").renderWith(function(data, type, full, meta) {
-       if (full.BAC)
-         return '<p align="right">' + full.BAC.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('BAR').withTitle("BAR (Bar)").renderWith(function(data, type, full, meta) {
-       if (full.BAR)
-         return '<p align="right">' + full.BAR.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('RAJOUT').withTitle("Rajout (mm)").renderWith(function(data, type, full, meta) {
-       if (full.RAJOUT)
-         return '<p align="right">' + full.RAJOUT.toFixed(2) + '</p>';
-       return '<p align="right">0</p>';
-     }),
-     DTColumnBuilder.newColumn('Observation').withTitle("Observation"),
+     DTColumnBuilder.newColumn('raison_sociale').withTitle("Raison Sociale"),
+     DTColumnBuilder.newColumn('statut_juridique').withTitle("Statut juridique"),
+     DTColumnBuilder.newColumn('capital').withTitle("Capital"),
+     DTColumnBuilder.newColumn('ville').withTitle("Ville"),
+     DTColumnBuilder.newColumn('email').withTitle("Email"),
+     DTColumnBuilder.newColumn('fax').withTitle("fax"),     
+     DTColumnBuilder.newColumn('patente').withTitle("Patente"),
+     DTColumnBuilder.newColumn('cnss').withTitle("N° CNSS"),
+     DTColumnBuilder.newColumn('amo').withTitle("N° AMO"),
+     DTColumnBuilder.newColumn('fiscal').withTitle("ID Fiscal"),
+     DTColumnBuilder.newColumn('ice').withTitle("ICE"),
+     DTColumnBuilder.newColumn('matricule').withTitle("Pré Fixe Matricule Ouvrier"),
+
      DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all')
    ];
 
+
+
    DTDefaultOptions.setLoadingTemplate('<br/><br/><br/><br/><center><img src="././images/loading.gif"/></center>');
+
+
+   vm.ajouter = function(){
+      if(vm.raison_sociale){
+        vm.data_societe.push(
+          {
+            raison_sociale : vm.raison_sociale,
+            statut_juridique : vm.statut_juridique,
+            capital : vm.capital,
+            ville : vm.ville,
+            email : vm.email,
+            Fax : vm.fax,
+            patente : vm.patente,
+            cnss : vm.cnss,
+            amo : vm.amo,
+            fiscal : vm.fiscal,
+            ice : vm.ice,
+            matricule : vm.matricule            
+          }          
+        )
+        console.log(vm.data_societe);
+        vm.dtInstance.reloadData();
+      }else{
+        toastr.clear();
+          toastr.warning("Raison Sociale is required!", {
+            closeButton: true,
+          })
+      }
+   }
 
    vm.howto = true;
 
@@ -412,9 +385,9 @@ angular.module('beeOneWebFrontApp')
   
 
    function actionsHtml(data, type, full, meta) {
-     vm.metio[data.ID] = data;
-     var editbtn = ($scope.canIAction().update) ? '<button class="btn btn-warning btn-xs" title="Modifier" ng-click="vm.edit(vm.metio[' + data.ID + '])"><i class="fa fa-edit"></i></button>&nbsp;' : '';
-     var deletebtn = ($scope.canIAction().delete) ? '<button class="btn btn-danger btn-xs" title="Supprimer" ng-click="vm.delete(vm.metio[' + data.ID + '])" )"=""><i class="fa fa-trash-o"></i></button>' : '';
+     vm.societes[data.ID] = data;
+     var editbtn = '<button class="btnEdit"  ng-click="vm.edit(vm.societes[' + data.ID + '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
+     var deletebtn =  '<button class="btnEdit"  ng-click="vm.delete(vm.societes[' + data.ID + '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
      return editbtn + deletebtn;
    }
 

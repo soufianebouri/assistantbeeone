@@ -38,9 +38,21 @@
           </div>
           <button class="btn fade-in delay-5" ng-click="vm.auth()">Connexion</button>
       </form>
-      <button class="key-access fade-in delay-6">
+     <br/>
+      <div flex="100" flex-gt-sm="33" layout="column">
+        <md-input-container class="md-block" flex-gt-xs style="margin-bottom: 16px;">
+          <md-icon style="position: absolute; color: #666;">
+            <i class="fa fa-key"></i> <!-- Font Awesome icon -->
+          </md-icon>
+          <label>{{'Clé d’accès de connexion ici' | translate}}</label>
+          <input ng-model="vm.acceskey" style="width: 100%;"  >
+          
+        </md-input-container>
+      </div>
+
+      <!--<button class="key-access fade-in delay-6">
           <i class="fa fa-key"></i> Clé d’accès de connexion ici
-      </button>
+      </button>-->
   </div>
   <loading-spinner is-loading="loading"></loading-spinner>
 </div>

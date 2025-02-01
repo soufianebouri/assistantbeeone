@@ -173,7 +173,7 @@ angular.module('beeOneWebFrontApp')
       $scope.isExpanded = !$scope.isExpanded;
     };
 
-
+    
 
     vm.get_time = function (seconds) {
       const hours = Math.floor(seconds / 3600);          // Calculate hours

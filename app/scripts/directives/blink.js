@@ -138,4 +138,4 @@ angular.module('beeOneWebFrontApp')
         });
       }
     };
-  });
+  })

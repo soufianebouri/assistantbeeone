@@ -1450,20 +1450,18 @@ a.dt-button:hover {
     overscroll-behavior: contain; 
 }
 
-
-/* side bar nex level
-.sidebar {
+.sidebar_sticky {
     flex: 1;
     background: #ffffff;
     padding: 15px;
     position: -webkit-sticky;
-    position: sticky;
+    position: absolute;
+    top: 0;
     height: 100vh;
     overflow: auto;
-    position: absolute;
     right: 0;
-    width: 24%;
-    height: 70%;
-    bottom: 0px;
+    bottom: 0;
+    /* height: 50%; */
+    width: 25%;
+    margin-top: 190px;
 }
-*/

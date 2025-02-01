@@ -122,4 +122,20 @@ angular.module('beeOneWebFrontApp')
         }
       };
     }
-  );
+  ).directive('scrollableContent', function () {
+    return {
+      restrict: 'C', // Apply to elements with the class 'scrollable-content'
+      link: function (scope, element) {
+        element.on('scroll', function () {
+          // Check if the user has scrolled to the bottom of the scrollable-content
+          if (element[0].scrollTop + element[0].clientHeight >= element[0].scrollHeight) {
+            // Scroll the body by a small amount
+            window.scrollBy({
+              top: 50, // Adjust this value for smoother scrolling
+              behavior: 'smooth' // Smooth scrolling
+            });
+          }
+        });
+      }
+    };
+  });

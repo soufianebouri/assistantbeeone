@@ -192,8 +192,8 @@ angular.module('beeOneWebFrontApp')
     };
 
     const video = document.getElementById("videoPlayer");
-   // video.play()
-   // video.muted = true;
+    video.play()
+    video.muted = true;
 
     // Function to check which transcript is active
     $scope.isCurrentSubtitle = function (entry) {
@@ -270,15 +270,11 @@ angular.module('beeOneWebFrontApp')
 
    /** Table */
   
-   $translatePartialLoader.addPart('conduitetechnique');
-   $translate.use($window.localStorage.getItem("lang").toLowerCase());
-   $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
+   
 
    vm.dtInstance = {};
    vm.selected = {};
    vm.selectAll = false;
-   vm.toggleAll = toggleAll;
-   vm.toggleOne = toggleOne;
    vm.metio = {};
    
 
@@ -306,14 +302,10 @@ angular.module('beeOneWebFrontApp')
      .withDOM('<lf<t>ip>')
      .withPaginationType('simple_numbers')
      .withOption('responsive', true)
-     .withButtons([{
-         extend: 'colvis',
-         text: "<i class='fa fa-eye'></i>",
-         className: 'pull-left',
-         titleAttr: "Visibilité"
-       },
+     .withButtons([
        {
-         extend: 'copy',
+         extend: 'copy', 
+         className: 'pull-left',
          text: "<i class='fa fa-copy'></i>",
          titleAttr: "Copie"
        },
@@ -412,22 +404,12 @@ angular.module('beeOneWebFrontApp')
 
    vm.howto = true;
 
-   function edit(c) {}
-
-   function deleteRow(c) {}
-
    function createdRow(row, data, dataIndex) {
      // Recompiling so we can bind Angular directive to the DT
      $compile(angular.element(row).contents())($scope);
    }
 
-   function headerCallback(header) {
-     if (!vm.headerCompiled) {
-       // Use this headerCompiled field to only compile header once
-       vm.headerCompiled = true;
-       $compile(angular.element(header).contents())($scope);
-     }
-   }
+  
 
    function actionsHtml(data, type, full, meta) {
      vm.metio[data.ID] = data;
@@ -437,33 +419,6 @@ angular.module('beeOneWebFrontApp')
    }
 
 
-   $scope.ReverseDisplay = function(d) {
-     if (document.getElementById(d).style.display === "none") {
-       document.getElementById(d).style.display = "block";
-     } else {
-       document.getElementById(d).style.display = "none";
-     }
-   }
-
-   function toggleAll(selectAll, selectedItems) {
-     for (var id in selectedItems) {
-       if (selectedItems.hasOwnProperty(id)) {
-         selectedItems[id] = selectAll;
-       }
-     }
-   }
-
-   function toggleOne(selectedItems) {
-     for (var id in selectedItems) {
-       if (selectedItems.hasOwnProperty(id)) {
-         if (!selectedItems[id]) {
-           vm.selectAll = false;
-           return;
-         }
-       }
-     }
-     vm.selectAll = true;
-   }
     /**** Step 1 *****/
 
     /**** Step 2 *****/

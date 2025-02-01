@@ -275,105 +275,25 @@ angular.module('beeOneWebFrontApp')
    $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
    vm.dtInstance = {};
-   var titleHtml = '<input type="checkbox" ng-model="vm.selectAll" ng-click="vm.toggleAll(vm.selectAll, vm.selected)">';
    vm.selected = {};
    vm.selectAll = false;
    vm.toggleAll = toggleAll;
    vm.toggleOne = toggleOne;
    vm.metio = {};
-   vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-   vm.IDUser = $cookies.getObject('globals').currentUser.ID;
-   vm.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-   vm.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
-   //set date input
-   $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
-   $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
+   
 
-   $scope.date_debut_sel = 0;
-   $scope.date_fin_sel = moment($scope.date_fin).format('YYYYMMDD');
-
-   var permission_data = JSON.parse($window.localStorage.getItem('permission'));
-   var permission = {
-     modules_array: permission_data[0],
-     rubriques_array: permission_data[1],
-     sous_modules_array: permission_data[2]
-   }
-
-   vm.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
-
-   var opsemisAccess = _.filter(permission.sous_modules_array, {
-     ss_module: 'Suivi_meteo'
-   });
-
-   $scope.canIAction = () => {
-     if (vm.isAdmin)
-       return {
-         add: true,
-         update: true,
-         delete: true
-       }
-     return {
-       add: opsemisAccess[0].a,
-       update: opsemisAccess[0].u,
-       delete: opsemisAccess[0].d
-     }
-   }
-
-   vm.obj = {
-     "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
-     "DATE_DEBUT": 0,
-     "DATE_FIN": moment($scope.date_fin).format('YYYYMMDD')
-   };
 
    //get data and refresh datatable
    $scope.updateDataMeteo = function(data) {
      return suivimeteo.getByFiltre(data);
    };
 
-   //by date_debutl
-   $scope.date_debut_change = function() {
-     NProgress.start();
-     if ($scope.date_debut === null || $scope.date_debut === "" || $scope.date_debut === undefined || $scope.date_debut === 0 || $scope.date_debut === "0" || !$scope.date_debut || $scope.date_debut.length === 0) {
-       $scope.date_debut_sel = 0;
-     } else {
-       $scope.date_debut_sel = $scope.date_debut;
-     }
 
-     vm.obj.DATE_DEBUT = moment($scope.date_debut_sel).format('YYYYMMDD');
-     vm.dtInstance.reloadData();
-     NProgress.done();
-     NProgress.remove();
-   };
-
-   //by date_fin
-   $scope.date_fin_change = function() {
-     NProgress.start();
-     if ($scope.date_fin === null || $scope.date_fin === "" || $scope.date_fin === undefined || $scope.date_fin === 0 || $scope.date_fin === "0" || !$scope.date_fin || $scope.date_fin.length === 0) {
-       $scope.date_fin_sel = 0;
-     } else {
-       $scope.date_fin_sel = $scope.date_fin;
-     }
-
-     vm.obj.DATE_FIN = moment($scope.date_fin_sel).format('YYYYMMDD');
-     vm.dtInstance.reloadData();
-     NProgress.done();
-     NProgress.remove();
-   };
-
-   if ($scope.canIAction().add) {
-     $scope.btnadd = {
-       text: "<i class='fa fa-plus'></i>",
-       key: '1',
-       className: 'pull-left',
-       action: function(e, dt, node, config) {
-         $scope.AddClimat()
-       },
-       titleAttr: 'Ajouter'
-     }
-   } else {
-     $scope.btnadd = undefined;
-   }
-
+   vm.obj = {
+    "DOMAINE": 1,
+    "DATE_DEBUT": 0,
+    "DATE_FIN": moment().format('YYYYMMDD')
+  };
    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
        var defer = $q.defer();
        $scope.updateDataMeteo(vm.obj).then(function(res) {
@@ -386,30 +306,21 @@ angular.module('beeOneWebFrontApp')
      .withDOM('<lf<t>ip>')
      .withPaginationType('simple_numbers')
      .withOption('responsive', true)
-
-
      .withButtons([{
          extend: 'colvis',
          text: "<i class='fa fa-eye'></i>",
          className: 'pull-left',
-         titleAttr: translatedwords.getTranslatedWord($translate("Visibilité"))
-       },
-       {
-         text: "<i class='fa fa-search'></i>",
-         action: function(e, dt, node, config) {
-           $scope.ReverseDisplay('filter_form');
-         },
-         titleAttr: translatedwords.getTranslatedWord($translate("Rechercher"))
+         titleAttr: "Visibilité"
        },
        {
          extend: 'copy',
          text: "<i class='fa fa-copy'></i>",
-         titleAttr: translatedwords.getTranslatedWord($translate("Copie"))
+         titleAttr: "Copie"
        },
        {
          extend: 'print',
          text: "<i class='fa fa-print'></i>",
-         titleAttr: translatedwords.getTranslatedWord($translate("Imprimer"))
+         titleAttr: "Imprimer"
        },
        {
          extend: 'pdf',
@@ -425,76 +336,76 @@ angular.module('beeOneWebFrontApp')
 
 
    vm.dtColumns = [
-     DTColumnBuilder.newColumn('Date').withTitle(translatedwords.getTranslatedWord($translate("Date"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Date').withTitle("Date").renderWith(function(data, type, full, meta) {
        return moment(full.Date).format('DD/MM/YYYY');
      }),
-     DTColumnBuilder.newColumn('TMax').withTitle(translatedwords.getTranslatedWord($translate("Tmax (°C)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('TMax').withTitle("Tmax (°C)").renderWith(function(data, type, full, meta) {
        if (full.TMax)
          return '<p align="right">' + full.TMax.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('Tmin').withTitle(translatedwords.getTranslatedWord($translate("Tmin (°C)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Tmin').withTitle("Tmin (°C)").renderWith(function(data, type, full, meta) {
        if (full.TMax)
          return '<p align="right">' + full.Tmin.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('Tmoy').withTitle(translatedwords.getTranslatedWord($translate("Tmoy (°C)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Tmoy').withTitle("Tmoy (°C)").renderWith(function(data, type, full, meta) {
        if (full.Tmoy)
          return '<p align="right">' + full.Tmoy.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('Vent').withTitle(translatedwords.getTranslatedWord($translate("Vent (Km/h)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Vent').withTitle("Vent (Km/h)").renderWith(function(data, type, full, meta) {
        if (full.Vent)
          return '<p align="right">' + full.Vent.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('HR').withTitle(translatedwords.getTranslatedWord($translate("HR (%)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('HR').withTitle("HR (%)").renderWith(function(data, type, full, meta) {
        if (full.HR)
          return '<p align="right">' + full.HR.toFixed(2) + '</p>';
        return '0';
      }),
-     DTColumnBuilder.newColumn('Hmin').withTitle(translatedwords.getTranslatedWord($translate("Hmin (%)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Hmin').withTitle("Hmin (%)").renderWith(function(data, type, full, meta) {
        if (full.Hmin)
          return '<p align="right">' + full.Hmin.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('Pluvio').withTitle(translatedwords.getTranslatedWord($translate("Pluviométrie (mm)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('Pluvio').withTitle("Pluviométrie (mm)").renderWith(function(data, type, full, meta) {
        if (full.Pluvio)
          return '<p align="right">' + full.Pluvio.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('E0').withTitle(translatedwords.getTranslatedWord($translate("ETO (mm)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('E0').withTitle("ETO (mm)").renderWith(function(data, type, full, meta) {
        if (full.E0)
          return '<p align="right">' + full.E0.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('RG').withTitle(translatedwords.getTranslatedWord($translate("RG (W/m2)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('RG').withTitle("RG (W/m2)").renderWith(function(data, type, full, meta) {
        if (full.RG)
          return '<p align="right">' + full.RG.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('BAC').withTitle(translatedwords.getTranslatedWord($translate("BAC (mm)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('BAC').withTitle("BAC (mm)").renderWith(function(data, type, full, meta) {
        if (full.BAC)
          return '<p align="right">' + full.BAC.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('BAC').withTitle(translatedwords.getTranslatedWord($translate("BAC (mm)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('BAC').withTitle("BAC (mm)").renderWith(function(data, type, full, meta) {
        if (full.BAC)
          return '<p align="right">' + full.BAC.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('BAR').withTitle(translatedwords.getTranslatedWord($translate("BAR (Bar)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('BAR').withTitle("BAR (Bar)").renderWith(function(data, type, full, meta) {
        if (full.BAR)
          return '<p align="right">' + full.BAR.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('RAJOUT').withTitle(translatedwords.getTranslatedWord($translate("Rajout (mm)"))).renderWith(function(data, type, full, meta) {
+     DTColumnBuilder.newColumn('RAJOUT').withTitle("Rajout (mm)").renderWith(function(data, type, full, meta) {
        if (full.RAJOUT)
          return '<p align="right">' + full.RAJOUT.toFixed(2) + '</p>';
        return '<p align="right">0</p>';
      }),
-     DTColumnBuilder.newColumn('Observation').withTitle(translatedwords.getTranslatedWord($translate("Observation"))),
-     DTColumnBuilder.newColumn(null).withTitle(translatedwords.getTranslatedWord($translate("Actions"))).withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all')
+     DTColumnBuilder.newColumn('Observation').withTitle("Observation"),
+     DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all')
    ];
 
    DTDefaultOptions.setLoadingTemplate('<br/><br/><br/><br/><center><img src="././images/loading.gif"/></center>');
@@ -525,37 +436,6 @@ angular.module('beeOneWebFrontApp')
      return editbtn + deletebtn;
    }
 
-   vm.delete = async function(c) {
-     vm.IDmetio = c.ID;
-     toastr.clear();
-     toastr.info("<button type='button' id='confirmationRevertYes' class='btn btn-danger'>" + await translatedwords.getTranslatedWord($translate("Je confirme")) + "</button>", await translatedwords.getTranslatedWord($translate("Veuillez confirmer !")), {
-       closeButton: true,
-       allowHtml: true,
-       onShown: function(toast) {
-         $("#confirmationRevertYes").click(function() {
-           suivimeteo.delete({
-             ID: vm.IDmetio
-           }).then(async function(result) {
-             if (result.data[0].message == "ajout reussi") {
-               //validate success
-               toastr.clear();
-               toastr.info(await translatedwords.getTranslatedWord($translate("Suppression réussie")), {
-                 closeButton: true
-               });
-               NProgress.done();
-               vm.dtInstance.reloadData();
-             } else {
-               toastr.clear();
-               toastr.error(await translatedwords.getTranslatedWord($translate("An error occured")) + result.data[0].description, {
-                 closeButton: true
-               });
-             }
-           });
-         });
-       }
-     });
-
-   }
 
    $scope.ReverseDisplay = function(d) {
      if (document.getElementById(d).style.display === "none") {

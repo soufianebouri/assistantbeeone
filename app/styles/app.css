@@ -1369,3 +1369,15 @@ html {
         /* Stack columns vertically on small screens */
     }
 }
+
+thead, th {
+    background-color: #ffffff !important;
+    color: #525849 !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    /* width: auto !important; */
+}
+
+td, th {
+    white-space: nowrap;
+  }

@@ -499,7 +499,7 @@ angular.module('beeOneWebFrontApp')
 
    DTDefaultOptions.setLoadingTemplate('<br/><br/><br/><br/><center><img src="././images/loading.gif"/></center>');
 
-
+   vm.howto = true;
 
    function edit(c) {}
 

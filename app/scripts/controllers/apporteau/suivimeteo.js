@@ -14,17 +14,17 @@ angular.module('beeOneWebFrontApp')
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
-    pc.dtInstance = {};
-    var titleHtml = '<input type="checkbox" ng-model="pc.selectAll" ng-click="pc.toggleAll(pc.selectAll, pc.selected)">';
-    pc.selected = {};
-    pc.selectAll = false;
-    pc.toggleAll = toggleAll;
-    pc.toggleOne = toggleOne;
-    pc.metio = {};
-    pc.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').currentUser.ID;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
+    vm.dtInstance = {};
+    var titleHtml = '<input type="checkbox" ng-model="vm.selectAll" ng-click="vm.toggleAll(vm.selectAll, vm.selected)">';
+    vm.selected = {};
+    vm.selectAll = false;
+    vm.toggleAll = toggleAll;
+    vm.toggleOne = toggleOne;
+    vm.metio = {};
+    vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
+    vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+    vm.IDferme = $cookies.getObject('globals').ferme.IDFerme;
+    vm.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
     //set date input
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
@@ -39,14 +39,14 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
+    vm.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
 
     var opsemisAccess = _.filter(permission.sous_modules_array, {
       ss_module: 'Suivi_meteo'
     });
 
     $scope.canIAction = () => {
-      if (pc.isAdmin)
+      if (vm.isAdmin)
         return {
           add: true,
           update: true,
@@ -59,7 +59,7 @@ angular.module('beeOneWebFrontApp')
       }
     }
 
-    pc.obj = {
+    vm.obj = {
       "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
       "DATE_DEBUT": 0,
       "DATE_FIN": moment($scope.date_fin).format('YYYYMMDD')
@@ -79,8 +79,8 @@ angular.module('beeOneWebFrontApp')
         $scope.date_debut_sel = $scope.date_debut;
       }
 
-      pc.obj.DATE_DEBUT = moment($scope.date_debut_sel).format('YYYYMMDD');
-      pc.dtInstance.reloadData();
+      vm.obj.DATE_DEBUT = moment($scope.date_debut_sel).format('YYYYMMDD');
+      vm.dtInstance.reloadData();
       NProgress.done();
       NProgress.remove();
     };
@@ -94,8 +94,8 @@ angular.module('beeOneWebFrontApp')
         $scope.date_fin_sel = $scope.date_fin;
       }
 
-      pc.obj.DATE_FIN = moment($scope.date_fin_sel).format('YYYYMMDD');
-      pc.dtInstance.reloadData();
+      vm.obj.DATE_FIN = moment($scope.date_fin_sel).format('YYYYMMDD');
+      vm.dtInstance.reloadData();
       NProgress.done();
       NProgress.remove();
     };
@@ -114,9 +114,9 @@ angular.module('beeOneWebFrontApp')
       $scope.btnadd = undefined;
     }
 
-    pc.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
+    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
         var defer = $q.defer();
-        $scope.updateDataMeteo(pc.obj).then(function(res) {
+        $scope.updateDataMeteo(vm.obj).then(function(res) {
           defer.resolve(res.data);
           NProgress.done();
         });
@@ -167,7 +167,7 @@ angular.module('beeOneWebFrontApp')
       ].concat($scope.btnadd));
 
 
-    pc.dtColumns = [
+    vm.dtColumns = [
       DTColumnBuilder.newColumn('Date').withTitle(translatedwords.getTranslatedWord($translate("Date"))).renderWith(function(data, type, full, meta) {
         return moment(full.Date).format('DD/MM/YYYY');
       }),
@@ -289,7 +289,7 @@ angular.module('beeOneWebFrontApp')
 
         if ($scope.DateObservation && $scope.Tmin >= 0 && $scope.Tmax >= 0) {
 
-          pc.objAdd = {
+          vm.objAdd = {
             "DateObservation": moment($scope.DateObservation).format('YYYYMMDD'),
             "Tmin": $scope.Tmin,
             "Tmax": $scope.Tmax,
@@ -304,13 +304,13 @@ angular.module('beeOneWebFrontApp')
             "Barometre": $scope.Barometre,
             "RG": $scope.RG,
             "Observation": ($scope.Observation) ? $filter('textforsqlserver')($scope.Observation) : "",
-            "Utilisateur": pc.User,
-            "IDFermes": pc.IDferme,
-            "IDUser": pc.IDUser
+            "Utilisateur": vm.User,
+            "IDFermes": vm.IDferme,
+            "IDUser": vm.IDUser
           }
 
 
-          suivimeteo.createweb(pc.objAdd).then(async e => {
+          suivimeteo.createweb(vm.objAdd).then(async e => {
             if (e.data[0].message == "ajout reussi") {
               //validate success
               toastr.clear();
@@ -320,7 +320,7 @@ angular.module('beeOneWebFrontApp')
               NProgress.done();
               $mdDialog.hide();
               document.getElementsByClassName('left_col')[0].style.zIndex = 999999;
-              pc.dtInstance.reloadData();
+              vm.dtInstance.reloadData();
             } else {
               $scope.progress = false;
               if (e.data[0].description.includes('WDIDX_ReleveClimatique_date_IDfermes')) {
@@ -369,7 +369,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     //Add AddClimat
-    pc.edit = function(data) {
+    vm.edit = function(data) {
       $mdDialog.show({
           controller: DialogControllerEditClimat,
           templateUrl: '././views/templates/suivimeteo/EditSuiviMeteo.html',
@@ -418,7 +418,7 @@ angular.module('beeOneWebFrontApp')
 
         if ($scope.DateObservation && $scope.data.Tmin >= 0 && $scope.data.TMax >= 0) {
 
-          pc.objAdd = {
+          vm.objAdd = {
             "ID": $scope.data.ID,
             "DateObservation": moment($scope.DateObservation).format('YYYYMMDD'),
             "Tmin": $scope.data.Tmin,
@@ -434,12 +434,12 @@ angular.module('beeOneWebFrontApp')
             "Barometre": $scope.data.BAR,
             "RG": $scope.data.RG,
             "Observation": ($scope.data.Observation) ? $filter('textforsqlserver')($scope.data.Observation) : "",
-            "Utilisateur": pc.User,
-            "IDFermes": pc.IDferme,
-            "IDUser": pc.IDUser
+            "Utilisateur": vm.User,
+            "IDFermes": vm.IDferme,
+            "IDUser": vm.IDUser
           }
 
-          suivimeteo.updateweb(pc.objAdd).then(async e => {
+          suivimeteo.updateweb(vm.objAdd).then(async e => {
             if (e.data[0].message == "ajout reussi") {
               //validate success
               toastr.clear();
@@ -449,7 +449,7 @@ angular.module('beeOneWebFrontApp')
               NProgress.done();
               $mdDialog.hide();
               document.getElementsByClassName('left_col')[0].style.zIndex = 999999;
-              pc.dtInstance.reloadData();
+              vm.dtInstance.reloadData();
             } else {
               $scope.progress = false;
               if (e.data[0].description.includes('WDIDX_ReleveClimatique_date_IDfermes')) {
@@ -507,22 +507,22 @@ angular.module('beeOneWebFrontApp')
     }
 
     function headerCallback(header) {
-      if (!pc.headerCompiled) {
+      if (!vm.headerCompiled) {
         // Use this headerCompiled field to only compile header once
-        pc.headerCompiled = true;
+        vm.headerCompiled = true;
         $compile(angular.element(header).contents())($scope);
       }
     }
 
     function actionsHtml(data, type, full, meta) {
-      pc.metio[data.ID] = data;
-      var editbtn = ($scope.canIAction().update) ? '<button class="btn btn-warning btn-xs" title="Modifier" ng-click="pc.edit(pc.metio[' + data.ID + '])"><i class="fa fa-edit"></i></button>&nbsp;' : '';
-      var deletebtn = ($scope.canIAction().delete) ? '<button class="btn btn-danger btn-xs" title="Supprimer" ng-click="pc.delete(pc.metio[' + data.ID + '])" )"=""><i class="fa fa-trash-o"></i></button>' : '';
+      vm.metio[data.ID] = data;
+      var editbtn = ($scope.canIAction().update) ? '<button class="btn btn-warning btn-xs" title="Modifier" ng-click="vm.edit(vm.metio[' + data.ID + '])"><i class="fa fa-edit"></i></button>&nbsp;' : '';
+      var deletebtn = ($scope.canIAction().delete) ? '<button class="btn btn-danger btn-xs" title="Supprimer" ng-click="vm.delete(vm.metio[' + data.ID + '])" )"=""><i class="fa fa-trash-o"></i></button>' : '';
       return editbtn + deletebtn;
     }
 
-    pc.delete = async function(c) {
-      pc.IDmetio = c.ID;
+    vm.delete = async function(c) {
+      vm.IDmetio = c.ID;
       toastr.clear();
       toastr.info("<button type='button' id='confirmationRevertYes' class='btn btn-danger'>" + await translatedwords.getTranslatedWord($translate("Je confirme")) + "</button>", await translatedwords.getTranslatedWord($translate("Veuillez confirmer !")), {
         closeButton: true,
@@ -530,7 +530,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             suivimeteo.delete({
-              ID: pc.IDmetio
+              ID: vm.IDmetio
             }).then(async function(result) {
               if (result.data[0].message == "ajout reussi") {
                 //validate success
@@ -539,7 +539,7 @@ angular.module('beeOneWebFrontApp')
                   closeButton: true
                 });
                 NProgress.done();
-                pc.dtInstance.reloadData();
+                vm.dtInstance.reloadData();
               } else {
                 toastr.clear();
                 toastr.error(await translatedwords.getTranslatedWord($translate("An error occured")) + result.data[0].description, {
@@ -573,11 +573,11 @@ angular.module('beeOneWebFrontApp')
       for (var id in selectedItems) {
         if (selectedItems.hasOwnProperty(id)) {
           if (!selectedItems[id]) {
-            pc.selectAll = false;
+            vm.selectAll = false;
             return;
           }
         }
       }
-      pc.selectAll = true;
+      vm.selectAll = true;
     }
   });

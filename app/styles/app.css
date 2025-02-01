@@ -795,9 +795,9 @@ font-weight: bold;
     display: block;
 }
 
-.row {
+/*.row {
     margin-bottom: -55px;
-}
+}*/
 
 .full-width {
     width: 50%;  /* Takes 100% of the parent's width */
@@ -918,6 +918,8 @@ font-weight: bold;
     font-family: 'Poppins', sans-serif !important;
     font-size: 12px;
     color:#505647;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
   }
 
   .no-space-td {
@@ -1016,4 +1018,236 @@ md-switch.md-default-theme.md-checked:not([disabled]) .md-bar, md-switch.md-chec
   .step-btn-container div {
     margin: 0;             /* Remove any default margins */
     padding: 0;            /* Remove any default padding */
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.animated-icon {
+    animation:
+     fadeInOut 2s infinite;
+}
+
+.speech-icon {
+    color: #4e554d;
+}
+
+md-table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure it takes up available space */
+    max-height: 100%;
+    overflow: auto; /* Enables scrolling */
+  }
+  
+  md-table-container tbody {
+    display: block;
+    max-height: calc(100vh - 150px); /* Adjust height dynamically */
+    overflow-y: auto;
+  }
+  
+  md-table-container thead, md-table-container tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }*/
+
+
+.custom-table-container {
+  max-width: 100%; /* Ensures the container fits within the layout */
+  overflow: auto; /* Allows scrolling inside the container */
+}
+
+.custom-table {
+  width: max-content; /* Allows table to grow if needed */
+  min-width: 100%; /* Ensures table doesn't shrink too much */
+  border-collapse: collapse; /* Prevents extra spacing between table cells */
+}
+
+
+
+
+
+/*dataTable styles */
+.dataTables_wrapper .dt-buttons {
+    float: none;
+    text-align: right;
+    margin: 0px 0;
+  }
+  
+  /*th {
+    font-size: 12px;
+  
+  td {
+    font-size: 12px;
+    
+  }*/
+  
+  .dataTables_wrapper .dataTables_paginate a {
+    /* margin-top: 3px !important; */
+    /* width: 25px !important; */
+    height: 25px !important;
+    padding: 0 !important;
+    line-height: 25px;
+    border-radius: 100vh !important;
+    display: inline-block !important;
+  }
+  .dataTables_wrapper .dataTables_paginate a:hover {
+    color: #000 !important;
+  }
+  
+  .dataTables_wrapper .dataTables_paginate > a {
+    padding: 0 15px !important;
+  }
+  .table-responsive {
+    overflow-x: auto !important;
+  }
+  .dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
+  }
+  .dataTables_scrollBody {
+    height: 100% !important;
+  }
+  
+  div.dt-button-collection {
+    height: auto;
+    width: auto;
+  }
+
+  
+.dataTables_length,
+.dataTables_scrollHead,
+.dataTables_filter {
+  margin: 0px;
+}
+
+.dataTables_scroll {
+  height: auto;
+}
+
+
+.table-responsive {
+    overflow-x: auto !important;
+  }
+
+  td {
+    white-space: nowrap; /* Prevents text from wrapping and causing unnecessary height */
+    overflow: hidden; /* Ensures text does not overflow */
+  }
+
+  /* Prevent horizontal scrolling */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+
+/* Container to hold Left, Right, and Sidebar in one row */
+.container {
+    display: flex;
+    width: 100vw;  /* Ensures full width */
+    height: 100vh; /* Full screen height */
+  }
+  
+  /* Scrollable Content (LEFT & RIGHT) */
+  .scrollable-content {
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+    flex: 3; /* Takes 75% of width */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    height: auto; /* Allow content to determine height */
+    background: #f5f5f5;
+    padding-bottom: 0; /* Remove extra padding */
+  }
+  
+  /* Left Side Content */
+  .left {
+    flex: 1; /* Takes 50% of scrollable content */
+    padding: 10px 10px 0; /* Remove padding at the bottom */
+    background: #ffffff;
+    min-height: auto; /* Prevent extra space */
+    height: auto; /* Prevent extra space */
+  }
+  
+  /* Right Side Content */
+  .right {
+    flex: 1; /* Takes 50% of scrollable content */
+    padding: 10px;
+    background: #eeeeee;
+  }
+  
+  /* New Section Below Form and XLS Sections */
+  .full-width-section {
+    flex: 0 0 auto; /* Do not grow or shrink */
+    width: 100%;
+    padding: 10px;
+    background: #ffffff; /* Match your design */
+    margin-top: 20px; /* Add spacing between sections */
+  }
+  
+  /* Sidebar (Stays Fixed) */
+  .sidebar {
+    flex: 1; /* Takes 25% of total width */
+    background: #ffffff;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden; /* No scrolling */
+  }
+  
+  /* Two Column Container */
+  .two-column-container {
+    display: flex;
+    gap: 16px; /* Space between the two columns */
+    margin-top: 16px; /* Space above the columns */
+    margin-bottom: 0; /* Remove extra margin */
+    padding-bottom: 0; /* Remove extra padding */
+  }
+  
+  /* Column */
+  .column {
+    flex: 1; /* Each column takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Space between elements */
+    padding: 10px; /* Add padding for better spacing */
+    margin-bottom: 0; /* Remove extra margin */
+    height: auto; /* Prevent extra space */
+  }
+  
+  /* Reset Default Margins and Padding */
+  .left h2,
+.left p,
+.left md-button,
+.left md-input-container,
+.left md-card {
+  margin: 0; /* Reset default margins */
+  padding: 0; /* Reset default padding */
+}
+  
+  /* Ensure Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .scrollable-content {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      position: relative;
+      height: auto;
+    }
+  
+    .two-column-container {
+      flex-direction: column; /* Stack columns vertically on small screens */
+    }
   }

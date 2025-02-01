@@ -32,7 +32,7 @@ angular
     "ngSanitize",
     "ngTouch",
     "ngFileUpload",
-    "datatables",
+    "datatables", 
     "datatables.buttons",
     "toastr",
     "base64",
@@ -59,6 +59,7 @@ angular
     $cookiesProvider,
     $sceProvider
   ) {
+
 
     $cookiesProvider.defaults = {
       samesite: 'None',

@@ -1,0 +1,101 @@
+<div ng-controller="ConfigurationComptesVComptesCtrl as vm">
+
+
+    <md-card class="card" layout="column" style="padding: 10px;background: #fafafa;box-shadow: none;" >
+      <!-- First row: Image + Text on the left, Button on the right -->
+      <div layout="row" layout-align="space-between center">
+          <!-- Left section: Icon + File details -->
+          <div layout="row">
+              <img src="././images/main_configuration/back.svg" alt="back" style="margin-right: 10px;cursor: pointer;border: none;border-radius: 60px;
+              background: #f0f0f0;   
+              display: block;" 
+              ng-click="go_back()">   
+              <!-- Column for file name and size -->
+              <div layout="column" style="line-height: 1.2;">
+                  <h3 style="color: #1e2317; font-family: Poppins; font-size: 18px; margin: 0;">
+                    Configuration Du Compte
+                  </h3>
+                  <p style="color: #63675d; font-family: Poppins; font-size: 12px; margin: 0;">
+                    Amet minim mollit non deserunt ullamco est sit aliqua dolor.
+                  </p>
+              </div>
+          </div>
+  
+          <!-- Close button -->
+          <p style="margin: 0;" ng-click="vm.delete_file()">
+              <img src="././images/main_configuration/headphone.svg" alt="headphone" style="width: 20px; height: 20px; cursor: pointer;">
+          </p>
+      </div>
+  </md-card>
+  
+  <!--i need here the view-->
+  
+  <div class="container">
+    <!-- Main Content -->
+     <div only scroll here>
+      <div class="main-content">
+        <h2>Main Content</h2>
+        <p ng-repeat="n in [].constructor(50) track by $index">Content Line {{$index + 1}}</p>
+    </div>
+  
+    <div class="main-content">
+        <h2>Main Content</h2>
+        <p ng-repeat="n in [].constructor(50) track by $index">Content Line {{$index + 1}}</p>
+    </div>
+     </div>
+    
+  
+    <!-- Sidebar (Sticky) on the right-->
+    <div class="sidebar">
+        <h3>Sticky Sidebar</h3>
+        <p>No Scroll, No Move</p>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer">
+    Footer Content
+  </div>
+  
+  </div>
+
+  
+  .container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.main-content {
+    flex: 3;
+    padding: 20px;
+    overflow-y: auto; /* Allows scrolling */
+    height: 100vh;
+    background: #f5f5f5;
+}
+
+.sidebar {
+    flex: 1;
+    background: #ccc;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        height: auto;
+    }
+}

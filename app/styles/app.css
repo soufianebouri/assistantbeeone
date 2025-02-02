@@ -624,3 +624,77 @@ body, html {
     margin-bottom: 3rem;
     gap: 2.5rem;
   }
+
+
+
+  /* Custom button styling */
+.md-button.md-raised.custom-button {
+    background-color: rgb(129 187 38) !important; /* Your desired color */
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* For hover state */
+  .md-button.md-raised.custom-button:hover {
+    background-color: rgb(129 187 38) !important; /* Your desired color */
+  }
+  
+  /* For focus state */
+  .md-button.md-raised.custom-button:focus {
+    background-color: rgb(129 187 38) !important; /* Your desired color */
+  }
+
+
+  /* Custom Reset Button */
+.md-button.md-raised.custom-reset-button {
+    background-color: #ffffff !important;    /* White background */
+    border: 2px solid #4CAF50 !important;    /* Green border */
+    color: #4CAF50 !important;               /* Green text */
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .md-button.md-raised.custom-reset-button:hover {
+    background-color: #E8F5E9 !important;    /* Light green hover */
+    color: #2E7D32 !important;               /* Darker green text */
+  }
+  
+  .md-button.md-raised.custom-reset-button:focus {
+    background-color: #C8E6C9 !important;    /* Medium green focus */
+    color: #1B5E20 !important;               /* Darkest green text */
+  }
+
+
+  .centered-card {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+.upload-card {
+    padding: 40px;
+    background: #F8F8F9;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Background color change on drag */
+.upload-card.dragover {
+    border-color: #0f100e !important;
+    background: #eef7e4 !important;
+}
+
+/* Background color change when file is selected */
+.upload-card.file-selected {
+    background: #070707 !important;
+    border-color: #28a745 !important;
+}
+
+.full-width-btn {
+    width: 100%;
+    margin: 8px 0;
+}
+  

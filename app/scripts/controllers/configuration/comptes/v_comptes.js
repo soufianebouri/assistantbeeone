@@ -148,12 +148,12 @@ angular.module('beeOneWebFrontApp')
     var videoElement = document.getElementById('videoPlayer');
 
     // Listen for the 'loadedmetadata' event to get the duration once the video metadata is loaded
-    videoElement.addEventListener('loadedmetadata', function () {
-      // Set the video duration in seconds
+   /* videoElement.addEventListener('loadedmetadata', function () {
+      
       vm.videoDuration = videoElement.duration;
-      // Trigger the digest cycle to update the view
+      
       $scope.$apply();
-    });
+    });*/
 
 
     var description_support = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum";

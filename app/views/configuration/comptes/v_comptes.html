@@ -1,18 +1,95 @@
-<div ng-controller="MainCtrl as ctrl">
+<div ng-controller="ConfigurationComptesVComptesCtrl as vm">
   
   <div class="main-container">
     <div class="scrollable-main">
 
       <div class="scrollable-header">
-        <h2>Content Header</h2>
-        <div class="header-actions">
-          <button class="btn btn-icon">
-            <i class="material-icons">filter_list</i>
-          </button>
-          <button class="btn btn-icon">
-            <i class="material-icons">sort</i>
-          </button>
-        </div>
+      
+          <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
+            <!-- Steps Section (Middle) -->
+            <div layout="row" flex="auto" layout-align="center center">
+              <!-- Step 1 -->
+              <div class="step-box">
+                <table style="border-collapse: collapse;">
+                  <tr ng-click="vm.step(1)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
+                        <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
+                      </div>
+                    </td>
+                    <td ng-class="{'step_position': vm.currect_step == 1, 'step_position-disabled': vm.currect_step != 1}">
+                      Étape 1</td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
+                      Sociétés</td>
+                  </tr>
+                </table>
+              </div>
+      
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+      
+              <!-- Step 2 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(2)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                        <img src="././images/main_configuration/farm.svg" alt="farm">
+                      </div>
+                    </td>
+                    <td ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
+                      Étape 2</td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
+                      Sociétés</td>
+                  </tr>
+                </table>
+              </div>
+      
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
+      
+              <!-- Step 3 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(3)">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                        <img src="././images/main_configuration/campagne.svg" alt="campagne">
+                      </div>
+                    </td>
+                    <td ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
+                      Étape 3
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
+                      Sociétés
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+      
+            <!-- Switch Section (Right) -->
+            
+      
+            <!--<div layout="row" layout-align="end center" style="margin-left: 20px;">
+              <p style="font-size: 12px;
+          color: #a5af94;font-family: 'Poppins', sans-serif;">Assist UI</p>
+              <md-switch ng-model="vm.howto" aria-label="Switch">
+               
+              </md-switch>
+            </div>-->
+      
+          </div>
+        
       </div>
 
       

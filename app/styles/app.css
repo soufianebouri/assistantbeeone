@@ -258,3 +258,119 @@ body, html {
       align-items: flex-start;
     }
   }
+
+  
+
+.step-container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.step-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #81BB26;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.stepbtn_contact {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.step-btn:hover {
+    transform: scale(1.1);
+}
+
+.step-btn-disabled {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #a5af94;
+    cursor: pointer;
+}
+
+
+
+.arrow-icon {
+    font-size: 24px;
+    color: #a5af94;
+}
+
+.step-table {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.step-table td {
+    text-align: center;
+}
+
+.step_position {
+    font-size: 12px;
+    color: #81bb26;
+    display: flex;
+    padding-left: 10px;
+}
+
+.step_position_title {
+    font-size: 12px;
+    padding-left: 10px;
+    display: flex;
+    color: #6b6767;
+    font-weight: bold;
+}
+
+.step_position_title-disabled {
+    font-size: 12px;
+    padding-left: 10px;
+    display: flex;
+    color: #6b6767;
+}
+
+.step_position-disabled {
+    font-size: 12px;
+    color: #a5af94;
+    display: flex;
+    padding-left: 10px;
+}
+
+
+.add_btn {
+    width: 100%;
+    background-color: #81bb26;
+    color: white;
+    /* padding: 10px; */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add_btn:hover {
+    background-color: #81bb26 !important;
+    color: white !important;
+}

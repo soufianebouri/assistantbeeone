@@ -3,6 +3,7 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden;
+    font-family: 'Poppins', sans-serif;
   }
 
   .header {
@@ -23,6 +24,8 @@ body, html {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    position: relative;
+    padding-bottom: 80px; 
   }
 
   .grid {
@@ -33,7 +36,7 @@ body, html {
 
   #grid1 { min-height: 200px; background: #f8f9fa; }
   #grid2 { min-height: 300px; background: #e9ecef; }
-  #grid4 { min-height: 150px; background: #dee2e6; }
+  #grid4 { /*min-height: 150px;*/ background: #dee2e6; }
 
   #grid3 {
     width: 300px;
@@ -41,6 +44,7 @@ body, html {
     position: sticky;
     top: 0;
     /*height: 100vh;*/
+    height: 100%;
     overflow-y: auto;
     margin: 10px;
   }
@@ -143,3 +147,59 @@ body, html {
       width: 100%;
     }
   }
+
+
+  /* Header */
+.header {
+    width: 100%;
+    height: 40px;
+    background-color: #ffffff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo-header {
+    display: flex;
+    align-items: center;
+}
+
+.logo-header img {
+    height: 20px;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.header nav ul li {
+    display: inline;
+}
+
+.header nav ul li a {
+    color: rgb(107 103 103);
+    text-decoration: none;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.smooth-separator {
+    border: none;
+    height: 2px;
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)); */
+    /* margin: 20px auto; */
+    width: 80%;
+    opacity: 0.7;
+}

@@ -1,0 +1,1574 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body,
+html {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Full Page Layout */
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Left Panel (Green) */
+.left-panel {
+    background-color: #0b522b;
+    color: #fff;
+    width: 40vw;
+    height: 100vh;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Right Panel (White) */
+.right-panel {
+    width: 60vw;
+    height: 100vh;
+    padding: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #fff;
+}
+
+/* Quote Styling */
+.quote {
+    padding-top: 120px;
+}
+
+.strong_p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e0e9e4;
+}
+
+.notes {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #b2c3ba;
+    text-align: justify
+}
+
+.logo h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.logo p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+/* Form Styling */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.input-field i {
+    margin-right: 10px;
+    color: #666;
+}
+
+.input-field input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+.input-field:focus-within {
+    box-shadow: 0 0 8px rgba(109, 162, 67, 0.5);
+}
+
+/* Options */
+.options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.options a {
+    text-decoration: none;
+    color: #3b7d3b;
+    transition: color 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+}
+
+.options a:hover {
+    color: #2b5d2b;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    background-color: #6da243;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.btn:hover {
+    background-color: #5b893b;
+    transform: scale(1.02);
+}
+
+
+.key-access {
+    margin-top: 15px;
+    width: 100%;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.key-access i {
+    margin-right: 5px;
+}
+
+.key-access:hover {
+    background-color: #e9e9e9;
+    transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100vw;
+        height: 40vh;
+        padding: 20px;
+    }
+
+    .right-panel {
+        width: 100vw;
+        height: 60vh;
+        padding: 20px;
+    }
+}
+
+.right {
+    text-align: right;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    height: 40px;
+    background-color: #ffffff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo-header {
+    display: flex;
+    align-items: center;
+}
+
+.logo-header img {
+    height: 20px;
+}
+
+.header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.header nav ul li {
+    display: inline;
+}
+
+.header nav ul li a {
+    color: rgb(107 103 103);
+    text-decoration: none;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+
+/* Footer (Only on Left Panel) */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: #ddd;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 6px;
+    /* Adjust width as needed */
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(129, 187, 38);
+    /* Thumb color */
+    border-radius: 10px;
+    /* Optional: round edges */
+}
+
+/* For Firefox */
+scrollbar {
+    width: 6px;
+    /* Adjust width as needed */
+    background-color: #f1f1f1;
+}
+
+scrollbar-thumb {
+    background-color: rgb(129, 187, 38);
+    border-radius: 10px;
+}
+
+
+.quote_onboarding {
+    padding-top: 90px;
+}
+
+.smooth-separator {
+    border: none;
+    height: 2px;
+    /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)); */
+    /* margin: 20px auto; */
+    width: 80%;
+    opacity: 0.7;
+}
+
+/* Ensure the container takes full height */
+.container_onbord {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    /* Full viewport height */
+    overflow: hidden;
+    /* Prevent scrolling on the entire container */
+}
+
+/* Left panel: Scrollable */
+.left-panel_onbord {
+    background-image: url('../images/onboarding/right_steps_onboarding.svg');
+    background-size: cover;
+    /* Makes the background image cover the entire panel */
+    background-position: center center;
+    /* Centers the image */
+    background-repeat: no-repeat;
+    /* Prevents image from repeating */
+    flex: 1;
+    overflow-y: auto;
+    /* Enables scrolling */
+    padding: 20px;
+    background-color: #f5f5f5;
+    /* Adjust as needed */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Footer: Fixed at the bottom of the left panel */
+.footer_onbord {
+    display: flex;
+    justify-content: flex-end;
+    /* Push button to the right */
+    align-items: center;
+    /* Aligns items vertically */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(52.4% - 20px);
+    padding: 10px;
+}
+
+.footer_onbord_left {
+    justify-content: flex-end;
+    /* Push button to the right */
+    align-items: center;
+    /* Aligns items vertically */
+    position: fixed;
+    bottom: 0;
+    /*right: 0;*/
+    width: -calc(52.4% - 20px);
+    padding: 10px;
+    color: #ffffff;
+}
+
+/* Right panel: Fixed (Non-scrollable) */
+.right-panel_onbord {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+    background-color: white;
+    /* Adjust as needed */
+    height: 100vh;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container_onbord {
+        flex-direction: column;
+    }
+
+    .left-panel_onbord {
+        flex: none;
+        height: auto;
+        overflow-y: visible;
+    }
+
+    .footer_onbord {
+        width: 100%;
+        /* Full width for mobile */
+        position: relative;
+    }
+}
+
+.OnboardingQst {
+    font-size: 14px;
+}
+
+.Onboarding_steps {
+    font-size: 14px;
+    color: #6da243;
+}
+
+.btn_onboarding {
+    background-color: #0b522b;
+    color: #f5f5f5;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-left: auto;
+    align-items: right;
+    cursor: pointer;
+}
+
+.btn_onboarding:hover {
+    background-color: #1a5b37;
+    transform: scale(1.02);
+}
+
+.btn_onboarding:disabled {
+    background-color: #ccc;
+    /* Greyed out */
+    cursor: not-allowed;
+    /* Block cursor */
+    opacity: 0.6;
+}
+
+
+.selectSelectHeader .header-searchbox {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+
+.selectSelectHeader .select-header {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14),
+        0 0 0 0 rgba(0, 0, 0, 0.12);
+    padding-left: 10.667px;
+    height: 48px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+
+.selectSelectHeader md-content._md {
+    max-height: 240px;
+}
+
+md-input-container {
+    position: relative;
+}
+
+md-input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #757575;
+}
+
+md-input-container input {
+    padding-left: 30px;
+    /* Add left padding to avoid overlap with the icon */
+}
+
+md-radio-button.md-default-theme .md-on,
+md-radio-button .md-on {
+    background-color: rgb(19 165 85);
+}
+
+md-radio-button.md-default-theme.md-checked .md-off,
+md-radio-button.md-checked .md-off {
+    border-color: rgb(11 82 43 / 87%);
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    width: 30px;
+    height: 30px;
+    border: 5px solid #fff;
+    border-top: 5px solid #365121;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Card Styling */
+.step-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    /* Cards will not exceed 300px */
+    margin: 16px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    height: 360px;
+}
+
+/* Header */
+.header_main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Progress Label */
+.progress {
+    background: #e0f2e9;
+    color: #388e3c;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* Icon */
+.icon {
+    font-size: 30px;
+    color: #666;
+}
+
+/* Description */
+.desc {
+    font-size: 11px;
+    color: #666;
+    margin: 10px 0;
+    text-align: justify;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+/* Info Section */
+.info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #444;
+    margin: 8px 0;
+}
+
+/* Start Button */
+.start_btn {
+    width: 100%;
+    background-color: #9fada0;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.start_btn:hover {
+    background-color: #4caf50 !important;
+}
+
+/* Disabled Button */
+/*.disabled-btn {
+    background-color: #ddd !important;
+    color: #888 !important;
+    cursor: not-allowed;
+}*/
+
+/* Responsive Grid Layout */
+.layout-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* Create a grid with flexible columns */
+    gap: 16px;
+}
+
+/* Ensure md-card-actions sticks to the bottom */
+md-card-content {
+    flex-grow: 1;
+    /* Allow the content area to grow and push the button to the bottom */
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+    .layout-wrap {
+        justify-content: space-evenly;
+        /* Adjust the layout on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .layout-wrap {
+        justify-content: center;
+        /* Center on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .header_main {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-size: 14px;
+    }
+
+    .desc {
+        font-size: 10px;
+    }
+
+    .info {
+        font-size: 12px;
+    }
+
+    .start-btn {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+.layout-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Center the items horizontally */
+    gap: 20px;
+    /* Change this value to increase/decrease the space between cards */
+    padding: 16px;
+    width: 100%;
+    /* Full width to avoid any overflow */
+    overflow-x: hidden;
+    /* Ensure no horizontal scrolling */
+}
+
+
+
+
+
+.card {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.file-upload {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+}
+
+.upload-label {
+    color: #3f51b5;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.file-name {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.video-thumbnail {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+
+.card_form {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.table_multi_form {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.large-card {
+    min-height: 200px;
+}
+
+.card_form_multi {
+    margin: 0px;
+    border-radius: 0px;
+    padding: 20px;
+    background: #fff;
+    padding: 00px;
+}
+
+
+
+
+.step-container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.step-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #81BB26;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.stepbtn_contact {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.step-btn:hover {
+    transform: scale(1.1);
+}
+
+.step-btn-disabled {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #a5af94;
+    cursor: pointer;
+}
+
+
+
+.arrow-icon {
+    font-size: 24px;
+    color: #a5af94;
+}
+
+.step-table {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.step-table td {
+    text-align: center;
+}
+
+.step_position {
+    font-size: 12px;
+    color: #81bb26;
+    display: flex;
+    padding-left: 10px;
+}
+
+.step_position_title {
+    font-size: 12px;
+    padding-left: 10px;
+    display: flex;
+    color: #6b6767;
+    font-weight: bold;
+}
+
+.step_position_title-disabled {
+    font-size: 12px;
+    padding-left: 10px;
+    display: flex;
+    color: #6b6767;
+}
+
+.step_position-disabled {
+    font-size: 12px;
+    color: #a5af94;
+    display: flex;
+    padding-left: 10px;
+}
+
+.block {
+    display: block;
+}
+
+.row {
+    margin-bottom: 0px; /* Adjust this value to increase or decrease space between rows */
+  }
+
+.full-width {
+    width: 50%;
+    /* Takes 100% of the parent's width */
+}
+
+
+.add_btn {
+    width: 100%;
+    background-color: #81bb26;
+    color: white;
+    /* padding: 10px; */
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add_btn:hover {
+    background-color: #81bb26 !important;
+    color: white !important;
+}
+
+.reset_btn {
+    width: 100%;
+    background-color: #ffffff;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    /*border: 1.7px solid #215f16;*/
+}
+
+.row {
+    display: flex;
+    gap: 16px;
+}
+
+.first-input {
+    flex: 0 0 30%;
+    /* First input takes 30% of the available space */
+}
+
+.second-input {
+    flex: 0 0 70%;
+    /* Second input takes 70% of the available space */
+}
+
+.centered-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    /* Adjust height as needed */
+}
+
+
+
+.upload-card {
+    padding: 40px;
+    background: #F8F8F9;
+    border: 2px dashed #ccc;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Background color change on drag */
+.upload-card.dragover {
+    border-color: #0f100e !important;
+    background: #eef7e4 !important;
+}
+
+/* Background color change when file is selected */
+.upload-card.file-selected {
+    background: #070707 !important;
+    border-color: #28a745 !important;
+}
+
+.btn-primary {
+    background-color: rgb(129 187 38) !important;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-reset {
+    background-color: rgb(129 187 38);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+
+.top-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Left shadow */
+.left-shadow {
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+}
+
+/* Right shadow */
+.right-shadow {
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+/* Bottom shadow */
+.bottom-shadow {
+    box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.2);
+    /* Adjust if needed */
+}
+
+md-card {
+    box-shadow: 0 1px 3px 0 rgba(255, 255, 255, 0.26), 0 1px 1px 0 rgba(255, 255, 255, 0.12), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+md-input-container {
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 12px;
+    color: #505647;
+    margin: 0;
+    /* Remove default margin */
+    padding: 0;
+    /* Remove default padding */
+}
+
+.no-space-td {
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+}
+
+.video-card {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    /* padding: 16px; */
+    /* background: #1e1e1e; */
+    color: white;
+    /* border-radius: 12px; */
+    /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); */
+}
+
+.video-player {
+    width: 100%;
+    border-radius: 0px;
+    object-fit: cover;
+}
+
+
+.transcript-container {
+    max-height: 300px;
+    /* Adjust to your preferred height */
+    overflow-y: auto;
+    /* Allow scrolling */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.transcript-item {
+    color: white;
+    transition: 0.3s;
+}
+
+.transcript-item.highlight {
+    /*background: #4caf50;*/
+    color: white;
+    /* font-weight: bold; */
+    /* border-radius: 5px; */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+md-card md-card-content {
+    display: block;
+    padding: 0px;
+}
+
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.fade.ng-show {
+    opacity: 1;
+}
+
+.show-more {
+    cursor: pointer;
+    color: #007bff;
+    font-weight: bold;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-thumb,
+md-switch.md-checked:not([disabled]) .md-thumb {
+    background-color: rgb(129 187 38);
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-bar,
+md-switch.md-checked:not([disabled]) .md-bar {
+    background-color: rgba(135, 196, 37, 0.501);
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    /* Vertically align the text and switch */
+}
+
+.switch-container span {
+    margin-right: 10px;
+    color: #27454f;
+    font-size: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.step-btn-container {
+    display: flex;
+    /* Use flexbox for horizontal alignment */
+    gap: 10px;
+    /* Ensure no gap between the divs */
+    padding: 10px;
+}
+
+.step-btn-container div {
+    margin: 0;
+    /* Remove any default margins */
+    padding: 0;
+    /* Remove any default padding */
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.animated-icon {
+    animation:
+        fadeInOut 2s infinite;
+}
+
+.speech-icon {
+    color: #4e554d;
+}
+
+md-table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ensure it takes up available space */
+    max-height: 100%;
+    overflow: auto;
+    /* Enables scrolling */
+}
+
+md-table-container tbody {
+    display: block;
+    max-height: calc(100vh - 150px);
+    /* Adjust height dynamically */
+    overflow-y: auto;
+}
+
+md-table-container thead,
+md-table-container tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+*/ .custom-table-container {
+    max-width: 100%;
+    /* Ensures the container fits within the layout */
+    overflow: auto;
+    /* Allows scrolling inside the container */
+}
+
+.custom-table {
+    width: max-content;
+    /* Allows table to grow if needed */
+    min-width: 100%;
+    /* Ensures table doesn't shrink too much */
+    border-collapse: collapse;
+    /* Prevents extra spacing between table cells */
+}
+
+
+
+.footer .md-button:first-child { margin-left: auto; /* Push the first button to the right */ } .footer .md-button { margin-left: 10px; /* Add spacing between the buttons */ }
+
+/*dataTable styles */
+.dataTables_wrapper .dt-buttons {
+    float: none;
+    text-align: right;
+    margin: 0px 0;
+}
+
+/*th {
+    font-size: 12px;
+  
+  td {
+    font-size: 12px;
+    
+  }*/
+
+.dataTables_wrapper .dataTables_paginate a {
+    /* margin-top: 3px !important; */
+    /* width: 25px !important; */
+    height: 25px !important;
+    padding: 0 !important;
+    line-height: 25px;
+    border-radius: 100vh !important;
+    display: inline-block !important;
+}
+
+.dataTables_wrapper .dataTables_paginate a:hover {
+    color: #000 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate>a {
+    padding: 0 15px !important;
+}
+
+.table-responsive {
+    overflow-x: auto !important;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
+}
+
+.dataTables_scrollBody {
+    height: 100% !important;
+}
+
+div.dt-button-collection {
+    height: auto;
+    width: auto;
+}
+
+
+.dataTables_length,
+.dataTables_scrollHead,
+.dataTables_filter {
+    margin: 0px;
+}
+
+.dataTables_scroll {
+    height: auto;
+}
+
+
+.table-responsive {
+    overflow-x: auto !important;
+}
+
+td {
+    white-space: nowrap;
+    /* Prevents text from wrapping and causing unnecessary height */
+    /*overflow: hidden;*/
+    /* Ensures text does not overflow */
+}
+
+/* Prevent horizontal scrolling */
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+
+/* Container to hold Left, Right, and Sidebar in one row */
+.container {
+    display: flex;
+    width: 100vw;
+    /* Ensures full width */
+    height: 100vh;
+    /* Full screen height */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Scrollable Content (LEFT & RIGHT) */
+.scrollable-content {
+    display: flex;
+    flex-direction: column;
+    /* Change to column layout */
+    flex: 3;
+    /* Takes 75% of width */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
+    
+    /* Allow content to determine height */
+    background: #f5f5f5;
+    padding-bottom: 0;
+    /* Remove extra padding */
+}
+
+/* Left Side Content */
+.left {
+    flex: 1;
+    /* Takes 50% of scrollable content */
+    padding: 10px 10px 0;
+    /* Remove padding at the bottom */
+    background: #ffffff;
+    min-height: auto;
+    /* Prevent extra space */
+    height: auto;
+    /* Prevent extra space */
+}
+
+/* Right Side Content */
+.right {
+    flex: 1;
+    /* Takes 50% of scrollable content */
+    padding: 10px;
+    background: #eeeeee;
+}
+
+.right_notes {
+    flex: 1;
+    /* Takes 50% of scrollable content */
+    padding: 10px;
+}
+
+/* New Section Below Form and XLS Sections */
+.full-width-section {
+    flex: 0 0 auto;
+    /* Do not grow or shrink */
+    width: 100%;
+    padding: 10px;
+    background: #ffffff;
+    /* Match your design */
+    margin-top: 20px;
+    padding: 0px;
+}
+
+/* Sidebar (Stays Fixed) */
+.sidebar {
+    flex: 1;
+    background: #ffffff;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+     overflow: auto;
+   
+}
+
+/* Two Column Container */
+.two-column-container {
+    display: flex;
+    gap: 16px;
+    /* Space between the two columns */
+    margin-top: 16px;
+    /* Space above the columns */
+    margin-bottom: 0;
+    /* Remove extra margin */
+    padding-bottom: 0;
+    /* Remove extra padding */
+}
+
+/* Column */
+.column {
+    flex: 1;
+    /* Each column takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Space between elements */
+    /*padding: 10px;*/
+    margin-bottom: 0;
+    /* Remove extra margin */
+    height: auto;
+    /* Prevent extra space */
+}
+
+/* Reset Default Margins and Padding */
+.left h2,
+.left p,
+.left md-button,
+.left md-input-container,
+.left md-card {
+    /* margin: 0; 
+  padding: 0; */
+}
+
+/* Ensure Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .scrollable-content {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        height: auto;
+    }
+
+    .two-column-container {
+        flex-direction: column;
+        /* Stack columns vertically on small screens */
+    }
+}
+
+thead, th {
+    background-color: #ffffff !important;
+    color: #525849 !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    /* width: auto !important; */
+}
+
+td, th {
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  table.dataTable thead th, table.dataTable thead td {
+    padding: 10px 18px;
+    border-bottom: 1px solid #ddd2d2;
+    font-family: 'Poppins', sans-serif;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 0.5px solid rgb(222 222 222);
+}
+
+button.dt-button, div.dt-button, a.dt-button {
+    position: unset;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-right: 0.333em;
+    padding: 0.3em 1em;
+   
+    border-radius: 20px;
+    cursor: pointer !important;
+    font-size: 0.88em;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #e9e9e9;
+    /* background-image: linear-gradient(to bottom, #fff 0%, #e9e9e9 100%); */
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='white', EndColorStr='#e9e9e9');
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    outline: none;
+}
+
+
+
+button.dt-button:hover, 
+div.dt-button:hover, 
+a.dt-button:hover {
+    background-color: inherit !important;
+    color: inherit !important;
+    border-color: inherit !important;
+    box-shadow: none !important;
+    text-decoration: none !important; /* For links, remove underline on hover */
+    cursor: default !important; /* Optional: Change cursor to default */
+}
+
+
+.inner-scroll {
+    overscroll-behavior: contain; 
+}
+
+.sidebar_sticky {
+    flex: 1;
+    background: #ffffff;
+    padding: 15px;
+    position: -webkit-sticky;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    overflow: auto;
+    right: 0;
+    bottom: 0;
+    /* height: 50%; */
+    width: 25%;
+    margin-top: 190px;
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
+    position: relative;
+    padding-left: 30px !important;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 12px !important;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.btnEdit {
+    background-color: #f8fbf6;
+    /* color: #000000; */
+    padding: 3px;
+    border: 1px solid #ccc;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: contents;
+}
+
+
+
+
+    /* Hover effect */
+    .btnEdit:hover {
+        background-color: #e0e0e0; /* Light gray background on hover */
+        transform: scale(1.05); /* Slightly enlarge the button on hover */
+        transition: opacity 0.3s ease-in-out;
+    }
+
+
+    
+    .flag-icon {
+        margin-right: 8px;
+    }
+
+
+    #toast-container {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;       
+    }
+
+   
+      
+
+
+      .content-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1; /* Take up remaining space */
+        position: relative; /* Required for sticky footer */
+        overflow-y: auto; /* Enable scrolling for content */
+      }
+      
+      /* Sticky Footer */
+      .footer_fixed {
+        width: 100%; 
+        background-color: #ffffff;
+       
+       
+        display: flex;
+        justify-content: flex-end; 
+       
+        position: sticky; 
+        bottom: 0; 
+        z-index: 1000; 
+        border-top: 1px solid #e0e0e0; 
+      }
+
+
+      /*this can help*/
+      serve body, html {
+        /* height: 100%; */
+        position: relative;
+        overflow: hidden !important;
+    }
+
+
+      
+
+.md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab, .md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised {
+    background-color: rgb(16 72 41);
+    color: rgb(255, 255, 255); 
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px;
+}
+
+
+.md-button.md-default-theme.md-primary.md-fab:not([disabled]).md-focused, .md-button.md-primary.md-fab:not([disabled]).md-focused, .md-button.md-default-theme.md-primary.md-fab:not([disabled]):hover, .md-button.md-primary.md-fab:not([disabled]):hover, .md-button.md-default-theme.md-primary.md-raised:not([disabled]).md-focused, .md-button.md-primary.md-raised:not([disabled]).md-focused, .md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover, .md-button.md-primary.md-raised:not([disabled]):hover {
+    background-color: rgb(20, 90, 51);
+}

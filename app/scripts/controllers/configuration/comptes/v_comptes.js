@@ -393,7 +393,7 @@ angular.module('beeOneWebFrontApp')
      return editbtn + deletebtn;
    }
 
-
+  
     /**** Step 1 *****/
 
     /**** Step 2 *****/

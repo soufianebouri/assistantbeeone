@@ -192,8 +192,8 @@ angular.module('beeOneWebFrontApp')
     };
 
     const video = document.getElementById("videoPlayer");
-    video.play()
-    video.muted = true;
+    //video.play()
+    //video.muted = true;
 
     // Function to check which transcript is active
     $scope.isCurrentSubtitle = function (entry) {

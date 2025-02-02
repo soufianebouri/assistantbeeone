@@ -144,6 +144,7 @@ html {
     text-decoration: none;
     color: #3b7d3b;
     transition: color 0.3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
 }
 
 .options a:hover {
@@ -1154,7 +1155,7 @@ md-table-container tbody tr {
 
 
 
-
+.footer .md-button:first-child { margin-left: auto; /* Push the first button to the right */ } .footer .md-button { margin-left: 10px; /* Add spacing between the buttons */ }
 
 /*dataTable styles */
 .dataTables_wrapper .dt-buttons {
@@ -1246,6 +1247,7 @@ html {
     /* Ensures full width */
     height: 100vh;
     /* Full screen height */
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Scrollable Content (LEFT & RIGHT) */
@@ -1308,14 +1310,12 @@ html {
 /* Sidebar (Stays Fixed) */
 .sidebar {
     flex: 1;
-    /* Takes 25% of total width */
     background: #ffffff;
     padding: 15px;
     position: sticky;
     top: 0;
     height: 100vh;
-     overflow: auto;
-    /* No scrolling */
+     overflow: auto;   
 }
 
 /* Two Column Container */
@@ -1509,3 +1509,65 @@ table.dataTable tbody th, table.dataTable tbody td {
         transform: scale(1.05); /* Slightly enlarge the button on hover */
         transition: opacity 0.3s ease-in-out;
     }
+
+
+    
+    .flag-icon {
+        margin-right: 8px;
+    }
+
+
+    #toast-container {
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;       
+    }
+
+   
+      
+
+
+      .content-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1; /* Take up remaining space */
+        position: relative; /* Required for sticky footer */
+        overflow-y: auto; /* Enable scrolling for content */
+      }
+      
+      /* Sticky Footer */
+      .footer_fixed {
+        width: 100%; 
+        background-color: #ffffff;
+       
+       
+        display: flex;
+        justify-content: flex-end; 
+       
+        position: sticky; 
+        bottom: 0; 
+        z-index: 1000; 
+        border-top: 1px solid #e0e0e0; 
+      }
+
+
+      /*this can help*/
+      serve body, html {
+        /* height: 100%; */
+        position: relative;
+        overflow: hidden !important;
+    }
+
+
+      
+
+.md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab, .md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised {
+    background-color: rgb(16 72 41);
+    color: rgb(255, 255, 255); 
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px;
+}
+
+
+.md-button.md-default-theme.md-primary.md-fab:not([disabled]).md-focused, .md-button.md-primary.md-fab:not([disabled]).md-focused, .md-button.md-default-theme.md-primary.md-fab:not([disabled]):hover, .md-button.md-primary.md-fab:not([disabled]):hover, .md-button.md-default-theme.md-primary.md-raised:not([disabled]).md-focused, .md-button.md-primary.md-raised:not([disabled]).md-focused, .md-button.md-default-theme.md-primary.md-raised:not([disabled]):hover, .md-button.md-primary.md-raised:not([disabled]):hover {
+    background-color: rgb(20, 90, 51);
+}

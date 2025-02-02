@@ -10,22 +10,22 @@
                 <p class="fade-in delay OnboardingQst">Dans quelle langue souhaitez-vous exécuter beeOne ?</p>
                 <br />
                 <form>
-                    <div flex="100" flex-gt-sm="33" layout="column">
-                        <md-input-container class="md-block" flex-gt-xs style="width: 300px;">
-                            <label>{{ 'Langue' | translate }}</label>
-                            <md-select ng-model="vm.langue">
-                                <md-option ng-value="'ar'">
-                                    <i class="flag-icon flag-icon-ma"></i>&nbsp;&nbsp;&nbsp; Arabic
-                                </md-option>
-                                <md-option ng-value="'fr'">
-                                    <i class="flag-icon flag-icon-fr"></i>&nbsp;&nbsp;&nbsp; French
-                                </md-option>
-                                <md-option ng-value="'en'">
-                                    <i class="flag-icon flag-icon-us"></i>&nbsp;&nbsp;&nbsp; English
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
+                  <div flex="100" flex-gt-sm="33" layout="column">
+                    <md-input-container class="md-block" flex-gt-xs style="width: 300px;">
+                        <label>{{ 'Langue' | translate }}</label>
+                        <md-select ng-model="vm.langue">
+                            <md-option ng-value="'ar'">
+                                <i class="flag-icon flag-icon-ma"></i>&nbsp;&nbsp;&nbsp; Arabic
+                            </md-option>
+                            <md-option ng-value="'fr'">
+                                <i class="flag-icon flag-icon-fr"></i>&nbsp;&nbsp;&nbsp; French
+                            </md-option>
+                            <md-option ng-value="'en'">
+                                <i class="flag-icon flag-icon-us"></i>&nbsp;&nbsp;&nbsp; English
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
 
                 </form>
             </div>
@@ -64,7 +64,7 @@
                 <p class="fade-in delay OnboardingQst">Qui est en charge du processus d'intégration ?</p>
                 <br />
                 <form>
-                    <div layout="row"  flex>
+                    <div layout="row"  style="    gap: 15px;" flex>
                         <div flex="100" flex-gt-sm="5" layout="column">
                             <md-input-container class="md-block" flex>
                             <i class="fa fa-user"></i></md-input-container>

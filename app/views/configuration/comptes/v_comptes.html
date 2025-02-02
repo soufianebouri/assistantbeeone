@@ -367,10 +367,94 @@
 
     </div>
 
-    <div id="grid3" class="grid" ng-if="vm.howto">
-      <h2>Grid 3 (Sticky)</h2>
-      <div ng-repeat="item in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]">
-        Sticky Item {{item}}
+    <div id="grid3" class="grid" >
+     <md-card class="video-card">
+          <md-card-content>
+            <video id="videoPlayer" class="video-player" controls>
+              <source src="./vids/barackObama.mp4" type="video/mp4">
+            </video>
+  
+            <div layout="row" layout-align="space-between right">
+              <div layout="row" layout-align="start center">
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <img src="././images/main_configuration/time.svg" alt="headphone"
+                  style="width: 11px; height: 1px;padding-top: 1px;"> {{ vm.get_time(vm.videoDuration) }}
+              </p>
+            </div>
+
+            <div class="form-header">
+              <h2 class="form-title" style="color: #000000;font-size: 15px;">Introduction sur la configuration</h2>
+
+              <p style="color: #63675d; font-family: Poppins; font-size: 11px;">
+                {{ shortText }}
+                <span ng-if="!isExpanded">{{ ellipsis }}</span>
+                <span ng-if="isExpanded">{{ longText.substring(shortText.length) }}</span>
+                <bn ng-if="longText.length > shortText.length" ng-click="toggleText()"
+                  style="cursor: pointer; color: #044b24;">
+                  {{ isExpanded ? 'Show Less' : 'Show More' }}
+                </bn>
+    
+              </p>
+              
+            </div>
+
+
+           
+  
+            <div layout="row" layout-align="space-between right">
+              <div layout="row" layout-align="start center" style="color: #0b0b0b;font-family: Poppins;font-size: 14px;">
+                Transcrypt
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <md-switch ng-model="transcriptionEnabled">
+                  {{ transcriptionEnabled ? 'Auto Scroll' : '' }}
+                </md-switch>
+              </p>
+            </div>
+  
+            <div class="transcript-container" id="transcriptContainer">
+              <div class="transcript-item" ng-repeat="entry in transcript track by $index"
+                ng-class="{'highlight': isCurrentSubtitle(entry)}">
+                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff'}"
+                  layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
+  
+                  <div layout="row" layout-align="space-between center">
+  
+                    <div layout="row">
+                      <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
+                            background: #f0f0f0;   
+                            display: block;">
+  
+                      <div layout="column" style="line-height: 1.2;">
+                        <strong>Barack Obama &nbsp;<i class="fa fa-volume-up speech-icon animated-icon"
+                            ng-if="isCurrentSubtitle(entry)"></i></strong>
+  
+                      </div>
+                    </div>
+  
+  
+                    <p style="margin: 0;">
+                      <img src="././images/main_configuration/time.svg" alt="headphone"
+                        style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
+                    </p>
+                  </div>
+                  <div style="padding-left: 32px;">
+                    {{ entry.text }}
+                  </div>
+  
+                </md-card>
+  
+              </div>
+            </div>
+  
+  
+          </md-card-content>
+  
+  
+  
+  
+        </md-card>
       </div>
     </div>
   </div>

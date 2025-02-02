@@ -29,8 +29,8 @@ body, html {
   }
 
   .grid {
-    padding: 20px;
-    border: 1px solid #ddd;
+    /*padding: 10px;*/
+    /*border: 1px solid #ddd;*/
     margin: 10px;
   }
 
@@ -244,6 +244,7 @@ body, html {
   /* Adjust existing styles */
   .scrollable-main {
     padding-bottom: 100px; /* Increase footer space */
+    background-color: #ffffff;
   }
   
   #grid4 {
@@ -698,3 +699,125 @@ body, html {
     margin: 8px 0;
 }
   
+
+
+.video-card {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    /* padding: 16px; */
+    /* background: #1e1e1e; */
+    color: white;
+    /* border-radius: 12px; */
+    /* box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); */
+}
+
+.video-player {
+    width: 100%;
+    border-radius: 0px;
+    object-fit: cover;
+}
+
+
+.transcript-container {
+    max-height: 300px;
+    /* Adjust to your preferred height */
+    overflow-y: auto;
+    /* Allow scrolling */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.transcript-item {
+    color: white;
+    transition: 0.3s;
+}
+
+.transcript-item.highlight {
+    /*background: #4caf50;*/
+    color: white;
+    /* font-weight: bold; */
+    /* border-radius: 5px; */
+    padding: 0px;
+    font-size: 11px;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.fade.ng-show {
+    opacity: 1;
+}
+
+.show-more {
+    cursor: pointer;
+    color: #007bff;
+    font-weight: bold;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-thumb,
+md-switch.md-checked:not([disabled]) .md-thumb {
+    background-color: rgb(129 187 38);
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]) .md-bar,
+md-switch.md-checked:not([disabled]) .md-bar {
+    background-color: rgba(135, 196, 37, 0.501);
+}
+
+.switch-container {
+    display: flex;
+    align-items: center;
+    /* Vertically align the text and switch */
+}
+
+.switch-container span {
+    margin-right: 10px;
+    color: #27454f;
+    font-size: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.step-btn-container {
+    display: flex;
+    /* Use flexbox for horizontal alignment */
+    gap: 10px;
+    /* Ensure no gap between the divs */
+    padding: 10px;
+}
+
+.step-btn-container div {
+    margin: 0;
+    /* Remove any default margins */
+    padding: 0;
+    /* Remove any default padding */
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.animated-icon {
+    animation:
+        fadeInOut 2s infinite;
+}
+
+.speech-icon {
+    color: #4e554d;
+}

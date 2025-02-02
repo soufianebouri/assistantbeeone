@@ -211,11 +211,11 @@ body, html {
     margin: 10px;
     padding: 15px 20px;
     background: #ffffff;
-    border-bottom: 2px solid #3f51b5;
+    /*border-bottom: 2px solid #3f51b5;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: none;
   }
   
   .header-actions {
@@ -373,4 +373,127 @@ body, html {
 .add_btn:hover {
     background-color: #81bb26 !important;
     color: white !important;
+}
+
+
+/* Configuration Header Card */
+.config-header-card {
+    background: #fafafa !important;
+    box-shadow: none !important;
+    margin: 16px;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-top-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .header-left-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .back-button {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 60px;
+    padding: 8px;
+    cursor: pointer;
+    line-height: 0;
+    transition: background 0.2s ease;
+    
+    &:hover {
+      background: #e0e0e0;
+    }
+    
+    img {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .header-text {
+    line-height: 1.3;
+  }
+  
+  .config-title {
+    color: #1e2317;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .config-subtitle {
+    color: #63675d;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    margin: 0;
+  }
+  
+  .switch-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+  
+  .assist-label {
+    color: #a5af94;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    margin: 0;
+  }
+  
+  /* Material Switch Customization */
+  .assist-switch {
+    margin: 0;
+    
+    .md-thumb {
+      background-color: #ffffff !important;
+    }
+    
+    &.md-checked .md-bar {
+      background-color: rgba(63, 81, 181, 0.5);
+    }
+    
+    &.md-checked .md-thumb {
+      background-color: #3f51b5 !important;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .config-header-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    
+    .header-left-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .switch-container {
+      margin-left: 0;
+      justify-content: flex-end;
+    }
+  }
+  
+
+  .card {
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
 }

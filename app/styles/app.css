@@ -1010,6 +1010,7 @@ md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md
       .md-input-container.form-input .md-select-placeholder {
       
       font-family: 'Poppins', sans-serif;
+      font-size: 16px;
       
       }
       
@@ -1023,6 +1024,7 @@ md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md
       .md-input-container.form-input textarea::placeholder {
       
       font-family: 'Poppins', sans-serif;
+      font-size: 16px;
       
       }
 

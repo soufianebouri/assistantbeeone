@@ -208,9 +208,13 @@ angular.module('beeOneWebFrontApp')
     //video.play()
     //video.muted = true;
 
+    video.addEventListener('timeupdate', function() {
+      $scope.$applyAsync(); // Trigger Angular digest cycle
+    });
+
     // Function to check which transcript is active
     $scope.isCurrentSubtitle = function (entry) {
-      if (!video || !$scope.transcriptionEnabled) return false;
+      if (!video ) return false;
       const currentTime = video.currentTime;
       return currentTime >= entry.start && currentTime <= entry.end;
     };
@@ -231,15 +235,10 @@ angular.module('beeOneWebFrontApp')
 
     // Function to update transcript and auto-scroll
     function updateTranscript() {
-      // If transcription is disabled, stop updates and reset scroll
-      if (!$scope.transcriptionEnabled) {
-        return;
-      }
-
-      $scope.$applyAsync(); // Prevents "digest already in progress" error
-      scrollToActiveSubtitle(); // Scroll to active subtitle
-
-      // Recursive update with delay
+      if (!$scope.transcriptionEnabled) return; // Only stop scrolling, not highlighting
+    
+      $scope.$applyAsync(); 
+      scrollToActiveSubtitle(); 
       $timeout(updateTranscript, 500);
     }
 

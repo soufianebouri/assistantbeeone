@@ -425,21 +425,12 @@
               </p>
             </div>
 
-           <!--<div layout="row" layout-align="space-between right">
-              <div layout="row" layout-align="start center" style="color: #0b0b0b;font-family: Poppins;font-size: 14px;">
-                Transcrypt
-              </div>
-              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                <md-switch ng-model="transcriptionEnabled">
-                  {{ transcriptionEnabled ? 'Auto Scroll' : '' }}
-                </md-switch>
-              </p>
-            </div>-->
   
             <div class="transcript-container" id="transcriptContainer">
               <div class="transcript-item" ng-repeat="entry in transcript track by $index"
                 ng-class="{'highlight': isCurrentSubtitle(entry)}">
-                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff', 'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
+                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff', 
+                                                 'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
                   layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
   
                   <div layout="row" layout-align="space-between center">

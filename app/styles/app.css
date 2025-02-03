@@ -1105,3 +1105,24 @@ md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md
     text-decoration: line-through;
     color: gray; /* Optional: Make it look disabled */
   }
+
+  
+  #grid3 {
+    flex: 0 0 300px; /* Fixed width for grid3 */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .video-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .transcript-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 400px); /* Adjust based on your header heights */
+  }
+  

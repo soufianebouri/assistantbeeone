@@ -3,7 +3,7 @@ body, html {
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
 
   .header {
@@ -35,7 +35,9 @@ body, html {
   }
 
   #grid1 { min-height: 200px; background: #ffffff; }
+
   #grid2 { min-height: 300px; background: #ffffff; }
+  
   #grid4 { /*min-height: 150px;*/ background: #dee2e6; }
 
   #grid3 {
@@ -74,7 +76,7 @@ body, html {
   }
   
   .grid-column-container > .grid {
-    margin: 0;
+    margin: 2px;
     flex: 1;
   }
   
@@ -208,10 +210,10 @@ body, html {
 
 /* Scrollable Header Styles */
 .scrollable-header {
-    margin: 10px;
-    padding: 15px 20px;
+    /*margin: 10px;*/
+    padding: 15px 0px;
     background: #ffffff;
-    /*border-bottom: 2px solid #3f51b5;*/
+    border-bottom: 1px solid #c3acae;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -427,7 +429,7 @@ body, html {
   
   .config-title {
     color: #1e2317;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 18px;
     font-weight: 500;
     margin: 0;
@@ -435,7 +437,7 @@ body, html {
   
   .config-subtitle {
     color: #63675d;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 12px;
     margin: 0;
   }
@@ -449,7 +451,7 @@ body, html {
   
   .assist-label {
     color: #a5af94;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 12px;
     margin: 0;
   }
@@ -497,24 +499,29 @@ body, html {
     background: #fff;
     border-radius: 8px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 /* Form Styling */
 .form-header {
     margin-bottom: 1.5rem;
+    line-height: 1;
   }
   
   .form-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.25rem;
-    margin: 0 0 0.5rem 0;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500;
+    font-size: 16px;
+    /*line-height: 24px;*/
+    color: #000000;
   }
   
   .form-subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.875rem;
-    color: #616161;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16.5px;
+    color: #797979;
     margin: 0;
   }
   
@@ -536,11 +543,11 @@ body, html {
     
     .md-input {    
       padding: 10px 12px;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', sans-serif !important;
     }
   
     label {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Poppins', sans-serif !important;
       font-size: 0.875rem;
       color: #424242;
       margin-bottom: 4px;
@@ -559,13 +566,14 @@ body, html {
   }
   
   .form-actions {
-    margin-top: 2rem;
     display: flex;
     justify-content: flex-end;
+    width: 100%;
+    gap: 8px;
   }
   
   .submit-button {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -632,7 +640,7 @@ body, html {
   /* Custom button styling */
 .md-button.md-raised.custom-button {
     background-color: rgb(129 187 38) !important; /* Your desired color */
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
   
   /* For hover state */
@@ -652,7 +660,7 @@ body, html {
     border: 2px solid #4CAF50 !important;    /* Green border */
     color: #4CAF50 !important;               /* Green text */
     transition: all 0.3s ease;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
   }
   
   .md-button.md-raised.custom-reset-button:hover {
@@ -727,7 +735,7 @@ body, html {
     /* Allow scrolling */
     padding: 0px;
     font-size: 11px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .transcript-item {
@@ -742,7 +750,7 @@ body, html {
     /* border-radius: 5px; */
     padding: 0px;
     font-size: 11px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 
@@ -782,7 +790,7 @@ md-switch.md-checked:not([disabled]) .md-bar {
     margin-right: 10px;
     color: #27454f;
     font-size: 10px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .step-btn-container {
@@ -877,20 +885,20 @@ div.dt-button-collection {
 table.dataTable thead th, table.dataTable thead td {
     padding: 10px 18px;
     border-bottom: 1px solid #ddd2d2;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child {
     position: relative;
     padding-left: 30px;
     cursor: pointer;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 14px;
 }
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
     color: #333;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif !important;
     font-size: 13px;
 }
 
@@ -951,3 +959,71 @@ table.dataTable tbody th, table.dataTable tbody td {
     font-family: 'Poppins', sans-serif !important;
 }
 
+h3 {
+    color: #000000; 
+    font-family: 'Poppins', sans-serif !important; 
+    font-size: 18px; 
+    margin: 0;
+    line-height: 27px;
+    font-weight: 500;
+}
+
+
+md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md-select-value.md-select-placeholder {
+    color: rgba(0, 0, 0, 0.38);
+    font-size: 14px;
+}
+
+.form-row:last-child {
+
+    margin-bottom: 0;
+    
+    }
+
+
+
+    .custom-reset-button {
+        flex: 1; /* Takes remaining space */
+        min-width: 35%; /* Prevent from becoming too narrow */
+      }
+      
+      .custom-button {
+        flex: 1 1 60%; /* 60% width with flex basis */
+        min-width: 60%;
+      }
+      
+      /* Optional: Ensure buttons use box-sizing */
+      .md-button {
+        box-sizing: border-box;
+        margin: 0; /* Remove default margins */
+      }
+    
+
+      .md-input-container.form-input label,
+
+      .md-input-container.form-input input,
+      
+      .md-input-container.form-input textarea,
+      
+      .md-input-container.form-input .md-select-value span,
+      
+      .md-input-container.form-input .md-select-placeholder {
+      
+      font-family: 'Poppins', sans-serif;
+      
+      }
+      
+   
+      .md-text{
+        font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+      }
+      .md-input-container.form-input input::placeholder,
+      
+      .md-input-container.form-input textarea::placeholder {
+      
+      font-family: 'Poppins', sans-serif;
+      
+      }
+
+   

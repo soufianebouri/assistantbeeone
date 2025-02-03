@@ -385,21 +385,22 @@
           <md-card-content>
             <video id="videoPlayer" class="video-player" controls>
               <source src="./vids/barackObama.mp4" type="video/mp4">
-            </video>
-  
-            <div layout="row" layout-align="space-between right">
-              <div layout="row" layout-align="start center">
-              </div>
-              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                <img src="././images/main_configuration/time.svg" alt="headphone"
-                  style="width: 11px; height: 1px;padding-top: 1px;"> {{ vm.get_time(vm.videoDuration) }}
-              </p>
+          
+            
+          </video>
+
+          <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+              <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                Introduction sur la configuration</p>
             </div>
+            <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+              <img src="././images/main_configuration/time.svg" alt="time" style="width: 12px;height: 12px;">
+                 {{ vm.get_time(vm.videoDuration) }}</p>
+          </div>
 
-            <div class="form-header">
-              <h2 class="form-title" style="color: #000000;font-size: 15px;">Introduction sur la configuration</h2>
-
-              <p style="color: #63675d; font-family: Poppins; font-size: 11px;">
+            <!--<div class="form-header">             
+              <p class="form-subtitle">
                 {{ shortText }}
                 <span ng-if="!isExpanded">{{ ellipsis }}</span>
                 <span ng-if="isExpanded">{{ longText.substring(shortText.length) }}</span>
@@ -407,15 +408,24 @@
                   style="cursor: pointer; color: #044b24;">
                   {{ isExpanded ? 'Show Less' : 'Show More' }}
                 </bn>
-    
               </p>
-              
+            </div>-->
+
+
+            <div layout="row" layout-align="space-between center">
+              <div layout="row" layout-align="start center">
+                <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                  Transcrypt</p>
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <md-switch ng-model="transcriptionEnabled">
+                  <span ng-if="transcriptionEnabled">Auto Scroll</span>
+                  <span ng-if="!transcriptionEnabled" class="strikethrough">Auto Scroll</span>
+                </md-switch>
+              </p>
             </div>
 
-
-           
-  
-            <div layout="row" layout-align="space-between right">
+           <!--<div layout="row" layout-align="space-between right">
               <div layout="row" layout-align="start center" style="color: #0b0b0b;font-family: Poppins;font-size: 14px;">
                 Transcrypt
               </div>
@@ -424,12 +434,12 @@
                   {{ transcriptionEnabled ? 'Auto Scroll' : '' }}
                 </md-switch>
               </p>
-            </div>
+            </div>-->
   
             <div class="transcript-container" id="transcriptContainer">
               <div class="transcript-item" ng-repeat="entry in transcript track by $index"
                 ng-class="{'highlight': isCurrentSubtitle(entry)}">
-                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff'}"
+                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff', 'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
                   layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
   
                   <div layout="row" layout-align="space-between center">
@@ -441,7 +451,7 @@
   
                       <div layout="column" style="line-height: 1.2;">
                         <strong>Barack Obama &nbsp;<i class="fa fa-volume-up speech-icon animated-icon"
-                            ng-if="isCurrentSubtitle(entry)"></i></strong>
+                            ng-if="isCurrentSubtitle(entry) && vm.isPlaying"></i></strong>
   
                       </div>
                     </div>
@@ -452,7 +462,7 @@
                         style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
                     </p>
                   </div>
-                  <div style="padding-left: 32px;">
+                  <div style="padding-left: 25px;">
                     {{ entry.text }}
                   </div>
   

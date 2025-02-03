@@ -147,6 +147,19 @@ angular.module('beeOneWebFrontApp')
     // Access the video element and get the duration
     var videoElement = document.getElementById('videoPlayer');
 
+    vm.isPlaying = false;
+    videoElement.addEventListener('play', function() {
+      $scope.$apply(function() {
+          vm.isPlaying = true;
+      });
+  });
+
+  videoElement.addEventListener('pause', function() {
+    $scope.$apply(function() {
+        vm.isPlaying = false;
+    });
+});
+
     // Listen for the 'loadedmetadata' event to get the duration once the video metadata is loaded
     videoElement.addEventListener('loadedmetadata', function () {
       
@@ -156,10 +169,10 @@ angular.module('beeOneWebFrontApp')
     });
 
 
-    var description_support = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum";
+    var description_support = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu txt lg txt kdkdokdo kdjdi dod idi";
 
     // Shorten text for initial view
-    $scope.shortText = description_support.substring(0, 100); // Show first 100 characters
+    $scope.shortText = description_support.substring(0, 50); // Show first 100 characters
     $scope.longText = description_support; // Full text
 
     // Set the ellipsis

@@ -1,12 +1,12 @@
 <div ng-controller="ConfigurationComptesVComptesCtrl as vm">
-  
+
   <md-card class="card" layout="column" style="padding: 5px;background: #fafafa;box-shadow: none;">
     <!-- First row: Image + Text on the left, Button on the right -->
     <div layout="row" layout-align="space-between center">
       <!-- Left section: Icon + File details -->
       <div layout="row">
         <img src="././images/main_configuration/back.svg" alt="back" style="margin-right: 10px;cursor: pointer;border: none;border-radius: 60px;
-            background: #f0f0f0;   
+            background: #f0f0f0;
             display: block;" ng-click="go_back()">
         <!-- Column for file name and size -->
         <div layout="column" style="line-height: 1.2;">
@@ -18,17 +18,17 @@
           </p>
         </div>
       </div>
-      
+
     </div>
 
 
   </md-card>
-  
+
   <div class="main-container">
     <div class="scrollable-main">
 
       <div class="scrollable-header">
-      
+
           <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
             <!-- Steps Section (Middle) -->
             <div layout="row" flex="auto" layout-align="center center">
@@ -51,10 +51,10 @@
                   </tr>
                 </table>
               </div>
-      
+
               <!-- Arrow Icon -->
               <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
-      
+
               <!-- Step 2 -->
               <div class="step-box">
                 <table>
@@ -74,10 +74,10 @@
                   </tr>
                 </table>
               </div>
-      
+
               <!-- Arrow Icon -->
               <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
-      
+
               <!-- Step 3 -->
               <div class="step-box">
                 <table>
@@ -100,16 +100,16 @@
                 </table>
               </div>
             </div>
-      
-          
-            
-      
-      
+
+
+
+
+
           </div>
-        
+
       </div>
 
-      
+ <div class="content">
       <!-- Grids 1 & 2 as Columns -->
       <div class="grid-column-container">
 
@@ -120,7 +120,7 @@
             <h2 class="form-title">Informations Sur La Société</h2>
             <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
           </div>
-        
+
           <md-content class="form-content">
             <!-- Row 1 -->
             <div class="form-row tiny-space">
@@ -128,7 +128,7 @@
                 <label>Raison Sociale</label>
                 <input type="text" ng-model="vm.raison_sociale" required>
               </md-input-container>
-        
+
               <md-input-container class="form-input">
                 <label>Statut Juridique</label>
                 <md-select ng-model="vm.statut_juridique">
@@ -138,14 +138,14 @@
                 </md-select>
               </md-input-container>
             </div>
-        
+
             <!-- Row 2 -->
             <div class="form-row tiny-space">
               <md-input-container class="form-input">
                 <label>Capital</label>
                 <input type="number" ng-model="vm.capital">
               </md-input-container>
-        
+
               <md-input-container class="form-input">
                 <label>Ville</label>
                 <md-select ng-model="vm.ville">
@@ -155,7 +155,61 @@
                 </md-select>
               </md-input-container>
             </div>
-        
+
+
+
+            <!-- Row 3 -->
+            <div class="form-row tiny-space">
+              <md-input-container class="form-input">
+                <label>Adresse Email</label>
+                <input type="email" ng-model="vm.email">
+              </md-input-container>
+
+              <md-input-container class="form-input">
+                <label>Fax</label>
+                <input type="tel" ng-model="vm.fax">
+              </md-input-container>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="form-row tiny-space">
+              <md-input-container class="form-input">
+                <label>Patente</label>
+                <input type="text" ng-model="vm.patente">
+              </md-input-container>
+
+              <md-input-container class="form-input">
+                <label>N° CNSS</label>
+                <input type="text" ng-model="vm.cnss">
+              </md-input-container>
+            </div>
+
+            <!-- Row 5 -->
+            <div class="form-row tiny-space">
+              <md-input-container class="form-input">
+                <label>N° AMO</label>
+                <input type="text" ng-model="vm.amo">
+              </md-input-container>
+
+              <md-input-container class="form-input">
+                <label>ID Fiscal</label>
+                <input type="text" ng-model="vm.fiscal">
+              </md-input-container>
+            </div>
+
+            <!-- Row 6 -->
+            <div class="form-row tiny-space">
+              <md-input-container class="form-input">
+                <label>ICE</label>
+                <input type="text" ng-model="vm.ice">
+              </md-input-container>
+
+              <md-input-container class="form-input">
+                <label>Pré Fixe Matricule Ouvrier</label>
+                <input type="text" ng-model="vm.matricule">
+              </md-input-container>
+            </div>
+
             <!-- Address -->
             <div class="form-row tiny-space">
               <md-input-container class="form-input full-width">
@@ -163,71 +217,19 @@
                 <textarea ng-model="vm.adresse" rows="3" md-maxlength="100"></textarea>
               </md-input-container>
             </div>
-        
-            <!-- Row 3 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Adresse Email</label>
-                <input type="email" ng-model="vm.email">
-              </md-input-container>
-        
-              <md-input-container class="form-input">
-                <label>Fax</label>
-                <input type="tel" ng-model="vm.fax">
-              </md-input-container>
-            </div>
-        
-            <!-- Row 4 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Patente</label>
-                <input type="text" ng-model="vm.patente">
-              </md-input-container>
-        
-              <md-input-container class="form-input">
-                <label>N° CNSS</label>
-                <input type="text" ng-model="vm.cnss">
-              </md-input-container>
-            </div>
-        
-            <!-- Row 5 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>N° AMO</label>
-                <input type="text" ng-model="vm.amo">
-              </md-input-container>
-        
-              <md-input-container class="form-input">
-                <label>ID Fiscal</label>
-                <input type="text" ng-model="vm.fiscal">
-              </md-input-container>
-            </div>
-        
-            <!-- Row 6 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>ICE</label>
-                <input type="text" ng-model="vm.ice">
-              </md-input-container>
-        
-              <md-input-container class="form-input">
-                <label>Pré Fixe Matricule Ouvrier</label>
-                <input type="text" ng-model="vm.matricule">
-              </md-input-container>
-            </div>
-        
+
             <div class="form-actions">
               <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
                 Reset
               </md-button>
-  
+
               <md-button class="md-raised md-primary custom-button" ng-click="vm.ajouter()">
                 <i class="fa fa-plus"></i>&nbsp;&nbsp;Ajouter
               </md-button>
             </div>
 
           </md-content>
-          
+
         </div>
 
 
@@ -330,18 +332,18 @@
               <i class="fa fa-plus"></i>&nbsp;&nbsp;Intégrer
             </md-button>
 
-          
+
           <md-card flex class="card_form_multi" >
-            
-
-            
-
-           
 
 
 
 
-            
+
+
+
+
+
+
 
 
 
@@ -363,12 +365,7 @@
 
       </div>
 
-      <div class="scrollable-footer">
-        <div class="footer-buttons">
-          <button class="btn btn-secondary">Cancel</button>
-          <button class="btn btn-primary">Save Changes</button>
-        </div>
-      </div>
+
 
       <div class="table-responsive">
         <table style="background-color: white;" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
@@ -376,6 +373,16 @@
           class="table">
         </table>
       </div>
+
+      <div class="main-footer">
+        <div class="footer-buttons">
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+</div>
+
+
 
 
     </div>
@@ -385,8 +392,8 @@
           <md-card-content>
             <video id="videoPlayer" class="video-player" controls>
               <source src="./vids/barackObama.mp4" type="video/mp4">
-          
-            
+
+
           </video>
 
           <div layout="row" layout-align="space-between center">
@@ -399,7 +406,7 @@
                  {{ vm.get_time(vm.videoDuration) }}</p>
           </div>
 
-            <!--<div class="form-header">             
+            <!--<div class="form-header">
               <p class="form-subtitle">
                 {{ shortText }}
                 <span ng-if="!isExpanded">{{ ellipsis }}</span>
@@ -425,29 +432,29 @@
               </p>
             </div>
 
-  
+
             <div class="transcript-container" id="transcriptContainer">
               <div class="transcript-item" ng-repeat="entry in transcript track by $index"
                 ng-class="{'highlight': isCurrentSubtitle(entry)}">
-                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff', 
+                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff',
                                                  'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
                   layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
-  
+
                   <div layout="row" layout-align="space-between center">
-  
+
                     <div layout="row">
                       <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
-                            background: #f0f0f0;   
+                            background: #f0f0f0;
                             display: block;">
-  
+
                       <div layout="column" style="line-height: 1.2;">
                         <strong>Barack Obama &nbsp;<i class="fa fa-volume-up speech-icon animated-icon"
                             ng-if="isCurrentSubtitle(entry) && vm.isPlaying"></i></strong>
-  
+
                       </div>
                     </div>
-  
-  
+
+
                     <p style="margin: 0;">
                       <img src="././images/main_configuration/time.svg" alt="headphone"
                         style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
@@ -456,20 +463,19 @@
                   <div style="padding-left: 25px;">
                     {{ entry.text }}
                   </div>
-  
+
                 </md-card>
-  
+
               </div>
             </div>
-  
-  
+
+
           </md-card-content>
-  
-  
-  
-  
+
+
+
+
         </md-card>
       </div>
     </div>
   </div>
-</div>

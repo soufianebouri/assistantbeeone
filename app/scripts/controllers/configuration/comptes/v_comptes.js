@@ -338,7 +338,7 @@ angular.module('beeOneWebFrontApp')
 
 
    vm.dtColumns = [
-     DTColumnBuilder.newColumn('raison_sociale').withTitle("Raison Sociale"),
+     DTColumnBuilder.newColumn('raison_sociale').withTitle("Raison Sociale").withClass('no-break'),
      DTColumnBuilder.newColumn('statut_juridique').withTitle("Statut juridique"),
      DTColumnBuilder.newColumn('capital').withTitle("Capital"),
      DTColumnBuilder.newColumn('ville').withTitle("Ville"),

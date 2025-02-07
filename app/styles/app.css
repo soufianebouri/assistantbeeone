@@ -77,12 +77,33 @@ body, html {
       order: 1;
     }
   }
+.table-responsive {
+  padding: 4px 19px 11px 24px !important;
+}
 
+.no-break {
+    white-space: nowrap !important;
+}
+
+
+table.dataTable td {
+    border-bottom: 1px solid #dbd6d6 !important;
+}
+
+.number_right{
+    text-align: right;}
+
+.unified_pad{
+  padding: 4px 19px 11px 24px !important;
+}
   /* Add these CSS rules */
 .grid-column-container {
     display: flex;
-    gap: 20px;
-    margin: 10px;
+    gap: 32px;
+    /*gap: 20px;*/
+    /*margin: 13px;*/
+  /*  padding: 40px 36px 40px 36px !important;*/
+      padding: 18px 22px 11px 24px !important;
   }
 
   .grid-column-container > .grid {
@@ -564,6 +585,20 @@ body, html {
     font-size: 12px   !important;
 }
 
+md-select md-option {
+    font-size: 12px !important;
+}
+
+/* Targeting the dropdown menu directly */
+.md-select-menu-container md-option {
+    font-size: 12px !important;
+}
+
+/* If AngularJS Material wraps text inside .md-text */
+.md-select-menu-container md-option .md-text {
+    font-size: 12px !important;
+}
+
     md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
         padding-bottom: 0;
         border-width: 0 0 0   !important;
@@ -660,11 +695,11 @@ body, html {
 
 
 .btn-action{
-  background-color: #81bb26;
+  background-color: #81bb26 !important;
 }
 
 .btn-annuler{
-    background-color: #0c5a2f;
+    background-color: #0c5a2f !important;
 }
 
   /* Custom button styling */
@@ -994,7 +1029,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child, table.dataTable.dt
 }
 
 table.dataTable.no-footer {
-    border-bottom: 0.5px solid rgb(222 222 222);
+    border-bottom: 0.5px solid rgb(255 255 255);
 }
 
 button.dt-button, div.dt-button, a.dt-button {

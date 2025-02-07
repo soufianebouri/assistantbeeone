@@ -143,17 +143,14 @@
             <div class="form-row tiny-space">
               <md-input-container class="form-input">
                 <label>Capital</label>
-                <input type="number" ng-model="vm.capital">
+                <input type="number" ng-model="vm.capital" class="number_right">
               </md-input-container>
 
               <md-input-container class="form-input">
                 <label>Ville</label>
-                <md-select ng-model="vm.ville">
-                  <md-option value="option1">Option 1</md-option>
-                  <md-option value="option2">Option 2</md-option>
-                  <md-option value="option3">Option 3</md-option>
-                </md-select>
+                <input type="ville" ng-model="vm.ville">
               </md-input-container>
+
             </div>
 
 
@@ -263,7 +260,7 @@
           </md-card>
 
           <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
-          style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;cursor: pointer;"
+          style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;cursor: pointer;border-radius: 5px;"
           ngf-drop="onDrop($files)" ng-click="triggerFileInput()">
           <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
 
@@ -356,7 +353,7 @@
 
       <div id="grid4" class="grid">
         <!--Table-->
-        <div class="form-header">
+        <div class="form-header unified_pad">
           <h2 class="form-title">Sociétés Ajoutées (0)</h2>
           <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
         </div>
@@ -376,10 +373,10 @@
 
       <div class="main-footer">
         <div class="footer-buttons">
-          <md-button class="md-raised md-primary" ng-click="vm.annuler()">
+          <md-button class="md-raised md-primary btn-annuler" ng-click="vm.annuler()">
            Annuler
           </md-button>
-          <md-button class="md-raised md-primary" ng-click="vm.nextStep()">
+          <md-button class="md-raised md-primary btn-action" ng-click="vm.nextStep()">
            Suivant <img src="././images/main_configuration/arrow_right.svg" alt="time" style="width: 12px;height: 12px;">
           </md-button>
         </div>

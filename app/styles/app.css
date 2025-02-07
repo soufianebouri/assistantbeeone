@@ -1,3 +1,4 @@
+
 body, html {
     margin: 0;
     padding: 0;
@@ -6,10 +7,14 @@ body, html {
     font-family: 'Poppins', sans-serif !important;
   }
 
+  *{
+   font-family: 'Poppins', sans-serif !important;
+  }
+
   .content {
-  flex: 1;
-  padding-bottom: 80px; /* Space for footer */
-}
+   flex: 1;
+   padding-bottom: 80px; /* Space for footer */
+  }
 
   .header {
     background-color: #3f51b5;
@@ -549,8 +554,19 @@ body, html {
     margin: 0;
 
     .md-input {
-      padding: 10px 12px;
+      /*padding: 10px 12px;*/
       font-family: 'Poppins', sans-serif !important;
+      font-size: 12px  !important;
+    }
+
+    .md-text {
+    font-family: 'Poppins', sans-serif   !important;
+    font-size: 12px   !important;
+}
+
+    md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
+        padding-bottom: 0;
+        border-width: 0 0 0   !important;
     }
 
     label {
@@ -643,11 +659,20 @@ body, html {
   }
 
 
+.btn-action{
+  background-color: #81bb26;
+}
+
+.btn-annuler{
+    background-color: #0c5a2f;
+}
 
   /* Custom button styling */
 .md-button.md-raised.custom-button {
     background-color: rgb(129 187 38) !important; /* Your desired color */
     font-family: 'Poppins', sans-serif !important;
+    height: 35px  !important;
+    border-radius: 5px  !important;
   }
 
   /* For hover state */
@@ -660,14 +685,20 @@ body, html {
     background-color: rgb(129 187 38) !important; /* Your desired color */
   }
 
+  .md-button.md-raised:not([disabled]) {
+      box-shadow: none  !important;
+  }
+
 
   /* Custom Reset Button */
 .md-button.md-raised.custom-reset-button {
     background-color: #ffffff !important;    /* White background */
-    border: 2px solid #4CAF50 !important;    /* Green border */
+    border: 1px solid #4CAF50 !important;    /* Green border */
     color: #4CAF50 !important;               /* Green text */
     transition: all 0.3s ease;
     font-family: 'Poppins', sans-serif !important;
+    height: 35px  !important;
+    border-radius: 5px  !important;
   }
 
   .md-button.md-raised.custom-reset-button:hover {

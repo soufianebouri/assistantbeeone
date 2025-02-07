@@ -376,8 +376,12 @@
 
       <div class="main-footer">
         <div class="footer-buttons">
-          <button class="btn btn-secondary">Cancel</button>
-          <button class="btn btn-primary">Save Changes</button>
+          <md-button class="md-raised md-primary" ng-click="vm.annuler()">
+           Annuler
+          </md-button>
+          <md-button class="md-raised md-primary" ng-click="vm.nextStep()">
+           Suivant <img src="././images/main_configuration/arrow_right.svg" alt="time" style="width: 12px;height: 12px;">
+          </md-button>
         </div>
       </div>
 </div>

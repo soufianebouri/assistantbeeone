@@ -162,9 +162,9 @@ angular.module('beeOneWebFrontApp')
 
     // Listen for the 'loadedmetadata' event to get the duration once the video metadata is loaded
     videoElement.addEventListener('loadedmetadata', function () {
-      
+
       vm.videoDuration = videoElement.duration;
-      
+
       $scope.$apply();
     });
 
@@ -186,7 +186,7 @@ angular.module('beeOneWebFrontApp')
       $scope.isExpanded = !$scope.isExpanded;
     };
 
-    
+
 
     vm.get_time = function (seconds) {
       const hours = Math.floor(seconds / 3600);          // Calculate hours
@@ -236,9 +236,9 @@ angular.module('beeOneWebFrontApp')
     // Function to update transcript and auto-scroll
     function updateTranscript() {
       if (!$scope.transcriptionEnabled) return; // Only stop scrolling, not highlighting
-    
-      $scope.$applyAsync(); 
-      scrollToActiveSubtitle(); 
+
+      $scope.$applyAsync();
+      scrollToActiveSubtitle();
       $timeout(updateTranscript, 500);
     }
 
@@ -274,21 +274,21 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.sendEmail = function() {
-      var email = "support@agridata-consulting.com"; 
-    
+      var email = "support@agridata-consulting.com";
+
       // Open the default mail client with the 'mailto' protocol
       window.location.href = "mailto:" + email ;
     };
 
    /** Table */
-  
-   
+
+
 
    vm.dtInstance = {};
    vm.selected = {};
    vm.selectAll = false;
    vm.societes = {};
-   
+
 
 
    //get data and refresh datatable
@@ -314,7 +314,7 @@ angular.module('beeOneWebFrontApp')
      .withOption('responsive', true)
      .withButtons([
        {
-         extend: 'copy', 
+         extend: 'copy',
          className: 'pull-left',
          text: "<i class='fa fa-copy'></i>",
          titleAttr: "Copie"
@@ -342,16 +342,15 @@ angular.module('beeOneWebFrontApp')
      DTColumnBuilder.newColumn('statut_juridique').withTitle("Statut juridique"),
      DTColumnBuilder.newColumn('capital').withTitle("Capital"),
      DTColumnBuilder.newColumn('ville').withTitle("Ville"),
-     DTColumnBuilder.newColumn('adresse').withTitle("Adresse"),
      DTColumnBuilder.newColumn('email').withTitle("Email"),
-     DTColumnBuilder.newColumn('fax').withTitle("fax"),     
+     DTColumnBuilder.newColumn('fax').withTitle("fax"),
      DTColumnBuilder.newColumn('patente').withTitle("Patente"),
      DTColumnBuilder.newColumn('cnss').withTitle("N° CNSS"),
      DTColumnBuilder.newColumn('amo').withTitle("N° AMO"),
      DTColumnBuilder.newColumn('fiscal').withTitle("ID Fiscal"),
      DTColumnBuilder.newColumn('ice').withTitle("ICE"),
      DTColumnBuilder.newColumn('matricule').withTitle("Pré Fixe Matricule Ouvrier"),
-
+     DTColumnBuilder.newColumn('adresse').withTitle("Adresse"),
      DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all')
    ];
 
@@ -376,8 +375,8 @@ angular.module('beeOneWebFrontApp')
             amo : vm.amo,
             fiscal : vm.fiscal,
             ice : vm.ice,
-            matricule : vm.matricule            
-          }          
+            matricule : vm.matricule
+          }
         )
         console.log(vm.data_societe);
         vm.dtInstance.reloadData();
@@ -396,7 +395,7 @@ angular.module('beeOneWebFrontApp')
      $compile(angular.element(row).contents())($scope);
    }
 
-  
+
 
    function actionsHtml(data, type, full, meta) {
      vm.societes[data.ID] = data;
@@ -405,7 +404,7 @@ angular.module('beeOneWebFrontApp')
      return editbtn + deletebtn;
    }
 
-  
+
     /**** Step 1 *****/
 
     /**** Step 2 *****/

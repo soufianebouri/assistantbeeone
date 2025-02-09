@@ -472,13 +472,57 @@
 
 
             <div class="sticky-footer" layout="row" layout-align="space-between center">
-              <div class="footer-title">
-                  Configuration Status
-              </div>
+             
               <div class="footer-buttons">
-                  <button class="btn radius-btn btn-secondary">Save Draft</button>
-                  <button class="btn radius-btn btn-primary">Preview</button>
-                  <button class="btn radius-btn btn-primary">Publish</button>
+                <div layout="row" flex="auto" layout-align="center center">
+                  <!-- Step 1 -->
+                  <div class="step-box">
+                    <table style="border-collapse: collapse;">
+                      <tr ng-click="vm.step(1)">
+                        <td >
+                          <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
+                            <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        
+                      </tr>
+                    </table>
+                  </div>
+    
+                 
+    
+                  <!-- Step 2 -->
+                  <div class="step-box">
+                    <table>
+                      <tr ng-click="vm.step(2)">
+                        <td >
+                          <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                            <img src="././images/main_configuration/farm.svg" alt="farm">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </table>
+                  </div>
+    
+                 
+    
+                  <!-- Step 3 -->
+                  <div class="step-box">
+                    <table>
+                      <tr ng-click="vm.step(3)">
+                        <td >
+                          <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                            <img src="././images/main_configuration/campagne.svg" alt="campagne">
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
           </div>
 

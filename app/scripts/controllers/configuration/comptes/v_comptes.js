@@ -315,14 +315,9 @@ angular.module('beeOneWebFrontApp')
      .withButtons([
        {
          extend: 'copy',
-         className: 'pull-left',
+         className: 'pull-left pointer',
          text: "COPY",
          titleAttr: "Copie"
-       },
-       {
-         extend: 'print',
-         text: "PRINT",
-         titleAttr: "Imprimer"
        },
        {
          extend: 'pdf',
@@ -356,7 +351,7 @@ angular.module('beeOneWebFrontApp')
 
 
 
-   DTDefaultOptions.setLoadingTemplate('<br/><br/><br/><br/><center><img src="././images/loading.gif"/></center>');
+   DTDefaultOptions.setLoadingTemplate('<center><img src="././images/loading.gif"/></center>');
 
 
    vm.ajouter = function(){
@@ -399,9 +394,9 @@ angular.module('beeOneWebFrontApp')
 
    function actionsHtml(data, type, full, meta) {
      vm.societes[data.ID] = data;
-     var editbtn = '<button class="btnEdit"  ng-click="vm.edit(vm.societes[' + data.ID + '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
-     var deletebtn =  '<button class="btnEdit"  ng-click="vm.delete(vm.societes[' + data.ID + '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
-     return editbtn + deletebtn;
+     var editbtn = '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' + data.ID + '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
+     var deletebtn =  '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' + data.ID + '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
+     return editbtn +' '+ deletebtn;
    }
 
 

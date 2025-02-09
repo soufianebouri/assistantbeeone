@@ -29,7 +29,8 @@
     "md-color-picker": "^0.2.6",
     "bootstrap-colorpicker": "^3.2.0",
     "angular-tooltips": "tooltips-angular#^1.0.5",
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "fontawesome": "^6.7.2"
   },
   "devDependencies": {
     "angular": "^1.4.0",

@@ -316,22 +316,22 @@ angular.module('beeOneWebFrontApp')
        {
          extend: 'copy',
          className: 'pull-left',
-         text: "<i class='fa fa-copy'></i>",
+         text: "COPY",
          titleAttr: "Copie"
        },
        {
          extend: 'print',
-         text: "<i class='fa fa-print'></i>",
+         text: "PRINT",
          titleAttr: "Imprimer"
        },
        {
          extend: 'pdf',
-         text: "<i class='fa fa-file-pdf-o'></i>",
+         text: "PDF",
          titleAttr: 'PDF'
        },
        {
          extend: 'excel',
-         text: "<i class='fa fa-file-excel-o'></i>",
+         text: "EXCEL",
          titleAttr: 'EXCEL'
        }
      ]);
@@ -351,7 +351,7 @@ angular.module('beeOneWebFrontApp')
      DTColumnBuilder.newColumn('ice').withTitle("ICE"),
      DTColumnBuilder.newColumn('matricule').withTitle("Pré Fixe Matricule Ouvrier"),
      DTColumnBuilder.newColumn('adresse').withTitle("Adresse"),
-     DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all')
+     DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all no-break')
    ];
 
 

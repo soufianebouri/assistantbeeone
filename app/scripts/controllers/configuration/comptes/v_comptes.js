@@ -280,6 +280,13 @@ angular.module('beeOneWebFrontApp')
       window.location.href = "mailto:" + email ;
     };
 
+    vm.ai = function(){
+      toastr.clear();
+          toastr.info("Coming soon", {
+            closeButton: true,
+          })
+    }
+
    /** Table */
 
 

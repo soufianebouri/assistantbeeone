@@ -1332,12 +1332,14 @@ md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md
   /* left: 10px; */
   right: auto;
   background: #ffffff;
-  padding: 12px 16px;
-  border-top: 1px solid #e0e0e0;
+  /*padding: 12px 16px;
+  margin: 0 10px;*/
+  /*border-top: 1px solid #e0e0e0;*/
   z-index: 2;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-  margin: 0 10px;
-  box-sizing: border-box;
+  /*box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);*/
+ 
+  /*box-sizing: border-box;*/
+  height: 50px;
 }
 
 /* For mobile responsiveness */
@@ -1405,4 +1407,28 @@ md-select.md-default-theme .md-select-value.md-select-placeholder, md-select .md
       width: 100%;
       padding: 8px !important;
   }
+}
+
+.infos-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  justify-content: flex-end;
+}
+
+.infos-btn:hover {
+  transform: scale(1.1);
+}
+
+
+.no-b {
+  flex-wrap: nowrap;
+  display: flex;
+  align-items: center; /* Vertically align items */
+  gap: 8px; /* Add spacing between items */
 }

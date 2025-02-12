@@ -338,29 +338,32 @@ angular.module('beeOneWebFrontApp')
        }
      ]);
 
-
-     vm.selectedRows = []; // Store selected rows
-     vm.displayedData= []
+     vm.allSelected = false; // Tracks "Select All" state
 
      // Toggle all checkboxes
      vm.toggleAllSelection = function() {
-         vm.selectedRows = vm.allSelected ? angular.copy(vm.displayedData) : [];
-         vm.displayedData.forEach(row => row.selected = vm.allSelected);
+      console.log("yes");
+      
+         angular.forEach(vm.displayedData, function(row) {
+             row.selected = vm.allSelected;
+         });
      };
      
-     // Toggle single row selection
-     vm.toggleSelection = function(row) {
-         if (row.selected) {
-             vm.selectedRows.push(row);
-         } else {
-             vm.selectedRows = vm.selectedRows.filter(r => r !== row);
-         }
-         vm.allSelected = vm.selectedRows.length === vm.displayedData.length;
+     // Toggle individual row selection
+     vm.toggleSelection = function() {
+         vm.allSelected = vm.displayedData.every(row => row.selected);
      };
+     
+     // Function to generate checkbox HTML
+     function checkboxHtml(data, type, full, meta) {
+         return '<input type="checkbox" ng-model="full.selected" ng-change="vm.toggleSelection()">';
+     }
+
+
    vm.dtColumns = [
     DTColumnBuilder.newColumn(null)
     .withTitle('<input type="checkbox" ng-model="vm.allSelected" ng-click="vm.toggleAllSelection()">')
-    .renderWith(checkboxHtml), // Use the function like actionsHtml
+    .renderWith(checkboxHtml), // Use function to generate checkboxes
      DTColumnBuilder.newColumn('raison_sociale').withTitle("Raison Sociale").withClass('no-break'),
      DTColumnBuilder.newColumn('statut_juridique').withTitle("Statut juridique"),
      DTColumnBuilder.newColumn('capital').withTitle("Capital"),

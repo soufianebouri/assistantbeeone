@@ -339,7 +339,28 @@ angular.module('beeOneWebFrontApp')
      ]);
 
 
+     vm.selectedRows = []; // Store selected rows
+     vm.displayedData= []
+
+     // Toggle all checkboxes
+     vm.toggleAllSelection = function() {
+         vm.selectedRows = vm.allSelected ? angular.copy(vm.displayedData) : [];
+         vm.displayedData.forEach(row => row.selected = vm.allSelected);
+     };
+     
+     // Toggle single row selection
+     vm.toggleSelection = function(row) {
+         if (row.selected) {
+             vm.selectedRows.push(row);
+         } else {
+             vm.selectedRows = vm.selectedRows.filter(r => r !== row);
+         }
+         vm.allSelected = vm.selectedRows.length === vm.displayedData.length;
+     };
    vm.dtColumns = [
+    DTColumnBuilder.newColumn(null)
+    .withTitle('<input type="checkbox" ng-model="vm.allSelected" ng-click="vm.toggleAllSelection()">')
+    .renderWith(checkboxHtml), // Use the function like actionsHtml
      DTColumnBuilder.newColumn('raison_sociale').withTitle("Raison Sociale").withClass('no-break'),
      DTColumnBuilder.newColumn('statut_juridique').withTitle("Statut juridique"),
      DTColumnBuilder.newColumn('capital').withTitle("Capital"),
@@ -356,13 +377,40 @@ angular.module('beeOneWebFrontApp')
      DTColumnBuilder.newColumn(null).withTitle("Actions").withOption('width', '10%').renderWith(actionsHtml).withClass('nowraptd all no-break')
    ];
 
+   vm.societes = {}; // Store row data with ID as key
+   vm.selectedRows = {}; // Track selected rows
+
+// Toggle All Selection
+vm.toggleAllSelection = function() {
+    angular.forEach(vm.societes, function(row) {
+        row.selected = vm.allSelected;
+        vm.selectedRows[row.id_sco_temp] = row.selected;
+    });
+};
+
+// Toggle Single Row Selection
+vm.toggleSelection = function(id) {
+    vm.societes[id].selected = !vm.societes[id].selected;
+    vm.selectedRows[id] = vm.societes[id].selected;
+
+    // Update "Select All" checkbox
+    vm.allSelected = Object.values(vm.selectedRows).every(Boolean);
+};
+
+// Function to generate checkboxes dynamically
+function checkboxHtml(data, type, full, meta) {
+    vm.societes[data.id_sco_temp] = data; // Store row reference
+    return '<input type="checkbox" ng-model="vm.selectedRows[' + data.id_sco_temp + ']" ng-change="vm.toggleSelection(' + data.id_sco_temp + ')">';
+}
+
 
 
    DTDefaultOptions.setLoadingTemplate('<center><img src="././images/loading.gif"/></center>');
 
-
-   vm.ajouter = function(){
+   vm.id_sco_temp = 0;
+      vm.ajouter = function(){
       if(vm.raison_sociale){
+        vm.id_sco_temp +=1;
         vm.data_societe.push(
           {
             raison_sociale : vm.raison_sociale,
@@ -377,7 +425,8 @@ angular.module('beeOneWebFrontApp')
             amo : vm.amo,
             fiscal : vm.fiscal,
             ice : vm.ice,
-            matricule : vm.matricule
+            matricule : vm.matricule,
+            id_sco_temp: vm.id_sco_temp
           }
         )
         console.log(vm.data_societe);
@@ -390,19 +439,18 @@ angular.module('beeOneWebFrontApp')
       }
    }
 
+
    vm.howto = true;
 
    function createdRow(row, data, dataIndex) {
      // Recompiling so we can bind Angular directive to the DT
      $compile(angular.element(row).contents())($scope);
    }
-
-
-
+   
    function actionsHtml(data, type, full, meta) {
-     vm.societes[data.ID] = data;
-     var editbtn = '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' + data.ID + '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
-     var deletebtn =  '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' + data.ID + '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
+     vm.societes[data.id_sco_temp] = data;
+     var editbtn = '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' + data.id_sco_temp + '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
+     var deletebtn =  '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' + data.id_sco_temp + '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
      return editbtn +' '+ deletebtn;
    }
 

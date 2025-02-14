@@ -29,277 +29,281 @@
 
       <div class="scrollable-header">
 
-          <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
-            <!-- Steps Section (Middle) -->
-            <div layout="row" flex="auto" layout-align="center center">
-              <!-- Step 1 -->
-              <div class="step-box">
-                <table style="border-collapse: collapse;">
-                  <tr ng-click="vm.step(1)">
-                    <td rowspan="2">
-                      <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
-                        <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
-                      </div>
-                    </td>
-                    <td ng-class="{'step_position': vm.currect_step == 1, 'step_position-disabled': vm.currect_step != 1}">
-                      Étape 1</td>
-                  </tr>
-                  <tr>
-                    <td
-                      ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
-                      Sociétés</td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- Arrow Icon -->
-              <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
-
-              <!-- Step 2 -->
-              <div class="step-box">
-                <table>
-                  <tr ng-click="vm.step(2)">
-                    <td rowspan="2">
-                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
-                        <img src="././images/main_configuration/farm.svg" alt="farm">
-                      </div>
-                    </td>
-                    <td ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
-                      Étape 2</td>
-                  </tr>
-                  <tr>
-                    <td
-                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
-                      Sociétés</td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- Arrow Icon -->
-              <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
-
-              <!-- Step 3 -->
-              <div class="step-box">
-                <table>
-                  <tr ng-click="vm.step(3)">
-                    <td rowspan="2">
-                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
-                        <img src="././images/main_configuration/campagne.svg" alt="campagne">
-                      </div>
-                    </td>
-                    <td ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
-                      Étape 3
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
-                      Sociétés
-                    </td>
-                  </tr>
-                </table>
-              </div>
+        <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
+          <!-- Steps Section (Middle) -->
+          <div layout="row" flex="auto" layout-align="center center">
+            <!-- Step 1 -->
+            <div class="step-box">
+              <table style="border-collapse: collapse;">
+                <tr ng-click="vm.step(1)">
+                  <td rowspan="2">
+                    <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
+                      <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
+                    </div>
+                  </td>
+                  <td
+                    ng-class="{'step_position': vm.currect_step == 1, 'step_position-disabled': vm.currect_step != 1}">
+                    Étape 1</td>
+                </tr>
+                <tr>
+                  <td
+                    ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
+                    Sociétés</td>
+                </tr>
+              </table>
             </div>
 
+            <!-- Arrow Icon -->
+            <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
 
+            <!-- Step 2 -->
+            <div class="step-box">
+              <table>
+                <tr ng-click="vm.step(2)">
+                  <td rowspan="2">
+                    <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                      <img src="././images/main_configuration/farm.svg" alt="farm">
+                    </div>
+                  </td>
+                  <td
+                    ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
+                    Étape 2</td>
+                </tr>
+                <tr>
+                  <td
+                    ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
+                    Sociétés</td>
+                </tr>
+              </table>
+            </div>
 
+            <!-- Arrow Icon -->
+            <span class="arrow-icon">&nbsp;&nbsp;&gt;&nbsp;&nbsp;</span>
 
-
+            <!-- Step 3 -->
+            <div class="step-box">
+              <table>
+                <tr ng-click="vm.step(3)">
+                  <td rowspan="2">
+                    <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                      <img src="././images/main_configuration/campagne.svg" alt="campagne">
+                    </div>
+                  </td>
+                  <td
+                    ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
+                    Étape 3
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
+                    Sociétés
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
+
+
+
+
+
+        </div>
 
       </div>
 
- <div class="content">
-      <!-- Grids 1 & 2 as Columns -->
-      <div class="grid-column-container">
+      <div class="content">
+        <!-- Grids 1 & 2 as Columns -->
+        <div class="grid-column-container">
 
 
 
-        <div id="grid1" class="grid">
-          <div class="form-header">
-            <h2 class="form-title">Informations Sur La Société</h2>
-            <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
+          <div id="grid1" class="grid">
+            <div class="form-header">
+              <h2 class="form-title">Informations Sur La Société</h2>
+              <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de
+                votre compte</p>
+            </div>
+
+            <md-content class="form-content">
+              <!-- Row 1 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>Raison Sociale</label>
+                  <input type="text" ng-model="vm.raison_sociale" required>
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>Statut Juridique</label>
+                  <md-select ng-model="vm.statut_juridique">
+                    <md-option value="option1">Option 1</md-option>
+                    <md-option value="option2">Option 2</md-option>
+                    <md-option value="option3">Option 3</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>Capital</label>
+                  <input type="number" ng-model="vm.capital" class="number_right">
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>Ville</label>
+                  <input type="ville" ng-model="vm.ville">
+                </md-input-container>
+
+              </div>
+
+
+
+              <!-- Row 3 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>Adresse Email</label>
+                  <input type="email" ng-model="vm.email">
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>Fax</label>
+                  <input type="tel" ng-model="vm.fax">
+                </md-input-container>
+              </div>
+
+              <!-- Row 4 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>Patente</label>
+                  <input type="text" ng-model="vm.patente">
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>N° CNSS</label>
+                  <input type="text" ng-model="vm.cnss">
+                </md-input-container>
+              </div>
+
+              <!-- Row 5 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>N° AMO</label>
+                  <input type="text" ng-model="vm.amo">
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>ID Fiscal</label>
+                  <input type="text" ng-model="vm.fiscal">
+                </md-input-container>
+              </div>
+
+              <!-- Row 6 -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input">
+                  <label>ICE</label>
+                  <input type="text" ng-model="vm.ice">
+                </md-input-container>
+
+                <md-input-container class="form-input">
+                  <label>Pré Fixe Matricule Ouvrier</label>
+                  <input type="text" ng-model="vm.matricule">
+                </md-input-container>
+              </div>
+
+              <!-- Address -->
+              <div class="form-row tiny-space">
+                <md-input-container class="form-input full-width">
+                  <label>Adresse</label>
+                  <textarea ng-model="vm.adresse" rows="3" md-maxlength="100"></textarea>
+                </md-input-container>
+              </div>
+
+              <div class="form-actions">
+                <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
+                  Reset
+                </md-button>
+
+                <md-button class="md-raised md-primary custom-button" ng-click="vm.ajouter()">
+                  Ajouter
+                </md-button>
+              </div>
+
+            </md-content>
+
           </div>
 
-          <md-content class="form-content">
-            <!-- Row 1 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Raison Sociale</label>
-                <input type="text" ng-model="vm.raison_sociale" required>
-              </md-input-container>
 
-              <md-input-container class="form-input">
-                <label>Statut Juridique</label>
-                <md-select ng-model="vm.statut_juridique">
-                  <md-option value="option1">Option 1</md-option>
-                  <md-option value="option2">Option 2</md-option>
-                  <md-option value="option3">Option 3</md-option>
-                </md-select>
-              </md-input-container>
+
+
+          <div id="grid2" class="grid">
+
+            <div class="form-header">
+              <h2 class="form-title">Importation En Masse ?</h2>
+              <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de
+                votre compte</p>
             </div>
 
-            <!-- Row 2 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Capital</label>
-                <input type="number" ng-model="vm.capital" class="number_right">
-              </md-input-container>
+            <md-card class="card" layout="column" style="padding: 10px;background: #F3F5F7;">
 
-              <md-input-container class="form-input">
-                <label>Ville</label>
-                <input type="ville" ng-model="vm.ville">
-              </md-input-container>
+              <div layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start center">
+                  <img src="././images/main_configuration/xls.svg" alt="time"
+                    style="width: 20px; height: 20px; margin-right: 5px;">
+                  <h2 style="font-size: 16px; font-family: Poppins;">Canvas Société.xls</h2>
+                </div>
+                <md-button class="md-raised md-primary btn-download"
+                  style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
+                  Télécharger</md-button>
+              </div>
 
+
+              <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                You can download the attached example and use it as a starting point for your own file.
+              </p>
+            </md-card>
+
+            <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
+              style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;cursor: pointer;border-radius: 5px;"
+              ngf-drop="onDrop($files)" ng-click="triggerFileInput()">
+              <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
+
+
+              <img src="././images/main_configuration/file.svg" alt="time"
+                style="width: 20px; height: 20px; margin-right: 5px;">
+
+
+              <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                Drop your file here, or <font color="#81BB26">browse</font>
+              </p>
             </div>
 
 
+            <div class="centered-card " ng-if="vm.isFileSelected" layout="column"
+              style="padding: 40px;background: #F8F8F9;border: 2px dashed rgb(129 187 38);">
 
-            <!-- Row 3 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Adresse Email</label>
-                <input type="email" ng-model="vm.email">
-              </md-input-container>
 
-              <md-input-container class="form-input">
-                <label>Fax</label>
-                <input type="tel" ng-model="vm.fax">
-              </md-input-container>
+
+              <img src="././images/main_configuration/file.svg" alt="time"
+                style="width: 20px; height: 20px; margin-right: 5px;">
+
+
+              <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                Well uploaded
+              </p>
             </div>
-
-            <!-- Row 4 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>Patente</label>
-                <input type="text" ng-model="vm.patente">
-              </md-input-container>
-
-              <md-input-container class="form-input">
-                <label>N° CNSS</label>
-                <input type="text" ng-model="vm.cnss">
-              </md-input-container>
-            </div>
-
-            <!-- Row 5 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>N° AMO</label>
-                <input type="text" ng-model="vm.amo">
-              </md-input-container>
-
-              <md-input-container class="form-input">
-                <label>ID Fiscal</label>
-                <input type="text" ng-model="vm.fiscal">
-              </md-input-container>
-            </div>
-
-            <!-- Row 6 -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input">
-                <label>ICE</label>
-                <input type="text" ng-model="vm.ice">
-              </md-input-container>
-
-              <md-input-container class="form-input">
-                <label>Pré Fixe Matricule Ouvrier</label>
-                <input type="text" ng-model="vm.matricule">
-              </md-input-container>
-            </div>
-
-            <!-- Address -->
-            <div class="form-row tiny-space">
-              <md-input-container class="form-input full-width">
-                <label>Adresse</label>
-                <textarea ng-model="vm.adresse" rows="3" md-maxlength="100"></textarea>
-              </md-input-container>
-            </div>
-
-            <div class="form-actions">
-              <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
-                Reset
-              </md-button>
-
-              <md-button class="md-raised md-primary custom-button" ng-click="vm.ajouter()">
-                Ajouter
-              </md-button>
-            </div>
-
-          </md-content>
-
-        </div>
-
-
-
-
-        <div id="grid2" class="grid">
-
-          <div class="form-header">
-            <h2 class="form-title">Importation En Masse ?</h2>
-            <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
-          </div>
-
-          <md-card class="card" layout="column" style="padding: 10px;background: #F3F5F7;">
 
             <div layout="row" layout-align="space-between center">
               <div layout="row" layout-align="start center">
-                <img src="././images/main_configuration/xls.svg" alt="time"
-                  style="width: 20px; height: 20px; margin-right: 5px;">
-                <h2 style="font-size: 16px; font-family: Poppins;">Canvas Société.xls</h2>
+                <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                  Supported formats: XLS, XLSX</p>
               </div>
-              <md-button class="md-raised md-primary btn-download"
-                style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
-                Télécharger</md-button>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                Maximum
+                size: 25MB</p>
             </div>
 
-
-            <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-              You can download the attached example and use it as a starting point for your own file.
-            </p>
-          </md-card>
-
-          <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
-          style="padding: 40px;background: #F8F8F9;border: 2px dashed #ccc;cursor: pointer;border-radius: 5px;"
-          ngf-drop="onDrop($files)" ng-click="triggerFileInput()">
-          <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
-
-
-          <img src="././images/main_configuration/file.svg" alt="time"
-            style="width: 20px; height: 20px; margin-right: 5px;">
-
-
-          <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-            Drop your file here, or <font color="#81BB26">browse</font>
-          </p>
-        </div>
-
-
-        <div class="centered-card " ng-if="vm.isFileSelected" layout="column"
-          style="padding: 40px;background: #F8F8F9;border: 2px dashed rgb(129 187 38);">
-
-
-
-          <img src="././images/main_configuration/file.svg" alt="time"
-            style="width: 20px; height: 20px; margin-right: 5px;">
-
-
-          <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-            Well uploaded
-          </p>
-        </div>
-
-        <div layout="row" layout-align="space-between center">
-          <div layout="row" layout-align="start center">
-            <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-              Supported formats: XLS, XLSX</p>
-          </div>
-          <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-            Maximum
-            size: 25MB</p>
-        </div>
-
-        <md-card class="card" layout="column" style="padding: 10px; background: #c2c5c7;"
-              ng-if="vm.isFileSelected">
+            <md-card class="card" layout="column" style="padding: 10px; background: #c2c5c7;" ng-if="vm.isFileSelected">
 
               <div layout="row" layout-align="space-between center">
 
@@ -329,7 +333,7 @@
             </md-button>
 
 
-          <md-card flex class="card_form_multi" >
+            <md-card flex class="card_form_multi">
 
 
 
@@ -346,52 +350,53 @@
 
 
 
-          </md-card>
-        </div>
-      </div>
-
-      <div id="grid4" class="grid">
-        <!--Table-->
-        <div class="form-header unified_pad">
-          <h2 class="form-title">Sociétés Ajoutées (0)</h2>
-          <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
+            </md-card>
+          </div>
         </div>
 
+        <div id="grid4" class="grid">
+          <!--Table-->
+          <div class="form-header unified_pad">
+            <h2 class="form-title">Sociétés Ajoutées (0)</h2>
+            <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
+              eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
+              eleifend arcu, velar ipsum</p>
+          </div>
 
 
-      </div>
+
+        </div>
 
 
 
-      <div class="table-responsive">
-        <table style="background-color: white;" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
-          dt-instance="vm.dtInstance"
-          class="table">
-        </table>
-      </div>
+        <div class="table-responsive">
+          <table style="background-color: white;" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
+            dt-instance="vm.dtInstance" class="table">
+          </table>
+        </div>
 
-      <div class="main-footer">
-        <div class="footer-buttons">
-          <md-button class="md-raised md-primary btn-annuler" ng-click="vm.annuler()">
-           Annuler
-          </md-button>
-          <md-button class="md-raised md-primary btn-action" ng-click="vm.nextStep()">
-           Suivant &nbsp;>  
-          </md-button>
+        <div class="main-footer">
+          <div class="footer-buttons">
+            <md-button class="md-raised md-primary btn-annuler" ng-click="vm.annuler()">
+              Annuler
+            </md-button>
+            <md-button class="md-raised md-primary btn-action" ng-click="vm.nextStep()">
+              Suivant &nbsp;>
+            </md-button>
+          </div>
         </div>
       </div>
-</div>
 
 
 
 
     </div>
 
-    <div id="grid3" class="grid" >
-     <md-card class="video-card">
-          <md-card-content>
-            <video id="videoPlayer" class="video-player" controls>
-              <source src="./vids/barackObama.mp4" type="video/mp4">
+    <div id="grid3" class="grid">
+      <md-card class="video-card">
+        <md-card-content>
+          <video id="videoPlayer" class="video-player" controls>
+            <source src="./vids/barackObama.mp4" type="video/mp4">
 
 
           </video>
@@ -403,10 +408,11 @@
             </div>
             <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
               <img src="././images/main_configuration/time.svg" alt="time" style="width: 12px;height: 12px;">
-                 {{ vm.get_time(vm.videoDuration) }}</p>
+              {{ vm.get_time(vm.videoDuration) }}
+            </p>
           </div>
 
-            <!--<div class="form-header">
+          <!--<div class="form-header">
               <p class="form-subtitle">
                 {{ shortText }}
                 <span ng-if="!isExpanded">{{ ellipsis }}</span>
@@ -419,104 +425,104 @@
             </div>-->
 
 
-            <div layout="row" layout-align="space-between center">
-              <div layout="row" layout-align="start center">
-                <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                  Transcrypt</p>
-              </div>
-              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                <md-switch ng-model="transcriptionEnabled">
-                  <span ng-if="transcriptionEnabled">Auto Scroll</span>
-                  <span ng-if="!transcriptionEnabled" class="strikethrough">Auto Scroll</span>
-                </md-switch>
-              </p>
+          <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="start center">
+              <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                Transcrypt</p>
             </div>
+            <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+              <md-switch ng-model="transcriptionEnabled">
+                <span ng-if="transcriptionEnabled">Auto Scroll</span>
+                <span ng-if="!transcriptionEnabled" class="strikethrough">Auto Scroll</span>
+              </md-switch>
+            </p>
+          </div>
 
 
-            <div class="transcript-container" id="transcriptContainer">
-              <div class="transcript-item" ng-repeat="entry in transcript track by $index"
-                ng-class="{'highlight': isCurrentSubtitle(entry)}">
-                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff',
+          <div class="transcript-container" id="transcriptContainer">
+            <div class="transcript-item" ng-repeat="entry in transcript track by $index"
+              ng-class="{'highlight': isCurrentSubtitle(entry)}">
+              <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff',
                                                  'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
-                  layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
+                layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
 
-                  <div layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="space-between center">
 
-                    <div layout="row">
-                      <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
+                  <div layout="row">
+                    <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
                             background: #f0f0f0;
                             display: block;">
 
-                      <div layout="column" style="line-height: 1.2;">
-                        <strong>Barack Obama &nbsp;<i class="fa fa-volume-up speech-icon animated-icon"
-                            ng-if="isCurrentSubtitle(entry) && vm.isPlaying"></i></strong>
+                    <div layout="column" style="line-height: 1.2;">
+                      <strong>Barack Obama &nbsp;<i class="fa fa-volume-up speech-icon animated-icon"
+                          ng-if="isCurrentSubtitle(entry) && vm.isPlaying"></i></strong>
 
-                      </div>
                     </div>
-
-
-                    <p style="margin: 0;">
-                      <img src="././images/main_configuration/time.svg" alt="headphone"
-                        style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
-                    </p>
-                  </div>
-                  <div style="padding-left: 25px;">
-                    {{ entry.text }}
                   </div>
 
-                </md-card>
+
+                  <p style="margin: 0;">
+                    <img src="././images/main_configuration/time.svg"
+                      style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
+                  </p>
+                </div>
+                <div style="padding-left: 25px;">
+                  {{ entry.text }}
+                </div>
+
+              </md-card>
+
+            </div>
+          </div>
+
+
+
+          <div class="sticky-footer" layout="row" layout-align="space-between center">
+
+            <div class="footer-buttons">
+              <div layout="row" flex="auto" layout-align="center center" style="gap:12px">
+                <!-- Step 1 -->
+
+
+                <!--<div class="no-b">
+                  <img src="././images/main_configuration/headphone.svg" />
+                  <font color="#000000" size="1px" style="flex-wrap: nowrap;"></font>
+                </div>-->
+
+
+
+                <div class="infos-btn " ng-click="vm.makeCall()">
+                  <img src="././images/main_configuration/phone.svg" />
+                </div>
+
+
+
+                <div class="infos-btn " ng-click="vm.sendEmail()">
+                  <img src="././images/main_configuration/email.svg" />
+                </div>
+
+                <div class="infos-btn  ai-btn" ng-click="vm.ai()">
+                  <img src="././images/main_configuration/ai.svg" />
+                </div>
+
+
+
+
+
+
 
               </div>
             </div>
-
-
-
-            <div class="sticky-footer" layout="row" layout-align="space-between center">
-             
-              <div class="footer-buttons">
-                <div layout="row" flex="auto" layout-align="center center" style="gap:12px">
-                  <!-- Step 1 -->
-
-
-                     <div class="no-b">
-                      <img src="././images/main_configuration/headphone.svg"/>
-                      <font color="#000000" size="1px" style="flex-wrap: nowrap;">Having Trouble ?</font> 
-                     </div>
-
-                    
-
-                    <div class="infos-btn right" ng-click="vm.makeCall()">
-                      <img src="././images/main_configuration/phone.svg"/>
-                    </div>
-                
-
-                 
-                    <div class="infos-btn right" ng-click="vm.sendEmail()">
-                      <img src="././images/main_configuration/email.svg"/>
-                    </div>
-
-                    <div class="infos-btn right" ng-click="vm.ai()">
-                      <img src="././images/main_configuration/ai.svg" style="width: 36px;height: 38px;"/>
-                    </div>
-                 
-    
-                 
-    
-                  <!-- Step 2 -->
-                  
-    
-                </div>
-              </div>
           </div>
 
-          </md-card-content>
+        </md-card-content>
 
 
 
 
-        </md-card>
-      </div>
-
-
+      </md-card>
     </div>
+
+
   </div>
+</div>

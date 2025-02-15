@@ -1716,7 +1716,7 @@ md-card-content {
   background-color: #0b522b;
   color: #fff;
   width: 40vw;
-  height: 100vh;
+  /*height: 100vh;*/
   padding: 50px;
   display: flex;
   flex-direction: column;
@@ -1725,8 +1725,9 @@ md-card-content {
 
 /* Right Panel (White) */
 .right-panel {
-  width: 60vw;
-  height: 100vh;
+ /* width: 60vw;*/
+  /*height: 100vh;*/
+  width: 60%;
   padding: 150px;
   display: flex;
   flex-direction: column;
@@ -1814,13 +1815,3 @@ md-card-content {
   margin: 0;
 }
 
-
-.md-input-container, .custom-button {
-  width: 338px !important; /* Match button width */
-  max-width: 100%;
-}
-
-.md-input-container input {
-  width: 100% !important;
-  box-sizing: border-box;
-}

@@ -1,7 +1,7 @@
 <div class="container" ng-controller="LoginCtrl as vm">
   <div class="left-panel">
       <div class="quote">
-        <i class="fa fa-quote-left"></i>
+        <i class="fas fa-quote-left"></i>
           <p class="strong_p"><strong>The Prophet said:</strong></p>
           <p class="notes">Whoever plants a tree and diligently looks after it until it matures and bears fruit is rewarded. If a Muslim plants a tree or sows a field and humans and beasts and birds eat from it, all of it is charity from him.</p>
         <div class="right_notes" style="float: right;">          
@@ -14,19 +14,25 @@
       </div>
   </div>
   <div class="right-panel">
-      <h2 class="fade-in">Connectez-vous</h2>
-      <p class="fade-in delay">Content de te revoir ! Entrez vos informations de connexion</p>
+      <h2 class="fade-in nomarging" >Connectez-vous</h2>
+      <p class="fade-in delay nomarging">Content de te revoir ! Entrez vos informations de connexion</p>
       <br/>
-      <form>
+      <form class="nomarging">
         <div flex="100" flex-gt-sm="33" layout="column">
           <md-input-container class="md-block" flex-gt-xs style="margin-bottom: 16px;">
-            <label>{{'Login ou Email' | translate}}</label>
+            <md-icon style="position: absolute; color: #666;">
+              <img src="../images/auth/username.svg" alt="username"  />
+            </md-icon>
+            <label>{{'Login ou E-mail' | translate}}</label>
             <input ng-model="vm.loginormail" style="width: 300px;"  >
           </md-input-container>
         </div>
 
         <div flex="100" flex-gt-sm="33" layout="column">
           <md-input-container class="md-block" flex-gt-xs style="margin-bottom: 16px;">
+            <md-icon style="position: absolute; color: #666;">
+              <img src="../images/auth/password.svg" alt="password"  />
+            </md-icon>
             <label>{{'Password' | translate}}</label>
             <input ng-model="vm.password" style="width: 300px;"  >
           </md-input-container>
@@ -34,18 +40,23 @@
 
           <div class="options fade-in delay-4">
               <label><input type="checkbox"> Se Souvenir De Moi</label>
-              <a href="#">Mot De Passe Oublié?</a>
+              <!--<a href="#">Mot De Passe Oublié?</a>-->
           </div>
-          <button class="btn fade-in delay-5" ng-click="vm.auth()">Connexion</button>
+
+          <md-button class="md-raised md-primary custom-button" ng-click="vm.auth()" style="width: 338px;">
+            Connexion
+          </md-button>
+
+         <!--<button class="btnauth fade-in delay-5" ng-click="vm.auth()"></button>-->
       </form>
      <br/>
       <div flex="100" flex-gt-sm="33" layout="column">
         <md-input-container class="md-block" flex-gt-xs style="margin-bottom: 16px;">
           <md-icon style="position: absolute; color: #666;">
-            <i class="fa fa-key"></i> <!-- Font Awesome icon -->
+            <img src="../images/auth/key.svg" alt="key"  />
           </md-icon>
           <label>{{'Clé d’accès de connexion ici' | translate}}</label>
-          <input ng-model="vm.acceskey" style="width: 270px;"  >
+          <input ng-model="vm.acceskey" style="width: 300px;"  >
           
         </md-input-container>
       </div>

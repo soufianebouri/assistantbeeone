@@ -422,17 +422,25 @@ angular
         }
 
 
-      vm.allSelected = false; // Tracks "Select All" state
+        $scope.allSelected = false; // Tracks "Select All" state
 
       // Toggle all checkboxes
-      vm.toggleAllSelection = function () {
-        
-        console.log("toggleAllSelection");
+      vm.toggleAllSelection = function() {
+        $scope.allSelected = (!$scope.allSelected) ? true : false;
+        vm.data_societe.forEach(societe => {
+            societe.selected = $scope.allSelected; // Toggle selection
+        });        
+        vm.dtInstance.reloadData();
+    };
 
-        angular.forEach(vm.displayedData, function (row) {
-          row.selected = vm.allSelected;
+    // Expose function globally
+    window.toggleAllSelection = function() {
+        $scope.$apply(function() {
+            vm.toggleAllSelection();
         });
-      };
+    };
+
+
       $scope.toggleSelection = function (id) {    
         let found = false;    
         vm.data_societe = vm.data_societe.map(societe => {
@@ -448,13 +456,13 @@ angular
     };
          
       function checkboxHtml(data, type, full, meta) {        
-          return `<input type="checkbox" ng-click="toggleSelection(${data.id_sco_temp})">`;
+          return `<input type="checkbox" ng-model="data.selected" ng-click="toggleSelection(${data.id_sco_temp})">`;
       }         
 
       vm.dtColumns = [
         DTColumnBuilder.newColumn(null)
           .withTitle(
-            '<input type="checkbox" ng-model="vm.allSelected" ng-click="vm.toggleAllSelection()" ;">'
+             '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
           )
           .renderWith(checkboxHtml).notSortable(), 
         DTColumnBuilder.newColumn("raison_sociale")

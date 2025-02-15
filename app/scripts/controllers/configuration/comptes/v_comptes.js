@@ -407,34 +407,56 @@ angular
           },
         ]);
 
+
+        function actionsHtml(data, type, full, meta) {
+          vm.societes[data.id_sco_temp] = data;
+          var editbtn =
+            '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' +
+            data.id_sco_temp +
+            '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
+          var deletebtn =
+            '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' +
+            data.id_sco_temp +
+            '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
+          return editbtn + " " + deletebtn;
+        }
+
+
       vm.allSelected = false; // Tracks "Select All" state
 
       // Toggle all checkboxes
       vm.toggleAllSelection = function () {
-        console.log("yes");
+        
+        console.log("toggleAllSelection");
 
         angular.forEach(vm.displayedData, function (row) {
           row.selected = vm.allSelected;
         });
       };
-
-      // Toggle individual row selection
-      vm.toggleSelection = function () {
-        console.log("yes");
-        vm.allSelected = vm.displayedData.every((row) => row.selected);
-      };
-
-      // Function to generate checkbox HTML
-      function checkboxHtml(data, type, full, meta) {
-        return '<input type="checkbox" ng-model="full.selected" ng-click="vm.toggleSelection()" >';
-      }
+      $scope.toggleSelection = function (id) {    
+        let found = false;    
+        vm.data_societe = vm.data_societe.map(societe => {
+            if (societe.id_sco_temp === id) {
+                found = true;
+                return { ...societe, selected: !societe.selected }; // Toggle selection
+            }
+            return societe;
+        });    
+        if (!found) {
+            vm.data_societe.push({ id_sco_temp: id, selected: true });
+        }    
+    };
+         
+      function checkboxHtml(data, type, full, meta) {        
+          return `<input type="checkbox" ng-click="toggleSelection(${data.id_sco_temp})">`;
+      }         
 
       vm.dtColumns = [
         DTColumnBuilder.newColumn(null)
           .withTitle(
             '<input type="checkbox" ng-model="vm.allSelected" ng-click="vm.toggleAllSelection()" ;">'
           )
-          .renderWith(checkboxHtml), // Use function to generate checkboxes
+          .renderWith(checkboxHtml).notSortable(), 
         DTColumnBuilder.newColumn("raison_sociale")
           .withTitle("Raison Sociale")
           .withClass("no-break"),
@@ -458,40 +480,9 @@ angular
           .withTitle("Actions")
           .withOption("width", "10%")
           .renderWith(actionsHtml)
-          .withClass("nowraptd all no-break"),
+          .withClass("nowraptd all no-break").notSortable(),
       ];
 
-      vm.societes = {}; // Store row data with ID as key
-      vm.selectedRows = {}; // Track selected rows
-
-      // Toggle All Selection
-      vm.toggleAllSelection = function () {
-        angular.forEach(vm.societes, function (row) {
-          row.selected = vm.allSelected;
-          vm.selectedRows[row.id_sco_temp] = row.selected;
-        });
-      };
-
-      // Toggle Single Row Selection
-      vm.toggleSelection = function (id) {
-        vm.societes[id].selected = !vm.societes[id].selected;
-        vm.selectedRows[id] = vm.societes[id].selected;
-
-        // Update "Select All" checkbox
-        vm.allSelected = Object.values(vm.selectedRows).every(Boolean);
-      };
-
-      // Function to generate checkboxes dynamically
-      function checkboxHtml(data, type, full, meta) {
-        vm.societes[data.id_sco_temp] = data; // Store row reference
-        return (
-          '<input type="checkbox" ng-model="vm.selectedRows[' +
-          data.id_sco_temp +
-          ']" ng-change="vm.toggleSelection(' +
-          data.id_sco_temp +
-          ')">'
-        );
-      }
 
       DTDefaultOptions.setLoadingTemplate(
         '<center><img src="././images/loading.gif"/></center>'
@@ -517,7 +508,7 @@ angular
             matricule: vm.matricule,
             id_sco_temp: vm.id_sco_temp,
           });
-          console.log(vm.data_societe);
+          
           vm.dtInstance.reloadData();
         } else {
           toastr.clear();

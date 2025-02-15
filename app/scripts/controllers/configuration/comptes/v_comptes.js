@@ -411,14 +411,24 @@ angular
         function actionsHtml(data, type, full, meta) {
           vm.societes[data.id_sco_temp] = data;
           var editbtn =
-            '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' +
-            data.id_sco_temp +
-            '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
-          var deletebtn =
-            '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' +
-            data.id_sco_temp +
-            '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
-          return editbtn + " " + deletebtn;
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
+          data.id_sco_temp +
+          '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
+        
+        var deletebtn =
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
+          data.id_sco_temp +
+          '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
+        
+        return editbtn + deletebtn;
+        }
+
+        vm.edit = function (data) {
+          console.log(data);          
+        }
+
+        vm.delete = function (data) {
+          console.log(data);          
         }
 
 
@@ -456,13 +466,19 @@ angular
     };
          
       function checkboxHtml(data, type, full, meta) {        
-          return `<input type="checkbox" ng-model="data.selected" ng-click="toggleSelection(${data.id_sco_temp})">`;
-      }         
+          return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.id_sco_temp})">`;
+      }   
+      
+      
+      vm.updateSelectedCount = function () {
+        return vm.data_societe.filter(societe => societe.selected).length;
+      };
+
 
       vm.dtColumns = [
         DTColumnBuilder.newColumn(null)
           .withTitle(
-             '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
+            '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
           )
           .renderWith(checkboxHtml).notSortable(), 
         DTColumnBuilder.newColumn("raison_sociale")
@@ -515,8 +531,7 @@ angular
             ice: vm.ice,
             matricule: vm.matricule,
             id_sco_temp: vm.id_sco_temp,
-          });
-          
+          });          
           vm.dtInstance.reloadData();
         } else {
           toastr.clear();
@@ -533,7 +548,7 @@ angular
         $compile(angular.element(row).contents())($scope);
       }
 
-      function actionsHtml(data, type, full, meta) {
+      /*function actionsHtml(data, type, full, meta) {
         vm.societes[data.id_sco_temp] = data;
         var editbtn =
           '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' +
@@ -543,8 +558,8 @@ angular
           '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' +
           data.id_sco_temp +
           '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
-        return editbtn + " " + deletebtn;
-      }
+        return editbtn + "" + deletebtn;
+      }*/
 
       /**** Step 1 *****/
 

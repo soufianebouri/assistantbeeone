@@ -539,6 +539,16 @@ table.dataTable td {
   line-height: 1;
 }
 
+.pull_right{
+ float: right;
+}
+
+.info-header {
+  line-height: 1;
+}
+
+
+
 .form-title {
   font-family: "Poppins", sans-serif !important;
   font-weight: 500;
@@ -1426,3 +1436,41 @@ a.dt-button {
 ::-webkit-scrollbar-button {
   display: none; /* Hide the up and down arrows */
 }
+
+.md-button.md-default-theme.md-warn.md-fab, .md-button.md-warn.md-fab, .md-button.md-default-theme.md-warn.md-raised, .md-button.md-warn.md-raised {
+  background-color: rgb(255, 87, 34);
+  color: rgb(255 255 255 / 87%);
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif !important;
+}
+
+
+.warn-title {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 500;
+  font-size: 16px;
+  /*line-height: 24px;*/
+  color:#661700
+}
+
+.warn-header {
+  /*line-height: 1;*/
+  background-color: #FFEBE5;
+}
+
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px); /* Slight lift effect */
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+

@@ -356,8 +356,8 @@
 
         <div id="grid4" class="grid">
           <!--Table-->
-          <div class="form-header unified_pad">
-            <h2 class="form-title">Sociétés Ajoutées (0)</h2>
+          <div class="info-header unified_pad">
+            <h2 class="form-title" >Sociétés Ajoutées ({{vm.data_societe.length}})</h2>
             <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum</p>
@@ -365,15 +365,26 @@
 
 
 
+          <div class="warn-header unified_pad fadeIn" ng-if="vm.updateSelectedCount()>0">
+            <h2 class="warn-title">Checked items to delete ({{vm.updateSelectedCount()}}) 
+              <md-button class="md-raised md-warn delete-button pull_right">
+                DELETE {{vm.updateSelectedCount()}} item(s)
+              </md-button>
+            </h2>            
+          </div>
+
+
+          <div class="table-responsive">
+            <table style="background-color: white;" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
+              dt-instance="vm.dtInstance" class="table">
+            </table>
+          </div>
+
         </div>
 
 
 
-        <div class="table-responsive">
-          <table style="background-color: white;" datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
-            dt-instance="vm.dtInstance" class="table">
-          </table>
-        </div>
+        
 
         <div class="main-footer">
           <div class="footer-buttons">
@@ -479,8 +490,8 @@
 
           <div class="sticky-footer" layout="row" layout-align="space-between center">
 
-            <div class="footer-buttons">
-              <div layout="row" flex="auto" layout-align="center center" style="gap:12px">
+            <div class="footer-buttons ">
+              <div layout="row" flex="auto" layout-align="center center" style="gap:12px;">
                 <!-- Step 1 -->
 
 
@@ -501,7 +512,7 @@
                   <img src="././images/main_configuration/email.svg" />
                 </div>
 
-                <div class="infos-btn  ai-btn" ng-click="vm.ai()">
+                <div class="infos-btn  ai-btn pull_right" ng-click="vm.ai()">
                   <img src="././images/main_configuration/ai.svg" />
                 </div>
 

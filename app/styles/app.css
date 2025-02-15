@@ -1816,6 +1816,15 @@ md-card-content {
 }
 
 
+.strong_p {
+  position: relative; /* Add positioning context */
+}
+
+.strong_p img {
+  position: relative;
+  top: 3px; /* Adjust this value to move the image down */
+  margin: 0 4px; /* Optional: Add horizontal spacing */
+}
 
 
 

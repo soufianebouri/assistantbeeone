@@ -194,13 +194,13 @@ table.dataTable td {
 /* Header */
 .header {
   width: 100%;
-  height: 40px;
+  height: 60px;
   background-color: #ffffff;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 24 64 24 64;
   position: sticky;
   top: 0;
   left: 0;
@@ -1474,3 +1474,206 @@ a.dt-button {
   animation: fadeIn 0.8s ease-in-out;
 }
 
+
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #fff;
+  border-top: 5px solid #365121;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+
+/**Main page**/
+.step-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  /* Cards will not exceed 300px */
+  margin: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  height: 360px;
+}
+
+
+
+/* Header */
+.header_main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Progress Label */
+.progress {
+  background: #e0f2e9;
+  color: #388e3c;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+/* Icon */
+.icon {
+  font-size: 30px;
+  color: #666;
+}
+
+/* Description */
+.desc {
+  font-size: 11px;
+  color: #666;
+  margin: 10px 0;
+  text-align: justify;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+/* Info Section */
+.info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #444;
+  margin: 8px 0;
+}
+
+/* Start Button */
+.start_btn {
+  width: 100%;
+  background-color: #9fada0;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start_btn:hover {
+  background-color: #4caf50 !important;
+}
+
+
+/* Disabled Button */
+/*.disabled-btn {
+    background-color: #ddd !important;
+    color: #888 !important;
+    cursor: not-allowed;
+}*/
+
+/* Responsive Grid Layout */
+.layout-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  /* Create a grid with flexible columns */
+  gap: 16px;
+}
+
+/* Ensure md-card-actions sticks to the bottom */
+md-card-content {
+  flex-grow: 1;
+  /* Allow the content area to grow and push the button to the bottom */
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+  .layout-wrap {
+      justify-content: space-evenly;
+      /* Adjust the layout on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-wrap {
+      justify-content: center;
+      /* Center on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .header_main {
+      flex-direction: column;
+      align-items: flex-start;
+  }
+
+  .title {
+      font-size: 14px;
+  }
+
+  .desc {
+      font-size: 10px;
+  }
+
+  .info {
+      font-size: 12px;
+  }
+
+  .start-btn {
+      font-size: 12px;
+      padding: 8px;
+  }
+}
+
+.layout-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Center the items horizontally */
+  gap: 20px;
+  /* Change this value to increase/decrease the space between cards */
+  padding: 16px;
+  width: 100%;
+  /* Full width to avoid any overflow */
+  overflow-x: hidden;
+  /* Ensure no horizontal scrolling */
+}
+
+/* Fix header height to prevent overlap */
+.header-section {
+  flex-shrink: 0; /* Prevent header from shrinking */
+  padding: 20px 0; /* Adjust as needed */
+}
+
+/* Scrollable cards container */
+.cards-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 0;
+  box-sizing: border-box;
+  align-content: flex-start; /* Start cards from the top */
+}

@@ -1,17 +1,24 @@
-<div ng-controller="ConfigurationMainConfigurationCtrl as vm">
+
+<div ng-controller="ConfigurationMainConfigurationCtrl as vm" layout="column" style="height: 100vh;">
   <div layout="column" layout-align="center center" class="layout-wrap text-center">
     <div flex="100" flex-gt-sm="100">
       <center>
         <h2 class="fade-in text-center">Configuration du compte BeeOne</h2>
         <p class="fade-in delay OnboardingQst text-center">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
-      
       </center>
     </div>
   </div>
 
 
-    <div layout="row" layout-align="center center" class="layout-wrap">
-     
+
+
+  <!-- Scrollable Cards Container -->
+  <div 
+    layout="row" 
+    layout-wrap
+    layout-align="start center" 
+    class="cards-container"
+  >
 
       <!--1. Configuration Du compte-->
       <md-card class="step-card">
@@ -253,7 +260,14 @@
         </md-card-actions>
       </md-card>
 
+      
+
     </div>
+
+<br/><br/>
+<br/><br/>
+  
+
     <loading-spinner is-loading="loading"></loading-spinner>
   </div>
   

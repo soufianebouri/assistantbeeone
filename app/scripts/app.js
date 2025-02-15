@@ -112,6 +112,7 @@ angular
     });
     $urlRouterProvider.otherwise("/");
     $locationProvider.hashPrefix("");
+    $locationProvider.html5Mode(false).hashPrefix('!');
     $stateProvider
 
     .state('v_comptes', {

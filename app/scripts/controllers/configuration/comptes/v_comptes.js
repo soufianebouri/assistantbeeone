@@ -533,6 +533,10 @@ angular
             id_sco_temp: vm.id_sco_temp,
           });          
           vm.dtInstance.reloadData();
+          toastr.clear();
+          toastr.success("Société bien ajouter au tableau", {
+            closeButton: true,
+          });
         } else {
           toastr.clear();
           toastr.warning("Raison Sociale is required!", {

@@ -354,12 +354,16 @@ angular
         window.location.href = "mailto:" + email;
       };
 
+      vm.isAI = false;
       vm.ai = function () {
-        toastr.clear();
-        toastr.info("Coming soon", {
-          closeButton: true,
-        });
+      vm.isAI = true;
+        
       };
+
+      vm.go_back_video = function () {
+        vm.isAI = false;
+        };
+      
 
       /** Table */
 
@@ -564,6 +568,88 @@ angular
           '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
         return editbtn + "" + deletebtn;
       }*/
+
+        /**chat */
+         // Initialize messages array
+    $scope.messages = [{
+      timestamp : new Date(),
+      role: 'BeeOne assistant',
+      content: 'Hello 👋! How can I assist you today?',
+      wait:false
+    }];
+
+    $scope.newMessage = '';
+
+    // Format timestamp
+    $scope.formatTime = function(date) {
+      return new Date(date).toLocaleTimeString('fr-FR', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      });
+    };
+
+    // Format date
+    $scope.formatDate = function(date) {
+      return new Date(date).toLocaleDateString('fr-FR', { 
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    };
+
+    function scrollToBottom() {
+      $timeout(function() {
+        var chatMessages = document.querySelector('.chat_loop-container');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    }
+
+    // Send message function
+    $scope.sendMessage = function() {
+      if ($scope.newMessage.trim()) {
+        const now = new Date();
+        // Add user message
+        $scope.messages.push({
+          timestamp: now,
+          role: 'user',
+          content: $scope.newMessage.trim(),
+          wait:false
+        });
+
+        $scope.messages.push({
+          role: 'BeeOne assistant',
+          content: 'thinking....',
+          wait:true
+       });
+
+       const icons = ['🔜', '🕐', '🛠️', '📢', '🎬', '🎉', '👀', '🚧', '⌛', '🏗️'];
+       let lastMessage = $scope.messages[$scope.messages.length - 1];
+       let randomIcon = icons[Math.floor(Math.random() * icons.length)];
+       setTimeout(() => {
+        lastMessage.timestamp= new Date(now.getTime() + 1000), // 1 second later
+        lastMessage.wait = false;
+        lastMessage.content = `Task in progress stay tonned ${randomIcon}`;
+        $scope.$apply(); // Apply changes to update the UI
+        }, 2000);
+
+         
+       
+        
+
+        // Clear input
+        $scope.newMessage = '';
+        scrollToBottom();
+      }
+    };
+    scrollToBottom();
+    // Handle Enter key press
+    $scope.handleKeyPress = function(event) {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        event.preventDefault();
+        $scope.sendMessage();
+      }
+    };
 
       /**** Step 1 *****/
 

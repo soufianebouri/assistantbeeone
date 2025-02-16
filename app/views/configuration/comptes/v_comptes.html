@@ -130,12 +130,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>Raison Sociale</label>
-                  <input type="text" ng-model="vm.raison_sociale" required>
+                  <input type="text" ng-model="vm.formData.Rais_Social" required>
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>Statut Juridique</label>
-                  <input type="text" ng-model="vm.statut_juridique" required>
+                  <input type="text" ng-model="vm.formData.statut_juridique" >
                 </md-input-container>
 
               </div>
@@ -144,12 +144,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>Capital</label>
-                  <input type="number" ng-model="vm.capital" class="number_right">
+                  <input type="number" ng-model="vm.formData.Capital" class="number_right">
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>Ville</label>
-                  <input type="ville" ng-model="vm.ville">
+                  <input type="ville" ng-model="vm.formData.Ville">
                 </md-input-container>
 
               </div>
@@ -160,12 +160,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>Adresse Email</label>
-                  <input type="email" ng-model="vm.email">
+                  <input type="email" ng-model="vm.formData.Email">
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>Fax</label>
-                  <input type="tel" ng-model="vm.fax">
+                  <input type="tel" ng-model="vm.formData.Fax">
                 </md-input-container>
               </div>
 
@@ -173,12 +173,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>Patente</label>
-                  <input type="text" ng-model="vm.patente">
+                  <input type="text" ng-model="vm.formData.Patente">
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>N° CNSS</label>
-                  <input type="text" ng-model="vm.cnss">
+                  <input type="text" ng-model="vm.formData.N_CNSS">
                 </md-input-container>
               </div>
 
@@ -186,12 +186,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>N° AMO</label>
-                  <input type="text" ng-model="vm.amo">
+                  <input type="text" ng-model="vm.formData.N_amo">
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>ID Fiscal</label>
-                  <input type="text" ng-model="vm.fiscal">
+                  <input type="text" ng-model="vm.formData.IDFiscale">
                 </md-input-container>
               </div>
 
@@ -199,12 +199,12 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input">
                   <label>ICE</label>
-                  <input type="text" ng-model="vm.ice">
+                  <input type="text" ng-model="vm.formData.ICE">
                 </md-input-container>
 
                 <md-input-container class="form-input">
                   <label>Pré Fixe Matricule Ouvrier</label>
-                  <input type="text" ng-model="vm.matricule">
+                  <input type="text" ng-model="vm.formData.Prefixe_matricule">
                 </md-input-container>
               </div>
 
@@ -212,7 +212,7 @@
               <div class="form-row tiny-space">
                 <md-input-container class="form-input full-width">
                   <label>Adresse</label>
-                  <textarea ng-model="vm.adresse" rows="3" md-maxlength="100"></textarea>
+                  <textarea ng-model="vm.formData.Adresse" rows="3" md-maxlength="100"></textarea>
                 </md-input-container>
               </div>
 
@@ -220,9 +220,9 @@
                 <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
                   Reset
                 </md-button>
-
-                <md-button class="md-raised md-primary custom-button" ng-click="vm.ajouter()">
-                  Ajouter
+                 
+                <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID || vm.formData.id_sco_temp) ? vm.modifier() : vm.ajouter()">
+                  {{(vm.formData.ID || vm.formData.id_sco_temp) ? 'Modifier': 'Ajouter'}} 
                 </md-button>
               </div>
 
@@ -354,7 +354,7 @@
         <div id="grid4" class="grid">
           <!--Table-->
           <div class="info-header unified_pad">
-            <h2 class="form-title" >Sociétés Ajoutées ({{vm.new}}) / Old ({{vm.old}})</h2>
+            <h2 class="form-title" >Sociétés Ajoutées <span class='badge-new'>{{vm.new}}</span> / Old <span class='badge-old'>{{vm.old_items}}</span></h2>
             <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum</p>

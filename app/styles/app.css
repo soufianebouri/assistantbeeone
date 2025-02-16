@@ -2281,3 +2281,32 @@ table.dataTable td {
   .old-row:hover {
     /*background-color: #ffe0b2 !important;*/
   }
+
+
+  .badge-old {
+    background-color: #f3c98a;
+    color: #ffffff;
+    font-size: 16px;
+    /* font-size: 1.2rem; */
+    /* line-height: 2; */
+    font-weight: bold;
+    padding: 3px 7px;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+    border-radius: 21px;
+}
+
+.badge-new {
+  background-color: #e3edd3;
+  color: #ffffff;
+  font-size: 16px;
+  /* font-size: 1.2rem; */
+  /* line-height: 2; */
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+  border-radius: 21px;
+}

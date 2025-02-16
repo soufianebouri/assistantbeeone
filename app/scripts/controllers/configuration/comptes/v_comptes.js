@@ -380,13 +380,13 @@ angular
       //get data and refresh datatable
       vm.data_societe = []; 
       vm.new = 0;
-      vm.old = 0;
+      vm.old_items = 0;
 
       $q.all([
         societe.get_all()
       ]).then((values) => {
         vm.data_societe = values[0].data;
-        vm.old = vm.data_societe.length;
+        vm.old_items = vm.data_societe.length;
         vm.dtInstance.reloadData();
       });
 
@@ -421,24 +421,43 @@ angular
           },
         ]);
 
+        
 
         function actionsHtml(data, type, full, meta) {
-          vm.societes[data.id_sco_temp] = data;
-          var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
-          data.id_sco_temp +
-          '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
-        
-        var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
-          data.id_sco_temp +
-          '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
-        
+          let actionEnt = null
+          if(data.old){
+            vm.societes[data.ID] = data;
+            var editbtn =
+            '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
+            data.ID +
+            '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
+          
+          var deletebtn =
+            '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
+            data.ID +
+            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
+          
+          }else{
+            vm.societes[data.id_sco_temp] = data;
+            var editbtn =
+            '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
+            data.id_sco_temp +
+            '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
+          
+          var deletebtn =
+            '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
+            data.id_sco_temp +
+            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
+          
+          }
+          
+          
+         
         return editbtn + deletebtn;
         }
-
+       
         vm.edit = function (data) {
-          console.log(data);          
+          vm.formData = data;       
         }
 
         vm.delete = function (data) {
@@ -526,25 +545,32 @@ angular
       );
 
      vm.reset = function () {
-               vm.raison_sociale = null
-               vm.statut_juridique = null
-               vm.capital = null
-               vm.ville = null
-               vm.adresse = null
-               vm.email = null
-               vm.fax = null
-               vm.patente = null
-               vm.cnss = null
-               vm.amo = null
-               vm.fiscal = null
-               vm.ice = null
-               vm.matricule = null
+        vm.formData = {
+          Rais_Social : null,
+          Statut_juridique : null,
+          Capital : null,
+          Ville : null,
+          Adresse : null,
+          Email : null,
+          Fax : null,
+          Patente : null,
+          N_CNSS : null,
+          N_amo : null,
+          IDFiscale : null,
+          ICE : null,
+          Prefixe_matricule : null,
+          ID : null,
+          old : null
+        }              
      }
+     vm.reset()
+
+
       
 
       $scope.check_all_data_input = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
-          return societe.Rais_Social === vm.raison_sociale;
+          return societe.Rais_Social === vm.Rais_Social;
       });
       
       if (isDuplicate) {
@@ -561,33 +587,69 @@ angular
 
       vm.id_sco_temp = 0;
       vm.ajouter = async function  () {
-        if (vm.raison_sociale) {
+        if (vm.formData.Rais_Social) {
           if(await $scope.check_all_data_input()){
             vm.id_sco_temp += 1;
             vm.data_societe.push({
-              Rais_Social: vm.raison_sociale,
-              Statut_juridique: vm.statut_juridique,
-              Capital: vm.capital,
-              Ville: vm.ville,
-              Adresse: vm.adresse,
-              Email: vm.email,
-              Fax: vm.fax,
-              Patente: vm.patente,
-              N_CNSS: vm.cnss,
-              N_amo: vm.amo,
-              IDFiscale: vm.fiscal,
-              ICE: vm.ice,
-              Prefixe_matricule: vm.matricule,
-              ID_Profil : vm.IDUser,
+              ID : null,
+              Rais_Social: vm.formData.Rais_Social,
+              Statut_juridique: vm.formData.statut_juridique,
+              Capital: vm.formData.Capital,
+              Ville: vm.formData.Ville,
+              Adresse: vm.formData.Adresse,
+              Email: vm.formData.Email,
+              Fax: vm.formData.Fax,
+              Patente: vm.formData.Patente,
+              N_CNSS: vm.formData.N_CNSS,
+              N_amo: vm.formData.N_amo,
+              IDFiscale: vm.formData.IDFiscale,
+              ICE: vm.formData.ICE,
+              Prefixe_matricule: vm.formData.Prefixe_matricule,
+              ID_Profil : vm.formData.IDUser,
               DateCreated : moment().format("YYYYMMDD"),
               old : 0,
-              id_sco_temp: vm.id_sco_temp,
+              id_sco_temp: vm.formData.id_sco_temp,
             });      
             vm.new++;    
             vm.dtInstance.reloadData();
             vm.reset();
             toastr.clear();
             toastr.success("Société bien ajoutée au tableau.", {
+              closeButton: true,
+            });
+          }
+         
+        } else {
+          toastr.clear();
+          toastr.warning("Raison Sociale is required!", {
+            closeButton: true,
+          });
+        }
+      };
+
+      vm.modifer = async function  () {
+        if (vm.formData.Rais_Social) {
+          if(await $scope.check_all_data_input()){
+            vm.data_societe.push({
+              Rais_Social: vm.formData.Rais_Social,
+              Statut_juridique: vm.formData.Statut_juridique,
+              Capital: vm.formData.Capital,
+              Ville: vm.formData.Ville,
+              Adresse: vm.Adresse,
+              Email: vm.formData.Email,
+              Fax: vm.formData.Fax,
+              Patente: vm.formData.Patente,
+              N_CNSS: vm.formData.N_CNSS,
+              N_amo: vm.formData.N_amo,
+              IDFiscale: vm.formData.IDFiscale,
+              ICE: vm.formData.ICE,
+              Prefixe_matricule: vm.formData.Prefixe_matricule,
+              edited: true
+            });   
+            vm.dtInstance.reloadData();
+            vm.reset();
+            toastr.clear();
+            toastr.success("Société bien modifiée.", {
               closeButton: true,
             });
           }

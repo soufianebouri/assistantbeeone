@@ -22,7 +22,7 @@ angular.module('beeOneWebFrontApp')
       NProgress.start();
       toastr.clear();
 
-      if(!vm.loginormail || !vm.password){
+      if(!vm.loginormail || !vm.password ){
         toastr.clear();
         toastr.warning("Login and password required", {
             closeButton: true,
@@ -33,21 +33,33 @@ angular.module('beeOneWebFrontApp')
       }
       if(vm.loginormail == 'admin', vm.password == 'admin'){
 
-        $scope.loading = true;
+        if(vm.acceskey === '123456'){
+          $scope.loading = true;
        
-        auth.SetCredentials(vm.usernamelogin, vm.mdp, "admin", "admin", 1, 1, [], [], 'br ddddfifjif5', 1, 1);  
+          auth.SetCredentials(vm.usernamelogin, vm.mdp, "admin", "admin", 1, 1, [], [], 'br ddddfifjif5', 1, 1);  
+          NProgress.done();
+  
+          
+          $timeout(function () {
+            $scope.loading = false;  
+            $state.go('onboarding');
+          }, 3000);
+  
+          return; 
+        }else{
+          toastr.clear();
+        toastr.warning("Wrong Acces key!", {
+            closeButton: true,
+          }
+        );
         NProgress.done();
+        return;
+        }
 
-        
-        $timeout(function () {
-          $scope.loading = false;  
-          $state.go('onboarding');
-        }, 3000);
-
-        return;        
+               
       }else{
         toastr.clear();
-        toastr.warning("Wrong login or password", {
+        toastr.warning("Wrong login or password!", {
             closeButton: true,
           }
         );

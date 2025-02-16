@@ -74,6 +74,7 @@
 
   <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
+   
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -683,7 +684,9 @@
   <script src="scripts/controllers/configuration/comptes/v_comptes.js"></script>
   <!-- endbuild -->
 
-
+  <script type="text/javascript">
+    $('input').attr('autocomplete', 'off');
+   </script>
   <script type="text/javascript">
     /*var Tawk_API = Tawk_API || {},
       Tawk_LoadStart = new Date();

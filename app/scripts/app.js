@@ -57,10 +57,20 @@ angular
     $provide,
     $mdAriaProvider,
     $cookiesProvider,
-    $sceProvider
+    $sceProvider,
+    toastrConfig
   ) {
 
-
+    angular.extend(toastrConfig, {
+      allowHtml: true,
+      closeButton: true,
+      newestOnTop: true,
+      progressBar: true,
+      positionClass: 'toast-bottom-left', // Change position here
+      preventDuplicates: false,
+      timeOut: 5000
+    });
+    
     $cookiesProvider.defaults = {
       samesite: 'None',
       secure: true
@@ -112,7 +122,7 @@ angular
     });
     $urlRouterProvider.otherwise("/");
     $locationProvider.hashPrefix("");
-    $locationProvider.html5Mode(false).hashPrefix('!');
+    $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
 
     .state('v_comptes', {

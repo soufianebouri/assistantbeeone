@@ -1539,11 +1539,11 @@ a.dt-button {
 
 /* Progress Label */
 .progress {
-  background: #e0f2e9;
-  color: #388e3c;
+  background: #E9F7D5;
+  color: #3A5511;
   font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 12px;
+  padding: 7px 20px 7px 20px;
+  border-radius: 40px;
 }
 
 /* Icon */
@@ -1729,6 +1729,7 @@ md-card-content {
   /*height: 100vh;*/
   width: 60%;
   padding: 150px;
+  padding-left: 212px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1815,6 +1816,10 @@ md-card-content {
   margin: 0;
 }
 
+.tinymargin {
+  margin: 2;
+}
+
 
 .strong_p {
   position: relative; /* Add positioning context */
@@ -1827,4 +1832,210 @@ md-card-content {
 }
 
 
+/*toast style*/
 
+.toast-success {
+  background-color: #28a745 !important; /* Green */
+  color: white !important;
+}
+
+.toast-error {
+  background-color: #dc3545 !important; /* Red */
+  color: white !important;
+}
+
+.toast-warning {
+  background-color: #ffc107 !important; /* Yellow */
+  color: black !important;
+}
+
+.toast-info {
+  background-color: #17a2b8 !important; /* Blue */
+  color: white !important;
+}
+
+/* Custom Styling */
+.toast {
+  font-family: "Poppins", sans-serif !important;
+  font-size: 14px;
+  border-radius: 10px;
+  color: #ffffff !important;
+ 
+}
+
+/*container_onbord**/
+
+
+/* Ensure the container takes full height */
+.container_onbord {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  /* Full viewport height */
+  overflow: hidden;
+  /* Prevent scrolling on the entire container */
+}
+
+/* Left panel: Scrollable */
+.left-panel_onbord {
+  background-image: url('../images/onboarding/right_steps_onboarding.svg');
+  background-size: cover;
+  /* Makes the background image cover the entire panel */
+  background-position: center center;
+  /* Centers the image */
+  background-repeat: no-repeat;
+  /* Prevents image from repeating */
+  flex: 1;
+  overflow-y: auto;
+  /* Enables scrolling */
+  padding: 20px;
+  background-color: #f5f5f5;
+  /* Adjust as needed */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Footer: Fixed at the bottom of the left panel */
+.footer_onbord {
+  display: flex;
+  justify-content: flex-end;
+  /* Push button to the right */
+  align-items: center;
+  /* Aligns items vertically */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: calc(52.4% - 20px);
+  padding: 10px;
+}
+
+.footer_onbord_left {
+  justify-content: flex-end;
+  /* Push button to the right */
+  align-items: center;
+  /* Aligns items vertically */
+  position: fixed;
+  bottom: 0;
+  /*right: 0;*/
+  width: -calc(52.4% - 20px);
+  padding: 10px;
+  color: #ffffff;
+}
+
+/* Right panel: Fixed (Non-scrollable) */
+.right-panel_onbord {
+  flex: 1;
+  display: flex;
+  /*flex-direction: column;*/
+  justify-content: center;
+  padding: 64px;
+  background-color: white;
+  /* Adjust as needed */
+  height: 100vh;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container_onbord {
+      flex-direction: column;
+  }
+
+  .left-panel_onbord {
+      flex: none;
+      height: auto;
+      overflow-y: visible;
+  }
+
+  .footer_onbord {
+      width: 100%;
+      /* Full width for mobile */
+      position: relative;
+  }
+}
+
+.OnboardingQst {
+  font-size: 14px;
+}
+
+.Onboarding_steps {
+  font-size: 14px;
+  color: #6da243;
+}
+
+.btn_onboarding {
+  background-color: #0b522b;
+  color: #f5f5f5;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-left: auto;
+  align-items: right;
+  cursor: pointer;  
+  height: 45px;
+}
+
+.btn_onboarding:hover {
+  background-color: #1a5b37;
+  transform: scale(1.02);
+}
+
+.btn_onboarding:disabled {
+  background-color: #ccc;
+  /* Greyed out */
+  cursor: not-allowed;
+  /* Block cursor */
+  opacity: 0.6;
+}
+
+.smooth-separator {
+  border: none;
+  height: 2px;
+  /* background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0)); */
+  /* margin: 20px auto; */
+  width: 80%;
+  opacity: 0.7;
+}
+
+input[type="search"] {
+  border: 0px;
+}
+
+input[type="search"]:focus {
+  border: 0px;
+}
+
+.md-select-header input:focus {
+  border: none !important;
+}
+
+/* Optional: Adjust border style if needed */
+.md-select-header input {
+  border-bottom: 1px solid transparent !important;
+}
+
+md-radio-button.md-default-theme.md-checked .md-off, md-radio-button.md-checked .md-off {
+  border-color: rgb(129 187 38) !important;
+}
+
+md-radio-button.md-default-theme .md-on, md-radio-button .md-on {
+  background-color: rgb(129 187 38) !important;
+}
+
+.onbord_p {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 30px;
+  color:#FFFFFF;
+}
+
+/*main*/
+
+md-card md-card-content > p:first-child {
+  margin-top: 13px;
+}
+
+.title{
+  margin: 10px !important;
+}

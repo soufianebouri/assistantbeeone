@@ -5,9 +5,9 @@
         <div class="right-panel_onbord">
             <!--step 1-->
             <div ng-if="vm.step_1">
-                <p class="fade-in delay Onboarding_steps">Étape 1 Sur 6</p>
-                <h2 class="fade-in">BeeOne Onboarding</h2>
-                <p class="fade-in delay OnboardingQst">Dans quelle langue souhaitez-vous exécuter beeOne ?</p>
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 1 Sur 6</p>
+                <h2 class="fade-in nomarging">BeeOne Onboarding</h2>
+                <p class="fade-in delay OnboardingQst nomarging">Dans quelle langue souhaitez-vous exécuter beeOne ?</p>
                 <br />
                 <form>
                   <div flex="100" flex-gt-sm="33" layout="column">
@@ -32,25 +32,25 @@
 
             <!--step 2-->
             <div ng-if="vm.step_2">
-                <p class="fade-in delay Onboarding_steps">Étape 2 Sur 6</p>
-                <h2 class="fade-in">BeeOne Onboarding</h2>
-                <p class="fade-in delay OnboardingQst">Dans quel pays opérez-vous actuellement ?</p>
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 2 Sur 6</p>
+                <h2 class="fade-in nomarging">BeeOne Onboarding</h2>
+                <p class="fade-in delay OnboardingQst nomarging">Dans quel pays opérez-vous actuellement ?</p>
                 <br />
                 <form>
                     <div flex="100" flex-gt-sm="33" layout="column">
 
 
-                        <md-input-container class="md-block" flex-gt-xs style="width: 300px;">
-                            <label>{{'Country' | translate}}</label>
-                            <md-select ng-model="vm.country" style="width:90%;"  data-md-container-class="selectSelectHeader">
-                              <md-select-header class="select-header">
-                                <input ng-model="vm.searchText" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="header-searchbox md-text">
-                              </md-select-header>
-                              <md-option ng-value="country_sel.name" ng-repeat="country_sel in vm.countries | filter: vm.searchText">
-                                <i class="flag-icon flag-icon-{{country_sel.code}}"></i>&nbsp; {{ country_sel.name }}
-                            </md-option>
-                            </md-select>
-                          </md-input-container>
+                      <md-input-container class="md-block" flex-gt-xs style="width: 300px;">
+                        <label>{{'Country' | translate}}</label>
+                        <md-select ng-model="vm.country" style="width:90%;"  data-md-container-class="selectSelectHeader">
+                          <md-select-header class="select-header">
+                            <input ng-model="vm.searchText" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="header-searchbox md-text" style="border: 0px;" />
+                          </md-select-header>
+                          <md-option ng-value="country_sel.name" ng-repeat="country_sel in vm.countries | filter: vm.searchText">
+                            <i class="flag-icon flag-icon-{{country_sel.code}}"></i>&nbsp; {{ country_sel.name }}
+                          </md-option>
+                        </md-select>
+                      </md-input-container>
 
                     </div>
 
@@ -59,15 +59,16 @@
 
             <!--step 3-->
             <div ng-if="vm.step_3">
-                <p class="fade-in delay Onboarding_steps">Étape 3 Sur 6</p>
-                <h2 class="fade-in">BeeOne Onboarding</h2>
-                <p class="fade-in delay OnboardingQst">Qui est en charge du processus d'intégration ?</p>
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 3 Sur 6</p>
+                <h2 class="fade-in nomarging">BeeOne Onboarding</h2>
+                <p class="fade-in delay OnboardingQst nomarging">Qui est en charge du processus d'intégration ?</p>
                 <br />
                 <form>
-                    <div layout="row"  style="    gap: 15px;" flex>
+                    <div layout="row"  style="    gap: 27px;" flex>
                         <div flex="100" flex-gt-sm="5" layout="column">
                             <md-input-container class="md-block" flex>
-                            <i class="fa fa-user"></i></md-input-container>
+                              <img src="../images/onbording/user.svg" alt="user"  />
+                          </md-input-container>
                           </div>    
                         <div flex="100" flex-gt-sm="25" layout="column">
                           <md-input-container class="md-block" flex>
@@ -77,7 +78,8 @@
                         </div>
                         <div flex="100" flex-gt-sm="5" layout="column">
                             <md-input-container class="md-block" flex>
-                            <i class="fa fa-user"></i></md-input-container>
+                              <img src="../images/onbording/user.svg" alt="user"  />
+                          </md-input-container>
                           </div>
                         <div flex="100" flex-gt-sm="25" layout="column">
                           <md-input-container class="md-block" flex>
@@ -93,9 +95,9 @@
             
              <!--step 4-->
              <div ng-if="vm.step_4">
-                <p class="fade-in delay Onboarding_steps">Étape 4 Sur 6</p>
-                <h2 class="fade-in">BeeOne Onboarding</h2>
-                <p class="fade-in delay OnboardingQst">Quel poste occupez-vous actuellement ?</p>
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 4 Sur 6</p>
+                <h2 class="fade-in nomarging">BeeOne Onboarding</h2>
+                <p class="fade-in delay OnboardingQst nomarging">Quel poste occupez-vous actuellement ?</p>
                 <br />
                 <form>
                     <div layout="column" layout-align="start start">
@@ -141,9 +143,9 @@
 
             <!--step 5-->
             <div ng-if="vm.step_5">
-                <p class="fade-in delay Onboarding_steps">Étape 5 Sur 6</p>
-                <h2 class="fade-in">BeeOne Onboarding</h2>
-                <p class="fade-in delay OnboardingQst">Avez-vous déjà utilisé beeOne ?</p>
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 5 Sur 6</p>
+                <h2 class="fade-in nomarging">BeeOne Onboarding</h2>
+                <p class="fade-in delay OnboardingQst nomarging">Avez-vous déjà utilisé beeOne ?</p>
                 <br />
                 <form>
                     <div layout="column" layout-align="start start">
@@ -170,16 +172,15 @@
             <div ng-if="vm.step_6">
                 
 
-                <p class="fade-in delay Onboarding_steps">Étape 6 Sur 6</p>
-                <h2 class="fade-in">Bienvenue à bord 👋</h2>
-                <p class="fade-in delay OnboardingQst">Ce n'est que le début de votre aventure avec BeeOne eRP. Nous sommes impatients de voir ce que vous accomplirez !
+                <p class="fade-in delay Onboarding_steps nomarging">Étape 6 Sur 6</p>
+                <h2 class="fade-in nomarging">Bienvenue à bord 👋</h2>
+                <p class="fade-in delay OnboardingQst ">Ce n'est que le début de votre aventure avec BeeOne eRP. Nous sommes impatients de voir ce que vous accomplirez !
                     <br />
                 
             </div>
 
             <!-- Left-side Footer -->
-            <div class="footer_onbord">
-                <hr class="smooth-separator" />
+            <div class="footer_onbord">               
                 <button class="btn_onboarding  right_notes" ng-click="vm.steps(1)" ng-disabled="!vm.langue" ng-show="vm.step_1">Continuer</button>
                 <button class="btn_onboarding  right_notes" ng-click="vm.steps(2)" ng-disabled="!vm.country" ng-show="vm.step_2">Continuer</button>
                 <button class="btn_onboarding  right_notes" ng-click="vm.steps(3)" ng-disabled="!vm.nom && !vm.prenom" ng-show="vm.step_3">Continuer</button>
@@ -192,9 +193,9 @@
 
 
         <div class="left-panel_onbord">
-            <div class="logo footer_onbord_left">
-                <h2 class="fade-in ">ERP De Gestion Agricole</h2>
-                <p style="font-size: 12px;">Gérez facilement votre exploitation avec BeeOne Notre logiciel 360 </p>
+            <div class="fade-in logo footer_onbord_left">
+                <h2 class="nomarging" >ERP De Gestion Agricole</h2>
+                <p class="nomarging onbord_p" >Gérez facilement votre exploitation avec BeeOne Notre logiciel 360 </p>
             </div>
         </div>
     </div>

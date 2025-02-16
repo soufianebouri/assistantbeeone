@@ -19,23 +19,8 @@ angular.module('beeOneWebFrontApp')
         NProgress.start();
         return $http.post(_url + "/authentification/getlatest_releasebyid", data);
       },
-      Login: function(username, password, baseUrl, callback) {
-        $http({
-          method: 'POST',
-          url: baseUrl + "/authentification/",
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Transfer-Encoding': 'utf-8'
-          },
-          data: {
-            username: username,
-            password: password
-          }
-        }).then(function(response) {
-          callback(response);
-        }, function(ex) {
-          callback(ex);
-        })
+      Login: function(data) {
+        return $http.post(_url + "/auth", data);
       },
       saveFarm: function(IDFerme, NomFerme, IDSociete) {
         var ObjectUser = $cookies.getObject('globals');
@@ -51,7 +36,7 @@ angular.module('beeOneWebFrontApp')
       },
       SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, token, latest_release, role) {
         //  var authdata = $base64.encode(username + ':' + password);
-        var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
+        //var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
         $rootScope.globals = {
           currentUser: {
             username: username,
@@ -59,7 +44,7 @@ angular.module('beeOneWebFrontApp')
             Prenom: Prenom,
             isAdmin: isAdmin,
             role: role,
-            authdata: authdata,
+            authdata: token,
             ID: id,
             token: token
           },

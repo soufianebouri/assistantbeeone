@@ -10,8 +10,8 @@
 angular.module('beeOneWebFrontApp')
   .factory('societe', function($http, _url) {
     return {
-      getSociete: function() {
-        return $http.get(_url + "/societe_cooperatif");
+      get_all: function() {
+        return $http.post(_url + "/societe/get_all");
       }
     };
   });

@@ -2196,7 +2196,7 @@ textarea:focus {
   border-color: #81bb26;
 }
 
-button {
+.btn_send {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -2240,4 +2240,34 @@ button:disabled {
   font-size: 11px;
   font-family: "Poppins", sans-serif !important;
   scroll-behavior: smooth;
+}
+
+
+
+table.dataTable {
+  width: 100% !important;
+  table-layout: fixed;
+}
+
+table.dataTable td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+
+.dataTables_scrollHeadInner table {
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  #grid4 .info-header {
+    overflow-x: scroll;
+  }
+  
+  .table-responsive-sm {
+    min-width: 900px;
+  }
 }

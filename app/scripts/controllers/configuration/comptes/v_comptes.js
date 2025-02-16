@@ -25,10 +25,15 @@ angular
       DTOptionsBuilder,
       $compile,
       DTColumnBuilder,
-      DTDefaultOptions
+      DTDefaultOptions,
+      societe,$cookies
     ) {
       var vm = this;
       vm._version = _version;
+
+      vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
+      vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+
       $translatePartialLoader.addPart("conduitetechnique");
       $translate.use($window.localStorage.getItem("lang").toLowerCase());
       $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
@@ -373,25 +378,30 @@ angular
       vm.societes = {};
 
       //get data and refresh datatable
-      vm.data_societe = [];
+      vm.data_societe = []; 
+      vm.new = 0;
+      vm.old = 0;
 
-      vm.obj = {
-        DOMAINE: 1,
-        DATE_DEBUT: 0,
-        DATE_FIN: moment().format("YYYYMMDD"),
-      };
+      $q.all([
+        societe.get_all()
+      ]).then((values) => {
+        vm.data_societe = values[0].data;
+        vm.old = vm.data_societe.length;
+        vm.dtInstance.reloadData();
+      });
+
       vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
-        var defer = $q.defer();
-        /*$scope.updateDataMeteo(vm.obj).then(function(res) {
-         defer.resolve(res.data);
-         NProgress.done();
-       });*/
+        //var defer = $q.defer();
         return $q.resolve(vm.data_societe);
       })
         .withOption("createdRow", createdRow)
         .withDOM("<lf<t>ip>")
         .withPaginationType("simple_numbers")
         .withOption("responsive", true)
+      /*  .withOption('scrollX', false) // Add this line
+         .withOption('autoWidth', false)
+        .withDisplayLength(5)
+        .withScroller(false)*/
         .withButtons([
           {
             extend: "copy",
@@ -485,30 +495,29 @@ angular
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
           )
           .renderWith(checkboxHtml).notSortable(), 
-        DTColumnBuilder.newColumn("raison_sociale")
+        DTColumnBuilder.newColumn("Rais_Social")
           .withTitle("Raison Sociale")
           .withClass("no-break"),
-        DTColumnBuilder.newColumn("statut_juridique").withTitle(
+        DTColumnBuilder.newColumn("Statut_juridique").withTitle(
           "Statut juridique"
         ),
-        DTColumnBuilder.newColumn("capital").withTitle("Capital"),
-        DTColumnBuilder.newColumn("ville").withTitle("Ville"),
-        DTColumnBuilder.newColumn("email").withTitle("Email"),
-        DTColumnBuilder.newColumn("fax").withTitle("fax"),
-        DTColumnBuilder.newColumn("patente").withTitle("Patente"),
-        DTColumnBuilder.newColumn("cnss").withTitle("N° CNSS"),
-        DTColumnBuilder.newColumn("amo").withTitle("N° AMO"),
-        DTColumnBuilder.newColumn("fiscal").withTitle("ID Fiscal"),
-        DTColumnBuilder.newColumn("ice").withTitle("ICE"),
-        DTColumnBuilder.newColumn("matricule").withTitle(
+        DTColumnBuilder.newColumn("Capital").withTitle("Capital"),
+        DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
+        DTColumnBuilder.newColumn("Email").withTitle("Email"),
+        DTColumnBuilder.newColumn("Fax").withTitle("fax"),
+        DTColumnBuilder.newColumn("Patente").withTitle("Patente"),
+        DTColumnBuilder.newColumn("N_CNSS").withTitle("N° CNSS"),
+        DTColumnBuilder.newColumn("N_amo").withTitle("N° AMO"),
+        DTColumnBuilder.newColumn("IDFiscale").withTitle("ID Fiscal"),
+        DTColumnBuilder.newColumn("ICE").withTitle("ICE"),
+        DTColumnBuilder.newColumn("Prefixe_matricule").withTitle(
           "Pré Fixe Matricule Ouvrier"
         ),
-        DTColumnBuilder.newColumn("adresse").withTitle("Adresse"),
+        DTColumnBuilder.newColumn("Adresse").withTitle("Adresse"),
         DTColumnBuilder.newColumn(null)
           .withTitle("Actions")
-          .withOption("width", "10%")
           .renderWith(actionsHtml)
-          .withClass("nowraptd all no-break").notSortable(),
+          .withClass("nowraptd all").notSortable(),
       ];
 
 
@@ -521,19 +530,22 @@ angular
         if (vm.raison_sociale) {
           vm.id_sco_temp += 1;
           vm.data_societe.push({
-            raison_sociale: vm.raison_sociale,
-            statut_juridique: vm.statut_juridique,
-            capital: vm.capital,
-            ville: vm.ville,
-            adresse: vm.adresse,
-            email: vm.email,
+            Rais_Social: vm.raison_sociale,
+            Statut_juridique: vm.statut_juridique,
+            Capital: vm.capital,
+            Ville: vm.ville,
+            Adresse: vm.adresse,
+            Email: vm.email,
             Fax: vm.fax,
-            patente: vm.patente,
-            cnss: vm.cnss,
-            amo: vm.amo,
-            fiscal: vm.fiscal,
-            ice: vm.ice,
-            matricule: vm.matricule,
+            Patente: vm.patente,
+            N_CNSS: vm.cnss,
+            N_amo: vm.amo,
+            IDFiscale: vm.fiscal,
+            ICE: vm.ice,
+            Prefixe_matricule: vm.matricule,
+            ID_Profil : vm.IDUser,
+            DateCreated : moment().format("YYYYMMDD"),
+            old : 0,
             id_sco_temp: vm.id_sco_temp,
           });          
           vm.dtInstance.reloadData();

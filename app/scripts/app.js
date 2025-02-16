@@ -12,7 +12,7 @@
 var version = '1.56.1'; /*global-version.new-views.improvements*/
 
 //enDev DEMO
-var url = "http://agridata2.hopto.org:9010/agridata-lga-backend/api";
+var url = "http://127.0.0.1:4000/erpassistant/api";
 var appFor = "demo";
 
 
@@ -61,6 +61,15 @@ angular
     toastrConfig,
     $translateSanitizationProvider,
   ) {
+
+    /*$provide.decorator('$exceptionHandler', ['$delegate', function($delegate) {
+      return function(exception, cause) {
+        if (!exception.message.includes('Bad Request')) { // Filter out specific errors
+          $delegate(exception, cause);
+        }
+      };
+    }]);*/
+
     $translateSanitizationProvider.useStrategy('sanitizeParameters');
     angular.extend(toastrConfig, {
       allowHtml: true,
@@ -176,7 +185,9 @@ angular
       $rootScope.globals = $cookies.getObject("globals") || {};
       if ($rootScope.globals.currentUser) {
         $http.defaults.headers.common["Authorization"] =
-          "Basic " + $rootScope.globals.currentUser.authdata;
+          $rootScope.globals.currentUser.token;
+          console.log(" $rootScope.globals.currentUser.token",  $rootScope.globals.currentUser.token);
+          
         $location.path("/");
       }
       //for data-rocks warning issues when changing routes before component loaded

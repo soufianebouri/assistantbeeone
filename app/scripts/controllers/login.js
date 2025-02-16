@@ -19,6 +19,7 @@ angular.module('beeOneWebFrontApp')
     $scope.loading = false;   
     vm.auth = async function (){ 
      
+      NProgress.start();
       toastr.clear();
 
       if(!vm.loginormail || !vm.password ){
@@ -26,44 +27,72 @@ angular.module('beeOneWebFrontApp')
         toastr.warning("Login and password required", {
             closeButton: true,
           }
-        );
+        );   
+        NProgress.done();
+        NProgress.remove();
        
         return;
       }
-      if(vm.loginormail == 'admin', vm.password == 'admin'){
 
-        if(vm.acceskey === '123456'){
-          $scope.loading = true;
+        if(vm.acceskey === 'nb74dih8'){
+          
+          auth.Login({
+            loginOrMail :vm.loginormail,
+            password : vm.password
+          }).then(async e  =>  {
+            NProgress.done();
+            NProgress.remove();
+            $scope.loading = true; 
+
+                  
+            let authToken = e.headers('Authorization');
+           
+            
+           await auth.SetCredentials(vm.loginOrMail, vm.password, e.data.nom, e.data.prenom, e.data.Superviseur, e.data.id, [], [], authToken, 1, 1); 
+           $state.go('onboarding');
+            $scope.loading = false; 
+        
+         
+
+          }).catch(err => {
+              console.log(err);
+              toastr.clear();
+              toastr.warning(err.data.message, {
+                closeButton: true,
+              });
+              NProgress.done();
+              NProgress.remove();
+            });
+
+
+          
        
-          auth.SetCredentials(vm.usernamelogin, vm.mdp, "admin", "admin", 1, 1, [], [], 'br ddddfifjif5', 1, 1);  
+          
         
   
           
-          $timeout(function () {             
-            $state.go('onboarding');
-            $scope.loading = false; 
-          }, 3000);
   
           return; 
         }else{
           toastr.clear();
-        toastr.warning("Wrong Acces key!", {
+          toastr.warning("Wrong Acces key!", {
             closeButton: true,
           }
         );
-        
+        NProgress.done();
+        NProgress.remove();
         return;
         }
 
                
-      }else{
+   /*   }else{
         toastr.clear();
         toastr.warning("Wrong login or password!", {
             closeButton: true,
           }
         );
         return;
-      }
+      }*/
 
       
 

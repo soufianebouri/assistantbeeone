@@ -30,10 +30,17 @@ angular.module('beeOneWebFrontApp')
       $window.location.reload();
     }
 
+    $scope.loading = false;   
+
 
     //disconnect
     $scope.logout = function() {
-      auth.ClearCredentials();
+      $scope.loading = true;
+      $timeout(function () {             
+        auth.ClearCredentials();
+        $scope.loading = false; 
+      }, 3000);
+      
     }
 
 

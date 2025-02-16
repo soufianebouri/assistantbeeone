@@ -19,7 +19,6 @@ angular.module('beeOneWebFrontApp')
     $scope.loading = false;   
     vm.auth = async function (){ 
      
-      NProgress.start();
       toastr.clear();
 
       if(!vm.loginormail || !vm.password ){
@@ -28,7 +27,7 @@ angular.module('beeOneWebFrontApp')
             closeButton: true,
           }
         );
-        NProgress.done();
+       
         return;
       }
       if(vm.loginormail == 'admin', vm.password == 'admin'){
@@ -37,12 +36,12 @@ angular.module('beeOneWebFrontApp')
           $scope.loading = true;
        
           auth.SetCredentials(vm.usernamelogin, vm.mdp, "admin", "admin", 1, 1, [], [], 'br ddddfifjif5', 1, 1);  
-          NProgress.done();
+        
   
           
-          $timeout(function () {
-            $scope.loading = false;  
+          $timeout(function () {             
             $state.go('onboarding');
+            $scope.loading = false; 
           }, 3000);
   
           return; 
@@ -52,7 +51,7 @@ angular.module('beeOneWebFrontApp')
             closeButton: true,
           }
         );
-        NProgress.done();
+        
         return;
         }
 
@@ -63,7 +62,6 @@ angular.module('beeOneWebFrontApp')
             closeButton: true,
           }
         );
-        NProgress.done();
         return;
       }
 

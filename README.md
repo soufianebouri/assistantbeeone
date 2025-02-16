@@ -1,2 +1,2 @@
-# bee_one_web_front
+# bee_one_erp_assistant
 

@@ -13,7 +13,7 @@ angular.module('beeOneWebFrontApp')
       restrict: 'E',
       scope: false,
       link: function postLink(scope, element, attrs) {
-        console.log("header directive linking.");
+        ///console.log("header directive linking.");
       }
     };
   });

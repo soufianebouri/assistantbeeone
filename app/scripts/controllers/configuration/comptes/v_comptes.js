@@ -525,34 +525,73 @@ angular
         '<center><img src="././images/loading.gif"/></center>'
       );
 
+     vm.reset = function () {
+               vm.raison_sociale = null
+               vm.statut_juridique = null
+               vm.capital = null
+               vm.ville = null
+               vm.adresse = null
+               vm.email = null
+               vm.fax = null
+               vm.patente = null
+               vm.cnss = null
+               vm.amo = null
+               vm.fiscal = null
+               vm.ice = null
+               vm.matricule = null
+     }
+      
+
+      $scope.check_all_data_input = async function(){
+        var isDuplicate = vm.data_societe.some(function(societe) {
+          return societe.Rais_Social === vm.raison_sociale;
+      });
+      
+      if (isDuplicate) {
+        
+        toastr.clear();
+        toastr.warning("Raison Sociale already esist!", {
+          closeButton: true,
+        });
+          return false
+      } else {
+          return true;
+      }      
+      }
+
       vm.id_sco_temp = 0;
-      vm.ajouter = function () {
+      vm.ajouter = async function  () {
         if (vm.raison_sociale) {
-          vm.id_sco_temp += 1;
-          vm.data_societe.push({
-            Rais_Social: vm.raison_sociale,
-            Statut_juridique: vm.statut_juridique,
-            Capital: vm.capital,
-            Ville: vm.ville,
-            Adresse: vm.adresse,
-            Email: vm.email,
-            Fax: vm.fax,
-            Patente: vm.patente,
-            N_CNSS: vm.cnss,
-            N_amo: vm.amo,
-            IDFiscale: vm.fiscal,
-            ICE: vm.ice,
-            Prefixe_matricule: vm.matricule,
-            ID_Profil : vm.IDUser,
-            DateCreated : moment().format("YYYYMMDD"),
-            old : 0,
-            id_sco_temp: vm.id_sco_temp,
-          });          
-          vm.dtInstance.reloadData();
-          toastr.clear();
-          toastr.success("Société bien ajouter au tableau", {
-            closeButton: true,
-          });
+          if(await $scope.check_all_data_input()){
+            vm.id_sco_temp += 1;
+            vm.data_societe.push({
+              Rais_Social: vm.raison_sociale,
+              Statut_juridique: vm.statut_juridique,
+              Capital: vm.capital,
+              Ville: vm.ville,
+              Adresse: vm.adresse,
+              Email: vm.email,
+              Fax: vm.fax,
+              Patente: vm.patente,
+              N_CNSS: vm.cnss,
+              N_amo: vm.amo,
+              IDFiscale: vm.fiscal,
+              ICE: vm.ice,
+              Prefixe_matricule: vm.matricule,
+              ID_Profil : vm.IDUser,
+              DateCreated : moment().format("YYYYMMDD"),
+              old : 0,
+              id_sco_temp: vm.id_sco_temp,
+            });      
+            vm.new++;    
+            vm.dtInstance.reloadData();
+            vm.reset();
+            toastr.clear();
+            toastr.success("Société bien ajoutée au tableau.", {
+              closeButton: true,
+            });
+          }
+         
         } else {
           toastr.clear();
           toastr.warning("Raison Sociale is required!", {
@@ -564,7 +603,12 @@ angular
       vm.howto = true;
 
       function createdRow(row, data, dataIndex) {
-        // Recompiling so we can bind Angular directive to the DT
+        // Add row highlighting first
+        if (data.old === 1) {
+          angular.element(row).addClass('old-row');
+        }
+        
+        // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
       }
 

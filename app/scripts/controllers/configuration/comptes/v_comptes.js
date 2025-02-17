@@ -637,19 +637,19 @@ angular
       $scope.toggleSelection = function (id) {    
         let found = false;    
         vm.data_societe = vm.data_societe.map(societe => {
-            if (societe.id_sco_temp === id) {
+            if (societe.ID === id) {
                 found = true;
                 return { ...societe, selected: !societe.selected }; // Toggle selection
             }
             return societe;
         });    
-        if (!found) {
+       /* if (!found) {
             vm.data_societe.push({ id_sco_temp: id, selected: true });
-        }    
+        }    */
     };
          
       function checkboxHtml(data, type, full, meta) {        
-          return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.id_sco_temp})">`;
+          return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
       }   
       
       

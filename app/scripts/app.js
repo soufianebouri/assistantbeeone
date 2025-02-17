@@ -186,7 +186,6 @@ angular
       if ($rootScope.globals.currentUser) {
         $http.defaults.headers.common["Authorization"] =
           $rootScope.globals.currentUser.token;
-          console.log(" $rootScope.globals.currentUser.token",  $rootScope.globals.currentUser.token);
           
         $location.path("/");
       }

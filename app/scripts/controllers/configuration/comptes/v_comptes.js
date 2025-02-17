@@ -74,6 +74,7 @@ angular
       };
 
       let allowedExtensions = ["xls", "xlsx"];
+      vm.jsonData = [];
       // Handle file selection (when clicked)
       $scope.onFileSelected = function (file) {
         if (file) {
@@ -83,6 +84,35 @@ angular
           // Allowed extensions
 
           if (allowedExtensions.includes(fileExtension)) {
+
+
+
+
+            let reader = new FileReader();
+            reader.readAsBinaryString(file);
+            reader.onload = async function (e) {
+              let data = e.target.result;
+              let workbook = XLSX.read(data, { type: "binary" });
+
+              // Assuming the first sheet contains the data
+              let sheetName = workbook.SheetNames[0];
+              let sheet = workbook.Sheets[sheetName];
+
+              // Convert sheet to JSON
+           
+              vm.jsonData = XLSX.utils.sheet_to_json(sheet, {
+                defval: "",  // Ensures empty cells are included
+                raw: true    // Keeps data as-is without automatic conversion
+            });
+
+              let {status, message} = await $scope.checkExcelHeaders(vm.jsonData)
+              if(status){
+
+
+
+
+
+                   //infos
             vm.isFileSelected = true;
             vm.fileName = file.name;
 
@@ -91,6 +121,36 @@ angular
             } else {
               vm.fileSize = (file.size / 1024).toFixed(2) + " KB";
             }
+
+              }else{
+                vm.isFileSelected = false;
+                toastr.clear();
+                toastr.warning(message, {
+                closeButton: true,
+               });
+              }
+
+             /* $scope.$apply(() => {
+                  $scope.excelData = jsonData; // Store JSON data in scope
+              });*/
+
+           
+
+          };
+
+          reader.onerror = function (error) {
+            console.log("onerror",error);
+            
+              vm.isFileSelected = false;
+              toastr.clear();
+              toastr.warning("Error reading file", {
+              closeButton: true,
+            });
+          };
+
+
+
+            
           } else {
             vm.isFileSelected = false;
             toastr.clear();
@@ -105,6 +165,7 @@ angular
 
       vm.delete_file = function () {
         vm.isFileSelected = false;
+        vm.jsonData = [];
       };
 
       // Handle drag events
@@ -422,6 +483,7 @@ angular
                 NProgress.done();   
                 vm.dtInstance.reloadData();
                 vm.reset();
+                await $scope.undoSelect() 
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
@@ -461,6 +523,7 @@ angular
                 toastr.success("Société bien ajoutée au tableau.", {
                   closeButton: true
                 });
+                await $scope.undoSelect() 
                 NProgress.done();            
                 vm.new++;    
                 vm.dtInstance.reloadData();
@@ -484,6 +547,45 @@ angular
       };
 
 
+        vm.multiDelete = async function() {
+         
+          let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_societe);
+
+          toastr.clear();
+          toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+            closeButton: true,
+            allowHtml: true,
+            onShown: function(toast) {
+              $("#confirmationRevertYes").click(function() {
+                societe.multidelete({
+                  IDs : selectedIds
+                }).then(async function(result) {
+                  
+                  vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.ID));
+
+                  vm.new -= newItemCount;
+                  await $scope.undoSelect()        
+                  toastr.clear();
+                  toastr.success("Suppression réussie", {
+                    closeButton: true
+                  });
+                  NProgress.done();
+                  vm.dtInstance.reloadData();
+                  
+                }).catch(async e => {
+                  NProgress.done();
+                  toastr.clear();
+                  toastr.error(e.data.message, {
+                    closeButton: true
+                  });
+                });
+              });
+            }
+          });
+    
+        }
+
+
       vm.delete = async function(data) {
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -494,9 +596,11 @@ angular
               societe.delete(data).then(async function(result) {
                 
                 vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
+                
                 if(data.newItem){
                   vm.new--;
-                }                
+                }        
+                await $scope.undoSelect()        
                 toastr.clear();
                 toastr.success("Suppression réussie", {
                   closeButton: true
@@ -634,6 +738,24 @@ angular
     };
 
 
+    $scope.undoSelect = async function(){
+      vm.data_societe = vm.data_societe.map(societe => {
+         return { ...societe, selected: false }; // Toggle selection
+     });
+    }
+    $scope.getSelectedIDs = async function(data) {
+      let selectedItems = data.filter(item => item.selected === true); // Get selected items
+      
+      let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+      let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
+      
+      return {
+        selectedIds,  // Array of selected IDs
+        newItemCount  // Count of new items
+      };
+    };
+
+
       $scope.toggleSelection = function (id) {    
         let found = false;    
         vm.data_societe = vm.data_societe.map(societe => {
@@ -643,9 +765,9 @@ angular
             }
             return societe;
         });    
-       /* if (!found) {
-            vm.data_societe.push({ id_sco_temp: id, selected: true });
-        }    */
+        /* if (!found) {
+              vm.data_societe.push({ id_sco_temp: id, selected: true });
+          }    */
     };
          
       function checkboxHtml(data, type, full, meta) {        
@@ -731,7 +853,132 @@ angular
         // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
       }
+      
 
+      /** Step1 excel*/
+      
+      vm.headers = [
+        "Raison Sociale", "Statut Juridique", "Capital", "Ville", 
+        "Adresse Email", "Fax", "Patente", "N° CNSS", "N° AMO", 
+        "ICE", "Pré Fix Matricule Ouvrier", "Adresse"
+    ];
+
+        vm.exportToExcel = function () {
+            // Define headers           
+           let headers=  vm.headers
+            // Example data (replace this with dynamic data)
+           /* var data = [
+                ["Company A", "SARL", "1000000", "Casablanca", 
+                "email@example.com", "0522-123456", "12345678", "987654", "456789", 
+                "ICE123456789", "PREF123", "123 Street, Casablanca"]
+            ];*/
+    
+            // Combine headers and data
+            //var ws_data = [headers, ...data];
+            var ws_data = [headers]
+            // Create worksheet
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);
+    
+            // Create workbook
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Société");
+    
+            // Write the file and trigger download
+            var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            var blob = new Blob([wbout], { type: "application/octet-stream" });
+    
+            saveAs(blob, "Canvas Société.xlsx"); // Save and trigger download
+        };
+    
+
+        $scope.checkExcelHeaders = async function (data) {
+          if(data.length>0){
+              // Define required headers
+              var requiredHeaders = vm.headers
+                    
+              // Extract headers from the first row of the data
+              var fileHeaders = Object.keys(data[0] || {});
+              console.log(fileHeaders);
+
+              // Check if all required headers are present
+              var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
+              if(isValid){
+                return {
+                  status : true
+                }
+              }else{
+                return {
+                  status : false,
+                  message : "Invalid file format! Please ensure all required headers are present."
+                };
+              }
+          }else{
+            return {
+              status : false,
+              message : "file is emplty!."
+            };
+          }
+         
+          
+      };
+
+      vm.cleanJsonKeys = async function (data) {
+        return data.map(item => ({
+            Rais_Social: item["Raison Sociale"] || null,
+            Statut_juridique: item["Statut Juridique"] || null,
+            Capital: item["Capital"] || null,
+            Ville: item["Ville"] || null,
+            Adresse: item["Adresse"] || null,
+            Email: item["Adresse Email"] || null,
+            Fax: item["Fax"] || null,
+            Patente: item["Patente"] || null,
+            N_CNSS: item["N° CNSS"] || null,
+            N_amo: item["N° AMO"] || null,
+            IDFiscale: item["ICE"] || null, // Assuming ICE should be renamed to IDFiscale
+            ICE: item["ICE"] || null,
+            Prefixe_matricule: item["Pré Fix Matricule Ouvrier"] || null
+        }));
+    };
+    
+
+
+      vm.transformExcelData = async function (data) {
+        return await vm.cleanJsonKeys(data);
+      };
+
+
+      $scope.checkDuplicate__column = async function(){
+        var isDuplicate = vm.data_societe.some(function(societe) {
+          return societe.Rais_Social === vm.formData.Rais_Social;
+      });
+      
+      if (isDuplicate) {
+        
+        toastr.clear();
+        toastr.warning("Raison Sociale already esist!", {
+          closeButton: true,
+        });
+          return false
+      } else {
+          return true;
+      }      
+      }
+
+      vm.integer = async function(){
+        if(vm.jsonData.length>0){
+          vm.jsonData = await  vm.transformExcelData(vm.jsonData);
+          
+          
+         
+        }else{
+          toastr.clear();
+          toastr.warning("Upload your file!", {
+          closeButton: true,
+         });
+        }                
+      }
+
+      /** */
       /*function actionsHtml(data, type, full, meta) {
         vm.societes[data.id_sco_temp] = data;
         var editbtn =

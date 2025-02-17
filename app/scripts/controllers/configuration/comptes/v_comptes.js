@@ -424,6 +424,10 @@ angular
                 vm.reset();
             }).catch(async e => {
               NProgress.done();
+              toastr.clear();
+              toastr.error(e.data.message, {
+                closeButton: true
+              });
             });            
           }
          
@@ -463,6 +467,10 @@ angular
                 vm.reset();
             }).catch(async e => {
               NProgress.done();
+              toastr.clear();
+              toastr.error(e.data.message, {
+                closeButton: true
+              });
             });
 
           }
@@ -474,6 +482,40 @@ angular
           });
         }
       };
+
+
+      vm.delete = async function(data) {
+        toastr.clear();
+        toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+          closeButton: true,
+          allowHtml: true,
+          onShown: function(toast) {
+            $("#confirmationRevertYes").click(function() {
+              societe.delete(data).then(async function(result) {
+                
+                vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
+                if(data.newItem){
+                  vm.new--;
+                }                
+                toastr.clear();
+                toastr.success("Suppression réussie", {
+                  closeButton: true
+                });
+                NProgress.done();
+                vm.dtInstance.reloadData();
+                
+              }).catch(async e => {
+                NProgress.done();
+                toastr.clear();
+                toastr.error(e.data.message, {
+                  closeButton: true
+                });
+              });
+            });
+          }
+        });
+  
+      }
 
 
       
@@ -569,9 +611,8 @@ angular
           vm.formData = data;       
         }
 
-        vm.delete = function (data) {
-          console.log(data);          
-        }
+        
+
 
 
         $scope.allSelected = false; // Tracks "Select All" state

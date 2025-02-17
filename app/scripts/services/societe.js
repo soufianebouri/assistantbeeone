@@ -18,6 +18,9 @@ angular.module('beeOneWebFrontApp')
       },
       edit: function(data) {
         return $http.post(_url + "/societe/edit", data);
+      },
+      delete: function(data) {
+        return $http.post(_url + "/societe/delete", data);
       }
     };
   });

@@ -390,6 +390,133 @@ angular
         vm.dtInstance.reloadData();
       });
 
+
+      
+
+      vm.modifier = async function  () {
+        if (vm.formData.Rais_Social) {
+          if(await $scope.check_all_data_input_edit(vm.formData.ID)){
+
+            NProgress.start()               
+            
+
+            societe.edit(vm.formData).then(async e => {
+                //validate success
+
+                vm.data_societe.push(e.data.inserted_data);
+               
+                let index = vm.data_societe.findIndex(item => item.ID === e.data.inserted_data.ID);
+
+                if (index !== -1) {
+                  // Update the existing object
+                  vm.data_societe[index] = e.data.inserted_data;
+                } else {
+                  // If not found, add it to the list (optional)
+                  vm.data_societe.push(e.data.inserted_data);
+                }
+
+                toastr.clear();
+                toastr.success("Société bien modifié.", {
+                  closeButton: true
+                });
+                NProgress.done();   
+                vm.dtInstance.reloadData();
+                vm.reset();
+            }).catch(async e => {
+              NProgress.done();
+            });            
+          }
+         
+        } else {
+          toastr.clear();
+          toastr.warning("Raison Sociale is required!", {
+            closeButton: true,
+          });
+        }
+      };
+
+
+     
+      vm.ajouter = async function  () {
+        toastr.clear();
+        if (vm.formData.Rais_Social) {
+          if(await $scope.check_all_data_input()){
+         
+            NProgress.start()               
+            
+
+            societe.add(vm.formData).then(async e => {
+                //validate success
+
+                vm.data_societe.unshift(e.data.inserted_data);
+                console.log("e.data.inserted_data", e.data.inserted_data);
+                
+                console.log(vm.data_societe);
+                
+                toastr.clear();
+                toastr.success("Société bien ajoutée au tableau.", {
+                  closeButton: true
+                });
+                NProgress.done();            
+                vm.new++;    
+                vm.dtInstance.reloadData();
+                vm.reset();
+            }).catch(async e => {
+              NProgress.done();
+            });
+
+          }
+         
+        } else {
+          toastr.clear();
+          toastr.warning("Raison Sociale is required!", {
+            closeButton: true,
+          });
+        }
+      };
+
+
+      
+      $scope.check_all_data_input = async function(){
+        var isDuplicate = vm.data_societe.some(function(societe) {
+          return societe.Rais_Social === vm.formData.Rais_Social;
+      });
+      
+      if (isDuplicate) {
+        
+        toastr.clear();
+        toastr.warning("Raison Sociale already esist!", {
+          closeButton: true,
+        });
+          return false
+      } else {
+          return true;
+      }      
+      }
+
+      $scope.check_all_data_input_edit = async function(){
+        var isDuplicate = vm.data_societe.some(function(societe) {
+          return (societe.Rais_Social === vm.formData.Rais_Social && societe.ID != vm.formData.ID);
+      });
+      
+      if (isDuplicate) {
+        
+        toastr.clear();
+        toastr.warning("Raison Sociale already esist!", {
+          closeButton: true,
+        });
+          return false
+      } else {
+          return true;
+      }      
+      }
+
+     
+
+
+
+      
+
       vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
         //var defer = $q.defer();
         return $q.resolve(vm.data_societe);
@@ -402,6 +529,7 @@ angular
          .withOption('autoWidth', false)
         .withDisplayLength(5)
         .withScroller(false)*/
+        .withOption("order", [])
         .withButtons([
           {
             extend: "copy",
@@ -423,9 +551,7 @@ angular
 
         
 
-        function actionsHtml(data, type, full, meta) {
-          let actionEnt = null
-          if(data.old){
+        function actionsHtml(data, type, full, meta) { 
             vm.societes[data.ID] = data;
             var editbtn =
             '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
@@ -435,24 +561,7 @@ angular
           var deletebtn =
             '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
             data.ID +
-            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
-          
-          }else{
-            vm.societes[data.id_sco_temp] = data;
-            var editbtn =
-            '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
-            data.id_sco_temp +
-            '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
-          
-          var deletebtn =
-            '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
-            data.id_sco_temp +
-            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
-          
-          }
-          
-          
-         
+            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
         return editbtn + deletebtn;
         }
        
@@ -560,7 +669,9 @@ angular
           ICE : null,
           Prefixe_matricule : null,
           ID : null,
-          old : null
+          newItem : true,
+          ID_Profil : vm.IDUser,
+          DateCreated : moment().format("YYYYMMDD")
         }              
      }
      vm.reset()
@@ -568,106 +679,12 @@ angular
 
       
 
-      $scope.check_all_data_input = async function(){
-        var isDuplicate = vm.data_societe.some(function(societe) {
-          return societe.Rais_Social === vm.Rais_Social;
-      });
-      
-      if (isDuplicate) {
-        
-        toastr.clear();
-        toastr.warning("Raison Sociale already esist!", {
-          closeButton: true,
-        });
-          return false
-      } else {
-          return true;
-      }      
-      }
-
-      vm.id_sco_temp = 0;
-      vm.ajouter = async function  () {
-        if (vm.formData.Rais_Social) {
-          if(await $scope.check_all_data_input()){
-            vm.id_sco_temp += 1;
-            vm.data_societe.push({
-              ID : null,
-              Rais_Social: vm.formData.Rais_Social,
-              Statut_juridique: vm.formData.statut_juridique,
-              Capital: vm.formData.Capital,
-              Ville: vm.formData.Ville,
-              Adresse: vm.formData.Adresse,
-              Email: vm.formData.Email,
-              Fax: vm.formData.Fax,
-              Patente: vm.formData.Patente,
-              N_CNSS: vm.formData.N_CNSS,
-              N_amo: vm.formData.N_amo,
-              IDFiscale: vm.formData.IDFiscale,
-              ICE: vm.formData.ICE,
-              Prefixe_matricule: vm.formData.Prefixe_matricule,
-              ID_Profil : vm.formData.IDUser,
-              DateCreated : moment().format("YYYYMMDD"),
-              old : 0,
-              id_sco_temp: vm.formData.id_sco_temp,
-            });      
-            vm.new++;    
-            vm.dtInstance.reloadData();
-            vm.reset();
-            toastr.clear();
-            toastr.success("Société bien ajoutée au tableau.", {
-              closeButton: true,
-            });
-          }
-         
-        } else {
-          toastr.clear();
-          toastr.warning("Raison Sociale is required!", {
-            closeButton: true,
-          });
-        }
-      };
-
-      vm.modifer = async function  () {
-        if (vm.formData.Rais_Social) {
-          if(await $scope.check_all_data_input()){
-            vm.data_societe.push({
-              Rais_Social: vm.formData.Rais_Social,
-              Statut_juridique: vm.formData.Statut_juridique,
-              Capital: vm.formData.Capital,
-              Ville: vm.formData.Ville,
-              Adresse: vm.Adresse,
-              Email: vm.formData.Email,
-              Fax: vm.formData.Fax,
-              Patente: vm.formData.Patente,
-              N_CNSS: vm.formData.N_CNSS,
-              N_amo: vm.formData.N_amo,
-              IDFiscale: vm.formData.IDFiscale,
-              ICE: vm.formData.ICE,
-              Prefixe_matricule: vm.formData.Prefixe_matricule,
-              edited: true
-            });   
-            vm.dtInstance.reloadData();
-            vm.reset();
-            toastr.clear();
-            toastr.success("Société bien modifiée.", {
-              closeButton: true,
-            });
-          }
-         
-        } else {
-          toastr.clear();
-          toastr.warning("Raison Sociale is required!", {
-            closeButton: true,
-          });
-        }
-      };
-
       vm.howto = true;
 
       function createdRow(row, data, dataIndex) {
         // Add row highlighting first
-        if (data.old === 1) {
-          angular.element(row).addClass('old-row');
+        if (data.newItem) {
+          angular.element(row).addClass('new-row');
         }
         
         // Then handle Angular compilation

@@ -12,6 +12,12 @@ angular.module('beeOneWebFrontApp')
     return {
       get_all: function() {
         return $http.post(_url + "/societe/get_all");
+      },
+      add: function(data) {
+        return $http.post(_url + "/societe/add", data);
+      },
+      edit: function(data) {
+        return $http.post(_url + "/societe/edit", data);
       }
     };
   });

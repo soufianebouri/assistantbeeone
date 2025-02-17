@@ -2273,14 +2273,11 @@ table.dataTable td {
 }
 
 
-.old-row {
-    background-color: #ffe0b2 !important;/* Light orange background */
-    border-left: 4px solid #ffa726 !important; /* Orange accent border */
+.new-row {
+    background-color: #bde77a !important;/* Light orange background */
+    border-left: 4px solid #055b06 !important; /* Orange accent border */
   }
   
-  .old-row:hover {
-    /*background-color: #ffe0b2 !important;*/
-  }
 
 
   .badge-old {
@@ -2298,7 +2295,7 @@ table.dataTable td {
 }
 
 .badge-new {
-  background-color: #e3edd3;
+  background-color: #bde77a;
   color: #ffffff;
   font-size: 16px;
   /* font-size: 1.2rem; */

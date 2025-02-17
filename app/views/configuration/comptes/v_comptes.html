@@ -135,7 +135,7 @@
 
                 <md-input-container class="form-input">
                   <label>Statut Juridique</label>
-                  <input type="text" ng-model="vm.formData.statut_juridique" >
+                  <input type="text" ng-model="vm.formData.Statut_juridique" >
                 </md-input-container>
 
               </div>
@@ -221,8 +221,8 @@
                   Reset
                 </md-button>
                  
-                <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID || vm.formData.id_sco_temp) ? vm.modifier() : vm.ajouter()">
-                  {{(vm.formData.ID || vm.formData.id_sco_temp) ? 'Modifier': 'Ajouter'}} 
+                <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID) ? vm.modifier() : vm.ajouter()">
+                  {{(vm.formData.ID) ? 'Modifier': 'Ajouter'}} 
                 </md-button>
               </div>
 
@@ -354,7 +354,7 @@
         <div id="grid4" class="grid">
           <!--Table-->
           <div class="info-header unified_pad">
-            <h2 class="form-title" >Sociétés Ajoutées <span class='badge-new'>{{vm.new}}</span> / Old <span class='badge-old'>{{vm.old_items}}</span></h2>
+            <h2 class="form-title" >Sociétés Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
             <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
               eleifend arcu, velar ipsum</p>

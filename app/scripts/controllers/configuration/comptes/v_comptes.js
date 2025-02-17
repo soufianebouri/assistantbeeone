@@ -1004,13 +1004,6 @@ angular
       }
     }
 
-    vm.scrollToError = function () {
-      
-      var elementerrDataErr = document.getElementById('errDataErr');
-      if (elementerrDataErr) { 
-        elementerrDataErr.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    };
 
    
 
@@ -1027,7 +1020,37 @@ angular
              
             /**Create en masse */
             
-            vm.resetErrExcel();
+            NProgress.start()               
+            
+
+            societe.multiadd(vm.jsonData).then(async e => {
+                //validate success
+
+                vm.data_societe.unshift(e.data.inserted_data);
+                console.log("e.data.inserted_data", e.data.inserted_data);
+                                
+                console.log(vm.data_societe);                
+                toastr.clear();
+                toastr.success(e.data.message, {
+                  closeButton: true
+                });
+                await $scope.undoSelect() 
+                NProgress.done();            
+                vm.new += vm.jsonData.length;    
+                vm.dtInstance.reloadData();
+                vm.reset();
+                vm.isFileSelected = false;
+                vm.resetErrExcel();
+                vm.jsonData = [];
+            }).catch(async e => {
+              NProgress.done();
+              toastr.clear();
+              toastr.error(e.data.message, {
+                closeButton: true
+              });
+            });
+
+            
             
           }else{  
             vm.errData = {
@@ -1035,7 +1058,6 @@ angular
               status : status,
               message : message
             }
-            vm.scrollToError()
             toastr.clear();
             toastr.warning(message, {
             closeButton: true,

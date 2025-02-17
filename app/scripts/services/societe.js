@@ -24,6 +24,9 @@ angular.module('beeOneWebFrontApp')
       },
       multidelete: function(data) {
         return $http.post(_url + "/societe/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/societe/multiadd", data);
       }
     };
   });

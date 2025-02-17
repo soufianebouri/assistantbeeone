@@ -127,6 +127,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_societe', {
+      url: '/configuration/accounts/societe',
+      templateUrl: 'views/configuration/comptes/v_societe.html',
+      data: {
+        pageTitle: "BeeOne ERP - Configuration Du Compte"
+      }
+    })
     .state('v_comptes', {
       url: '/configuration/accounts',
       templateUrl: 'views/configuration/comptes/v_comptes.html',

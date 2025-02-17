@@ -488,6 +488,7 @@ angular
                 vm.dtInstance.reloadData();
                 vm.reset();
                 await $scope.undoSelect() 
+                
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
@@ -716,7 +717,8 @@ angular
         }
        
         vm.edit = function (data) {
-          vm.formData = data;       
+          vm.formData = data;  
+          /**hna */
         }
 
         
@@ -1001,6 +1003,17 @@ angular
         err : false
       }
     }
+
+    vm.scrollToError = function () {
+      
+      var elementerrDataErr = document.getElementById('errDataErr');
+      if (elementerrDataErr) { 
+        elementerrDataErr.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+   
+
       vm.integer = async function(){
         console.log(vm.jsonData);
         
@@ -1017,13 +1030,12 @@ angular
             vm.resetErrExcel();
             
           }else{  
-            
             vm.errData = {
               err : true,
               status : status,
               message : message
             }
-
+            vm.scrollToError()
             toastr.clear();
             toastr.warning(message, {
             closeButton: true,

@@ -906,6 +906,25 @@ md-switch.md-checked:not([disabled]) .md-bar {
   animation: fadeInOut 2s infinite;
 }
 
+
+.fadeInOut_err {
+  animation: fadeInOut_err 2s  alternate; /* Infinite animation, alternating between fade-in and fade-out */
+}
+
+/* Keyframes for the fade-in and fade-out animation */
+@keyframes fadeInOut_err {
+  0% {
+    opacity: 0; /* Start with element hidden */
+  }
+  50% {
+    opacity: 1; /* Midway, element is fully visible */
+  }
+  100% {
+    opacity: 0; /* End with element hidden */
+  }
+}
+
+
 .speech-icon {
   color: #4e554d;
 }
@@ -2277,6 +2296,7 @@ table.dataTable td {
 .new-row {
     background-color: #bde77a !important;/* Light orange background */
     border-left: 4px solid #055b06 !important; /* Orange accent border */
+    animation: fadeInOut_err 3s  alternate !important;
   }
   
 

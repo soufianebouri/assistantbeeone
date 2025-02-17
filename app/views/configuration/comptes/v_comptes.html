@@ -112,14 +112,14 @@
 
       </div>
 
-      <div class="content">
+      <div class="content" id="scollform">
         <!-- Grids 1 & 2 as Columns -->
         <div class="grid-column-container">
 
 
 
           <div id="grid1" class="grid">
-            <div class="form-header">
+            <div class="form-header" >
               <h2 class="form-title">Informations Sur La Société</h2>
               <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de
                 votre compte</p>
@@ -362,7 +362,7 @@
 
 
 
-          <div class="warn-header unified_pad fadeIn" ng-if="vm.updateSelectedCount()>0">
+          <div class="warn-header unified_pad fadeInOut_err" ng-if="vm.updateSelectedCount()>0">
             <h2 class="warn-title">Checked items to delete ({{vm.updateSelectedCount()}}) 
               <md-button class="md-raised md-warn delete-button pull_right" ng-click="vm.multiDelete()">
                 DELETE {{vm.updateSelectedCount()}} item(s)
@@ -370,16 +370,19 @@
             </h2>            
           </div>
 
-          <div class="warn-header unified_pad fadeIn" ng-if="vm.errData.err">
-            <h2 class="warn-title"> This a One by one row to fix : 
-              <ul>
-                <li>{{vm.errData.message}}</li>
-              </ul>
-            </h2>            
-          </div>
+         
+            <div class="warn-header unified_pad fadeInOut_err" ng-if="vm.errData.err">
+              <h2 class="warn-title"> This a One by one row to fix : 
+                <ul>
+                  <li>{{vm.errData.message}}</li>
+                </ul>
+              </h2>            
+            </div>
+        
+          
 
 
-          <div class="info-header unified_pad">
+          <div class="info-header unified_pad" id="tablescroll">
             <table style="background-color: white; display: table;"  datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
               dt-instance="vm.dtInstance"  class="table table-striped table-sm table-responsive-sm table-hover jambo_table bulk_action">
             </table>

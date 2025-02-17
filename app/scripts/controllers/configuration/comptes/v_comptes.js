@@ -462,7 +462,7 @@ angular
         if (vm.formData.Rais_Social) {
           if(await $scope.check_all_data_input_edit(vm.formData.ID)){
 
-            NProgress.start()               
+            NProgress.start()                 
             
 
             societe.edit(vm.formData).then(async e => {
@@ -513,7 +513,7 @@ angular
         if (vm.formData.Rais_Social) {
           if(await $scope.check_all_data_input()){
          
-            NProgress.start()               
+            NProgress.start()                 
             
 
             societe.add(vm.formData).then(async e => {
@@ -561,7 +561,9 @@ angular
             closeButton: true,
             allowHtml: true,
             onShown: function(toast) {
+            
               $("#confirmationRevertYes").click(function() {
+                NProgress.start()  
                 societe.multidelete({
                   IDs : selectedIds
                 }).then(async function(result) {
@@ -592,12 +594,14 @@ angular
 
 
       vm.delete = async function(data) {
+        
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
           closeButton: true,
           allowHtml: true,
           onShown: function(toast) {
             $("#confirmationRevertYes").click(function() {
+              NProgress.start()  
               societe.delete(data).then(async function(result) {
                 
                 vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
@@ -958,7 +962,7 @@ angular
     
         // Ensure `seen` set is cleared each time the function is called
         let seen = new Set();
-        let rowIndex = 1;  // To keep track of the row number
+        let rowIndex = 2;  // To keep track of the row number
     
         // Add old data "Rais_Social" values to the set
         oldData.forEach(item => {
@@ -1008,7 +1012,7 @@ angular
    
 
       vm.integer = async function(){
-        console.log(vm.jsonData);
+       
         
         if(vm.jsonData.length>0){
          
@@ -1023,13 +1027,15 @@ angular
             NProgress.start()               
             
 
-            societe.multiadd(vm.jsonData).then(async e => {
+            societe.multiadd({
+              societes :vm.jsonData
+            }).then(async e => {
                 //validate success
 
-                vm.data_societe.unshift(e.data.inserted_data);
+                vm.data_societe.unshift(...e.data.inserted_data);
+
                 console.log("e.data.inserted_data", e.data.inserted_data);
-                                
-                console.log(vm.data_societe);                
+                                                
                 toastr.clear();
                 toastr.success(e.data.message, {
                   closeButton: true
@@ -1040,7 +1046,6 @@ angular
                 vm.dtInstance.reloadData();
                 vm.reset();
                 vm.isFileSelected = false;
-                vm.resetErrExcel();
                 vm.jsonData = [];
             }).catch(async e => {
               NProgress.done();
@@ -1048,6 +1053,10 @@ angular
               toastr.error(e.data.message, {
                 closeButton: true
               });
+              vm.errData = {
+                err : true,
+                message : e.data.message
+              }
             });
 
             

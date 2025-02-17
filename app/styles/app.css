@@ -2292,6 +2292,18 @@ table.dataTable td {
   }
 }
 
+#nprogress .bar {
+  background: #1abb9c;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #1abb9c, 0 0 5px #1abb9c;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #1abb9c;
+  border-left-color: #1abb9c;
+}
 
 .new-row {
     background-color: #bde77a !important;/* Light orange background */

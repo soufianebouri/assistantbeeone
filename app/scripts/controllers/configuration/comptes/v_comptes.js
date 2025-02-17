@@ -106,6 +106,9 @@ angular
             });
 
               let {status, message} = await $scope.checkExcelHeaders(vm.jsonData)
+
+              vm.jsonData = await  vm.transformExcelData(vm.jsonData);
+
               if(status){
 
 
@@ -165,6 +168,7 @@ angular
 
       vm.delete_file = function () {
         vm.isFileSelected = false;
+        vm.resetErrExcel();
         vm.jsonData = [];
       };
 
@@ -947,26 +951,85 @@ angular
       };
 
 
-      $scope.checkDuplicate__column = async function(){
-        var isDuplicate = vm.data_societe.some(function(societe) {
-          return societe.Rais_Social === vm.formData.Rais_Social;
-      });
+      vm.checkDuplicate__column = async function (newData, oldData) {
       
-      if (isDuplicate) {
-        
-        toastr.clear();
-        toastr.warning("Raison Sociale already esist!", {
-          closeButton: true,
+    
+        // Ensure `seen` set is cleared each time the function is called
+        let seen = new Set();
+        let rowIndex = 1;  // To keep track of the row number
+    
+        // Add old data "Rais_Social" values to the set
+        oldData.forEach(item => {
+            if (item.Rais_Social) {
+                seen.add(item.Rais_Social.toLowerCase()); // Convert to lowercase for case-insensitive check
+            }
         });
-          return false
-      } else {
-          return true;
-      }      
+    
+     
+    
+        // Check for duplicates in new data
+        for (let item of newData) {
+            if (item.Rais_Social) {
+                let lowerCaseName = item.Rais_Social.toLowerCase();
+    
+               
+    
+                if (seen.has(lowerCaseName)) {
+                    console.log(`Duplicate found in row ${rowIndex}: ${item.Rais_Social}`);
+                    return {
+                        status: false,
+                        message: `Duplicate Raison Social found in row ${rowIndex}: ${item.Rais_Social}`
+                    }; // Stop checking and return false
+                }
+    
+                seen.add(lowerCaseName);
+            }
+            rowIndex++;  // Increment the row index
+        }
+    
+        console.log("No duplicates found.");
+        return {
+            status: true
+        }; // No duplicates found
+    };
+    
+    
+    
+      
+    vm.resetErrExcel = function(){
+      vm.errData = {
+        err : false
       }
-
+    }
       vm.integer = async function(){
+        console.log(vm.jsonData);
+        
         if(vm.jsonData.length>0){
-          vm.jsonData = await  vm.transformExcelData(vm.jsonData);
+         
+          let { status , message} = await vm.checkDuplicate__column(vm.jsonData, vm.data_societe);
+         
+          
+
+          if(status){
+             
+            /**Create en masse */
+            
+            vm.resetErrExcel();
+            
+          }else{  
+            
+            vm.errData = {
+              err : true,
+              status : status,
+              message : message
+            }
+
+            toastr.clear();
+            toastr.warning(message, {
+            closeButton: true,
+          });
+          }
+
           
           
          

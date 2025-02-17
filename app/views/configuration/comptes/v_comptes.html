@@ -370,6 +370,14 @@
             </h2>            
           </div>
 
+          <div class="warn-header unified_pad fadeIn" ng-if="vm.errData.err">
+            <h2 class="warn-title"> This a One by one row to fix : 
+              <ul>
+                <li>{{vm.errData.message}}</li>
+              </ul>
+            </h2>            
+          </div>
+
 
           <div class="info-header unified_pad">
             <table style="background-color: white; display: table;"  datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"

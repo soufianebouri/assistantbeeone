@@ -98,7 +98,7 @@ angular
       if (date) return moment(date).format("YYYY-MM-DD");
       return "";
     };
-
+   
     $provide.decorator('$state', function($delegate, $stateParams) {
       $delegate.forceReload = function(state, local) {
         return $delegate.go(state, $stateParams, {
@@ -127,6 +127,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_ferme', {
+      url: '/configuration/accounts/ferme',
+      templateUrl: 'views/configuration/comptes/v_ferme.html',
+      data: {
+        pageTitle: "BeeOne ERP - Configuration Du Compte"
+      }
+    })
     .state('v_societe', {
       url: '/configuration/accounts/societe',
       templateUrl: 'views/configuration/comptes/v_societe.html',

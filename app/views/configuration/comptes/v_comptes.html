@@ -35,7 +35,7 @@
             <!-- Step 1 -->
             <div class="step-box">
               <table style="border-collapse: collapse;">
-                <tr ng-click="vm.step(1)">
+                <tr ng-click="vm.step(1, 'views/configuration/comptes/v_societe.html')">
                   <td rowspan="2">
                     <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
                       <img src="././images/main_configuration/entreprise.svg" alt="entreprise">
@@ -59,7 +59,7 @@
             <!-- Step 2 -->
             <div class="step-box">
               <table>
-                <tr ng-click="vm.step(2)">
+                <tr ng-click="vm.step(2 , 'views/configuration/comptes/v_ferme.html')">
                   <td rowspan="2">
                     <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
                       <img src="././images/main_configuration/farm.svg" alt="farm">
@@ -72,7 +72,7 @@
                 <tr>
                   <td
                     ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
-                    Sociétés</td>
+                    Ferme</td>
                 </tr>
               </table>
             </div>
@@ -83,7 +83,7 @@
             <!-- Step 3 -->
             <div class="step-box">
               <table>
-                <tr ng-click="vm.step(3)">
+                <tr ng-click="vm.step(3, 'views/configuration/comptes/v_campagnes_agricoles.html')">
                   <td rowspan="2">
                     <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
                       <img src="././images/main_configuration/campagne.svg" alt="campagne">
@@ -97,7 +97,7 @@
                 <tr>
                   <td
                     ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
-                    Sociétés
+                    Campagnes Agricoles
                   </td>
                 </tr>
               </table>

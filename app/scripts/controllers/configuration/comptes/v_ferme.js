@@ -241,7 +241,7 @@ angular.module('beeOneWebFrontApp')
       
 
 
-      vm.validateCoordinates = function () {
+      vm.validateCoordinates = async function () {
         let isValidCoordinates = true;
         let messageCoordinates = ''
     
@@ -320,16 +320,51 @@ angular.module('beeOneWebFrontApp')
       };
 
 
-     
+      vm.validateFormData = async function() {
+           
+            let rules = {
+                Code: "Référence ferme is required.",
+                Nom: "Nom de la is required.",
+                societe: "Société is required.",
+                Superficie: (value) => value > 0 ? null : "Superficie must be greater than 0.",
+                Date_Creatio_Ferme: "Date de création de la ferme is required."
+            };
+        
+           
+            for (let key in rules) {
+                if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {                  
+                    toastr.clear();
+                    toastr.warning(typeof rules[key] === "function" ? rules[key](vm.formData[key]) : rules[key], {
+                      closeButton: true
+                    });
+
+                    return false;
+                }
+            }
+
+            let {isValidCoordinates,
+              messageCoordinates} = await vm.validateCoordinates();
+            if (!isValidCoordinates) {
+              toastr.clear();
+                    toastr.warning(messageCoordinates, {
+                    closeButton: true
+              });
+              return false;
+            }
+            return true;
+       };
+    
       vm.ajouter = async function  () {
         toastr.clear();
-        if (vm.formData.Rais_Social) {
-          if(await $scope.check_all_data_input()){
+        console.log("vm.formData", vm.formData);
+        
+       
+          if(await vm.validateFormData()){
          
             NProgress.start()                 
             
 
-            societe.add(vm.formData).then(async e => {
+            ferme.add(vm.formData).then(async e => {
                 //validate success
 
                 vm.data_societe.unshift(e.data.inserted_data);
@@ -356,12 +391,7 @@ angular.module('beeOneWebFrontApp')
 
           }
          
-        } else {
-          toastr.clear();
-          toastr.warning("Raison Sociale is required!", {
-            closeButton: true,
-          });
-        }
+       
       };
 
 
@@ -447,7 +477,7 @@ angular.module('beeOneWebFrontApp')
       
       $scope.check_all_data_input = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
-          return societe.Rais_Social === vm.formData.Rais_Social;
+          return societe.Code === vm.formData.Code;
       });
       
       if (isDuplicate) {
@@ -638,25 +668,25 @@ angular.module('beeOneWebFrontApp')
       );
 
      vm.reset = function () {
-        vm.formData = {
-          Rais_Social : null,
-          Statut_juridique : null,
-          Capital : null,
-          Ville : null,
-          Adresse : null,
-          Email : null,
-          Fax : null,
-          Patente : null,
-          N_CNSS : null,
-          N_amo : null,
-          IDFiscale : null,
-          ICE : null,
-          Prefixe_matricule : null,
-          ID : null,
-          newItem : true,
-          ID_Profil : vm.IDUser,
-          DateCreated : moment().format("YYYYMMDD")
-        }              
+
+      vm.formData =  {
+        Code: null,
+        Nom: null,
+        societe: null,
+        Superficie: null,
+        Date_Creatio_Ferme: null,
+        Gerant: null,
+        Adresse: null,
+        Ville: null,
+        Fax: null,
+        Tel: null,
+        statut_foncier: null,
+        Latitude: null,
+        Longitude: null,
+        Altitude: null,
+        ID : null,
+        newItem : true
+      }          
      }
      vm.reset()
 

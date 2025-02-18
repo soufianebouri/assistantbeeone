@@ -349,7 +349,7 @@ table.dataTable td {
   align-items: center;
   justify-content: center;
   background-color: #a5af94;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 .arrow-icon {

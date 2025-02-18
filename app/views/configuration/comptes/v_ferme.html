@@ -100,16 +100,15 @@
                         <md-input-container class="form-input">
                             <label>Latitude</label>
                             <input type="number" name="latitude" ng-model="vm.formData.Latitude" class="number_right" 
-                                   min="-90" max="90" step="any" required
-                                   ng-pattern="/^-?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/">                            
+                                    step="any" >                            
                           </md-input-container>
                           
                           <!-- Longitude Input -->
                           <md-input-container class="form-input">
                             <label>Longitude</label>
                             <input type="number" name="longitude" ng-model="vm.formData.Longitude" class="number_right" 
-                                   min="-180" max="180" step="any" required
-                                   ng-pattern="/^-?(180(\.0+)?|[1-9]?\d{1,2}(\.\d+)?)$/">
+                                    step="any" 
+                                   >
                            </md-input-container>   
                     
                        </div>

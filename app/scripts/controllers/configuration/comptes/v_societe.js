@@ -221,6 +221,20 @@ angular.module('beeOneWebFrontApp')
         vm.data_societe = values[0].data;
         vm.old_items = vm.data_societe.length;
         vm.dtInstance.reloadData();
+      }).catch((error) => {
+        if (error && error.message) {
+          console.error("Error message:", error.message);
+          toastr.clear();
+          toastr.error("Error message:", error.message, {
+            closeButton: true
+          });
+        } else {
+          console.error("Connot acces to the server, call our support team", error);
+          toastr.clear();
+          toastr.error("Connot acces to the server, call our support team", error, {
+            closeButton: true
+          });
+        }
       });
 
 

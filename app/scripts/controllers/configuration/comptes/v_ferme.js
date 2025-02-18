@@ -216,14 +216,29 @@ angular.module('beeOneWebFrontApp')
       vm.old_items = 0;
 
       $q.all([
-        /*ferme.get_all(),*/
+        ferme.get_all(),
         societe.get_all()
       ]).then((values) => {
         vm.data_societe = values[0].data;
         vm.data_societe_all = values[0].data;
         vm.old_items = vm.data_societe.length;
         vm.dtInstance.reloadData();
+      }).catch((error) => {
+        if (error && error.message) {
+          console.error("Error message:", error.message);
+          toastr.clear();
+          toastr.error("Error message:", error.message, {
+            closeButton: true
+          });
+        } else {
+          console.error("Connot acces to the server, call our support team", error);
+          toastr.clear();
+          toastr.error("Connot acces to the server, call our support team", error, {
+            closeButton: true
+          });
+        }
       });
+      
 
 
       vm.validateCoordinates = function () {

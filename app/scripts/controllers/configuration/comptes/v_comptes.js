@@ -12,21 +12,15 @@ angular
   .controller(
     "ConfigurationComptesVComptesCtrl",
     function (
-      $q,
       $scope,
       $state,
-      toastr,
       $timeout,
       _url,
       $window,
       $translatePartialLoader,
       $translate,
       _version,
-      DTOptionsBuilder,
-      $compile,
-      DTColumnBuilder,
-      DTDefaultOptions,
-      societe,$cookies
+      $cookies
     ) {
       var vm = this;
       vm._version = _version;

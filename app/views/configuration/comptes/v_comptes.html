@@ -121,10 +121,10 @@
 
         <div class="main-footer">
           <div class="footer-buttons">
-            <md-button class="md-raised md-primary btn-annuler" ng-click="vm.annuler()">
-              Annuler
+            <md-button class="md-raised md-primary" ng-class="vm.currect_step == 1 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.preveusStep()" ng-disabled="vm.currect_step == 1"  >
+              <&nbsp; Précedent
             </md-button>
-            <md-button class="md-raised md-primary btn-action" ng-click="vm.nextStep()">
+            <md-button class="md-raised md-primary"  ng-class="vm.currect_step == 3 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.nextStep()" ng-disabled="vm.currect_step == 3" >
               Suivant &nbsp;>
             </md-button>
           </div>

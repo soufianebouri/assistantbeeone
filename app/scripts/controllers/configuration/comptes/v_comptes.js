@@ -45,6 +45,28 @@ angular
         vm.stepUrl = stepUrl
       };
 
+      vm.nextStep = function(){
+        //max = 3
+        vm.currect_step ++ ;
+        vm.gostep(vm.currect_step)
+      }
+
+      vm.preveusStep = function(){
+        //max = 3
+        vm.currect_step -- ;
+        vm.gostep(vm.currect_step)
+      }
+
+      vm.gostep = function(index){
+        if(index == 1){
+          vm.stepUrl = "views/configuration/comptes/v_societe.html";
+        }else if(index == 2){
+          vm.stepUrl = "views/configuration/comptes/v_ferme.html";
+        }else{
+          vm.stepUrl = "views/configuration/comptes/v_campagnes_agricoles.html";
+        }
+      }
+
     
 
       /***transcription */

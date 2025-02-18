@@ -220,7 +220,7 @@ angular.module('beeOneWebFrontApp')
         societe.get_all()
       ]).then((values) => {
         vm.data_societe = values[0].data;
-        vm.data_societe_all = values[0].data;
+        vm.data_societe_all = values[1].data;
         vm.old_items = vm.data_societe.length;
         vm.dtInstance.reloadData();
       }).catch((error) => {
@@ -607,31 +607,27 @@ angular.module('beeOneWebFrontApp')
         DTColumnBuilder.newColumn(null)
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-          )
-          .renderWith(checkboxHtml).notSortable(), 
-        DTColumnBuilder.newColumn("Rais_Social")
-          .withTitle("Raison Sociale")
-          .withClass("no-break"),
-        DTColumnBuilder.newColumn("Statut_juridique").withTitle(
-          "Statut juridique"
-        ),
-        DTColumnBuilder.newColumn("Capital").withTitle("Capital"),
-        DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
-        DTColumnBuilder.newColumn("Email").withTitle("Email"),
-        DTColumnBuilder.newColumn("Fax").withTitle("fax"),
-        DTColumnBuilder.newColumn("Patente").withTitle("Patente"),
-        DTColumnBuilder.newColumn("N_CNSS").withTitle("N° CNSS"),
-        DTColumnBuilder.newColumn("N_amo").withTitle("N° AMO"),
-        DTColumnBuilder.newColumn("IDFiscale").withTitle("ID Fiscal"),
-        DTColumnBuilder.newColumn("ICE").withTitle("ICE"),
-        DTColumnBuilder.newColumn("Prefixe_matricule").withTitle(
-          "Pré Fixe Matricule Ouvrier"
-        ),
+          ).renderWith(checkboxHtml).notSortable(),         
+        DTColumnBuilder.newColumn("Rais_Social").withTitle("Société"),
+        DTColumnBuilder.newColumn("Code").withTitle("Référence"),
+        DTColumnBuilder.newColumn("Nom").withTitle("Nom"),
+        DTColumnBuilder.newColumn("Superficie").withTitle("Superficie"),
+        DTColumnBuilder.newColumn("Date_Creatio_Ferme").withTitle("Date De Création").renderWith(function(data, type, full, meta) {
+          if(full.Date_Creatio_Ferme)
+          return moment(full.Date_Creatio_Ferme).format('DD/MM/YYYY');
+          return ''
+        }),
         DTColumnBuilder.newColumn("Adresse").withTitle("Adresse"),
-        DTColumnBuilder.newColumn(null)
-          .withTitle("Actions")
-          .renderWith(actionsHtml)
-          .withClass("nowraptd all").notSortable(),
+        DTColumnBuilder.newColumn("Gerant").withTitle("Gérant"),
+        DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
+        DTColumnBuilder.newColumn("statut_foncier").withTitle("Statut Foncier"),
+        DTColumnBuilder.newColumn("Fax").withTitle("Fax"),
+        DTColumnBuilder.newColumn("Tel").withTitle("Téléphone"),
+        DTColumnBuilder.newColumn("Latitude").withTitle("Latitude"),
+        DTColumnBuilder.newColumn("Longitude").withTitle("Longitude"),
+        DTColumnBuilder.newColumn("Altitude").withTitle("Altitude"),
+        DTColumnBuilder.newColumn("createdBy").withTitle("Created By"),
+        DTColumnBuilder.newColumn(null).withTitle("Actions").renderWith(actionsHtml).withClass("nowraptd all").notSortable(),
       ];
 
 

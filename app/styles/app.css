@@ -2340,3 +2340,14 @@ table.dataTable td {
   white-space: nowrap;
   border-radius: 21px;
 }
+
+.btn-step_disabled{
+  cursor: no-drop;
+  background-color: #ffffff !important; /* White background */
+  border: 1px solid #4caf50 !important; /* Green border */
+  color: #4caf50 !important; /* Green text */
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif !important;
+  height: 35px !important;
+  border-radius: 5px !important;
+}

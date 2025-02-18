@@ -461,7 +461,9 @@ angular.module('beeOneWebFrontApp')
         .withOption("createdRow", createdRow)
         .withDOM("<lf<t>ip>")
         .withPaginationType("simple_numbers")
-        .withOption("responsive", true)
+        .withOption("responsive", true)        
+        .withOption("pageLength", 5)  // Default number of items per page
+         .withOption("lengthMenu", [5, 10, 20, 50, 100])  // Options for page length
       /*  .withOption('scrollX', false) // Add this line
          .withOption('autoWidth', false)
         .withDisplayLength(5)

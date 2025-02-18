@@ -24,7 +24,7 @@
               <img src="../images/auth/username.svg" alt="username"  />
             </md-icon>
             <label>{{'Login ou E-mail' | translate}}</label>
-            <input ng-model="vm.loginormail" style="width: 300px;"  required>
+            <input ng-model="vm.loginormail" style="width: 300px;" autocomplete="new-loginormail"  required>
           </md-input-container>
         </div>
 
@@ -34,7 +34,7 @@
               <img src="../images/auth/password.svg" alt="password"  />
             </md-icon>
             <label>{{'Password' | translate}}</label>
-            <input ng-model="vm.password" style="width: 300px;"  required>
+            <input ng-model="vm.password" type="password" style="width: 300px;"  autocomplete="new-password" required>
           </md-input-container>
         </div>
 

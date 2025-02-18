@@ -197,12 +197,27 @@ angular
 
       // keep user logged in after page refresh
       $rootScope.globals = $cookies.getObject("globals") || {};
-      if ($rootScope.globals.currentUser) {
-        $http.defaults.headers.common["Authorization"] =
-          $rootScope.globals.currentUser.token;
-          
-        $location.path("/");
+    
+      // Set the authorization header if the token exists
+      if ($rootScope.globals.currentUser && $rootScope.globals.currentUser.token) {
+        $http.defaults.headers.common["Authorization"] = $rootScope.globals.currentUser.token;
       }
+  
+      // Watch for changes in the token
+      $rootScope.$watch('globals.currentUser.token', function(newToken) {
+        if (newToken) {
+          $http.defaults.headers.common["Authorization"] = newToken;
+        }
+      });
+  
+      // Optionally, handle redirection here if needed
+      if (!$rootScope.globals.currentUser) {
+        $location.path("/login"); // Redirect if no user is logged in
+      } else {
+        $location.path("/"); // Redirect if the user is logged in
+      }
+        
+     
       //for data-rocks warning issues when changing routes before component loaded
       alert = function() {};
       $rootScope.$state = $state;

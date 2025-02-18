@@ -272,18 +272,18 @@ angular.module('beeOneWebFrontApp')
       
 
       vm.modifier = async function  () {
-        if (vm.formData.Rais_Social) {
-          if(await $scope.check_all_data_input_edit(vm.formData.ID)){
+       
+          if(await vm.validateFormData()){
 
-            NProgress.start()                 
+            NProgress.start()   ;              
             
+console.log(vm.formData);
 
-            societe.edit(vm.formData).then(async e => {
+            ferme.edit(vm.formData).then(async e => {
                 //validate success
 
-                vm.data_societe.push(e.data.inserted_data);
                
-                let index = vm.data_societe.findIndex(item => item.ID === e.data.inserted_data.ID);
+                let index = vm.data_societe.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
 
                 if (index !== -1) {
                   // Update the existing object
@@ -294,7 +294,7 @@ angular.module('beeOneWebFrontApp')
                 }
 
                 toastr.clear();
-                toastr.success("Société bien modifié.", {
+                toastr.success("Ferme bien modifié.", {
                   closeButton: true
                 });
                 NProgress.done();   
@@ -310,13 +310,6 @@ angular.module('beeOneWebFrontApp')
               });
             });            
           }
-         
-        } else {
-          toastr.clear();
-          toastr.warning("Raison Sociale is required!", {
-            closeButton: true,
-          });
-        }
       };
 
 
@@ -356,9 +349,6 @@ angular.module('beeOneWebFrontApp')
     
       vm.ajouter = async function  () {
         toastr.clear();
-        console.log("vm.formData", vm.formData);
-        
-       
           if(await vm.validateFormData()){
          
             NProgress.start()                 
@@ -511,10 +501,6 @@ angular.module('beeOneWebFrontApp')
 
      
 
-
-
-      
-
       vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
         //var defer = $q.defer();
         return $q.resolve(vm.data_societe);
@@ -552,22 +538,34 @@ angular.module('beeOneWebFrontApp')
         
 
         function actionsHtml(data, type, full, meta) { 
-            vm.societes[data.ID] = data;
+            vm.societes[data.IDFermes] = data;
             var editbtn =
             '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
-            data.ID +
+            data.IDFermes +
             '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
           
           var deletebtn =
             '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
-            data.ID +
+            data.IDFermes +
             '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
         return editbtn + deletebtn;
         }
        
         vm.edit = function (data) {
           vm.formData = data;  
-          /**hna */
+          console.log(vm.formData);
+          
+          vm.formData.Latitude = parseFloat(vm.formData.Latitude || 0);  // or set a default value
+          vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
+          vm.formData.Date_Creatio_Ferme = (vm.formData.Date_Creatio_Ferme) ? new Date(moment(vm.formData.Date_Creatio_Ferme).format("YYYY-MM-DD")) : null;
+       
+          vm.formData.societe = vm.data_societe_all.find(societe => societe.ID === vm.formData.ID_societe);
+
+          toastr.clear();
+            toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Nom}. 👆`, {
+            closeButton: true
+          });
+
         }
 
         

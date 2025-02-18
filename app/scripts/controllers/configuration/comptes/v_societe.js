@@ -250,7 +250,7 @@ angular.module('beeOneWebFrontApp')
             societe.edit(vm.formData).then(async e => {
                 //validate success
 
-                vm.data_societe.push(e.data.inserted_data);
+                //vm.data_societe.push(e.data.inserted_data);
                
                 let index = vm.data_societe.findIndex(item => item.ID === e.data.inserted_data.ID);
 
@@ -506,7 +506,10 @@ angular.module('beeOneWebFrontApp')
        
         vm.edit = function (data) {
           vm.formData = data;  
-          /**hna */
+          toastr.clear();
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Rais_Social}. 👆`, {
+          closeButton: true
+        });
         }
 
         

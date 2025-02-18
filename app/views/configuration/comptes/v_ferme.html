@@ -31,8 +31,9 @@
                           <md-select-header class="demo-select-header">
                             <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                           </md-select-header>
-                          <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all  | orderBy:'Ref' | filter:searchparcellecultural" >{{data_societe.Rais_Social}}
-                          </md-option>
+                          <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
+                          >{{data_societe.Rais_Social}}
+              </md-option>
                         </md-select>
                     </md-input-container>
 
@@ -118,7 +119,7 @@
 
                           <md-input-container class="form-input">
                             <label>Altitude</label>
-                            <input type="number" ng-model="vm.formData.Altitude" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
+                            <input type="text" ng-model="vm.formData.Altitude"  >
                           </md-input-container> 
                             
                     
@@ -262,7 +263,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Sociétés Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
+                  <h2 class="form-title" >Fermes Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

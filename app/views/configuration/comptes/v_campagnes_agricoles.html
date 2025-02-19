@@ -1,0 +1,152 @@
+<div ng-controller="ConfigurationComptesVCampagnesAgricolesCtrl as vm" style="margin-left: 180px;margin-right: 180px;" >
+    <div class="grid-column-container" >        
+  
+        <div id="grid1" class="grid  fade-in " >
+                  <div class="form-header" >
+                    <h2 class="form-title">Campagnes Agricoles</h2>
+                    <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
+                  </div>
+      
+                  <md-content class="form-content">
+                    <!-- Row 1 -->
+                    <div class="form-row tiny-space">
+                      <md-input-container class="form-input">
+                        <label>Titre De La Campagne Agricole</label>
+                        <input type="text" ng-model="vm.formData.Code" required>
+                      </md-input-container>
+      
+                      <md-input-container class="form-input" flex-gt-xs>
+                        <label>Société</label>
+                        <md-select ng-model="vm.formData.societe"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select-header class="demo-select-header">
+                            <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                          </md-select-header>
+                          <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
+                          >{{data_societe.Rais_Social}}
+                          </md-option>
+                        </md-select>
+                    </md-input-container>
+      
+                    </div>
+      
+                    <!-- Row 2 -->
+                    <div class="form-row tiny-space">
+                        <md-input-container class="form-input" flex-gt-xs>
+                            <label>Date De Début</label>
+                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                          </md-input-container>     
+
+                          <md-input-container class="form-input" flex-gt-xs>
+                            <label>Date De Fin</label>
+                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                          </md-input-container> 
+                 
+                    </div>
+
+                    <div class="form-actions">
+                      <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
+                        Reset
+                      </md-button>
+                       
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFermes) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDFermes) ? 'Modifier': 'Ajouter'}} 
+                      </md-button>
+                    </div>
+      
+                  </md-content>
+      
+                </div>
+      
+      
+              </div>
+      
+              <div id="grid4" class="grid">
+                <!--Table-->
+                <div class="info-header unified_pad">
+                  <h2 class="form-title" >Campagne Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
+                  
+                </div>
+      
+      
+      
+              
+                
+                <div class="" >
+                    <div class="" ng-repeat="data_societe in vm.data_societe track by $index" >
+                      <md-card class="card" 
+
+                        layout="column" style="line-height: 26px;background-color: #E0E0E0;padding: 10px;box-shadow: none;border-radius: 5px;background:#E3EDD3;color:#000000">
+        
+                        <div layout="row" layout-align="space-between center">
+        
+                          <div layout="row">
+        
+                            <div layout="column" style="line-height: 1.2;font-size: 12px;">
+                              <strong>Campagne Agricole {{data_societe.Code}}
+                                </strong>
+        
+                            </div>
+                          </div>
+        
+        
+                          <p style="margin: 0;">
+
+                            <img src="././images/main_configuration/edit.svg"
+                            style="width: 25px; height: 25px;padding-top: 1px;cursor: pointer;"> 
+
+                            <img src="././images/main_configuration/delete.svg"
+                              style="width: 25px; height: 25px;padding-top: 1px;cursor: pointer;">                               
+                          </p>
+                        </div>
+
+
+
+                        <div layout="row" layout-align="space-between center">        
+                            <div layout="row">          
+                              <div layout="column" style="line-height: 1.2;font-size: 12px;">
+                                 {{data_societe.societe.length}} Société(s) 
+                              </div>
+                            </div>         
+          
+                            <p style="margin: 0;font-size: 12px;" >  
+                                 <bn ng-repeat="soc in data_societe.societe">{{soc.Rais_Social}}, </bn>                      
+                            </p>
+                          </div>
+
+
+                          <div layout="row" layout-align="space-between center">        
+                            <div layout="row">          
+                              <div layout="column" style="line-height: 1.2;font-size: 12px;">
+                                 Du 
+                              </div>
+                            </div>         
+          
+                            <p style="margin: 0;">  
+                                 {{data_societe.Date_debut  | date:'dd/MM/yyyy'}}                     
+                            </p>
+                          </div>
+
+                          <div layout="row" layout-align="space-between center">        
+                            <div layout="row">          
+                              <div layout="column" style="line-height: 1.2;font-size: 12px;">
+                                 Au
+                              </div>
+                            </div>         
+          
+                            <p style="margin: 0;">                                   
+                                {{data_societe.Date_Fin  | date:'dd/MM/yyyy'}}
+                            </p>
+                          </div>
+
+
+
+        
+                      </md-card>
+        
+                    </div>
+                  </div>
+
+      
+      
+              </div>
+</div>

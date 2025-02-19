@@ -127,11 +127,19 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_campagnes_agricoles', {
+      url: '/configuration/accounts/campagnes_agricoles',
+      templateUrl: 'views/configuration/comptes/v_campagnes_agricoles.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Campagnes Agricoles"
+      }
+    })
+
     .state('v_referentiel', {
       url: '/configuration/referentiel',
       templateUrl: 'views/configuration/referentiel/v_referentiel.html',
       data: {
-        pageTitle: "BeeOne ERP - Référentiel"
+        pageTitle: "BeeOne Assistant - Référentiel"
       }
     })
 
@@ -139,42 +147,42 @@ angular
       url: '/configuration/accounts/ferme',
       templateUrl: 'views/configuration/comptes/v_ferme.html',
       data: {
-        pageTitle: "BeeOne ERP - Configuration Du Compte"
+        pageTitle: "BeeOne Assistant - Configuration Du Compte"
       }
     })
     .state('v_societe', {
       url: '/configuration/accounts/societe',
       templateUrl: 'views/configuration/comptes/v_societe.html',
       data: {
-        pageTitle: "BeeOne ERP - Configuration Du Compte"
+        pageTitle: "BeeOne Assistant - Configuration Du Compte"
       }
     })
     .state('v_comptes', {
       url: '/configuration/accounts',
       templateUrl: 'views/configuration/comptes/v_comptes.html',
       data: {
-        pageTitle: "BeeOne ERP - Configuration Du Compte"
+        pageTitle: "BeeOne Assistant - Configuration Du Compte"
       }
     })
     .state('main_configuration', {
       url: '/configuration/main',
       templateUrl: 'views/configuration/main_configuration.html',
       data: {
-        pageTitle: "BeeOne ERP - Configuration BeeOne"
+        pageTitle: "BeeOne Assistant - Configuration BeeOne"
       }
     })
     .state('onboarding', {
       url: '/',
       templateUrl: 'views/onboarding/onboarding_steps.html',
       data: {
-        pageTitle: "BeeOne ERP - Onboarding"
+        pageTitle: "BeeOne Assistant - Onboarding"
       }
     })    
       .state("login", {
         url: "/login",
         templateUrl: "views/login.html",
         data: {
-          pageTitle: "BeeOne ERP",
+          pageTitle: "BeeOne Assistant",
         },
       });
   })

@@ -2373,3 +2373,11 @@ table.dataTable td {
   cursor: grabbing;
 }
 
+.centered-div {
+  width: 75%;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full height of the viewport */
+  text-align: center; /* Center inline text */
+}

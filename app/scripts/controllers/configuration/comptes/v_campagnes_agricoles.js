@@ -87,14 +87,21 @@ angular.module('beeOneWebFrontApp')
       }
     });
 
-    vm.modifier = async function  () {
-     
-        if(await vm.validateFormData()){
+    vm.modifier = async function  (data) {
+     vm.formData = data;
 
-          NProgress.start()   ;              
+     vm.formData.Date_debut = (vm.formData.Date_debut) ? new Date(moment(vm.formData.Date_debut).format("YYYY-MM-DD")) : null;
+     vm.formData.Date_Fin = (vm.formData.Date_Fin) ? new Date(moment(vm.formData.Date_Fin).format("YYYY-MM-DD")) : null;
+         
+     vm.formData.societe = vm.data_societe_all.filter(societe =>
+      vm.formData.societe.some(selected => selected.IDsociete === societe.ID)
+     );
+     toastr.clear();
+     if(await vm.validateFormData()){
+
+          NProgress.start();              
           
-
-          ferme.edit(vm.formData).then(async e => {
+          compagne.edit(vm.formData).then(async e => {
               //validate success
 
              
@@ -113,8 +120,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
               NProgress.done();   
-              vm.reset();
-              await $scope.undoSelect() 
+              vm.reset(); 
               
           }).catch(async e => {
             NProgress.done();
@@ -154,7 +160,7 @@ angular.module('beeOneWebFrontApp')
   
     vm.ajouter = async function  () {
 
-      console.log(vm.formData);
+     
       
       toastr.clear();
         if(await vm.validateFormData()){

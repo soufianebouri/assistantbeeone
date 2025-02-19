@@ -86,38 +86,6 @@ angular.module('beeOneWebFrontApp')
         });
       }
     });
-    
-
-
-    vm.validateCoordinates = async function () {
-      let isValidCoordinates = true;
-      let messageCoordinates = ''
-  
-      if (vm.formData.Latitude === undefined ) {
-        isValidCoordinates = true;
-      }
-
-      if ( vm.formData.Longitude === undefined) {
-        isValidCoordinates = true;
-      }
-  
-      if (vm.formData.Latitude < -90 || vm.formData.Latitude > 90) {
-        isValidCoordinates = false;
-        messageCoordinates = 'Latitude should be between -90 and 90'
-      }
-  
-      if (vm.formData.Longitude < -180 || vm.formData.Longitude > 180) {
-        isValidCoordinates = false;
-        messageCoordinates = 'Longitude should be between -180 and 180'
-      }
-  
-      return {
-        isValidCoordinates,
-        messageCoordinates
-      };
-  };
-  
-    
 
     vm.modifier = async function  () {
      
@@ -125,7 +93,6 @@ angular.module('beeOneWebFrontApp')
 
           NProgress.start()   ;              
           
-console.log(vm.formData);
 
           ferme.edit(vm.formData).then(async e => {
               //validate success
@@ -161,13 +128,12 @@ console.log(vm.formData);
 
 
     vm.validateFormData = async function() {
-         
+      
           let rules = {
-              Code: "Référence ferme is required.",
-              Nom: "Nom de la is required.",
+              Code: "Titre De La Campagne Agricole is required.",
               societe: "Société is required.",
-              Superficie: (value) => value > 0 ? null : "Superficie must be greater than 0.",
-              Date_Creatio_Ferme: "Date de création de la ferme is required."
+              Date_debut: "Date de debut is required.",
+              Date_Fin: "Date de fin is required."
           };
       
          
@@ -182,23 +148,18 @@ console.log(vm.formData);
               }
           }
 
-          let {isValidCoordinates,
-            messageCoordinates} = await vm.validateCoordinates();
-          if (!isValidCoordinates) {
-            toastr.clear();
-                  toastr.warning(messageCoordinates, {
-                  closeButton: true
-            });
-            return false;
-          }
+          
           return true;
      };
   
     vm.ajouter = async function  () {
+
+      console.log(vm.formData);
+      
       toastr.clear();
         if(await vm.validateFormData()){
        
-          NProgress.start()                 
+        /*  NProgress.start()                 
           
 
           ferme.add(vm.formData).then(async e => {
@@ -223,52 +184,13 @@ console.log(vm.formData);
             toastr.error(e.data.message, {
               closeButton: true
             });
-          });
+          });*/
 
         }
        
      
     };
 
-
-      vm.multiDelete = async function() {
-       
-        let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_societe);
-
-        toastr.clear();
-        toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
-          closeButton: true,
-          allowHtml: true,
-          onShown: function(toast) {
-          
-            $("#confirmationRevertYes").click(function() {
-              NProgress.start()  
-              ferme.multidelete({
-                IDs : selectedIds
-              }).then(async function(result) {
-                
-                vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.IDFermes));
-
-                vm.new -= newItemCount;
-                await $scope.undoSelect()        
-                toastr.clear();
-                toastr.success("Suppression réussie", {
-                  closeButton: true
-                });
-                NProgress.done();
-                
-              }).catch(async e => {
-                NProgress.done();
-                toastr.clear();
-                toastr.error(e.data.message, {
-                  closeButton: true
-                });
-              });
-            });
-          }
-        });
-  
-      }
 
 
     vm.delete = async function(data) {
@@ -344,9 +266,6 @@ console.log(vm.formData);
     }
 
    
-console.log(vm.data_societe);
-
-   
 
      
       vm.edit = function (data) {
@@ -371,21 +290,10 @@ console.log(vm.data_societe);
    vm.reset = function () {
 
     vm.formData =  {
-      Code: null,
-      Nom: null,
+      Code : null,
       societe: null,
-      Superficie: null,
-      Date_Creatio_Ferme: null,
-      Gerant: null,
-      Adresse: null,
-      Ville: null,
-      Fax: null,
-      Tel: null,
-      statut_foncier: null,
-      Latitude: null,
-      Longitude: null,
-      Altitude: null,
-      ID : null,
+      Date_debut: null,
+      Date_Fin: null,
       newItem : true
     }          
    }

@@ -17,7 +17,7 @@
       
                       <md-input-container class="form-input" flex-gt-xs>
                         <label>Société</label>
-                        <md-select ng-model="vm.formData.societe"  data-md-container-class="selectdemoSelectHeader" required>
+                        <md-select ng-model="vm.formData.societe"  multiple data-md-container-class="selectdemoSelectHeader" required>
                           <md-select-header class="demo-select-header">
                             <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                           </md-select-header>
@@ -33,12 +33,12 @@
                     <div class="form-row tiny-space">
                         <md-input-container class="form-input" flex-gt-xs>
                             <label>Date De Début</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                            <input type="date" ng-model="vm.formData.Date_debut" required>
                           </md-input-container>     
 
                           <md-input-container class="form-input" flex-gt-xs>
                             <label>Date De Fin</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                            <input type="date" ng-model="vm.formData.Date_Fin" required>
                           </md-input-container> 
                  
                     </div>
@@ -48,8 +48,8 @@
                         Reset
                       </md-button>
                        
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFermes) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDFermes) ? 'Modifier': 'Ajouter'}} 
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID_compagne) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.ID_compagne) ? 'Modifier': 'Ajouter'}} 
                       </md-button>
                     </div>
       
@@ -121,7 +121,7 @@
                               </div>
                             </div>         
           
-                            <p style="margin: 0;">  
+                            <p style="margin: 0;font-size: 15px;">  
                                  {{data_societe.Date_debut  | date:'dd/MM/yyyy'}}                     
                             </p>
                           </div>
@@ -133,7 +133,7 @@
                               </div>
                             </div>         
           
-                            <p style="margin: 0;">                                   
+                            <p style="margin: 0;font-size: 15px;">                                   
                                 {{data_societe.Date_Fin  | date:'dd/MM/yyyy'}}
                             </p>
                           </div>

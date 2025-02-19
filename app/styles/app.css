@@ -2381,3 +2381,12 @@ table.dataTable td {
   height: 100vh; /* Full height of the viewport */
   text-align: center; /* Center inline text */
 }
+
+
+.md-checkbox-enabled.md-default-theme[selected] .md-icon, .md-checkbox-enabled[selected] .md-icon {
+  background-color: rgb(129 187 38) !important;
+}
+
+md-select-menu.md-default-theme md-content md-option[selected].md-focused, md-select-menu md-content md-option[selected].md-focused, md-select-menu.md-default-theme md-content md-option[selected]:focus, md-select-menu md-content md-option[selected]:focus {
+  color: rgb(55, 56, 59);
+}

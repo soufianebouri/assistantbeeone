@@ -75,7 +75,7 @@
                     <div class="" ng-repeat="data_societe in vm.data_societe track by $index" >
                       <md-card class="card" 
 
-                        layout="column" style="line-height: 26px;background-color: #E0E0E0;padding: 10px;box-shadow: none;border-radius: 5px;background:#E3EDD3;color:#000000">
+                        layout="column" ng-style="data_societe.newItem ? {'background': '#bde77a'} : {'background': '#E3EDD3'}" style="line-height: 26px;background-color: #E0E0E0;padding: 10px;box-shadow: none;border-radius: 5px;color:#000000">
         
                         <div layout="row" layout-align="space-between center">
         
@@ -121,7 +121,7 @@
                               </div>
                             </div>         
           
-                            <p style="margin: 0;font-size: 15px;">  
+                            <p style="margin: 0;font-size: 13px;">  
                                  {{data_societe.Date_debut  | date:'dd/MM/yyyy'}}                     
                             </p>
                           </div>
@@ -133,7 +133,7 @@
                               </div>
                             </div>         
           
-                            <p style="margin: 0;font-size: 15px;">                                   
+                            <p style="margin: 0;font-size: 13px;">                                   
                                 {{data_societe.Date_Fin  | date:'dd/MM/yyyy'}}
                             </p>
                           </div>

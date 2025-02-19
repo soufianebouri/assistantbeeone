@@ -159,22 +159,21 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
        
-        /*  NProgress.start()                 
+         NProgress.start()                 
           
 
-          ferme.add(vm.formData).then(async e => {
+          compagne.add(vm.formData).then(async e => {
               //validate success
 
               vm.data_societe.unshift(e.data.inserted_data);
               console.log("e.data.inserted_data", e.data.inserted_data);
               
-              console.log(vm.data_societe);
+              console.log("vm.data_societe", vm.data_societe);
               
               toastr.clear();
-              toastr.success("Société bien ajoutée au tableau.", {
+              toastr.success(e.data.message, {
                 closeButton: true
               });
-              await $scope.undoSelect() 
               NProgress.done();            
               vm.new++;    
               vm.reset();
@@ -184,7 +183,7 @@ angular.module('beeOneWebFrontApp')
             toastr.error(e.data.message, {
               closeButton: true
             });
-          });*/
+          });
 
         }
        

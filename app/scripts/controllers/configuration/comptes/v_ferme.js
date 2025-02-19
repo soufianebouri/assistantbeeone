@@ -435,9 +435,9 @@ console.log(vm.formData);
           onShown: function(toast) {
             $("#confirmationRevertYes").click(function() {
               NProgress.start()  
-              societe.delete(data).then(async function(result) {
+              ferme.delete(data).then(async function(result) {
                 
-                vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
+                vm.data_societe = vm.data_societe.filter(item => item.IDFermes !== data.IDFermes);
                 
                 if(data.newItem){
                   vm.new--;

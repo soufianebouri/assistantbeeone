@@ -2351,3 +2351,25 @@ table.dataTable td {
   height: 35px !important;
   border-radius: 5px !important;
 }
+
+#nowrapTa td {
+  white-space: nowrap;
+}
+
+
+.info-header {
+  overflow-y: auto;
+}
+
+.info-header::-webkit-scrollbar {
+  width: 2px; /* Adjust width */
+}
+.info-header::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 5px;
+}
+
+.scrollhand:active {
+  cursor: grabbing;
+}
+

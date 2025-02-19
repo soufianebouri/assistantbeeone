@@ -22,6 +22,11 @@ angular.module('beeOneWebFrontApp')
         $scope.loading = false;
         $state.go('v_comptes');
       }, 2000);
+    }else if(params == 2){      
+        $timeout(function () {
+          $scope.loading = false;
+          $state.go('v_referentiel');
+        }, 2000);
     }
    }
 

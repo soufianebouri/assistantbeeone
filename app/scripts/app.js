@@ -127,6 +127,14 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_referentiel', {
+      url: '/configuration/referentiel',
+      templateUrl: 'views/configuration/referentiel/v_referentiel.html',
+      data: {
+        pageTitle: "BeeOne ERP - Référentiel"
+      }
+    })
+
     .state('v_ferme', {
       url: '/configuration/accounts/ferme',
       templateUrl: 'views/configuration/comptes/v_ferme.html',

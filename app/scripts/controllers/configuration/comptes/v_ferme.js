@@ -401,7 +401,7 @@ console.log(vm.formData);
                   IDs : selectedIds
                 }).then(async function(result) {
                   
-                  vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.ID));
+                  vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.IDFermes));
 
                   vm.new -= newItemCount;
                   await $scope.undoSelect()        
@@ -484,7 +484,7 @@ console.log(vm.formData);
 
       $scope.check_all_data_input_edit = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
-          return (societe.Rais_Social === vm.formData.Rais_Social && societe.ID != vm.formData.ID);
+          return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
       });
       
       if (isDuplicate) {
@@ -759,21 +759,22 @@ console.log(vm.formData);
 
       vm.cleanJsonKeys = async function (data) {
         return data.map(item => ({
-            Rais_Social: item["Raison Sociale"] || null,
-            Statut_juridique: item["Statut Juridique"] || null,
-            Capital: item["Capital"] || null,
-            Ville: item["Ville"] || null,
-            Adresse: item["Adresse"] || null,
-            Email: item["Adresse Email"] || null,
-            Fax: item["Fax"] || null,
-            Patente: item["Patente"] || null,
-            N_CNSS: item["N° CNSS"] || null,
-            N_amo: item["N° AMO"] || null,
-            IDFiscale: item["ICE"] || null, // Assuming ICE should be renamed to IDFiscale
-            ICE: item["ICE"] || null,
-            Prefixe_matricule: item["Pré Fix Matricule Ouvrier"] || null
+          Code: item["Référence"] || null,
+          Nom: item["Nom"] || null,             
+          societe: item["Société"] || null, 
+          Superficie: item["Superficie"] || null, 
+          Date_Creatio_Ferme: item["Date De Création"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date De Création"]) : null,
+          Gerant: item["Gérant"] || null, 
+          Adresse: item["Adresse"] || null, 
+          Ville : item["Ville"] || null, 
+          Fax: item["Fax"] || null, 
+          Tel: item["Téléphone"] || null,
+          statut_foncier: item["Statut Foncier"] || null, 
+          Latitude: item["Latitude"] || null, 
+          Longitude: item["Longitude"] || null, 
+          Altitude: item["Altitude"] || null
         }));
-    };
+      };
     
 
 
@@ -782,17 +783,17 @@ console.log(vm.formData);
       };
 
 
-      vm.checkDuplicate__column = async function (newData, oldData) {
+      vm.checkDuplicate__column_code = async function (newData, oldData) {
       
     
         // Ensure `seen` set is cleared each time the function is called
         let seen = new Set();
         let rowIndex = 2;  // To keep track of the row number
     
-        // Add old data "Rais_Social" values to the set
+        // Add old data "" values to the set
         oldData.forEach(item => {
-            if (item.Rais_Social) {
-                seen.add(item.Rais_Social.toLowerCase()); // Convert to lowercase for case-insensitive check
+            if (item.Code) {
+                seen.add(item.Code.toLowerCase()); // Convert to lowercase for case-insensitive check
             }
         });
     
@@ -800,30 +801,67 @@ console.log(vm.formData);
     
         // Check for duplicates in new data
         for (let item of newData) {
-            if (item.Rais_Social) {
-                let lowerCaseName = item.Rais_Social.toLowerCase();
+            if (item.Code) {
+                let lowerCaseName = item.Code.toLowerCase();
     
                
     
                 if (seen.has(lowerCaseName)) {
-                    console.log(`Duplicate found in row ${rowIndex}: ${item.Rais_Social}`);
                     return {
                         status: false,
-                        message: `Duplicate Raison Social found in row ${rowIndex}: ${item.Rais_Social}`
-                    }; // Stop checking and return false
+                        message: `Duplicate Rférence found in row ${rowIndex}: ${item.Code}`
+                    }; 
                 }
     
                 seen.add(lowerCaseName);
             }
-            rowIndex++;  // Increment the row index
+            rowIndex++; 
         }
     
-        console.log("No duplicates found.");
         return {
             status: true
         }; // No duplicates found
-    };
+      };
     
+      vm.checkDuplicate__column_name = async function (newData, oldData) {
+      
+    
+        // Ensure `seen` set is cleared each time the function is called
+        let seen = new Set();
+        let rowIndex = 2;  // To keep track of the row number
+    
+        // Add old data "" values to the set
+        oldData.forEach(item => {
+            if (item.Nom) {
+                seen.add(item.Nom.toLowerCase()); // Convert to lowercase for case-insensitive check
+            }
+        });
+    
+     
+    
+        // Check for duplicates in new data
+        for (let item of newData) {
+            if (item.Nom) {
+                let lowerCaseName = item.Nom.toLowerCase();
+    
+               
+    
+                if (seen.has(lowerCaseName)) {
+                    return {
+                      status_name: false,
+                      message_name: `Duplicate Nom found in row ${rowIndex}: ${item.Nom}`
+                    }; 
+                }
+    
+                seen.add(lowerCaseName);
+            }
+            rowIndex++; 
+        }
+    
+        return {
+          status_name: true
+        }; // No duplicates found
+      };
     
     
       
@@ -838,22 +876,27 @@ console.log(vm.formData);
 
       vm.integer = async function(){
        
+        console.log("integer",vm.jsonData);
         
         if(vm.jsonData.length>0){
          
-          let { status , message} = await vm.checkDuplicate__column(vm.jsonData, vm.data_societe);
+          let { status , message} = await vm.checkDuplicate__column_code(vm.jsonData, vm.data_societe);
          
+          
           
 
           if(status){
-             
-            /**Create en masse */
+            let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_societe);
+            console.log(status_name);
+            console.log(message_name);
+            if(status_name){
+              /**Create en masse */
             
             NProgress.start()               
             
 
-            societe.multiadd({
-              societes :vm.jsonData
+            ferme.multiadd({
+              fermes :vm.jsonData
             }).then(async e => {
                 //validate success
 
@@ -884,6 +927,19 @@ console.log(vm.formData);
               }
             });
 
+            
+            }else{
+              vm.errData = {
+                err : true,
+                status : status_name,
+                message : message_name
+              }
+              toastr.clear();
+              toastr.warning(message_name, {
+              closeButton: true,
+            });
+            }
+             
             
             
           }else{  

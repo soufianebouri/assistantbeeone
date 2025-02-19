@@ -397,7 +397,7 @@ console.log(vm.formData);
             
               $("#confirmationRevertYes").click(function() {
                 NProgress.start()  
-                societe.multidelete({
+                ferme.multidelete({
                   IDs : selectedIds
                 }).then(async function(result) {
                   
@@ -524,14 +524,10 @@ console.log(vm.formData);
             titleAttr: "Copie",
           },
           {
-            extend: "pdf",
-            text: "PDF",
-            titleAttr: "PDF",
-          },
-          {
             extend: "excel",
             text: "EXCEL",
             titleAttr: "EXCEL",
+            title: 'Liste des fermes'
           },
         ]);
 
@@ -599,7 +595,7 @@ console.log(vm.formData);
     $scope.getSelectedIDs = async function(data) {
       let selectedItems = data.filter(item => item.selected === true); // Get selected items
       
-      let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+      let selectedIds = selectedItems.map(item => item.IDFermes); // Extract IDs
       let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
       
       return {
@@ -612,7 +608,7 @@ console.log(vm.formData);
       $scope.toggleSelection = function (id) {    
         let found = false;    
         vm.data_societe = vm.data_societe.map(societe => {
-            if (societe.ID === id) {
+            if (societe.IDFermes === id) {
                 found = true;
                 return { ...societe, selected: !societe.selected }; // Toggle selection
             }
@@ -624,7 +620,7 @@ console.log(vm.formData);
     };
          
       function checkboxHtml(data, type, full, meta) {        
-          return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
+          return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFermes})">`;
       }   
       
       
@@ -707,37 +703,26 @@ console.log(vm.formData);
       /** Step1 excel*/
       
       vm.headers = [
-        "Référence", "Nom", "Société", "Superficie", 
-        "Date De Création", "Gérant", "Adresse", "Ville", "Fax", 
-        "Téléphone", "Statut Foncier", "Latitude" , "Longitude",
-        "Altitude"
-    ];
+        "Référence","Nom","Société",
+        "Superficie","Date De Création","Gérant",
+        "Adresse","Ville","Fax",
+        "Téléphone","Statut Foncier","Latitude",
+        "Longitude","Altitude"];
 
         vm.exportToExcel = function () {
-            // Define headers           
            let headers=  vm.headers
-            // Example data (replace this with dynamic data)
-           /* var data = [
-                ["Company A", "SARL", "1000000", "Casablanca", 
-                "email@example.com", "0522-123456", "12345678", "987654", "456789", 
-                "ICE123456789", "PREF123", "123 Street, Casablanca"]
-            ];*/
-    
-            // Combine headers and data
-            //var ws_data = [headers, ...data];
             var ws_data = [headers]
-            // Create worksheet
             var ws = XLSX.utils.aoa_to_sheet(ws_data);
     
             // Create workbook
             var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Ferme");
+            XLSX.utils.book_append_sheet(wb, ws, "Fermes");
     
             // Write the file and trigger download
             var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
             var blob = new Blob([wbout], { type: "application/octet-stream" });
     
-            saveAs(blob, "Canvas Ferme.xlsx"); // Save and trigger download
+            saveAs(blob, "Canvas Fermes.xlsx"); 
         };
     
 

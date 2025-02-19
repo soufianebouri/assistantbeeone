@@ -477,14 +477,10 @@ angular.module('beeOneWebFrontApp')
             titleAttr: "Copie",
           },
           {
-            extend: "pdf",
-            text: "PDF",
-            titleAttr: "PDF",
-          },
-          {
             extend: "excel",
             text: "EXCEL",
             titleAttr: "EXCEL",
+            title: 'Liste des sociétés'
           },
         ]);
 

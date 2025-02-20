@@ -87,16 +87,31 @@ angular.module('beeOneWebFrontApp')
       }
     });
 
-    vm.modifier = async function  (data) {
-     vm.formData = data;
 
-     vm.formData.Date_debut = (vm.formData.Date_debut) ? new Date(moment(vm.formData.Date_debut).format("YYYY-MM-DD")) : null;
-     vm.formData.Date_Fin = (vm.formData.Date_Fin) ? new Date(moment(vm.formData.Date_Fin).format("YYYY-MM-DD")) : null;
-         
-     vm.formData.societe = vm.data_societe_all.filter(societe =>
-      vm.formData.societe.some(selected => selected.IDsociete === societe.ID)
-     );
-     toastr.clear();
+    vm.edit = async function(data){
+      console.log(data);
+
+      vm.formData = angular.copy(data);;
+
+      vm.formData.Date_debut = (vm.formData.Date_debut) ? new Date(moment(vm.formData.Date_debut).format("YYYY-MM-DD")) : null;
+      vm.formData.Date_Fin = (vm.formData.Date_Fin) ? new Date(moment(vm.formData.Date_Fin).format("YYYY-MM-DD")) : null;
+          
+      
+        vm.formData.societe =  vm.data_societe_all.filter(societe =>
+          vm.formData.societe.some(selected => selected.IDsociete === societe.ID)
+         );
+      
+      
+      
+      toastr.clear();
+            toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Code}. 👆`, {
+            closeButton: true
+          });
+    }
+
+    vm.modifier = async function  () {
+     
+   
      if(await vm.validateFormData()){
 
           NProgress.start();              
@@ -104,24 +119,41 @@ angular.module('beeOneWebFrontApp')
           compagne.edit(vm.formData).then(async e => {
               //validate success
 
+              
+              /*let index = vm.data_societe.findIndex(item => item.ID_compagne === e.data.inserted_data.ID_compagne);
              
-              let index = vm.data_societe.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
-
+              console.log('index',index);
+              console.log('e.data.inserted_data' ,e.data.inserted_data);
+              
+              
+             // vm.data_societe = vm.data_societe.filter(item => item.ID_compagne !== data.ID_compagne);
               if (index !== -1) {
                 // Update the existing object
                 vm.data_societe[index] = e.data.inserted_data;
+
+                console.log("vm.data_societe[index]" ,vm.data_societe[index]);
+                
               } else {
                 // If not found, add it to the list (optional)
-                vm.data_societe.push(e.data.inserted_data);
-              }
+                //vm.data_societe.unshift(e.data.inserted_data);
+              }*/
 
               toastr.clear();
-              toastr.success("Ferme bien modifié.", {
+              toastr.success("Campagne Agricole bien modifié.", {
                 closeButton: true
               });
-              NProgress.done();   
+              NProgress.done();  
+
+              $q.all([
+                compagne.get_all_edit(vm.formData)
+              ]).then((values) => {
+                vm.data_societe = values[0].data;
+              }).catch((error) => {
+                console.error("Error message:", error);
+                
+              });
+               
               vm.reset(); 
-              
           }).catch(async e => {
             NProgress.done();
             toastr.clear();
@@ -273,22 +305,7 @@ angular.module('beeOneWebFrontApp')
    
 
      
-      vm.edit = function (data) {
-        vm.formData = data;  
-        console.log(vm.formData);
-        
-        vm.formData.Latitude = parseFloat(vm.formData.Latitude || 0);  // or set a default value
-        vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
-        vm.formData.Date_Creatio_Ferme = (vm.formData.Date_Creatio_Ferme) ? new Date(moment(vm.formData.Date_Creatio_Ferme).format("YYYY-MM-DD")) : null;
      
-        vm.formData.societe = vm.data_societe_all.find(societe => societe.ID === vm.formData.ID_societe);
-
-        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Nom}. 👆`, {
-          closeButton: true
-        });
-
-      }
 
       
 

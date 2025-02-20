@@ -13,6 +13,9 @@ angular.module('beeOneWebFrontApp')
       get_all: function() {
         return $http.post(_url + "/compagne/get_all");
       },
+      get_all_edit: function(data) {
+        return $http.post(_url + "/compagne/get_all_edit", data);
+      },
       add: function(data) {
         return $http.post(_url + "/compagne/add", data);
       },

@@ -2425,3 +2425,30 @@ table.dataTable td {
 md-select-menu.md-default-theme md-content md-option[selected].md-focused, md-select-menu md-content md-option[selected].md-focused, md-select-menu.md-default-theme md-content md-option[selected]:focus, md-select-menu md-content md-option[selected]:focus {
   color: rgb(55, 56, 59);
 }
+
+
+
+/* Align DataTables headers (th) to the left */
+table.dataTable th {
+  text-align: left !important;
+}
+
+/* Prevents text breaking & ensures a small width */
+.actions-column {
+  white-space: nowrap !important;  /* Ensures content stays in one line */
+  text-align: center; /* Centers actions (optional) */
+  width: 60px !important; /* Enforces small width */
+  min-width: 60px; /* Ensures content fits */
+}
+
+/* Ensure table cells in "Actions" column don’t break lines */
+.nowrap td {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Optional: trims overflowing content */
+}
+
+md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
+  padding-bottom: 0;
+  border-width: 0 0 1px;
+}

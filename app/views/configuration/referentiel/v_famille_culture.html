@@ -17,10 +17,10 @@
                             <label>Ferme</label>
                             <md-select ng-model="vm.formData.fermes"  multiple data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
-                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
-                              <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
-                              >{{data_societe.Rais_Social}}
+                              <md-option ng-value="data_ferme" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str" 
+                              >{{data_ferme.Nom}}
                                </md-option>
                             </md-select>
                         </md-input-container>
@@ -35,12 +35,12 @@
                      
                         <md-input-container class="form-input" >
                             <label>Filière</label>
-                            <md-select ng-model="vm.formData.fermes"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select ng-model="vm.formData.filier"  data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
-                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                <input ng-model="searchfilier" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
-                              <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
-                              >{{data_societe.Rais_Social}}
+                              <md-option ng-value="data_filier.id" ng-repeat="data_filier in vm.data_filier | orderBy:'name' | filter:searchfilier" 
+                              >{{data_filier.name}}
                               </md-option>
                             </md-select>
                         </md-input-container>
@@ -80,10 +80,7 @@
                   </md-content>
       
                 </div>
-      
-      
-      
-      
+           
                 <div id="grid2" class="grid  fade-in">
       
                   <div class="form-header">
@@ -98,7 +95,7 @@
                       <div layout="row" layout-align="start center">
                         <img src="././images/main_configuration/xls.svg" alt="time"
                           style="width: 20px; height: 20px; margin-right: 5px;">
-                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Fermes.xls</h2>
+                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Famille Culturale.xls</h2>
                       </div>
                       <md-button class="md-raised md-primary btn-download" ng-click="vm.exportToExcel()"
                         style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
@@ -205,7 +202,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Fermes Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
+                  <h2 class="form-title" >Famille Culturale Ajoutées ({{vm.data_familleculture.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

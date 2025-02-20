@@ -22,8 +22,9 @@ angular.module('beeOneWebFrontApp')
     $compile,
     DTColumnBuilder,
     DTDefaultOptions,
-    societe,$cookies,
-    ferme
+    $cookies,
+    ferme,
+    familleculture
   ) {
     var vm = this;
     vm._version = _version;
@@ -207,39 +208,42 @@ angular.module('beeOneWebFrontApp')
     vm.dtInstance = {};
     vm.selected = {};
     vm.selectAll = false;
-    vm.societes = {};
 
     //get data and refresh datatable
-    vm.data_societe = []; 
-    vm.new = 0;
-    vm.old_items = 0;
+    vm.data_familleculture = []; 
 
     $q.all([
-      ferme.get_all(),
-      societe.get_all()
+      ferme.get_all()
     ]).then((values) => {
-      vm.data_societe = values[0].data;
-      vm.data_societe_all = values[1].data;
-      vm.old_items = vm.data_societe.length;
-      vm.dtInstance.reloadData();
+      vm.data_ferme = values[0].data;      
+      console.log(vm.data_ferme);      
     }).catch((error) => {
-      if (error && error.message) {
-        console.error("Error message:", error.message);
-        toastr.clear();
-        toastr.error("Error message:", error.message, {
-          closeButton: true
-        });
-      } else {
-        console.error("Connot acces to the server, call our support team", error);
-        toastr.clear();
-        toastr.error("Connot acces to the server, call our support team", error, {
-          closeButton: true
-        });
-      }
+      toastr.clear();
+      toastr.error(error.message, {
+        closeButton: true
+      });
     });
+
+    vm.data_filier = [{
+      id : 1,
+      name : 'Maraichage'
+    },{
+      id : 2,
+      name : 'Arboriculture'
+    },
+    {
+      id : 3,
+      name : 'Grande Culture'
+    },
+    {
+      id : 4,
+      name : 'Floriculture'
+    },
+    {
+      id : 5,
+      name : 'Fruits rouges'
+    }]
     
-
-
     vm.validateCoordinates = async function () {
       let isValidCoordinates = true;
       let messageCoordinates = ''
@@ -282,14 +286,14 @@ console.log(vm.formData);
               //validate success
 
              
-              let index = vm.data_societe.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
+              let index = vm.data_familleculture.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
 
               if (index !== -1) {
                 // Update the existing object
-                vm.data_societe[index] = e.data.inserted_data;
+                vm.data_familleculture[index] = e.data.inserted_data;
               } else {
                 // If not found, add it to the list (optional)
-                vm.data_societe.push(e.data.inserted_data);
+                vm.data_familleculture.push(e.data.inserted_data);
               }
 
               toastr.clear();
@@ -356,10 +360,10 @@ console.log(vm.formData);
           ferme.add(vm.formData).then(async e => {
               //validate success
 
-              vm.data_societe.unshift(e.data.inserted_data);
+              vm.data_familleculture.unshift(e.data.inserted_data);
               console.log("e.data.inserted_data", e.data.inserted_data);
               
-              console.log(vm.data_societe);
+              console.log(vm.data_familleculture);
               
               toastr.clear();
               toastr.success("Société bien ajoutée au tableau.", {
@@ -386,7 +390,7 @@ console.log(vm.formData);
 
       vm.multiDelete = async function() {
        
-        let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_societe);
+        let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_familleculture);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -400,7 +404,7 @@ console.log(vm.formData);
                 IDs : selectedIds
               }).then(async function(result) {
                 
-                vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.IDFermes));
+                vm.data_familleculture = vm.data_familleculture.filter(item => !selectedIds.includes(item.IDFermes));
 
                 vm.new -= newItemCount;
                 await $scope.undoSelect()        
@@ -436,7 +440,7 @@ console.log(vm.formData);
             NProgress.start()  
             ferme.delete(data).then(async function(result) {
               
-              vm.data_societe = vm.data_societe.filter(item => item.IDFermes !== data.IDFermes);
+              vm.data_familleculture = vm.data_familleculture.filter(item => item.IDFermes !== data.IDFermes);
               
               if(data.newItem){
                 vm.new--;
@@ -465,7 +469,7 @@ console.log(vm.formData);
 
     
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_societe.some(function(societe) {
+      var isDuplicate = vm.data_familleculture.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
     
@@ -482,7 +486,7 @@ console.log(vm.formData);
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_societe.some(function(societe) {
+      var isDuplicate = vm.data_familleculture.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
     
@@ -499,21 +503,25 @@ console.log(vm.formData);
     }
 
    
+    $scope.updatedata = function() {
+      return familleculture.get_all();
+    };
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
-      //var defer = $q.defer();
-      return $q.resolve(vm.data_societe);
-    })
+      var defer = $q.defer();
+        $scope.updatedata().then(function(res) {
+          vm.data_familleculture = res.data;       
+          defer.resolve(res.data);
+          NProgress.done();
+        });
+        return defer.promise;
+      })
       .withOption("createdRow", createdRow)
       .withDOM("<lf<t>ip>")
       .withPaginationType("simple_numbers")
       .withOption("pageLength", 5)  // Default number of items per page
        .withOption("lengthMenu", [5, 10, 20, 50, 100])  // Options for page length
       .withOption("responsive", true)
-    /*  .withOption('scrollX', false) // Add this line
-       .withOption('autoWidth', false)
-      .withDisplayLength(5)
-      .withScroller(false)*/
       .withOption("order", [])
       .withButtons([
         {
@@ -532,16 +540,17 @@ console.log(vm.formData);
 
       
 
+      vm.familleculture_action = {};
       function actionsHtml(data, type, full, meta) { 
-          vm.societes[data.IDFermes] = data;
+          vm.familleculture_action[data.IDFamille_Culture] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
-          data.IDFermes +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.familleculture_action[' +
+          data.IDFamille_Culture +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
         
-        var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
-          data.IDFermes +
+           var deletebtn =
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.familleculture_action[' +
+          data.IDFamille_Culture +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
       return editbtn + deletebtn;
       }
@@ -554,7 +563,7 @@ console.log(vm.formData);
         vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
         vm.formData.Date_Creatio_Ferme = (vm.formData.Date_Creatio_Ferme) ? new Date(moment(vm.formData.Date_Creatio_Ferme).format("YYYY-MM-DD")) : null;
      
-        vm.formData.societe = vm.data_societe_all.find(societe => societe.ID === vm.formData.ID_societe);
+        vm.formData.societe = vm.data_familleculture_all.find(societe => societe.ID === vm.formData.ID_societe);
 
         toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Nom}. 👆`, {
@@ -572,7 +581,7 @@ console.log(vm.formData);
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_societe.forEach(societe => {
+      vm.data_familleculture.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });        
       vm.dtInstance.reloadData();
@@ -587,10 +596,12 @@ console.log(vm.formData);
 
 
   $scope.undoSelect = async function(){
-    vm.data_societe = vm.data_societe.map(societe => {
+    vm.data_familleculture = vm.data_familleculture.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
+
+  
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
     
@@ -606,7 +617,7 @@ console.log(vm.formData);
 
     $scope.toggleSelection = function (id) {    
       let found = false;    
-      vm.data_societe = vm.data_societe.map(societe => {
+      vm.data_familleculture = vm.data_familleculture.map(societe => {
           if (societe.IDFermes === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -614,7 +625,7 @@ console.log(vm.formData);
           return societe;
       });    
       /* if (!found) {
-            vm.data_societe.push({ id_sco_temp: id, selected: true });
+            vm.data_familleculture.push({ id_sco_temp: id, selected: true });
         }    */
   };
        
@@ -624,7 +635,7 @@ console.log(vm.formData);
     
     
     vm.updateSelectedCount = function () {
-      return vm.data_societe.filter(societe => societe.selected).length;
+      return vm.data_familleculture.filter(societe => societe.selected).length;
     };
 
 
@@ -632,27 +643,37 @@ console.log(vm.formData);
       DTColumnBuilder.newColumn(null)
         .withTitle(
           '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-        ).renderWith(checkboxHtml).notSortable(),         
-      DTColumnBuilder.newColumn("Rais_Social").withTitle("Société"),
-      DTColumnBuilder.newColumn("Code").withTitle("Référence"),
-      DTColumnBuilder.newColumn("Nom").withTitle("Nom"),
-      DTColumnBuilder.newColumn("Superficie").withTitle("Superficie"),
-      DTColumnBuilder.newColumn("Date_Creatio_Ferme").withTitle("Date De Création").renderWith(function(data, type, full, meta) {
-        if(full.Date_Creatio_Ferme)
-        return moment(full.Date_Creatio_Ferme).format('DD/MM/YYYY');
-        return ''
+        ).renderWith(checkboxHtml).notSortable().withOption("width", "10px"),  
+        DTColumnBuilder.newColumn("fermes").withTitle("Fermes").renderWith(function(data, type, full, meta) {
+          if (full.fermes && Array.isArray(full.fermes)) {
+            return full.fermes.map(f => f.Nom).join(", ");
+        }
+        return "";
+       }),        
+      DTColumnBuilder.newColumn("filier").withTitle("Filière").renderWith(function(data, type, full, meta) {
+        if (full.filier == 1) {
+          return "Maraichage";
+        } else if (full.filier == 2) {
+          return "Arboriculture";
+        } else if (full.filier == 3) {
+          return "Grande Culture";
+        } else if (full.filier == 4) {
+          return "Floriculture";
+        } else if (full.filier == 5) {
+          return "Fruits rouges";
+        } else {
+          return '';
+        }
       }),
-      DTColumnBuilder.newColumn("Adresse").withTitle("Adresse"),
-      DTColumnBuilder.newColumn("Gerant").withTitle("Gérant"),
-      DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
-      DTColumnBuilder.newColumn("statut_foncier").withTitle("Statut Foncier"),
-      DTColumnBuilder.newColumn("Fax").withTitle("Fax"),
-      DTColumnBuilder.newColumn("Tel").withTitle("Téléphone"),
-      DTColumnBuilder.newColumn("Latitude").withTitle("Latitude"),
-      DTColumnBuilder.newColumn("Longitude").withTitle("Longitude"),
-      DTColumnBuilder.newColumn("Altitude").withTitle("Altitude"),
-      DTColumnBuilder.newColumn("createdBy").withTitle("Created By"),
-      DTColumnBuilder.newColumn(null).withTitle("Actions").renderWith(actionsHtml).withClass("nowraptd all").notSortable(),
+      DTColumnBuilder.newColumn("Reference").withTitle("Référence famille"),
+      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Désignation Famille"),
+         
+      DTColumnBuilder.newColumn(null)
+      .withTitle("Actions")
+      .renderWith(actionsHtml)
+      .withClass("nowrap actions-column") // Custom class for better control
+      .withOption("width", "60px")
+      .notSortable()
     ];
 
 
@@ -660,27 +681,15 @@ console.log(vm.formData);
       '<center><img src="././images/loading.gif"/></center>'
     );
 
-   vm.reset = function () {
-
-    vm.formData =  {
-      Code: null,
-      Nom: null,
-      societe: null,
-      Superficie: null,
-      Date_Creatio_Ferme: null,
-      Gerant: null,
-      Adresse: null,
-      Ville: null,
-      Fax: null,
-      Tel: null,
-      statut_foncier: null,
-      Latitude: null,
-      Longitude: null,
-      Altitude: null,
-      ID : null,
-      newItem : true
-    }          
-   }
+    vm.reset = function () {
+      vm.formData =  {
+        IDFamille_Culture : null,
+        Reference : null,
+        Nom_Famille : null,
+        filier : null,
+        fermes : []
+      }          
+     } 
    vm.reset()
 
 
@@ -879,13 +888,13 @@ console.log(vm.formData);
       
       if(vm.jsonData.length>0){
        
-        let { status , message} = await vm.checkDuplicate__column_code(vm.jsonData, vm.data_societe);
+        let { status , message} = await vm.checkDuplicate__column_code(vm.jsonData, vm.data_familleculture);
        
         
         
 
         if(status){
-          let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_societe);
+          let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_familleculture);
           console.log(status_name);
           console.log(message_name);
           if(status_name){
@@ -899,7 +908,7 @@ console.log(vm.formData);
           }).then(async e => {
               //validate success
 
-              vm.data_societe.unshift(...e.data.inserted_data);
+              vm.data_familleculture.unshift(...e.data.inserted_data);
 
               console.log("e.data.inserted_data", e.data.inserted_data);
                                               

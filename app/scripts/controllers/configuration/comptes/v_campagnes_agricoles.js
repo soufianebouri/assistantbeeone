@@ -277,7 +277,40 @@ angular.module('beeOneWebFrontApp')
 
     }
 
-
+    vm.downloadExcel = function () {
+      if (!vm.data_societe || vm.data_societe.length === 0) {
+          alert("Aucune donnée à exporter !");
+          return;
+      }
+  
+      // Transformer les données en un tableau plat
+      let excelData = [];
+      vm.data_societe.forEach(compagne => {
+          compagne.societe.forEach(societe => {
+              excelData.push({
+                  "Titre De La Campagne Agricole": compagne.Code_compagne,
+                  "Société": societe.Rais_Social,
+                  "Date De Début": new Date(compagne.Date_debut).toLocaleDateString(),
+                  "Date De Fin": new Date(compagne.Date_Fin).toLocaleDateString()
+              });
+          });
+      });
+  
+      // Convertir en worksheet
+      let ws = XLSX.utils.json_to_sheet(excelData);
+  
+      // Créer un workbook
+      let wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Campagnes Agricoles");
+  
+      // Générer et télécharger le fichier
+      let wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      let blob = new Blob([wbout], { type: "application/octet-stream" });
+  
+      saveAs(blob, "Campagnes Agricoles.xlsx");
+  };
+  
+  
     
     $scope.check_all_data_input = async function(){
       var isDuplicate = vm.data_societe.some(function(societe) {

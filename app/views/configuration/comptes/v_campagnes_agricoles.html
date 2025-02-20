@@ -1,4 +1,4 @@
-<div ng-controller="ConfigurationComptesVCampagnesAgricolesCtrl as vm" style="margin-left: 180px;margin-right: 180px;" >
+<div ng-controller="ConfigurationComptesVCampagnesAgricolesCtrl as vm" style="max-width: calc(100% - 360px); margin-left: auto;margin-right: auto;" >
     <div class="grid-column-container" >        
   
         <div id="grid1" class="grid  fade-in " >
@@ -63,7 +63,9 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Campagne Ajoutées <span class="badge-new" >{{vm.data_societe.length}}</span></h2>
+                  <h2 class="form-title" >Campagne Ajoutées <span class="badge-new" >{{vm.data_societe.length}}</span> 
+                    <img ng-click="vm.downloadExcel()" src="././images/main_configuration/xls.svg" alt="time"
+                        style="width: 20px; height: 20px; margin-right: 5px;float:right;cursor: pointer;"></h2>
                   
                 </div>
       

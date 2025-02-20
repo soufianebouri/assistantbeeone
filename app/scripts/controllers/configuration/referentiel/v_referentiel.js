@@ -36,7 +36,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/comptes/v_societe.html";
+    vm.stepUrl = "views/configuration/referentiel/v_famille_culture.html";
     vm.step = async function (params, stepUrl) {
       vm.currect_step = params;
       vm.stepUrl = stepUrl
@@ -77,11 +77,11 @@ angular.module('beeOneWebFrontApp')
 
     vm.gostep = function(index){
       if(index == 1){
-        vm.stepUrl = "views/configuration/comptes/v_societe.html";
+        vm.stepUrl = "views/configuration/referentiel/v_famille_culture.html";
       }else if(index == 2){
-        vm.stepUrl = "views/configuration/comptes/v_ferme.html";
+        vm.stepUrl = "views/configuration/referentiel/2.html";
       }else{
-        vm.stepUrl = "views/configuration/comptes/v_campagnes_agricoles.html";
+        vm.stepUrl = "views/configuration/referentiel/3.html";
       }
     }
 

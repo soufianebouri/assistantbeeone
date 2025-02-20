@@ -337,9 +337,6 @@ table.dataTable td {
   transition: transform 0.3s ease;
 }
 
-.step-btn:hover {
-  transform: scale(1.1);
-}
 
 .step-btn-disabled {
   width: 40px;
@@ -348,7 +345,8 @@ table.dataTable td {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #a5af94;
+  background-color: #D8D8D8;
+  cursor: pointer;
   /*cursor: pointer;*/
 }
 
@@ -525,11 +523,16 @@ table.dataTable td {
   }
 }
 
+  .sotiny{
+  margin-bottom: 1.5rem !important;
+  gap: 0.5rem;
+  }
+
 .card {
   padding: 20px;
   background: #fff;
   border-radius: 8px;
-  /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);*/
+  box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.7);
   font-family: "Poppins", sans-serif !important;
 }
 
@@ -1414,9 +1417,6 @@ a.dt-button {
   justify-content: flex-end;
 }
 
-.infos-btn:hover {
-  transform: scale(1.1);
-}
 
 .no-b {
   flex-wrap: nowrap;
@@ -1731,17 +1731,47 @@ md-card-content {
   height: 100vh;
 }
 
-/* Left Panel (Green) */
 .left-panel {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center content horizontally */
+  height: 100vh; /* Full viewport height */
+  /*padding: 20px;*/
+  box-sizing: border-box;
+  background-color: #0b522b;
+}
+
+.quote {
+  /*text-align: center;*/
+  max-width: 80%;
+ 
+  flex: 1; /* This will take all available space and balance the layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Ensures the text is centered in the available space */
+}
+
+.logo {
+  /*text-align: center;
+  padding-bottom: 20px; *//* Optional: Adjust bottom spacing */
+
+  line-height: 9px;
+  align-self: flex-start;
+  text-align: left;
+  padding-left: 48px;
+}
+
+/* Left Panel (Green) */
+/*.left-panel {
   background-color: #0b522b;
   color: #fff;
   width: 40vw;
   /*height: 100vh;*/
-  padding: 50px;
+/*  padding: 50px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
+  justify-content: space-between;*/
+/*}*/
 
 /* Right Panel (White) */
 .right-panel {
@@ -1757,14 +1787,14 @@ md-card-content {
 }
 
 /* Quote Styling */
-.quote {
+/*.quote {
   padding-top: 120px;
-}
+}*/
 
 .strong_p {
   font-size: 14px;
-  line-height: 1.6;
   color: #e0e9e4;
+  line-height: 0px;
 }
 
 .notes {
@@ -1802,6 +1832,10 @@ md-card-content {
   transform: scale(1.02);
 }
 
+.md-button.md-default-theme.md-fab[disabled], .md-button.md-fab[disabled], .md-button.md-default-theme.md-raised[disabled], .md-button.md-raised[disabled] {
+  background-color: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
 
 /* Options */
 .options {
@@ -1830,6 +1864,7 @@ md-card-content {
 .logo p {
   font-size: 14px;
   opacity: 0.8;
+  color: #ffffff;
 }
 
 .nomarging {
@@ -1947,12 +1982,12 @@ md-card-content {
 .right-panel_onbord {
   flex: 1;
   display: flex;
-  /*flex-direction: column;*/
+  flex-direction: column;
   justify-content: center;
   padding: 64px;
   background-color: white;
   /* Adjust as needed */
-  height: 100vh;
+  /*height: 100vh;*/
 }
 
 /* Responsive adjustments */
@@ -1986,7 +2021,7 @@ md-card-content {
 .btn_onboarding {
   background-color: #0b522b;
   color: #f5f5f5;
-  padding: 12px;
+  /*padding: 12px;*/
   border: none;
   border-radius: 8px;
   font-size: 16px;

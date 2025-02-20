@@ -9,34 +9,19 @@
  */
 angular.module('beeOneWebFrontApp')
 
-  .factory('familleculture', function($http, _url,$translatePartialLoader, $translate,$window) {
-    $translatePartialLoader.addPart('conduitetechnique');
-    $translate.use($window.localStorage.getItem("lang").toLowerCase());
-    $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
+  .factory('familleculture', function($http, _url) {
     return {
-      getFamilleCulture: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/getfamilleculture", data);
+      get_all: function() {
+        return $http.post(_url + "/famille_culture/get_all");
       },
-      getAllfamilleculture: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/getAllfamilleculture", data);
+      add: function(data) {
+        return $http.post(_url + "/famille_culture/add", data);
       },
-      getFamilleCultureByID: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/getfamilleculturebyid", data);
-      },
-      create: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/create", data);
-      },
-      update: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/update", data);
+      edit: function(data) {
+        return $http.post(_url + "/famille_culture/edit", data);
       },
       delete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/familleCulture/delete", data);
-      }
+        return $http.post(_url + "/famille_culture/delete", data);
+      },
     };
   });

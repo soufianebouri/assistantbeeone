@@ -1,129 +1,71 @@
-<div ng-controller="ConfigurationComptesVFermeCtrl as vm">
+<div ng-controller="ConfigurationReferentielVFamilleCultureCtrl as vm">
     <div class="grid-column-container" >        
   
         <div id="grid1" class="grid  fade-in">
                   <div class="form-header" >
-                    <h2 class="form-title">Informations Sur La Ferme</h2>
+                    <h2 class="form-title">Infomrations Sur La Famille Culturale</h2>
                     <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
                   </div>
       
                   <md-content class="form-content">
                     <!-- Row 1 -->
-                    <div class="form-row tiny-space">
-                      <md-input-container class="form-input">
-                        <label>Référence</label>
-                        <input type="text" ng-model="vm.formData.Code" required>
-                      </md-input-container>
+
+                    
+                    <div class="form-row tiny-space sotiny">
+
+                        <md-input-container class="form-input" >
+                            <label>Ferme</label>
+                            <md-select ng-model="vm.formData.fermes"  multiple data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
+                              >{{data_societe.Rais_Social}}
+                               </md-option>
+                            </md-select>
+                        </md-input-container>
       
-                      <md-input-container class="form-input">
-                        <label>Nom</label>
-                        <input type="text" ng-model="vm.formData.Nom" required>
-                      </md-input-container>
+                        
       
                     </div>
       
                     <!-- Row 2 -->
-                    <div class="form-row tiny-space">
+                    <div class="form-row tiny-space sotiny">
 
-                     <md-input-container class="form-input" flex-gt-xs>
-                        <label>Société</label>
-                        <md-select ng-model="vm.formData.societe"  data-md-container-class="selectdemoSelectHeader" required>
-                          <md-select-header class="demo-select-header">
-                            <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                          </md-select-header>
-                          <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
-                          >{{data_societe.Rais_Social}}
-              </md-option>
-                        </md-select>
-                    </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>Superficie</label>
-                        <input type="number" ng-model="vm.formData.Superficie" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
-                      </md-input-container>      
+                     
+                        <md-input-container class="form-input" >
+                            <label>Filière</label>
+                            <md-select ng-model="vm.formData.fermes"  data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="searchparcellecultural" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_societe" ng-repeat="data_societe in vm.data_societe_all | orderBy:'Rais_Social' | filter:searchparcellecultural" 
+                              >{{data_societe.Rais_Social}}
+                              </md-option>
+                            </md-select>
+                        </md-input-container>
+                       
                  
                     </div>
       
-      
-      
-                    <!-- Row 3 -->
-                    <div class="form-row tiny-space">
-
-                        <md-input-container class="form-input" flex-gt-xs>
-                            <label>Date De Création</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
-                          </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>Gérant</label>
-                        <input type="text" ng-model="vm.formData.Gerant">
-                      </md-input-container>
-                    </div>
-
-                    <!-- Address -->
-                    <div class="form-row tiny-space">
-                        <md-input-container class="form-input full-width">
-                          <label>Adresse</label>
-                          <textarea ng-model="vm.formData.Adresse" rows="3" md-maxlength="100"></textarea>
-                        </md-input-container>
-                      </div>
-        
-      
-                    <!-- Row 4 -->
-                    <div class="form-row tiny-space">
-                      <md-input-container class="form-input">
-                        <label>Ville</label>
-                        <input type="text" ng-model="vm.formData.Ville">
-                      </md-input-container>
-      
-                      <md-input-container class="form-input">
-                        <label>Fax</label>
-                        <input type="text" ng-model="vm.formData.Fax">
-                      </md-input-container>
-                    </div>
-      
-                    <!-- Row 5 -->
-                    <div class="form-row tiny-space">
-                      <md-input-container class="form-input">
-                        <label>Téléphone</label>
-                        <input type="tel" ng-model="vm.formData.Tel">
-                      </md-input-container>
-      
-                      <md-input-container class="form-input">
-                        <label>Statut Foncier</label>
-                        <input type="text" ng-model="vm.formData.statut_foncier">
-                      </md-input-container>
-                    </div>
-      
-                   
-                    <div class="form-row tiny-space">
+                    <div class="form-row tiny-space sotiny">
 
                         <md-input-container class="form-input">
-                            <label>Latitude</label>
-                            <input type="number" name="latitude" ng-model="vm.formData.Latitude" class="number_right" 
-                                    step="any" >                            
-                          </md-input-container>
-                          
-                          <!-- Longitude Input -->
-                          <md-input-container class="form-input">
-                            <label>Longitude</label>
-                            <input type="number" name="longitude" ng-model="vm.formData.Longitude" class="number_right" 
-                                    step="any" 
-                                   >
-                           </md-input-container>   
-                    
-                       </div>
-
-                       <div class="form-row tiny-space">
-
-
-                          <md-input-container class="form-input">
-                            <label>Altitude</label>
-                            <input type="text" ng-model="vm.formData.Altitude"  >
+                            <label>Référence famille</label>
+                            <input type="text" ng-model="vm.formData.Reference"   required>
                           </md-input-container> 
-                            
-                    
-                       </div>
+                          
+                          
+                    </div>
+
+                    <div class="form-row tiny-space sotiny">
+
+                        <md-input-container class="form-input">
+                            <label>Désignation Famille</label>
+                            <input type="text" ng-model="vm.formData.Nom_Famille"  required>
+                          </md-input-container>  
+                    </div>
+
                     
                     <div class="form-actions">
                       <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">

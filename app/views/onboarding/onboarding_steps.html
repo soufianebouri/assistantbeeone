@@ -3,6 +3,8 @@
 
     <div class="container_onbord">
         <div class="right-panel_onbord">
+
+          <div style="   place-items: center;">
             <!--step 1-->
             <div ng-if="vm.step_1">
                 <p class="fade-in delay Onboarding_steps nomarging">Étape 1 Sur 6</p>
@@ -178,7 +180,7 @@
                     <br />
                 
             </div>
-
+</div>
             <!-- Left-side Footer -->
             <div class="footer_onbord">               
                 <button class="btn_onboarding  right_notes" ng-click="vm.steps(1)" ng-disabled="!vm.langue" ng-show="vm.step_1">Continuer</button>

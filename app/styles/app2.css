@@ -59,10 +59,13 @@ html {
 }
 
 .notes {
-    font-size: 14px;
+    font-size: 17.5px;
     line-height: 1.6;
-    color: #b2c3ba;
-    text-align: justify
+    color: #FFFFFF;
+    text-align: justify;
+    gap: 12.72px;
+    font-weight: 600;
+    line-height: 26.24px;
 }
 
 .logo h2 {

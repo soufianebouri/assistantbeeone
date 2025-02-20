@@ -203,18 +203,33 @@ angular.module('beeOneWebFrontApp')
           compagne.add(vm.formData).then(async e => {
               //validate success
 
-              vm.data_societe.unshift(e.data.inserted_data);
+            /*  vm.data_societe.unshift(e.data.inserted_data);
               console.log("e.data.inserted_data", e.data.inserted_data);
               
-              console.log("vm.data_societe", vm.data_societe);
+              console.log("vm.data_societe", vm.data_societe);*/
               
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
               });
               NProgress.done();            
-              vm.new++;    
-              vm.reset();
+              vm.new++;  
+             
+              
+              $q.all([
+                compagne.get_all_edit({
+                  ID_compagne : e.data.inserted_data.ID_compagne
+                })
+              ]).then((values) => {
+                vm.data_societe = values[0].data;
+                vm.formData.ID_compagne = null
+                vm.reset();
+              }).catch((error) => {
+                console.error("Error message:", error);
+                
+              });
+
+              
           }).catch(async e => {
             NProgress.done();
             toastr.clear();
@@ -239,14 +254,10 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()  
-            ferme.delete(data).then(async function(result) {
+            compagne.delete(data).then(async function(result) {
               
-              vm.data_societe = vm.data_societe.filter(item => item.IDFermes !== data.IDFermes);
-              
-              if(data.newItem){
-                vm.new--;
-              }        
-              await $scope.undoSelect()        
+              vm.data_societe = vm.data_societe.filter(item => item.ID_compagne !== data.ID_compagne);
+                             
               toastr.clear();
               toastr.success("Suppression réussie", {
                 closeButton: true
@@ -312,6 +323,7 @@ angular.module('beeOneWebFrontApp')
    vm.reset = function () {
 
     vm.formData =  {
+      ID_compagne : null,
       Code : null,
       societe: null,
       Date_debut: null,

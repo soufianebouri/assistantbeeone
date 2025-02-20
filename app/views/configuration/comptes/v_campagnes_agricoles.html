@@ -63,16 +63,13 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Campagne Ajoutées ({{vm.data_societe.length}}) / Recently added <span class="badge-new">{{vm.new}}</span></h2>
+                  <h2 class="form-title" >Campagne Ajoutées <span class="badge-new" >{{vm.data_societe.length}}</span></h2>
                   
                 </div>
       
-      
-      
-              
                 
                 <div class="" >
-                    <div class="" ng-repeat="data_societe in vm.data_societe track by $index" >
+                    <div class="" ng-repeat="data_societe in vm.data_societe | orderBy: '-newItem' track by $index" >
                       <md-card class="card" 
 
                         layout="column" ng-style="data_societe.newItem ? {'background': '#bde77a'} : {'background': '#E3EDD3'}" style="line-height: 26px;background-color: #E0E0E0;padding: 10px;box-shadow: none;border-radius: 5px;color:#000000">
@@ -95,7 +92,7 @@
                             style="width: 25px; height: 25px;padding-top: 1px;cursor: pointer;" ng-click="vm.edit(data_societe)"> 
 
                             <img src="././images/main_configuration/delete.svg"
-                              style="width: 25px; height: 25px;padding-top: 1px;cursor: pointer;">                               
+                              style="width: 25px; height: 25px;padding-top: 1px;cursor: pointer;" ng-click="vm.delete(data_societe)">                               
                           </p>
                         </div>
 

@@ -319,11 +319,10 @@ console.log(vm.formData);
     vm.validateFormData = async function() {
          
           let rules = {
-              Code: "Référence ferme is required.",
-              Nom: "Nom de la is required.",
-              societe: "Société is required.",
-              Superficie: (value) => value > 0 ? null : "Superficie must be greater than 0.",
-              Date_Creatio_Ferme: "Date de création de la ferme is required."
+              fermes: "Ferme is required.",
+              filier: "Filière is required.",
+              Reference: "Référence famille is required.",
+              Nom_Famille: "Désignation Famille is required."
           };
       
          
@@ -337,41 +336,20 @@ console.log(vm.formData);
                   return false;
               }
           }
-
-          let {isValidCoordinates,
-            messageCoordinates} = await vm.validateCoordinates();
-          if (!isValidCoordinates) {
-            toastr.clear();
-                  toastr.warning(messageCoordinates, {
-                  closeButton: true
-            });
-            return false;
-          }
           return true;
      };
   
     vm.ajouter = async function  () {
       toastr.clear();
-        if(await vm.validateFormData()){
-       
-          NProgress.start()                 
-          
-
-          ferme.add(vm.formData).then(async e => {
-              //validate success
-
-              vm.data_familleculture.unshift(e.data.inserted_data);
-              console.log("e.data.inserted_data", e.data.inserted_data);
-              
-              console.log(vm.data_familleculture);
-              
+        if(await vm.validateFormData()){       
+          NProgress.start() 
+          familleculture.add(vm.formData).then(async e => {                    
               toastr.clear();
-              toastr.success("Société bien ajoutée au tableau.", {
+              toastr.success(e.data.message, {
                 closeButton: true
               });
               await $scope.undoSelect() 
-              NProgress.done();            
-              vm.new++;    
+              NProgress.done(); 
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {

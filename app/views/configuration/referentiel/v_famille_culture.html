@@ -48,7 +48,7 @@
                  
                     </div>
       
-                    <div class="form-row tiny-space sotiny">
+                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
                         <md-input-container class="form-input">
                             <label>Référence famille</label>
@@ -58,8 +58,7 @@
                           
                     </div>
 
-                    <div class="form-row tiny-space sotiny">
-
+                    <div class="form-row" style="margin-bottom: 0rem !important;">
                         <md-input-container class="form-input">
                             <label>Désignation Famille</label>
                             <input type="text" ng-model="vm.formData.Nom_Famille"  required>
@@ -72,8 +71,8 @@
                         Reset
                       </md-button>
                        
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFermes) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDFermes) ? 'Modifier': 'Ajouter'}} 
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFamille_Culture) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDFamille_Culture) ? 'Modifier': 'Ajouter'}} 
                       </md-button>
                     </div>
       

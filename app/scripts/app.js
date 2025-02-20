@@ -12,7 +12,8 @@
 var version = '1.56.1'; /*global-version.new-views.improvements*/
 
 //enDev DEMO
-var url = "http://127.0.0.1:4000/erpassistant/api";
+//var url = "http://127.0.0.1:4000/erpassistant/api";
+var url = "https://beeone-assistant-back-d9f9e9b59c46.herokuapp.com/erpassistant/api"
 var appFor = "demo";
 
 

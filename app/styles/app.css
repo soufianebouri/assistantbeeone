@@ -1575,12 +1575,12 @@ a.dt-button {
 
 /* Description */
 .desc {
-  font-size: 11px;
-  color: #666;
+  font-size: 12px;
+  color: #737373;
   margin: 10px 0;
-  text-align: justify;
+  text-align: unset;
   font-family: 'Poppins', sans-serif;
-
+  line-height: 18px;
 }
 
 /* Info Section */
@@ -1596,7 +1596,8 @@ a.dt-button {
 /* Start Button */
 .start_btn {
   width: 100%;
-  background-color: #9fada0;
+  /*background-color: #E3E8E8;*/
+  background-color: #81BB26 !important;
   color: white;
   padding: 10px;
   font-size: 14px;
@@ -1606,7 +1607,7 @@ a.dt-button {
 }
 
 .start_btn:hover {
-  background-color: #4caf50 !important;
+  background-color: #6c9d1e !important;
 }
 
 
@@ -1653,8 +1654,14 @@ md-card-content {
   }
 
   .title {
-      font-size: 14px;
-  }
+    /* margin: 10px !important; */
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    width: 313px;
+    height: 24px;
+   }
 
   .desc {
       font-size: 10px;
@@ -1717,7 +1724,7 @@ md-card-content {
   width: 100%;
   height: 1px;
   border: none;
-  margin: 15px auto;
+  /*margin: 15px auto;*/
   background: #9fada0;
 }
 
@@ -2089,7 +2096,8 @@ md-radio-button.md-default-theme .md-on, md-radio-button .md-on {
 /*main*/
 
 md-card md-card-content > p:first-child {
-  margin-top: 13px;
+ /* margin-top: 13px;*/
+ line-height: 21px;
 }
 
 .title{
@@ -2426,6 +2434,8 @@ table.dataTable td {
 md-select-menu.md-default-theme md-content md-option[selected].md-focused, md-select-menu md-content md-option[selected].md-focused, md-select-menu.md-default-theme md-content md-option[selected]:focus, md-select-menu md-content md-option[selected]:focus {
   color: rgb(55, 56, 59);
 }
+
+
 
 
 

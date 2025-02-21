@@ -633,26 +633,25 @@ console.log(vm.formData);
         DTColumnBuilder.newColumn(null)
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-          ).renderWith(checkboxHtml).notSortable(),         
-        DTColumnBuilder.newColumn("Rais_Social").withTitle("Société"),
-        DTColumnBuilder.newColumn("Code").withTitle("Référence"),
-        DTColumnBuilder.newColumn("Nom").withTitle("Nom"),
-        DTColumnBuilder.newColumn("Superficie").withTitle("Superficie"),
+          ).renderWith(checkboxHtml).notSortable().withOption("width", "10px"),         
+        DTColumnBuilder.newColumn("Rais_Social").withTitle("Société").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Code").withTitle("Référence").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Nom").withTitle("Nom").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Superficie").withTitle("Superficie").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Date_Creatio_Ferme").withTitle("Date De Création").renderWith(function(data, type, full, meta) {
           if(full.Date_Creatio_Ferme)
           return moment(full.Date_Creatio_Ferme).format('DD/MM/YYYY');
           return ''
-        }),
-        DTColumnBuilder.newColumn("Adresse").withTitle("Adresse"),
-        DTColumnBuilder.newColumn("Gerant").withTitle("Gérant"),
-        DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
-        DTColumnBuilder.newColumn("statut_foncier").withTitle("Statut Foncier"),
-        DTColumnBuilder.newColumn("Fax").withTitle("Fax"),
-        DTColumnBuilder.newColumn("Tel").withTitle("Téléphone"),
-        DTColumnBuilder.newColumn("Latitude").withTitle("Latitude"),
-        DTColumnBuilder.newColumn("Longitude").withTitle("Longitude"),
-        DTColumnBuilder.newColumn("Altitude").withTitle("Altitude"),
-        DTColumnBuilder.newColumn("createdBy").withTitle("Created By"),
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Adresse").withTitle("Adresse").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Gerant").withTitle("Gérant").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ville").withTitle("Ville").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("statut_foncier").withTitle("Statut Foncier").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Fax").withTitle("Fax").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Tel").withTitle("Téléphone").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Latitude").withTitle("Latitude").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Longitude").withTitle("Longitude").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Altitude").withTitle("Altitude").withOption("width", "100px"),
         DTColumnBuilder.newColumn(null).withTitle("Actions").renderWith(actionsHtml).withClass("nowraptd all").notSortable(),
       ];
 

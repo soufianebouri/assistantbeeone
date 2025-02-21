@@ -578,30 +578,26 @@ angular.module('beeOneWebFrontApp')
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
           )
-          .renderWith(checkboxHtml).notSortable(), 
-        DTColumnBuilder.newColumn("Rais_Social")
-          .withTitle("Raison Sociale")
-          .withClass("no-break"),
-        DTColumnBuilder.newColumn("Statut_juridique").withTitle(
-          "Statut juridique"
-        ),
-        DTColumnBuilder.newColumn("Capital").withTitle("Capital"),
-        DTColumnBuilder.newColumn("Ville").withTitle("Ville"),
-        DTColumnBuilder.newColumn("Email").withTitle("Email"),
-        DTColumnBuilder.newColumn("Fax").withTitle("fax"),
-        DTColumnBuilder.newColumn("Patente").withTitle("Patente"),
-        DTColumnBuilder.newColumn("N_CNSS").withTitle("N° CNSS"),
-        DTColumnBuilder.newColumn("N_amo").withTitle("N° AMO"),
-        DTColumnBuilder.newColumn("IDFiscale").withTitle("ID Fiscal"),
-        DTColumnBuilder.newColumn("ICE").withTitle("ICE"),
-        DTColumnBuilder.newColumn("Prefixe_matricule").withTitle(
-          "Pré Fixe Matricule Ouvrier"
-        ),
-        DTColumnBuilder.newColumn("Adresse").withTitle("Adresse"),
+          .renderWith(checkboxHtml).notSortable().withOption("width", "10px"), 
+        DTColumnBuilder.newColumn("Rais_Social").withTitle("Raison Sociale").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Statut_juridique").withTitle("Statut juridique").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Capital").withTitle("Capital").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ville").withTitle("Ville").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Email").withTitle("Email").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Fax").withTitle("fax").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Patente").withTitle("Patente").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("N_CNSS").withTitle("N° CNSS").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("N_amo").withTitle("N° AMO").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("IDFiscale").withTitle("ID Fiscal").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("ICE").withTitle("ICE").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Prefixe_matricule").withTitle("Pré Fixe Matricule Ouvrier").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Adresse").withTitle("Adresse").withOption("width", "100px"),
         DTColumnBuilder.newColumn(null)
           .withTitle("Actions")
           .renderWith(actionsHtml)
-          .withClass("nowraptd all").notSortable(),
+          .withClass("nowrap actions-column nowraptd all") // Custom class for better control
+          .withOption("width", "60px")
+          .notSortable()
       ];
 
 

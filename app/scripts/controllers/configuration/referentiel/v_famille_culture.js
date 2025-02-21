@@ -592,7 +592,7 @@ angular.module('beeOneWebFrontApp')
             return full.fermes.map(f => f.Nom).join(", ");
         }
         return "";
-       }),        
+       }).withOption("width", "110px"),        
       DTColumnBuilder.newColumn("filier").withTitle("Filière").renderWith(function(data, type, full, meta) {
         if (full.filier == 1) {
           return "Maraichage";
@@ -607,9 +607,9 @@ angular.module('beeOneWebFrontApp')
         } else {
           return '';
         }
-      }),
-      DTColumnBuilder.newColumn("Reference").withTitle("Référence famille"),
-      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Désignation Famille"),
+      }).withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Reference").withTitle("Référence famille").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Désignation Famille").withOption("width", "100px"),
          
       DTColumnBuilder.newColumn(null)
       .withTitle("Actions")

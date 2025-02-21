@@ -1,14 +1,15 @@
 
 <div ng-controller="ConfigurationMainConfigurationCtrl as vm" layout="column" style="height: 100vh;">
-  <div layout="column" layout-align="center center" class="ly-wrap text-center">
-    <div flex="100" flex-gt-sm="100">
+  <div layout="column" layout-align="center center" class="ly-wrap text-center" style="padding-top: 20px;border-bottom: 1px solid #4d464630;">
+    <div flex="100" flex-gt-sm="100" style="margin-bottom: 13px;">
       <center>
-        <h2 class="fade-in text-center main_title">Configuration du compte BeeOne</h2>
-        <p class="fade-in delay OnboardingQst text-center main_title">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
+        <h2 class="text-center main_title">Configuration du compte BeeOne</h2>
+        <p class="delay OnboardingQst text-center main_title">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
       </center>
     </div>
+  
   </div>
-  <hr class="styled-hr">
+  <!--<hr class="styled-hr">-->
 
 
 
@@ -22,7 +23,7 @@
   >
 
       <!--1. Configuration Du compte-->
-      <md-card class="step-card">
+      <md-card class="step-card" layout="column">
         <div class="header_main">
           <img src="././images/main_configuration/acount.svg" alt="account">
           <span class="progress">0% Complété</span>
@@ -44,11 +45,11 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
+       
           <md-button class="start_btn"  ng-click="vm.go_config(1)">
             Commencer
           </md-button>
-        </md-card-actions>
+        
       </md-card>
 
       <!--2. Création du référentiel-->
@@ -74,11 +75,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" ng-click="vm.go_config(2)">
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn"  ng-click="vm.go_config(2)">
+          Commencer
+        </md-button>
       </md-card>
       
       <!--3. Attachement Parcelles-->
@@ -104,11 +103,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn"  >
+          Commencer
+        </md-button>
       </md-card>
 
       <!--4. Sécteurs D’irrigation-->
@@ -134,11 +131,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn" >
+          Commencer
+        </md-button>
       </md-card>
       
       <!--5. Paramétrage Main d’oeuvre-->
@@ -164,11 +159,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn" >
+          Commencer
+        </md-button>
       </md-card>
 
       <!--6. Immobilisations-->
@@ -194,11 +187,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn"  >
+          Commencer
+        </md-button>
       </md-card>
 
       <!--7. Centre de coûts-->
@@ -224,11 +215,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn"  >
+          Commencer
+        </md-button>
       </md-card>
 
       <!--8. Paramétrage Applications BeeOne-->
@@ -254,11 +243,9 @@
           </div>
         </md-card-content>
 
-        <md-card-actions layout="row" layout-align="center center">
-          <md-button class="start_btn" >
-            Commencer
-          </md-button>
-        </md-card-actions>
+        <md-button class="start_btn"  >
+          Commencer
+        </md-button>
       </md-card>
 
       

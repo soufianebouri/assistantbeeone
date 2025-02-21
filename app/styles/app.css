@@ -47,6 +47,7 @@ html {
 #grid1 {
   min-height: 200px;
   background: #ffffff;
+  min-width: 65px;
 }
 
 #grid2 {
@@ -2451,4 +2452,29 @@ table.dataTable th {
 md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
   padding-bottom: 0;
   border-width: 0 0 1px;
+}
+
+/* Ensuring that the md-select does not expand its width */
+md-select {
+  max-width: 100%;  /* It will take the full width of the parent */
+  width: auto;  /* Let it resize according to content, but within max-width */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Style for the selected items displayed */
+md-select .md-select-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* To keep the options dropdown in a fixed width */
+md-select .md-select-menu-container {
+  max-width: 200px;  /* Match the width of the select input */
+}
+
+/* Optional: Style for the selected items when there are multiple selections */
+.md-select-value span {
+  white-space: nowrap;
 }

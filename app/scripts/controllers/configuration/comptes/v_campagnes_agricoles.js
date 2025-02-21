@@ -97,9 +97,19 @@ angular.module('beeOneWebFrontApp')
       vm.formData.Date_Fin = (vm.formData.Date_Fin) ? new Date(moment(vm.formData.Date_Fin).format("YYYY-MM-DD")) : null;
           
       
+
+      const matches = data.societe.map(ferme => { // from previous example
+        const data_ferme = vm.data_societe_all.find(df => df.ID === ferme.IDsociete);
+        return data_ferme ? { data_ferme, ferme } : null;
+      }).filter(match => match !== null);
+
+      vm.formData.societe = matches.map(match => match.data_ferme);
+
+
+/*
         vm.formData.societe =  vm.data_societe_all.filter(societe =>
           vm.formData.societe.some(selected => selected.IDsociete === societe.ID)
-         );
+         );*/
       
       
       

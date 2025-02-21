@@ -244,60 +244,25 @@ angular.module('beeOneWebFrontApp')
       name : 'Fruits rouges'
     }]
     
-    vm.validateCoordinates = async function () {
-      let isValidCoordinates = true;
-      let messageCoordinates = ''
-  
-      if (vm.formData.Latitude === undefined ) {
-        isValidCoordinates = true;
-      }
-
-      if ( vm.formData.Longitude === undefined) {
-        isValidCoordinates = true;
-      }
-  
-      if (vm.formData.Latitude < -90 || vm.formData.Latitude > 90) {
-        isValidCoordinates = false;
-        messageCoordinates = 'Latitude should be between -90 and 90'
-      }
-  
-      if (vm.formData.Longitude < -180 || vm.formData.Longitude > 180) {
-        isValidCoordinates = false;
-        messageCoordinates = 'Longitude should be between -180 and 180'
-      }
-  
-      return {
-        isValidCoordinates,
-        messageCoordinates
-      };
-  };
-  
+    vm.selectedFarm = [];
+    /*vm.isSelected =  function(selcted, data) {
+      return  selcted.some( function(selectedFerme) {
+          return selectedFerme.IDFermes === data.IDFermes;
+      });
+    };*/
     
 
     vm.modifier = async function  () {
-     
+      console.log(vm.formData);
+      
+    
         if(await vm.validateFormData()){
-
-          NProgress.start()   ;              
+          NProgress.start()   ;             
           
-console.log(vm.formData);
-
-          ferme.edit(vm.formData).then(async e => {
-              //validate success
-
-             
-              let index = vm.data_familleculture.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
-
-              if (index !== -1) {
-                // Update the existing object
-                vm.data_familleculture[index] = e.data.inserted_data;
-              } else {
-                // If not found, add it to the list (optional)
-                vm.data_familleculture.push(e.data.inserted_data);
-              }
+          familleculture.edit(vm.formData).then(async e => {             
 
               toastr.clear();
-              toastr.success("Ferme bien modifié.", {
+              toastr.success(e.data.message, {
                 closeButton: true
               });
               NProgress.done();   
@@ -533,17 +498,17 @@ console.log(vm.formData);
       return editbtn + deletebtn;
       }
      
+     
       vm.edit = function (data) {
         vm.formData = data;  
-        console.log(vm.formData);
-        
-        vm.formData.Latitude = parseFloat(vm.formData.Latitude || 0);  // or set a default value
-        vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
-        vm.formData.Date_Creatio_Ferme = (vm.formData.Date_Creatio_Ferme) ? new Date(moment(vm.formData.Date_Creatio_Ferme).format("YYYY-MM-DD")) : null;
-     
-        vm.formData.societe = vm.data_familleculture_all.find(societe => societe.ID === vm.formData.ID_societe);
+        const matches = data.fermes.map(ferme => { // from previous example
+          const data_ferme = vm.data_ferme.find(df => df.IDFermes === ferme.IDFermes);
+          return data_ferme ? { data_ferme, ferme } : null;
+        }).filter(match => match !== null);
 
-        toastr.clear();
+        vm.formData.fermes = matches.map(match => match.data_ferme);
+
+       toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Nom}. 👆`, {
           closeButton: true
         });
@@ -649,7 +614,7 @@ console.log(vm.formData);
       DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
-      .withClass("nowrap actions-column") // Custom class for better control
+      .withClass("nowrap actions-column nowraptd all") // Custom class for better control
       .withOption("width", "60px")
       .notSortable()
     ];

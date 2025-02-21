@@ -19,8 +19,8 @@
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
-                              <md-option ng-value="data_ferme" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str" 
-                              >{{data_ferme.Nom}}
+                              <md-option ng-value="data_ferme" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"  
+                                >{{data_ferme.Nom}}
                                </md-option>
                             </md-select>
                         </md-input-container>

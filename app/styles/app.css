@@ -2454,27 +2454,31 @@ md-input-container.md-input-focused .md-input, md-input-container.md-input-resiz
   border-width: 0 0 1px;
 }
 
-/* Ensuring that the md-select does not expand its width */
+
+
 md-select {
-  max-width: 100%;  /* It will take the full width of the parent */
-  width: auto;  /* Let it resize according to content, but within max-width */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: grid !important;
+  margin: 20px 0 26px;
 }
 
-/* Style for the selected items displayed */
-md-select .md-select-value {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+md-option {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: auto;
+  transition: background 0.15slinear;
+  padding: 0 16px;
+  height: 37px;
 }
 
-/* To keep the options dropdown in a fixed width */
-md-select .md-select-menu-container {
-  max-width: 200px;  /* Match the width of the select input */
+input[type="search"] {
+  border: none; /* Remove the default border */
+  width: 99%; /* Or width: 100%; if you prefer */
+  outline: none; /* Remove the focus outline (optional but recommended) */
+  padding: 4px 8px; /* Add some padding for better readability */
+  box-sizing: border-box; /* Include padding in width calculation (important) */
+  background-color: transparent; /* Make background transparent */
 }
 
-/* Optional: Style for the selected items when there are multiple selections */
-.md-select-value span {
-  white-space: nowrap;
-}

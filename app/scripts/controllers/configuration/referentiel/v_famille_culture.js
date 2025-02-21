@@ -103,11 +103,11 @@ angular.module('beeOneWebFrontApp')
 
             let {status, message} = await $scope.checkExcelHeaders(vm.jsonData)
 
-            vm.jsonData = await  vm.transformExcelData(vm.jsonData);
+           
 
             if(status){
 
-
+              vm.jsonData = await  vm.transformExcelData(vm.jsonData);
 
 
 
@@ -333,7 +333,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
        
-        let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_familleculture);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_familleculture);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -343,16 +343,13 @@ angular.module('beeOneWebFrontApp')
           
             $("#confirmationRevertYes").click(function() {
               NProgress.start()  
-              ferme.multidelete({
+              familleculture.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
                 
-                vm.data_familleculture = vm.data_familleculture.filter(item => !selectedIds.includes(item.IDFermes));
-
-                vm.new -= newItemCount;
                 await $scope.undoSelect()        
                 toastr.clear();
-                toastr.success("Suppression réussie", {
+                toastr.success(result.data.message, {
                   closeButton: true
                 });
                 NProgress.done();
@@ -360,6 +357,7 @@ angular.module('beeOneWebFrontApp')
                 
               }).catch(async e => {
                 NProgress.done();
+                console.log();                
                 toastr.clear();
                 toastr.error(e.data.message, {
                   closeButton: true
@@ -381,16 +379,11 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()  
-            ferme.delete(data).then(async function(result) {
-              
-              vm.data_familleculture = vm.data_familleculture.filter(item => item.IDFermes !== data.IDFermes);
-              
-              if(data.newItem){
-                vm.new--;
-              }        
+            familleculture.delete(data).then(async function(result) {
+                     
               await $scope.undoSelect()        
               toastr.clear();
-              toastr.success("Suppression réussie", {
+              toastr.success(result.data.message, {
                 closeButton: true
               });
               NProgress.done();
@@ -509,7 +502,7 @@ angular.module('beeOneWebFrontApp')
         vm.formData.fermes = matches.map(match => match.data_ferme);
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Nom}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
           closeButton: true
         });
 
@@ -548,20 +541,16 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
     
-    let selectedIds = selectedItems.map(item => item.IDFermes); // Extract IDs
-    let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
+    let selectedIds = selectedItems.map(item => item.IDFamille_Culture); // Extract IDs
     
-    return {
-      selectedIds,  // Array of selected IDs
-      newItemCount  // Count of new items
-    };
+    return selectedIds;
   };
 
 
     $scope.toggleSelection = function (id) {    
       let found = false;    
       vm.data_familleculture = vm.data_familleculture.map(societe => {
-          if (societe.IDFermes === id) {
+          if (societe.IDFamille_Culture === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -573,7 +562,7 @@ angular.module('beeOneWebFrontApp')
   };
        
     function checkboxHtml(data, type, full, meta) {        
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFermes})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFamille_Culture})">`;
     }   
     
     
@@ -654,11 +643,10 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
     
     vm.headers = [
-      "Référence","Nom","Société",
-      "Superficie","Date De Création","Gérant",
-      "Adresse","Ville","Fax",
-      "Téléphone","Statut Foncier","Latitude",
-      "Longitude","Altitude"];
+      "Ferme",
+      "Filière",
+      "Référence famille",
+      "Désignation Famille"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -667,13 +655,13 @@ angular.module('beeOneWebFrontApp')
   
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Fermes");
+          XLSX.utils.book_append_sheet(wb, ws, "Famille Culturale");
   
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
   
-          saveAs(blob, "Canvas Fermes.xlsx"); 
+          saveAs(blob, "Canvas Famille Culturale.xlsx"); 
       };
   
 
@@ -710,20 +698,10 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        Code: item["Référence"] || null,
-        Nom: item["Nom"] || null,             
-        societe: item["Société"] || null, 
-        Superficie: item["Superficie"] || null, 
-        Date_Creatio_Ferme: item["Date De Création"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date De Création"]) : null,
-        Gerant: item["Gérant"] || null, 
-        Adresse: item["Adresse"] || null, 
-        Ville : item["Ville"] || null, 
-        Fax: item["Fax"] || null, 
-        Tel: item["Téléphone"] || null,
-        statut_foncier: item["Statut Foncier"] || null, 
-        Latitude: item["Latitude"] || null, 
-        Longitude: item["Longitude"] || null, 
-        Altitude: item["Altitude"] || null
+        FermeName: item["Ferme"] || null,
+        FiliereName: item["Filière"] || null,             
+        Reference: item["Référence famille"] || null, 
+        Nom_Famille: item["Désignation Famille"] || null
       }));
     };
   
@@ -823,45 +801,27 @@ angular.module('beeOneWebFrontApp')
   }
 
 
- 
+    vm.checkDuplicate = async function () {
+      
+    }
 
     vm.integer = async function(){
      
-      console.log("integer",vm.jsonData);
-      
+
+   
       if(vm.jsonData.length>0){
        
-        let { status , message} = await vm.checkDuplicate__column_code(vm.jsonData, vm.data_familleculture);
-       
-        
-        
+          NProgress.start();   
 
-        if(status){
-          let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_familleculture);
-          console.log(status_name);
-          console.log(message_name);
-          if(status_name){
-            /**Create en masse */
-          
-          NProgress.start()               
-          
-
-          ferme.multiadd({
-            fermes :vm.jsonData
-          }).then(async e => {
-              //validate success
-
-              vm.data_familleculture.unshift(...e.data.inserted_data);
-
-              console.log("e.data.inserted_data", e.data.inserted_data);
-                                              
+          familleculture.multiadd({
+            familles :vm.jsonData
+          }).then(async e => {   
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
               });
               await $scope.undoSelect() 
-              NProgress.done();            
-              vm.new += vm.jsonData.length;    
+              NProgress.done(); 
               vm.dtInstance.reloadData();
               vm.reset();
               vm.isFileSelected = false;
@@ -878,57 +838,21 @@ angular.module('beeOneWebFrontApp')
             }
           });
 
-          
-          }else{
-            vm.errData = {
-              err : true,
-              status : status_name,
-              message : message_name
-            }
-            toastr.clear();
-            toastr.warning(message_name, {
-            closeButton: true,
-          });
-          }
+        
            
           
           
-        }else{  
-          vm.errData = {
-            err : true,
-            status : status,
-            message : message
-          }
-          toastr.clear();
-          toastr.warning(message, {
-          closeButton: true,
-        });
-        }
-
-        
-        
        
+
       }else{
         toastr.clear();
         toastr.warning("Upload your file!", {
         closeButton: true,
        });
-      }                
+      }              
     }
 
-    /** */
-    /*function actionsHtml(data, type, full, meta) {
-      vm.societes[data.id_sco_temp] = data;
-      var editbtn =
-        '<button class="btnEdit_tb"  ng-click="vm.edit(vm.societes[' +
-        data.id_sco_temp +
-        '])"><img src="././images/main_configuration/edit.svg" alt="time"</button>&nbsp;';
-      var deletebtn =
-        '<button class="btnEdit_tb"  ng-click="vm.delete(vm.societes[' +
-        data.id_sco_temp +
-        '])" )"=""><img src="././images/main_configuration/delete.svg" alt="time"</button>';
-      return editbtn + "" + deletebtn;
-    }*/
+  
 
       /**chat */
        // Initialize messages array

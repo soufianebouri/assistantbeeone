@@ -23,5 +23,11 @@ angular.module('beeOneWebFrontApp')
       delete: function(data) {
         return $http.post(_url + "/famille_culture/delete", data);
       },
+      multidelete: function(data) {
+        return $http.post(_url + "/famille_culture/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/famille_culture/multiadd", data);
+      },
     };
   });

@@ -27,7 +27,12 @@ angular.module('beeOneWebFrontApp')
           $scope.loading = false;
           $state.go('v_referentiel');
         }, 2000);
-    }
+    }else if(params == 3){      
+      $timeout(function () {
+        $scope.loading = false;
+        $state.go('v_attachement_parcelles');
+      }, 2000);
+  }
    }
 
     vm.logout  = async function (){

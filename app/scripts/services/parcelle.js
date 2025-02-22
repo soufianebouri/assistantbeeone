@@ -8,14 +8,25 @@
  * Factory in the beeOneWebFrontApp.
  */
 angular.module('beeOneWebFrontApp')
-  .factory('parcelleCultural', function($http) {
+  .factory('parcelleCultural', function($http,_url) {
     return {
-      //byIdFerme
-      getParcelleCultural: function(baseUrl, data) {
-        return $http.post(baseUrl + "/parcellesculturale/showByNameID", data);
+      get_all: function() {
+        return $http.post(_url + "/parcelle/get_all");
       },
-      getAllParcelleCultural: function(baseUrl) {
-        return $http.get(baseUrl + "/parcellesculturale/listParcelWithIdName");
+      add: function(data) {
+        return $http.post(_url + "/parcelle/add", data);
+      },
+      edit: function(data) {
+        return $http.post(_url + "/parcelle/edit", data);
+      },
+      delete: function(data) {
+        return $http.post(_url + "/parcelle/delete", data);
+      },
+      multidelete: function(data) {
+        return $http.post(_url + "/parcelle/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/parcelle/multiadd", data);
       }
     };
   });

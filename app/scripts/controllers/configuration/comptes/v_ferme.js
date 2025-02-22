@@ -633,7 +633,7 @@ console.log(vm.formData);
         DTColumnBuilder.newColumn(null)
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-          ).renderWith(checkboxHtml).notSortable().withOption("width", "10px"),         
+          ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),         
         DTColumnBuilder.newColumn("Rais_Social").withTitle("Société").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Code").withTitle("Référence").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Nom").withTitle("Nom").withOption("width", "100px"),

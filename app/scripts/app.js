@@ -128,6 +128,23 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+
+    .state('v_attachement_parcelles_phisique', {
+      url: '/configuration/v_attachement_parcelles_phisique',
+      templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles_phisique.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Attachement Parcelles"
+      }
+    })
+
+    .state('v_attachement_parcelles', {
+      url: '/configuration/attachement_parcelles',
+      templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Attachement Parcelles"
+      }
+    })
+
     .state('v_famille_culture', {
       url: '/configuration/referentiel/campagnes_agricoles',
       templateUrl: 'views/configuration/comptes/v_famille_culture.html',

@@ -1,0 +1,68 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: sans-serif;">
+    <form ng-cloak>
+        <md-toolbar style="color: #333; background-color: #f8f8f8; border-bottom: 1px solid #ddd; padding: 16px;">
+            <div class="md-toolbar-tools">
+                <h2 style="font-size: 1.25rem; margin: 0;">Paramètres Canvas</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="closeDialog()" style="margin: -8px;">
+                    <md-icon md-svg-src="close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content style="color: #333; background-color: #fff; padding: 24px;">
+            <div class="form-header" style="margin-bottom: 20px;">
+                <p class="form-subtitle" style="font-size: 1rem; color: #555; margin: 0;">Ajouter Un Paramètre</p>
+            </div>
+
+            <md-content class="form-content" style="padding: 0;">
+                <div class="form-row tiny-space sotiny" style="display: flex; flex-wrap: wrap; gap: 16px;">
+                    <md-input-container class="form-input" style="flex: 1; min-width: 200px;">
+                        <label>Ferme</label>
+                        <md-select ng-model="vm.formData.fermes" data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" style="padding: 8px 16px;">
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="data_ferme" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str">
+                                {{data_ferme.Nom}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="form-input" style="flex: 1; min-width: 200px;">
+                        <label>Nbre Parcelle Physique</label>
+                        <input type="number" ng-model="vm.formdata_gen.nbrparcelle" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required >
+                    </md-input-container>
+
+                    <md-input-container class="form-input" style="flex: 1; min-width: 200px;">
+                        <label>Incémentation</label>
+                        <md-select ng-model="vm.formData.filier" data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" style="padding: 8px 16px;">
+                                <input ng-model="searchfilier" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="data_filier.id" ng-repeat="data_filier in vm.data_filier | orderBy:'name' | filter:searchfilier">
+                                {{data_filier.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+
+                <div class="form-actions" style="margin-top: 20px; text-align: center;">
+                    <md-button class="md-raised md-primary custom-button" ng-click="vm.canva_ajouter()" style="background-color: #4CAF50; color: white; border-radius: 4px;">
+                        Ajouter
+                    </md-button>
+                </div>
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" style="padding: 16px; justify-content: flex-end;">
+            <md-button ng-click="Annuler();" class="md-primary" style="margin-right: 8px; color: #555;">
+                {{'Annuler' | translate}}
+            </md-button>
+            <md-button ng-click="Ajouter()" style="background-color: #2196F3; color: white; padding: 8px 16px; border-radius: 4px;">
+                {{'Ajouter' | translate}}
+            </md-button>
+            <md-progress-circular md-mode="indeterminate" ng-if="progress" style="margin-left: 8px;"></md-progress-circular>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

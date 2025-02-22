@@ -10,7 +10,7 @@
 angular.module('beeOneWebFrontApp')
   .controller('ConfigurationAttachementParcellesVAttachementParcellesPhisiqueCtrl', function (
     $q,
-    $scope,
+    $scope,$mdDialog,
     toastr,
     $timeout,
     _url,
@@ -919,10 +919,31 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
-    /**** Step 1 *****/
 
-    /**** Step 2 *****/
 
-    /**** Step 3 *****/
+
+  /**model generate */
+    vm.gen_canvas = function(ev) {
+      $mdDialog.show({
+          controller: DialogControllerGen,
+          templateUrl: '././views/configuration/attachement_parcelles/canvas/canvas_parcelle.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: false
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+        });
+    };
+
+    function DialogControllerGen($scope, $mdDialog) {
+
+    }
+
   }
+
+
+  
 );

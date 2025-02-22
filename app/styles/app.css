@@ -1142,6 +1142,15 @@ md-select .md-select-value.md-select-placeholder {
   min-width: 35%; /* Prevent from becoming too narrow */
 }
 
+.custom-canva-button {
+  flex: 1; /* Takes remaining space */
+  min-width: 50%; /* Prevent from becoming too narrow */
+}
+.custom-gen-canva-button {
+  flex: 1 1 50%; /* 60% width with flex basis */
+  min-width: 50%;
+}
+
 .custom-button {
   flex: 1 1 60%; /* 60% width with flex basis */
   min-width: 60%;

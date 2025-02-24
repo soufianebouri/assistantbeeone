@@ -98,6 +98,11 @@ html {
 table.dataTable td {
   border-bottom: 1px solid #dbd6d6 !important;
 }
+.directions {
+  background-color: #ffffff;
+border: 1px solid #dbd6d6;
+border-radius: 5px;
+}
 
 .number_right {
   text-align: right;

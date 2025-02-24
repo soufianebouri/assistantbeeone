@@ -940,6 +940,10 @@ angular.module('beeOneWebFrontApp')
              }
           }
 
+          $scope.annuler = function() {
+            $mdDialog.cancel();
+          };
+
       $scope.data_ferme = data;
       $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
       $scope.formdata_gen = {

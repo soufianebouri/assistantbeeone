@@ -1,11 +1,12 @@
-<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 50%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); font-family: sans-serif;">
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 50%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
     <form ng-cloak>
         <md-toolbar style="color: #333; background-color: #ffffff;">
             <div class="md-toolbar-tools" >
                 <h2 style="font-size: 1.25rem; margin: 0;">Paramètres Canvas</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="closeDialog()" style="margin: -8px;">
-                    <md-icon md-svg-src="close" aria-label="Close dialog"></md-icon>
+                <md-button class="md-icon-button" ng-click="annuler()" style="margin: -8px;">
+                  <img src="././images/main_configuration/close.svg" alt="close"
+                    style="width: 20px; height: 20px; cursor: pointer;">
                 </md-button>
             </div>
         </md-toolbar>
@@ -63,8 +64,8 @@
       <p class="form-subtitle" style="font-size: 1rem; color: #555; margin: 0;">Paramètres Ajoutées ({{allformxls.length}})
       <span style="float: right;">
 
-        <button type="button" ng-click="scrollCards('left')"><</button>
-        <button type="button" ng-click="scrollCards('right')">></button>
+        <button type="button" ng-click="scrollCards('left')" class="directions"><</button>
+        <button type="button" ng-click="scrollCards('right')" class="directions">></button>
 
       </span>
     </p>

@@ -972,9 +972,54 @@ angular.module('beeOneWebFrontApp')
         }else {
           $scope.formdata_gen.ferme.disabled = true;
           $scope.allformxls.push($scope.formdata_gen);
+
+          console.log($scope.allformxls);
+
           $scope.formdata_gen = {};
         }
       }
+
+      $scope.generateExcelData = function() {
+     let excelData = [];
+     let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
+     excelData.push(headers);
+
+     $scope.allformxls.forEach(item => {
+       let fermeName = item.ferme.Nom;
+       let referenceTechnique = item.ferme.Code;
+       let superficie = item.ferme.Superficie;
+       let typeParcelle = ""; // You can add logic to determine the type
+
+       if (item.increment === 1) {
+         for (let i = 1; i <= item.nbrparcelle; i++) {
+           excelData.push([fermeName, referenceTechnique, i, superficie, typeParcelle]);
+         }
+       } else if (item.increment === 2) {
+         excelData.push([fermeName, referenceTechnique, item.nbrparcelle, superficie, typeParcelle]);
+       }
+     });
+
+     return excelData;
+   };
+
+   $scope.downloadExcel = function() {
+     let excelData = $scope.generateExcelData();
+     let csvContent = "data:text/csv;charset=utf-8,";
+
+     excelData.forEach(function(rowArray) {
+       let row = rowArray.map(value => `"${value === null ? '' : value}"`).join(",");
+       csvContent += row + "\r\n";
+     });
+
+     let encodedUri = encodeURI(csvContent);
+     let link = document.createElement("a");
+     link.setAttribute("href", encodedUri);
+     link.setAttribute("download", "fermes.csv");
+     document.body.appendChild(link);
+     link.click();
+     document.body.removeChild(link);
+   };
+
     }
 
   }

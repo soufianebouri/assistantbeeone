@@ -1761,7 +1761,7 @@ md-card-content {
 .quote {
   /*text-align: center;*/
   max-width: 80%;
- 
+
   flex: 1; /* This will take all available space and balance the layout */
   display: flex;
   flex-direction: column;
@@ -1932,7 +1932,7 @@ md-card-content {
   font-size: 14px;
   border-radius: 10px;
   color: #ffffff !important;
- 
+
 }
 
 /*container_onbord**/
@@ -2046,7 +2046,7 @@ md-card-content {
   font-size: 16px;
   margin-left: auto;
   align-items: right;
-  cursor: pointer;  
+  cursor: pointer;
   height: 45px;
 }
 
@@ -2341,7 +2341,7 @@ table.dataTable td {
   #grid4 .info-header {
     overflow-x: scroll;
   }
-  
+
   .table-responsive-sm {
     min-width: 900px;
   }
@@ -2365,7 +2365,7 @@ table.dataTable td {
     border-left: 4px solid #055b06 !important; /* Orange accent border */
     animation: fadeInOut_err 3s  alternate !important;
   }
-  
+
 
 
   .badge-old {
@@ -2420,7 +2420,7 @@ table.dataTable td {
   width: 2px; /* Adjust width */
 }
 .info-header::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
   border-radius: 5px;
 }
 
@@ -2502,4 +2502,3 @@ input[type="search"] {
   box-sizing: border-box; /* Include padding in width calculation (important) */
   background-color: transparent; /* Make background transparent */
 }
-

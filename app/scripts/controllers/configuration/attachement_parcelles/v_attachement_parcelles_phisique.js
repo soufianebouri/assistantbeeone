@@ -910,7 +910,10 @@ angular.module('beeOneWebFrontApp')
           templateUrl: '././views/configuration/attachement_parcelles/canvas/canvas_parcelle.html',
           parent: angular.element(document.body),
           targetEvent: ev,
-          clickOutsideToClose: false
+          clickOutsideToClose: false,
+          locals: {
+            data: vm.data_ferme
+          }
         })
         .then(function(answer) {
           $scope.status = 'You said the information was "' + answer + '".';
@@ -919,8 +922,55 @@ angular.module('beeOneWebFrontApp')
         });
     };
 
-    function DialogControllerGen($scope, $mdDialog) {
+    function DialogControllerGen($scope, $mdDialog, data) {
+      $scope.scrollCards = function(direction) {
+        const container = document.getElementById('cardContainer');
+        const scrollAmount = 300; // Adjust scroll amount as needed
 
+              if (direction === 'left') {
+                 container.scroll({
+                     left: container.scrollLeft - scrollAmount,
+                     behavior: 'smooth'
+                 });
+             } else if (direction === 'right') {
+                 container.scroll({
+                     left: container.scrollLeft + scrollAmount,
+                     behavior: 'smooth'
+                 });
+             }
+          }
+
+      $scope.data_ferme = data;
+      $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
+      $scope.formdata_gen = {
+        ferme : null,
+        nbrparcelle : null,
+        increment : null
+      }
+      $scope.allformxls = [];
+
+      $scope.canva_ajouter = function(){
+        if(!$scope.formdata_gen.ferme){
+          toastr.clear();
+          toastr.warning("Veuillez choisir une ferme", {
+            closeButton: true
+          });
+        }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+          toastr.clear();
+          toastr.warning("Veuillez saisir le nombre de parcelle", {
+            closeButton: true
+          });
+        }else if (!$scope.formdata_gen.increment) {
+          toastr.clear();
+          toastr.warning("Veuillez choisir un type d'incrémentation", {
+            closeButton: true
+          });
+        }else {
+          $scope.formdata_gen.ferme.disabled = true;
+          $scope.allformxls.push($scope.formdata_gen);
+          $scope.formdata_gen = {};
+        }
+      }
     }
 
   }

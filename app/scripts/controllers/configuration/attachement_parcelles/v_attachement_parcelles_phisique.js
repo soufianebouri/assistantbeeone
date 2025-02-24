@@ -87,7 +87,7 @@ angular.module('beeOneWebFrontApp')
             let sheet = workbook.Sheets[sheetName];
 
             // Convert sheet to JSON
-         
+
             vm.jsonData = XLSX.utils.sheet_to_json(sheet, {
               defval: "",  // Ensures empty cells are included
               raw: true    // Keeps data as-is without automatic conversion
@@ -95,7 +95,7 @@ angular.module('beeOneWebFrontApp')
 
             let {status, message} = await $scope.checkExcelHeaders(vm.jsonData)
 
-           
+
 
             if(status){
 
@@ -125,13 +125,13 @@ angular.module('beeOneWebFrontApp')
                 $scope.excelData = jsonData; // Store JSON data in scope
             });*/
 
-         
+
 
         };
 
         reader.onerror = function (error) {
           console.log("onerror",error);
-          
+
             vm.isFileSelected = false;
             toastr.clear();
             toastr.warning("Error reading file", {
@@ -141,7 +141,7 @@ angular.module('beeOneWebFrontApp')
 
 
 
-          
+
         } else {
           vm.isFileSelected = false;
           toastr.clear();
@@ -192,8 +192,8 @@ angular.module('beeOneWebFrontApp')
     };
 
 
-  
-    
+
+
 
     /** Table */
 
@@ -202,13 +202,13 @@ angular.module('beeOneWebFrontApp')
     vm.selectAll = false;
 
     //get data and refresh datatable
-    vm.data_parcelle = []; 
+    vm.data_parcelle = [];
 
     $q.all([
       ferme.get_all()
     ]).then((values) => {
-      vm.data_ferme = values[0].data;      
-      console.log(vm.data_ferme);      
+      vm.data_ferme = values[0].data;
+      console.log(vm.data_ferme);
     }).catch((error) => {
       toastr.clear();
       toastr.error(error.message, {
@@ -216,75 +216,62 @@ angular.module('beeOneWebFrontApp')
       });
     });
 
-    vm.data_filier = [{
+
+
+    vm.types = [{
       id : 1,
-      name : 'Maraichage'
+      name : 'Plein champ'
     },{
       id : 2,
-      name : 'Arboriculture'
-    },
-    {
-      id : 3,
-      name : 'Grande Culture'
-    },
-    {
-      id : 4,
-      name : 'Floriculture'
-    },
-    {
-      id : 5,
-      name : 'Fruits rouges'
+      name : 'Sous serre'
     }]
-    
+
     vm.selectedFarm = [];
-    /*vm.isSelected =  function(selcted, data) {
-      return  selcted.some( function(selectedFerme) {
-          return selectedFerme.IDFermes === data.IDFermes;
-      });
-    };*/
-    
+
+
 
     vm.modifier = async function  () {
       console.log(vm.formData);
-      
-    
+
+
         if(await vm.validateFormData()){
-          NProgress.start()   ;             
-          
-          familleculture.edit(vm.formData).then(async e => {             
+          NProgress.start()   ;
+
+          parcelleCultural.edit(vm.formData).then(async e => {
 
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
               });
-              NProgress.done();   
+              NProgress.done();
               vm.dtInstance.reloadData();
               vm.reset();
-              await $scope.undoSelect() 
-              
+              await $scope.undoSelect()
+
           }).catch(async e => {
             NProgress.done();
             toastr.clear();
             toastr.error(e.data.message, {
               closeButton: true
             });
-          });            
+          });
         }
     };
 
 
     vm.validateFormData = async function() {
-         
+
           let rules = {
-              fermes: "Ferme is required.",
-              filier: "Filière is required.",
-              Reference: "Référence famille is required.",
-              Nom_Famille: "Désignation Famille is required."
+              IDFermes: "Ferme is required.",
+              Reference: "Référence is required.",
+              Ref: "Parcelle Physique is required.",
+              Sup: "Superficie is required.",
+              Type: "Type Parcelle is required."
           };
-      
-         
+
+
           for (let key in rules) {
-              if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {                  
+              if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {
                   toastr.clear();
                   toastr.warning(typeof rules[key] === "function" ? rules[key](vm.formData[key]) : rules[key], {
                     closeButton: true
@@ -295,18 +282,18 @@ angular.module('beeOneWebFrontApp')
           }
           return true;
      };
-  
+
     vm.ajouter = async function  () {
       toastr.clear();
-        if(await vm.validateFormData()){       
-          NProgress.start() 
-          familleculture.add(vm.formData).then(async e => {                    
+        if(await vm.validateFormData()){
+          NProgress.start()
+          parcelleCultural.add(vm.formData).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
               });
-              await $scope.undoSelect() 
-              NProgress.done(); 
+              await $scope.undoSelect()
+              NProgress.done();
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -318,13 +305,13 @@ angular.module('beeOneWebFrontApp')
           });
 
         }
-       
-     
+
+
     };
 
 
       vm.multiDelete = async function() {
-       
+
         let selectedIds = await $scope.getSelectedIDs(vm.data_parcelle);
 
         toastr.clear();
@@ -332,24 +319,24 @@ angular.module('beeOneWebFrontApp')
           closeButton: true,
           allowHtml: true,
           onShown: function(toast) {
-          
+
             $("#confirmationRevertYes").click(function() {
-              NProgress.start()  
-              familleculture.multidelete({
+              NProgress.start()
+              parcelleCultural.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
-                
-                await $scope.undoSelect()        
+
+                await $scope.undoSelect()
                 toastr.clear();
                 toastr.success(result.data.message, {
                   closeButton: true
                 });
                 NProgress.done();
                 vm.dtInstance.reloadData();
-                
+
               }).catch(async e => {
                 NProgress.done();
-                console.log();                
+                console.log();
                 toastr.clear();
                 toastr.error(e.data.message, {
                   closeButton: true
@@ -358,29 +345,29 @@ angular.module('beeOneWebFrontApp')
             });
           }
         });
-  
+
       }
 
 
     vm.delete = async function(data) {
-      
+
       toastr.clear();
       toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
         closeButton: true,
         allowHtml: true,
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
-            NProgress.start()  
-            familleculture.delete(data).then(async function(result) {
-                     
-              await $scope.undoSelect()        
+            NProgress.start()
+            parcelleCultural.delete(data).then(async function(result) {
+
+              await $scope.undoSelect()
               toastr.clear();
               toastr.success(result.data.message, {
                 closeButton: true
               });
               NProgress.done();
               vm.dtInstance.reloadData();
-              
+
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
@@ -395,14 +382,14 @@ angular.module('beeOneWebFrontApp')
     }
 
 
-    
+
     $scope.check_all_data_input = async function(){
       var isDuplicate = vm.data_parcelle.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
-    
+
     if (isDuplicate) {
-      
+
       toastr.clear();
       toastr.warning("Raison Sociale already esist!", {
         closeButton: true,
@@ -410,16 +397,16 @@ angular.module('beeOneWebFrontApp')
         return false
     } else {
         return true;
-    }      
+    }
     }
 
     $scope.check_all_data_input_edit = async function(){
       var isDuplicate = vm.data_parcelle.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
-    
+
     if (isDuplicate) {
-      
+
       toastr.clear();
       toastr.warning("Raison Sociale already esist!", {
         closeButton: true,
@@ -427,10 +414,10 @@ angular.module('beeOneWebFrontApp')
         return false
     } else {
         return true;
-    }      
+    }
     }
 
-   
+
     $scope.updatedata = function() {
       return parcelleCultural.get_all();
     };
@@ -438,9 +425,9 @@ angular.module('beeOneWebFrontApp')
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
         $scope.updatedata().then(function(res) {
-          vm.data_parcelle = res.data;   
+          vm.data_parcelle = res.data;
           console.log(res.data);
-              
+
           defer.resolve(res.data);
           NProgress.done();
         });
@@ -468,41 +455,35 @@ angular.module('beeOneWebFrontApp')
         },
       ]);
 
-      
 
-      vm.familleculture_action = {};
-      function actionsHtml(data, type, full, meta) { 
-          vm.familleculture_action[data.IDFamille_Culture] = data;
+
+      vm.parcelle_action = {};
+      function actionsHtml(data, type, full, meta) {
+          vm.parcelle_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.familleculture_action[' +
-          data.IDFamille_Culture +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.parcelle_action[' +
+          data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
-        
+
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.familleculture_action[' +
-          data.IDFamille_Culture +
-          '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.parcelle_action[' +
+          data.ID +
+          '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
-     
-     
-      vm.edit = function (data) {
-        vm.formData = data;  
-        const matches = data.fermes.map(ferme => { // from previous example
-          const data_ferme = vm.data_ferme.find(df => df.IDFermes === ferme.IDFermes);
-          return data_ferme ? { data_ferme, ferme } : null;
-        }).filter(match => match !== null);
 
-        vm.formData.fermes = matches.map(match => match.data_ferme);
+
+      vm.edit = function (data) {
+        vm.formData = data;
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref}. 👆`, {
           closeButton: true
         });
 
       }
 
-      
+
 
 
 
@@ -513,7 +494,7 @@ angular.module('beeOneWebFrontApp')
       $scope.allSelected = (!$scope.allSelected) ? true : false;
       vm.data_parcelle.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
-      });        
+      });
       vm.dtInstance.reloadData();
   };
 
@@ -531,35 +512,35 @@ angular.module('beeOneWebFrontApp')
    });
   }
 
-  
+
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
-    
-    let selectedIds = selectedItems.map(item => item.IDFamille_Culture); // Extract IDs
-    
+
+    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+
     return selectedIds;
   };
 
 
-    $scope.toggleSelection = function (id) {    
-      let found = false;    
+    $scope.toggleSelection = function (id) {
+      let found = false;
       vm.data_parcelle = vm.data_parcelle.map(societe => {
-          if (societe.IDFamille_Culture === id) {
+          if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
           return societe;
-      });    
+      });
       /* if (!found) {
             vm.data_parcelle.push({ id_sco_temp: id, selected: true });
         }    */
   };
-       
-    function checkboxHtml(data, type, full, meta) {        
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFamille_Culture})">`;
-    }   
-    
-    
+
+    function checkboxHtml(data, type, full, meta) {
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
+    }
+
+
     vm.updateSelectedCount = function () {
       return vm.data_parcelle.filter(societe => societe.selected).length;
     };
@@ -569,20 +550,20 @@ angular.module('beeOneWebFrontApp')
       DTColumnBuilder.newColumn(null)
         .withTitle(
           '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-        ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),  
-        DTColumnBuilder.newColumn("Nom").withTitle("Fermes"),        
-        DTColumnBuilder.newColumn("Ref").withTitle("Réference Technique"),        
-        DTColumnBuilder.newColumn("Reference").withTitle("Parcelle Physique"),        
+        ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),
+        DTColumnBuilder.newColumn("Nom").withTitle("Fermes"),
+        DTColumnBuilder.newColumn("Ref").withTitle("Référence Technique"),
+        DTColumnBuilder.newColumn("Reference").withTitle("Parcelle Physique"),
         DTColumnBuilder.newColumn("Sup").withTitle("Superficie").renderWith(function(data, type, full, meta) {
-        if (full.Sup) 
-              return full.Sup + 'Ha';        
+        if (full.Sup)
+              return full.Sup + 'Ha';
           return '';
         }).withOption("width", "100px"),
         DTColumnBuilder.newColumn("Type").withTitle("Type Parcelle").renderWith(function(data, type, full, meta) {
-          if (full.Type == 1) 
-                return 'Plein champ';        
+          if (full.Type == 1)
+                return 'Plein champ';
             return 'Sous serre';
-        }).withOption("width", "100px"),         
+        }).withOption("width", "100px"),
         DTColumnBuilder.newColumn(null)
         .withTitle("Actions")
         .renderWith(actionsHtml)
@@ -598,17 +579,17 @@ angular.module('beeOneWebFrontApp')
 
     vm.reset = function () {
       vm.formData =  {
-        IDFamille_Culture : null,
+        IDFermes : null,
         Reference : null,
-        Nom_Famille : null,
-        filier : null,
-        fermes : []
-      }          
-     } 
+        Ref : null,
+        Sup : null,
+        Type : null
+      }
+     }
    vm.reset()
 
 
-    
+
 
     vm.howto = true;
 
@@ -617,14 +598,14 @@ angular.module('beeOneWebFrontApp')
       if (data.newItem) {
         angular.element(row).addClass('new-row');
       }
-      
+
       // Then handle Angular compilation
       $compile(angular.element(row).contents())($scope);
     }
-    
+
 
     /** Step1 excel*/
-    
+
     vm.headers = [
       "Ferme",
       "Filière",
@@ -635,24 +616,24 @@ angular.module('beeOneWebFrontApp')
          let headers=  vm.headers
           var ws_data = [headers]
           var ws = XLSX.utils.aoa_to_sheet(ws_data);
-  
+
           // Create workbook
           var wb = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(wb, ws, "Famille Culturale");
-  
+
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
-  
-          saveAs(blob, "Canvas Famille Culturale.xlsx"); 
+
+          saveAs(blob, "Canvas Famille Culturale.xlsx");
       };
-  
+
 
       $scope.checkExcelHeaders = async function (data) {
         if(data.length>0){
             // Define required headers
             var requiredHeaders = vm.headers
-                  
+
             // Extract headers from the first row of the data
             var fileHeaders = Object.keys(data[0] || {});
             console.log(fileHeaders);
@@ -675,19 +656,19 @@ angular.module('beeOneWebFrontApp')
             message : "file is emplty!."
           };
         }
-       
-        
+
+
     };
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
         FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,             
-        Reference: item["Référence famille"] || null, 
+        FiliereName: item["Filière"] || null,
+        Reference: item["Référence famille"] || null,
         Nom_Famille: item["Désignation Famille"] || null
       }));
     };
-  
+
 
 
     vm.transformExcelData = async function (data) {
@@ -696,87 +677,87 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.checkDuplicate__column_code = async function (newData, oldData) {
-    
-  
+
+
       // Ensure `seen` set is cleared each time the function is called
       let seen = new Set();
       let rowIndex = 2;  // To keep track of the row number
-  
+
       // Add old data "" values to the set
       oldData.forEach(item => {
           if (item.Code) {
               seen.add(item.Code.toLowerCase()); // Convert to lowercase for case-insensitive check
           }
       });
-  
-   
-  
+
+
+
       // Check for duplicates in new data
       for (let item of newData) {
           if (item.Code) {
               let lowerCaseName = item.Code.toLowerCase();
-  
-             
-  
+
+
+
               if (seen.has(lowerCaseName)) {
                   return {
                       status: false,
                       message: `Duplicate Rférence found in row ${rowIndex}: ${item.Code}`
-                  }; 
+                  };
               }
-  
+
               seen.add(lowerCaseName);
           }
-          rowIndex++; 
+          rowIndex++;
       }
-  
+
       return {
           status: true
       }; // No duplicates found
     };
-  
+
     vm.checkDuplicate__column_name = async function (newData, oldData) {
-    
-  
+
+
       // Ensure `seen` set is cleared each time the function is called
       let seen = new Set();
       let rowIndex = 2;  // To keep track of the row number
-  
+
       // Add old data "" values to the set
       oldData.forEach(item => {
           if (item.Nom) {
               seen.add(item.Nom.toLowerCase()); // Convert to lowercase for case-insensitive check
           }
       });
-  
-   
-  
+
+
+
       // Check for duplicates in new data
       for (let item of newData) {
           if (item.Nom) {
               let lowerCaseName = item.Nom.toLowerCase();
-  
-             
-  
+
+
+
               if (seen.has(lowerCaseName)) {
                   return {
                     status_name: false,
                     message_name: `Duplicate Nom found in row ${rowIndex}: ${item.Nom}`
-                  }; 
+                  };
               }
-  
+
               seen.add(lowerCaseName);
           }
-          rowIndex++; 
+          rowIndex++;
       }
-  
+
       return {
         status_name: true
       }; // No duplicates found
     };
-  
-  
-    
+
+
+
   vm.resetErrExcel = function(){
     vm.errData = {
       err : false
@@ -785,26 +766,26 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.checkDuplicate = async function () {
-      
+
     }
 
     vm.integer = async function(){
-     
 
-   
+
+
       if(vm.jsonData.length>0){
-       
-          NProgress.start();   
+
+          NProgress.start();
 
           familleculture.multiadd({
             familles :vm.jsonData
-          }).then(async e => {   
+          }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
               });
-              await $scope.undoSelect() 
-              NProgress.done(); 
+              await $scope.undoSelect()
+              NProgress.done();
               vm.dtInstance.reloadData();
               vm.reset();
               vm.isFileSelected = false;
@@ -821,21 +802,21 @@ angular.module('beeOneWebFrontApp')
             }
           });
 
-        
-           
-          
-          
-       
+
+
+
+
+
 
       }else{
         toastr.clear();
         toastr.warning("Upload your file!", {
         closeButton: true,
        });
-      }              
+      }
     }
 
-  
+
 
       /**chat */
        // Initialize messages array
@@ -850,16 +831,16 @@ angular.module('beeOneWebFrontApp')
 
   // Format timestamp
   $scope.formatTime = function(date) {
-    return new Date(date).toLocaleTimeString('fr-FR', { 
-      hour: 'numeric', 
+    return new Date(date).toLocaleTimeString('fr-FR', {
+      hour: 'numeric',
       minute: '2-digit',
-      hour12: true 
+      hour12: true
     });
   };
 
   // Format date
   $scope.formatDate = function(date) {
-    return new Date(date).toLocaleDateString('fr-FR', { 
+    return new Date(date).toLocaleDateString('fr-FR', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
@@ -901,9 +882,9 @@ angular.module('beeOneWebFrontApp')
       $scope.$apply(); // Apply changes to update the UI
       }, 2000);
 
-       
-     
-      
+
+
+
 
       // Clear input
       $scope.newMessage = '';
@@ -945,5 +926,5 @@ angular.module('beeOneWebFrontApp')
   }
 
 
-  
+
 );

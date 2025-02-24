@@ -20,15 +20,26 @@
                 <div class="form-row tiny-space sotiny" style="display: flex; flex-wrap: wrap; gap: 16px;">
                     <md-input-container class="form-input" style="flex: 1; ">
                         <label>Ferme</label>
-                        <md-select ng-model="formdata_gen.ferme" data-md-container-class="selectdemoSelectHeader" required >
+                        <md-select ng-model="formdata_gen.ferme" ng-if="!formdata_gen.update" data-md-container-class="selectdemoSelectHeader" required >
                             <md-select-header class="demo-select-header" >
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
                             </md-select-header>
                             <md-option ng-value="dataf" ng-repeat="dataf in data_ferme | orderBy:'Nom' | filter:search_str"
-                            ng-if="!dataf.disabled">
+                            ng-if="!dataf.disabled" >
                                 {{dataf.Nom}}
                             </md-option>
                         </md-select>
+
+                        <md-select ng-model="formdata_gen.ferme" ng-if="formdata_gen.update" data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" >
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="dataf" ng-repeat="dataf in data_ferme | orderBy:'Nom' | filter:search_str"
+                             >
+                                {{dataf.Nom}}
+                            </md-option>
+                        </md-select>
+
                     </md-input-container>
 
                     <md-input-container class="form-input" style="flex: 1; ">
@@ -49,8 +60,8 @@
                     </md-input-container>
 
                     <div class="form-actions" style="text-align: center;">
-                        <md-button class="md-raised md-primary custom-button" ng-click="canva_ajouter()" style="background-color: #4CAF50; color: white; border-radius: 4px;">
-                            Ajouter
+                        <md-button class="md-raised md-primary custom-button" ng-click="(formdata_gen.update) ? canva_modifer() : canva_ajouter()" style="background-color: #4CAF50; color: white; border-radius: 4px;">
+                            {{(formdata_gen.update) ? 'Modifier' : 'Ajouter'}}
                         </md-button>
                     </div>
 
@@ -86,10 +97,10 @@
                 <p style="margin: 0;">
                     <img src="././images/main_configuration/edit.svg"
                          style="width: 18px; height: 18px; padding-top: 1px; cursor: pointer;"
-                         ng-click="vm.edit($index)">
+                         ng-click="editCanva($index)">
                     <img src="././images/main_configuration/delete.svg"
                          style="width: 18px; height: 18px; padding-top: 1px; cursor: pointer;"
-                         ng-click="vm.delete($index)">
+                         ng-click="deleteCanva($index)">
                 </p>
             </div>
             <div layout="row" layout-align="space-between center">

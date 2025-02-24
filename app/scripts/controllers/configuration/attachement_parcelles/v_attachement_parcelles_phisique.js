@@ -606,27 +606,9 @@ angular.module('beeOneWebFrontApp')
 
     /** Step1 excel*/
 
-    vm.headers = [
-      "Ferme",
-      "Filière",
-      "Référence famille",
-      "Désignation Famille"];
+    vm.headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"]
 
-      vm.exportToExcel = function () {
-         let headers=  vm.headers
-          var ws_data = [headers]
-          var ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-          // Create workbook
-          var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Famille Culturale");
-
-          // Write the file and trigger download
-          var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-          var blob = new Blob([wbout], { type: "application/octet-stream" });
-
-          saveAs(blob, "Canvas Famille Culturale.xlsx");
-      };
 
 
       $scope.checkExcelHeaders = async function (data) {
@@ -980,45 +962,137 @@ angular.module('beeOneWebFrontApp')
       }
 
       $scope.generateExcelData = function() {
-     let excelData = [];
-     let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
-     excelData.push(headers);
+      let excelData = [];
+      let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
+      excelData.push(headers);
 
-     $scope.allformxls.forEach(item => {
-       let fermeName = item.ferme.Nom;
-       let referenceTechnique = item.ferme.Code;
-       let superficie = item.ferme.Superficie;
-       let typeParcelle = ""; // You can add logic to determine the type
+      $scope.allformxls.forEach(item => {
+          let fermeName = item.ferme.Nom;
+          let refrence = null;
+          let ref = null;
+          let superficie = null;
+          let typeParcelle = null;
 
-       if (item.increment === 1) {
-         for (let i = 1; i <= item.nbrparcelle; i++) {
-           excelData.push([fermeName, referenceTechnique, i, superficie, typeParcelle]);
-         }
-       } else if (item.increment === 2) {
-         excelData.push([fermeName, referenceTechnique, item.nbrparcelle, superficie, typeParcelle]);
-       }
-     });
+          if (item.increment === 1) {
+              for (let i = 1; i <= item.nbrparcelle; i++) {
+                  excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
+              }
+          }/* else if (item.increment === 2) {
+              excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
+          }*/
+      });
 
-     return excelData;
-   };
+      return excelData;
+  };
 
-   $scope.downloadExcel = function() {
-     let excelData = $scope.generateExcelData();
-     let csvContent = "data:text/csv;charset=utf-8,";
+  $scope.downloadExcel = function() {
 
-     excelData.forEach(function(rowArray) {
-       let row = rowArray.map(value => `"${value === null ? '' : value}"`).join(",");
-       csvContent += row + "\r\n";
-     });
+      if($scope.allformxls.length>0){
+        let excelData = $scope.generateExcelData();
 
-     let encodedUri = encodeURI(csvContent);
-     let link = document.createElement("a");
-     link.setAttribute("href", encodedUri);
-     link.setAttribute("download", "fermes.csv");
-     document.body.appendChild(link);
-     link.click();
-     document.body.removeChild(link);
-   };
+        // Create a new workbook and a worksheet
+        let ws = XLSX.utils.aoa_to_sheet(excelData);
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Parcelle Physique");
+
+        // Generate a binary string from the workbook
+        let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+        // Convert the binary string to a Blob
+        let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+        // Create a link element and trigger the download
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Canvas Parcelle Physique.xlsx";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }else {
+        toastr.clear();
+        toastr.warning("Veuillez choisir au moin un Paramètre", {
+          closeButton: true
+        });
+      }
+
+  };
+
+  // Utility function to convert string to ArrayBuffer
+  function s2ab(s) {
+      let buf = new ArrayBuffer(s.length);
+      let view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+  }
+
+
+  $scope.deleteCanva = function(index) {
+
+    toastr.clear();
+    toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+      closeButton: true,
+      allowHtml: true,
+      onShown: function(toast) {
+
+        $("#confirmationRevertYes").click(function() {
+          $scope.allformxls.splice(index, 1);
+          toastr.clear();
+          toastr.success("Paramètre bien Supprimé", {
+            closeButton: true
+          });
+          $scope.formdata_gen = {};
+        });
+      }
+    });
+  }
+
+
+
+  $scope.editCanva = function(index) {
+
+
+    $scope.formdata_gen = {
+      ferme : $scope.allformxls[index].ferme,
+      nbrparcelle : $scope.allformxls[index].nbrparcelle,
+      increment : $scope.allformxls[index].increment,
+      update : true,
+      index : index
+    }
+
+  }
+
+  $scope.canva_modifer = function(){
+
+    if(!$scope.formdata_gen.ferme){
+      toastr.clear();
+      toastr.warning("Veuillez choisir une ferme", {
+        closeButton: true
+      });
+    }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+      toastr.clear();
+      toastr.warning("Veuillez saisir le nombre de parcelle", {
+        closeButton: true
+      });
+    }else if (!$scope.formdata_gen.increment) {
+      toastr.clear();
+      toastr.warning("Veuillez choisir un type d'incrémentation", {
+        closeButton: true
+      });
+    }else {
+      $scope.formdata_gen.ferme.disabled = true;
+      let index = $scope.formdata_gen.index;
+      $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
+      $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
+      $scope.allformxls[index].increment = $scope.formdata_gen.increment;
+      $scope.formdata_gen = {};
+      toastr.clear();
+      toastr.success("Paramètre bien Modifié", {
+        closeButton: true
+      });
+    }
+
+  }
+
 
     }
 

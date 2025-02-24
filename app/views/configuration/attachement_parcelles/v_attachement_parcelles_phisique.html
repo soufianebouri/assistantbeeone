@@ -7,7 +7,7 @@
                     <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
                   </div>
 
-                  <md-content class="form-content">
+                  <md-content class="form-content" >
 
                     <!-- Row 1 -->
 
@@ -15,7 +15,7 @@
                     <div class="form-row tiny-space sotiny">
                         <md-input-container class="form-input" >
                             <label>Ferme</label>
-                            <md-select ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
@@ -138,10 +138,10 @@
 
                       <div layout="row">
                         <img src="././images/main_configuration/file.svg" alt="file-icon"
-                          style="width: 20px; height: 20px; margin-right: 5px;">
+                          style="margin-right: 10px;">
 
                         <div layout="column" style="line-height: 1.2;">
-                          <h3 style="font-size: 14px;">
+                          <h3 style="font-size: 10px;">
                             {{vm.fileName}}
                           </h3>
                           <p style="color: #63675d; font-family: Poppins; font-size: 10px; margin: 0;">
@@ -160,7 +160,7 @@
 
                   <div class="form-actions">
                     <md-button class="md-raised md-primary custom-reset-button" style=" min-width:50%" ng-click="vm.gen_canvas()">
-                        Paramétre Canevas
+                        Paramétre Canvas
                     </md-button>
 
                     <md-button class="md-raised md-primary custom-button" style=" min-width:50%" ng-click="vm.integer()">

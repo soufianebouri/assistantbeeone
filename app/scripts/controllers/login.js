@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('LoginCtrl', function(toastr, $scope, auth, _url, $window, $state, $translatePartialLoader, $translate, _version, $timeout) {
+  .controller('LoginCtrl', function(toastr,$document, $scope, auth, _url, $window, $state, $translatePartialLoader, $translate, _version, $timeout) {
     var vm = this;
     vm._version = _version;
     $translatePartialLoader.addPart('conduitetechnique');
@@ -16,9 +16,9 @@ angular.module('beeOneWebFrontApp')
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
 
-    $scope.loading = false;   
-    vm.auth = async function (){ 
-     
+    $scope.loading = false;
+    vm.auth = async function (){
+
       NProgress.start();
       toastr.clear();
 
@@ -27,32 +27,32 @@ angular.module('beeOneWebFrontApp')
         toastr.warning("Login and password required", {
             closeButton: true,
           }
-        );   
+        );
         NProgress.done();
         NProgress.remove();
-       
+
         return;
       }
 
         if(vm.acceskey === 'nb74dih8'){
-          
+
           auth.Login({
             loginOrMail :vm.loginormail,
             password : vm.password
           }).then(async e  =>  {
             NProgress.done();
             NProgress.remove();
-            $scope.loading = true; 
+            $scope.loading = true;
 
-                  
+
             let authToken = e.headers('Authorization');
-           
-            
-           await auth.SetCredentials(vm.loginOrMail, vm.password, e.data.nom, e.data.prenom, e.data.Superviseur, e.data.id, [], [], authToken, 1, 1); 
+
+
+           await auth.SetCredentials(vm.loginOrMail, vm.password, e.data.nom, e.data.prenom, e.data.Superviseur, e.data.id, [], [], authToken, 1, 1);
            $state.go('onboarding');
-            $scope.loading = false; 
-        
-         
+            $scope.loading = false;
+
+
 
           }).catch(err => {
               console.log(err);
@@ -65,14 +65,14 @@ angular.module('beeOneWebFrontApp')
             });
 
 
-          
-       
-          
-        
-  
-          
-  
-          return; 
+
+
+
+
+
+
+
+          return;
         }else{
           toastr.clear();
           toastr.warning("Wrong Acces key!", {
@@ -84,7 +84,7 @@ angular.module('beeOneWebFrontApp')
         return;
         }
 
-               
+
    /*   }else{
         toastr.clear();
         toastr.warning("Wrong login or password!", {
@@ -94,10 +94,10 @@ angular.module('beeOneWebFrontApp')
         return;
       }*/
 
-      
 
-   
-           
+
+
+
     /*  auth.Login(vm.usernamelogin, vm.mdp, _url, function(response) {
         if (response.data && response.data.length > 0) {
           ModuleManager.getRoles({
@@ -110,7 +110,7 @@ angular.module('beeOneWebFrontApp')
               } catch (e) {
                 latest_release = false;
               }
-              
+
               NProgress.done();
               NProgress.remove();
             }).catch(e => {
@@ -125,5 +125,20 @@ angular.module('beeOneWebFrontApp')
         }
       });*/
     };
+
+
+    // Add keypress listener
+       var keyListener = function(event) {
+           if (event.keyCode === 13) { // 13 is the Enter key
+                $scope.$apply(vm.auth());
+           }
+       };
+
+       $document.on("keypress", keyListener);
+
+       // Cleanup the listener when scope is destroyed
+       $scope.$on("$destroy", function() {
+           $document.off("keypress", keyListener);
+       });
 
   });

@@ -1,6 +1,6 @@
 <div class="container" ng-controller="LoginCtrl as vm">
 
-  
+
   <div class="left-panel">
     <div class="quote">
       <img src="../images/auth/note_left.svg" style="    width: 49px;"/>
@@ -26,9 +26,11 @@
   <div class="right-panel" style="    place-items: center;">
     <div style="   place-items: center;">
 
-   
+
       <h2 class="fade-in nomarging" >Connectez-vous</h2>
-      <p class="fade-in delay nomarging">Content de te revoir ! Entrez vos informations de connexion</p>
+      <center>
+      <p class="fade-in delay nomarging">Content de te revoir ! <br/>Entrez vos informations de connexion</p>
+      </center>
       <br/>
       <form class="nomarging">
         <div flex="100" flex-gt-sm="33" layout="column">
@@ -56,7 +58,7 @@
               <!--<a href="#">Mot De Passe Oublié?</a>-->
           </div>
 
-          <md-button class="md-raised md-primary custom-button" ng-click="vm.auth()" style="width: 338px;">
+          <md-button id="citroler" class="md-raised md-primary custom-button" ng-click="vm.auth()" style="width: 338px;">
             Connexion
           </md-button>
 
@@ -70,7 +72,7 @@
           </md-icon>
           <label>{{'Clé d’accès de connexion ici' | translate}}</label>
           <input ng-model="vm.acceskey" style="width: 300px;"  required>
-          
+
         </md-input-container>
       </div>
 

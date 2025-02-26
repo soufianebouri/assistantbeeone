@@ -1764,6 +1764,7 @@ md-card-content {
   align-items: center; /* Center content horizontally */
   height: 100vh; /* Full viewport height */
   /*padding: 20px;*/
+  width: 45%;
   box-sizing: border-box;
   background-color: #0b522b;
 }
@@ -1929,6 +1930,7 @@ md-card-content {
 .toast-warning {
   background-color: #ffc107 !important; /* Yellow */
   color: black !important;
+  opacity: 1 !important;
 }
 
 .toast-info {

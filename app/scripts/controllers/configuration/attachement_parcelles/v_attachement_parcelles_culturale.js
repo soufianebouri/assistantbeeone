@@ -1,0 +1,1112 @@
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name beeOneWebFrontApp.controller:ConfigurationAttachementParcellesVAttachementParcellesCulturaleCtrl
+ * @description
+ * # ConfigurationAttachementParcellesVAttachementParcellesCulturaleCtrl
+ * Controller of the beeOneWebFrontApp
+ */
+angular.module('beeOneWebFrontApp')
+  .controller('ConfigurationAttachementParcellesVAttachementParcellesCulturaleCtrl', function (
+    $q,
+    $scope,$mdDialog,
+    toastr,
+    $timeout,
+    _url,
+    $window,
+    $translatePartialLoader,
+    $translate,
+    _version,
+    DTOptionsBuilder,
+    $compile,
+    DTColumnBuilder,
+    DTDefaultOptions,
+    $cookies,
+    ferme,parcelleCultural,
+    familleculture
+  ) {
+    var vm = this;
+    vm._version = _version;
+
+    vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
+    vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+
+    $translatePartialLoader.addPart("conduitetechnique");
+    $translate.use($window.localStorage.getItem("lang").toLowerCase());
+    $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
+
+    $scope.fileName = "Aucun fichier choisi";
+    $scope.uploadFile = function (element) {
+      var file = element.files[0];
+      if (file) {
+        $scope.fileName = file.name;
+        $scope.$apply();
+      }
+    };
+
+
+    $scope.uploadFile = function (event) {
+      var file = event.target.files[0];
+      if (file) {
+        $scope.fileName = file.name;
+        $scope.$apply();
+      }
+    };
+
+    $scope.isDragging = false;
+
+    // Trigger file input when clicking on the card
+    $scope.triggerFileInput = function () {
+      document.getElementById("fileInput").click();
+    };
+
+    let allowedExtensions = ["xls", "xlsx"];
+    vm.jsonData = [];
+    // Handle file selection (when clicked)
+    $scope.onFileSelected = function (file) {
+      if (file) {
+        // Get file extension (convert to lowercase for case-insensitive check)
+        let fileExtension = file.name.split(".").pop().toLowerCase();
+
+        // Allowed extensions
+
+        if (allowedExtensions.includes(fileExtension)) {
+
+
+
+
+          let reader = new FileReader();
+          reader.readAsBinaryString(file);
+          reader.onload = async function (e) {
+            let data = e.target.result;
+            let workbook = XLSX.read(data, { type: "binary" });
+
+            // Assuming the first sheet contains the data
+            let sheetName = workbook.SheetNames[0];
+            let sheet = workbook.Sheets[sheetName];
+
+            // Convert sheet to JSON
+
+            vm.jsonData = XLSX.utils.sheet_to_json(sheet, {
+              defval: "",  // Ensures empty cells are included
+              raw: true    // Keeps data as-is without automatic conversion
+          });
+
+            let {status, message} = await $scope.checkExcelHeaders(vm.jsonData)
+
+
+
+            if(status){
+
+              vm.jsonData = await  vm.transformExcelData(vm.jsonData);
+
+
+
+                 //infos
+          vm.isFileSelected = true;
+          vm.fileName = file.name;
+
+          if (file.size >= 1024 * 1024) {
+            vm.fileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+          } else {
+            vm.fileSize = (file.size / 1024).toFixed(2) + " KB";
+          }
+
+            }else{
+              vm.isFileSelected = false;
+              toastr.clear();
+              toastr.warning(message, {
+              closeButton: true,
+             });
+            }
+
+           /* $scope.$apply(() => {
+                $scope.excelData = jsonData; // Store JSON data in scope
+            });*/
+
+
+
+        };
+
+        reader.onerror = function (error) {
+          console.log("onerror",error);
+
+            vm.isFileSelected = false;
+            toastr.clear();
+            toastr.warning("Error reading file", {
+            closeButton: true,
+          });
+        };
+
+
+
+
+        } else {
+          vm.isFileSelected = false;
+          toastr.clear();
+          toastr.warning("Only XLS and XLSX files are allowed.", {
+            closeButton: true,
+          });
+        }
+      } else {
+        vm.isFileSelected = false;
+      }
+    };
+
+    vm.delete_file = function () {
+      vm.isFileSelected = false;
+      vm.resetErrExcel();
+      vm.jsonData = [];
+    };
+
+    // Handle drag events
+    $scope.onDragOver = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      $scope.isDragging = true;
+      $scope.$apply();
+    };
+
+    $scope.onDragLeave = function (event) {
+      $scope.isDragging = false;
+      $scope.$apply();
+    };
+
+    // Handle file drop
+    $scope.onDrop = function (file) {
+      $scope.isDragging = false;
+      if (file.length > 0) {
+        vm.isFileSelected = true;
+        vm.fileName = file.name;
+        if (file.size >= 1024 * 1024) {
+          // If size is 1MB or more, show in MB
+          vm.fileSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+        } else {
+          // Otherwise, show in KB
+          vm.fileSize = (file.size / 1024).toFixed(2) + " KB";
+        }
+      } else {
+        vm.isFileSelected = false;
+      }
+    };
+
+
+
+
+
+    /** Table */
+
+    vm.dtInstance = {};
+    vm.selected = {};
+    vm.selectAll = false;
+
+    //get data and refresh datatable
+    vm.data_parcelle = [];
+
+    $q.all([
+      ferme.get_all()
+    ]).then((values) => {
+      vm.data_ferme = values[0].data;
+      console.log(vm.data_ferme);
+    }).catch((error) => {
+      toastr.clear();
+      toastr.error(error.message, {
+        closeButton: true
+      });
+    });
+
+
+
+    vm.types = [{
+      id : 1,
+      name : 'Plein champ'
+    },{
+      id : 2,
+      name : 'Sous serre'
+    }]
+
+    vm.selectedFarm = [];
+
+
+
+    vm.modifier = async function  () {
+      console.log(vm.formData);
+
+
+        if(await vm.validateFormData()){
+          NProgress.start()   ;
+
+          parcelleCultural.edit(vm.formData).then(async e => {
+
+              toastr.clear();
+              toastr.success(e.data.message, {
+                closeButton: true
+              });
+              NProgress.done();
+              vm.dtInstance.reloadData();
+              vm.reset();
+              await $scope.undoSelect()
+
+          }).catch(async e => {
+            NProgress.done();
+            toastr.clear();
+            toastr.error(e.data.message, {
+              closeButton: true
+            });
+          });
+        }
+    };
+
+
+    vm.validateFormData = async function() {
+
+          let rules = {
+              IDFermes: "Ferme is required.",
+              Reference: "Référence is required.",
+              Ref: "Parcelle Physique is required.",
+              Sup: "Superficie is required.",
+              Type: "Type Parcelle is required."
+          };
+
+
+          for (let key in rules) {
+              if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {
+                  toastr.clear();
+                  toastr.warning(typeof rules[key] === "function" ? rules[key](vm.formData[key]) : rules[key], {
+                    closeButton: true
+                  });
+
+                  return false;
+              }
+          }
+          return true;
+     };
+
+    vm.ajouter = async function  () {
+      toastr.clear();
+        if(await vm.validateFormData()){
+          NProgress.start()
+          parcelleCultural.add(vm.formData).then(async e => {
+              toastr.clear();
+              toastr.success(e.data.message, {
+                closeButton: true
+              });
+              await $scope.undoSelect()
+              NProgress.done();
+              vm.dtInstance.reloadData();
+              vm.reset();
+          }).catch(async e => {
+            NProgress.done();
+            toastr.clear();
+            toastr.error(e.data.message, {
+              closeButton: true
+            });
+          });
+
+        }
+
+
+    };
+
+
+      vm.multiDelete = async function() {
+
+        let selectedIds = await $scope.getSelectedIDs(vm.data_parcelle);
+
+        toastr.clear();
+        toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+          closeButton: true,
+          allowHtml: true,
+          onShown: function(toast) {
+
+            $("#confirmationRevertYes").click(function() {
+              NProgress.start()
+              parcelleCultural.multidelete({
+                IDs : selectedIds
+              }).then(async function(result) {
+
+                await $scope.undoSelect()
+                toastr.clear();
+                toastr.success(result.data.message, {
+                  closeButton: true
+                });
+                NProgress.done();
+                vm.dtInstance.reloadData();
+
+              }).catch(async e => {
+                NProgress.done();
+                console.log();
+                toastr.clear();
+                toastr.error(e.data.message, {
+                  closeButton: true
+                });
+              });
+            });
+          }
+        });
+
+      }
+
+
+    vm.delete = async function(data) {
+
+      toastr.clear();
+      toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+        closeButton: true,
+        allowHtml: true,
+        onShown: function(toast) {
+          $("#confirmationRevertYes").click(function() {
+            NProgress.start()
+            parcelleCultural.delete(data).then(async function(result) {
+
+              await $scope.undoSelect()
+              toastr.clear();
+              toastr.success(result.data.message, {
+                closeButton: true
+              });
+              NProgress.done();
+              vm.dtInstance.reloadData();
+
+            }).catch(async e => {
+              NProgress.done();
+              toastr.clear();
+              toastr.error(e.data.message, {
+                closeButton: true
+              });
+            });
+          });
+        }
+      });
+
+    }
+
+
+
+    $scope.check_all_data_input = async function(){
+      var isDuplicate = vm.data_parcelle.some(function(societe) {
+        return societe.Code === vm.formData.Code;
+    });
+
+    if (isDuplicate) {
+
+      toastr.clear();
+      toastr.warning("Raison Sociale already esist!", {
+        closeButton: true,
+      });
+        return false
+    } else {
+        return true;
+    }
+    }
+
+    $scope.check_all_data_input_edit = async function(){
+      var isDuplicate = vm.data_parcelle.some(function(societe) {
+        return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
+    });
+
+    if (isDuplicate) {
+
+      toastr.clear();
+      toastr.warning("Raison Sociale already esist!", {
+        closeButton: true,
+      });
+        return false
+    } else {
+        return true;
+    }
+    }
+
+
+    $scope.updatedata = function() {
+      return parcelleCultural.get_all();
+    };
+
+    vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
+      var defer = $q.defer();
+        $scope.updatedata().then(function(res) {
+          vm.data_parcelle = res.data;
+          console.log(res.data);
+
+          defer.resolve(res.data);
+          NProgress.done();
+        });
+        return defer.promise;
+      })
+      .withOption("createdRow", createdRow)
+      .withDOM("<lf<t>ip>")
+      .withPaginationType("simple_numbers")
+      .withOption("pageLength", 5)  // Default number of items per page
+       .withOption("lengthMenu", [5, 10, 20, 50, 100])  // Options for page length
+      .withOption("responsive", true)
+      .withOption("order", [])
+      .withButtons([
+        {
+          extend: "copy",
+          className: "pull-left pointer",
+          text: "COPY",
+          titleAttr: "Copie",
+        },
+        {
+          extend: "excel",
+          text: "EXCEL",
+          titleAttr: "EXCEL",
+          title: 'Liste des fermes'
+        },
+      ]);
+
+
+
+      vm.parcelle_action = {};
+      function actionsHtml(data, type, full, meta) {
+          vm.parcelle_action[data.ID] = data;
+          var editbtn =
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.parcelle_action[' +
+          data.ID +
+          '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
+
+           var deletebtn =
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.parcelle_action[' +
+          data.ID +
+          '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
+      return editbtn + deletebtn;
+      }
+
+
+      vm.edit = function (data) {
+        vm.formData = data;
+
+       toastr.clear();
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref}. 👆`, {
+          closeButton: true
+        });
+
+      }
+
+
+
+
+
+      $scope.allSelected = false; // Tracks "Select All" state
+
+    // Toggle all checkboxes
+    vm.toggleAllSelection = function() {
+      $scope.allSelected = (!$scope.allSelected) ? true : false;
+      vm.data_parcelle.forEach(societe => {
+          societe.selected = $scope.allSelected; // Toggle selection
+      });
+      vm.dtInstance.reloadData();
+  };
+
+  // Expose function globally
+  window.toggleAllSelection = function() {
+      $scope.$apply(function() {
+          vm.toggleAllSelection();
+      });
+  };
+
+
+  $scope.undoSelect = async function(){
+    vm.data_parcelle = vm.data_parcelle.map(societe => {
+       return { ...societe, selected: false }; // Toggle selection
+   });
+  }
+
+
+  $scope.getSelectedIDs = async function(data) {
+    let selectedItems = data.filter(item => item.selected === true); // Get selected items
+
+    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+
+    return selectedIds;
+  };
+
+
+    $scope.toggleSelection = function (id) {
+      let found = false;
+      vm.data_parcelle = vm.data_parcelle.map(societe => {
+          if (societe.ID === id) {
+              found = true;
+              return { ...societe, selected: !societe.selected }; // Toggle selection
+          }
+          return societe;
+      });
+      /* if (!found) {
+            vm.data_parcelle.push({ id_sco_temp: id, selected: true });
+        }    */
+  };
+
+    function checkboxHtml(data, type, full, meta) {
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
+    }
+
+
+    vm.updateSelectedCount = function () {
+      return vm.data_parcelle.filter(societe => societe.selected).length;
+    };
+
+
+    vm.dtColumns = [
+      DTColumnBuilder.newColumn(null)
+        .withTitle(
+          '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
+        ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),
+        DTColumnBuilder.newColumn("Nom").withTitle("Fermes"),
+        DTColumnBuilder.newColumn("Ref").withTitle("Référence Technique"),
+        DTColumnBuilder.newColumn("Reference").withTitle("Parcelle Physique"),
+        DTColumnBuilder.newColumn("Sup").withTitle("Superficie").renderWith(function(data, type, full, meta) {
+        if (full.Sup)
+              return full.Sup + 'Ha';
+          return '';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Type").withTitle("Type Parcelle").renderWith(function(data, type, full, meta) {
+          if (full.Type == 1)
+                return 'Plein champ';
+            return 'Sous serre';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn(null)
+        .withTitle("Actions")
+        .renderWith(actionsHtml)
+        .withClass("nowrap actions-column nowraptd all") // Custom class for better control
+        .withOption("width", "60px")
+        .notSortable()
+    ];
+
+
+    DTDefaultOptions.setLoadingTemplate(
+      '<center><img src="././images/loading.gif"/></center>'
+    );
+
+    vm.reset = function () {
+      vm.formData =  {
+        IDFermes : null,
+        Reference : null,
+        Ref : null,
+        Sup : null,
+        Type : null
+      }
+     }
+   vm.reset()
+
+
+
+
+    vm.howto = true;
+
+    function createdRow(row, data, dataIndex) {
+      // Add row highlighting first
+      if (data.newItem) {
+        angular.element(row).addClass('new-row');
+      }
+
+      // Then handle Angular compilation
+      $compile(angular.element(row).contents())($scope);
+    }
+
+
+    /** Step1 excel*/
+
+    vm.headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"]
+
+
+
+
+      $scope.checkExcelHeaders = async function (data) {
+        if(data.length>0){
+            // Define required headers
+            var requiredHeaders = vm.headers
+
+            // Extract headers from the first row of the data
+            var fileHeaders = Object.keys(data[0] || {});
+            console.log(fileHeaders);
+
+            // Check if all required headers are present
+            var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
+            if(isValid){
+              return {
+                status : true
+              }
+            }else{
+              return {
+                status : false,
+                message : "Invalid file format! Please ensure all required headers are present."
+              };
+            }
+        }else{
+          return {
+            status : false,
+            message : "file is emplty!."
+          };
+        }
+
+
+    };
+
+    vm.cleanJsonKeys = async function (data) {
+      return data.map(item => ({
+        FermeName: item["Ferme"] || null,
+        FiliereName: item["Filière"] || null,
+        Reference: item["Référence famille"] || null,
+        Nom_Famille: item["Désignation Famille"] || null
+      }));
+    };
+
+
+
+    vm.transformExcelData = async function (data) {
+      return await vm.cleanJsonKeys(data);
+    };
+
+
+    vm.checkDuplicate__column_code = async function (newData, oldData) {
+
+
+      // Ensure `seen` set is cleared each time the function is called
+      let seen = new Set();
+      let rowIndex = 2;  // To keep track of the row number
+
+      // Add old data "" values to the set
+      oldData.forEach(item => {
+          if (item.Code) {
+              seen.add(item.Code.toLowerCase()); // Convert to lowercase for case-insensitive check
+          }
+      });
+
+
+
+      // Check for duplicates in new data
+      for (let item of newData) {
+          if (item.Code) {
+              let lowerCaseName = item.Code.toLowerCase();
+
+
+
+              if (seen.has(lowerCaseName)) {
+                  return {
+                      status: false,
+                      message: `Duplicate Rférence found in row ${rowIndex}: ${item.Code}`
+                  };
+              }
+
+              seen.add(lowerCaseName);
+          }
+          rowIndex++;
+      }
+
+      return {
+          status: true
+      }; // No duplicates found
+    };
+
+    vm.checkDuplicate__column_name = async function (newData, oldData) {
+
+
+      // Ensure `seen` set is cleared each time the function is called
+      let seen = new Set();
+      let rowIndex = 2;  // To keep track of the row number
+
+      // Add old data "" values to the set
+      oldData.forEach(item => {
+          if (item.Nom) {
+              seen.add(item.Nom.toLowerCase()); // Convert to lowercase for case-insensitive check
+          }
+      });
+
+
+
+      // Check for duplicates in new data
+      for (let item of newData) {
+          if (item.Nom) {
+              let lowerCaseName = item.Nom.toLowerCase();
+
+
+
+              if (seen.has(lowerCaseName)) {
+                  return {
+                    status_name: false,
+                    message_name: `Duplicate Nom found in row ${rowIndex}: ${item.Nom}`
+                  };
+              }
+
+              seen.add(lowerCaseName);
+          }
+          rowIndex++;
+      }
+
+      return {
+        status_name: true
+      }; // No duplicates found
+    };
+
+
+
+  vm.resetErrExcel = function(){
+    vm.errData = {
+      err : false
+    }
+  }
+
+
+    vm.checkDuplicate = async function () {
+
+    }
+
+    vm.integer = async function(){
+
+
+
+      if(vm.jsonData.length>0){
+
+          NProgress.start();
+
+          familleculture.multiadd({
+            familles :vm.jsonData
+          }).then(async e => {
+              toastr.clear();
+              toastr.success(e.data.message, {
+                closeButton: true
+              });
+              await $scope.undoSelect()
+              NProgress.done();
+              vm.dtInstance.reloadData();
+              vm.reset();
+              vm.isFileSelected = false;
+              vm.jsonData = [];
+          }).catch(async e => {
+            NProgress.done();
+            toastr.clear();
+            toastr.error(e.data.message, {
+              closeButton: true
+            });
+            vm.errData = {
+              err : true,
+              message : e.data.message
+            }
+          });
+
+
+
+
+
+
+
+      }else{
+        toastr.clear();
+        toastr.warning("Upload your file!", {
+        closeButton: true,
+       });
+      }
+    }
+
+
+
+      /**chat */
+       // Initialize messages array
+  $scope.messages = [{
+    timestamp : new Date(),
+    role: 'BeeOne assistant',
+    content: 'Hello 👋! How can I assist you today?',
+    wait:false
+  }];
+
+  $scope.newMessage = '';
+
+  // Format timestamp
+  $scope.formatTime = function(date) {
+    return new Date(date).toLocaleTimeString('fr-FR', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  // Format date
+  $scope.formatDate = function(date) {
+    return new Date(date).toLocaleDateString('fr-FR', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
+  function scrollToBottom() {
+    $timeout(function() {
+      var chatMessages = document.querySelector('.chat_loop-container');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  }
+
+  // Send message function
+  $scope.sendMessage = function() {
+    if ($scope.newMessage.trim()) {
+      const now = new Date();
+      // Add user message
+      $scope.messages.push({
+        timestamp: now,
+        role: 'user',
+        content: $scope.newMessage.trim(),
+        wait:false
+      });
+
+      $scope.messages.push({
+        role: 'BeeOne assistant',
+        content: 'thinking....',
+        wait:true
+     });
+
+     const icons = ['🔜', '🕐', '🛠️', '📢', '🎬', '🎉', '👀', '🚧', '⌛', '🏗️'];
+     let lastMessage = $scope.messages[$scope.messages.length - 1];
+     let randomIcon = icons[Math.floor(Math.random() * icons.length)];
+     setTimeout(() => {
+      lastMessage.timestamp= new Date(now.getTime() + 1000), // 1 second later
+      lastMessage.wait = false;
+      lastMessage.content = `Task in progress stay tonned ${randomIcon}`;
+      $scope.$apply(); // Apply changes to update the UI
+      }, 2000);
+
+
+
+
+
+      // Clear input
+      $scope.newMessage = '';
+      scrollToBottom();
+    }
+  };
+  scrollToBottom();
+  // Handle Enter key press
+  $scope.handleKeyPress = function(event) {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault();
+      $scope.sendMessage();
+    }
+  };
+
+
+
+
+  /**model generate */
+    vm.gen_canvas = function(ev) {
+      $mdDialog.show({
+          controller: DialogControllerGen,
+          templateUrl: '././views/configuration/attachement_parcelles/canvas/canvas_parcelle.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose: false,
+          locals: {
+            data: vm.data_ferme
+          }
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+        });
+    };
+
+    function DialogControllerGen($scope, $mdDialog, data) {
+      $scope.scrollCards = function(direction) {
+        const container = document.getElementById('cardContainer');
+        const scrollAmount = 300; // Adjust scroll amount as needed
+
+              if (direction === 'left') {
+                 container.scroll({
+                     left: container.scrollLeft - scrollAmount,
+                     behavior: 'smooth'
+                 });
+             } else if (direction === 'right') {
+                 container.scroll({
+                     left: container.scrollLeft + scrollAmount,
+                     behavior: 'smooth'
+                 });
+             }
+          }
+
+          $scope.annuler = function() {
+            $mdDialog.cancel();
+          };
+
+      $scope.data_ferme = data;
+      $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
+      $scope.formdata_gen = {
+        ferme : null,
+        nbrparcelle : null,
+        increment : null
+      }
+      $scope.allformxls = [];
+
+      $scope.canva_ajouter = function(){
+        if(!$scope.formdata_gen.ferme){
+          toastr.clear();
+          toastr.warning("Veuillez choisir une ferme", {
+            closeButton: true
+          });
+        }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+          toastr.clear();
+          toastr.warning("Veuillez saisir le nombre de parcelle", {
+            closeButton: true
+          });
+        }else if (!$scope.formdata_gen.increment) {
+          toastr.clear();
+          toastr.warning("Veuillez choisir un type d'incrémentation", {
+            closeButton: true
+          });
+        }else {
+          $scope.formdata_gen.ferme.disabled = true;
+          $scope.allformxls.push($scope.formdata_gen);
+
+          console.log($scope.allformxls);
+
+          $scope.formdata_gen = {};
+        }
+      }
+
+      $scope.generateExcelData = async function() {
+      let excelData = [];
+      let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
+      excelData.push(headers);
+      let totalParcelles = 0; // Track total parcels
+      $scope.allformxls.forEach(item => {
+          let fermeName = item.ferme.Nom;
+          let refrence = null;
+          let ref = null;
+          let superficie = null;
+          let typeParcelle = null;
+
+
+              for (let i = 1; i <= item.nbrparcelle; i++) {
+                  if (item.increment === 1) {
+                     refrence = `P${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                     ref = refrence
+                  }
+                  excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
+                   totalParcelles++;
+              }
+
+
+      });
+      toastr.clear();
+      toastr.success(`Génération réussie : ${totalParcelles} parcelle(s) ajoutée(s) au fichier excel`, { closeButton: true });
+
+      return excelData;
+  };
+
+    $scope.downloadExcel = async function() {
+
+      if($scope.allformxls.length>0){
+
+        NProgress.start()
+        let excelData = await $scope.generateExcelData();
+
+        // Create a new workbook and a worksheet
+        let ws = XLSX.utils.aoa_to_sheet(excelData);
+        let wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Parcelle Physique");
+
+        // Generate a binary string from the workbook
+        let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+        // Convert the binary string to a Blob
+        let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+        // Create a link element and trigger the download
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Canvas Parcelle Physique.xlsx";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        NProgress.done();
+      }else {
+        toastr.clear();
+        toastr.warning("Veuillez choisir au moin un Paramètre", {
+          closeButton: true
+        });
+      }
+
+  };
+
+  // Utility function to convert string to ArrayBuffer
+  function s2ab(s) {
+      let buf = new ArrayBuffer(s.length);
+      let view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+  }
+
+
+  $scope.deleteCanva = function(index) {
+
+    toastr.clear();
+    toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+      closeButton: true,
+      allowHtml: true,
+      onShown: function(toast) {
+
+        $("#confirmationRevertYes").click(function() {
+          $scope.allformxls.splice(index, 1);
+          toastr.clear();
+          toastr.success("Paramètre bien Supprimé", {
+            closeButton: true
+          });
+          $scope.formdata_gen = {};
+        });
+      }
+    });
+  }
+
+
+
+  $scope.editCanva = function(index) {
+
+
+    $scope.formdata_gen = {
+      ferme : $scope.allformxls[index].ferme,
+      nbrparcelle : $scope.allformxls[index].nbrparcelle,
+      increment : $scope.allformxls[index].increment,
+      update : true,
+      index : index
+    }
+
+  }
+
+  $scope.canva_modifer = function(){
+
+    if(!$scope.formdata_gen.ferme){
+      toastr.clear();
+      toastr.warning("Veuillez choisir une ferme", {
+        closeButton: true
+      });
+    }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+      toastr.clear();
+      toastr.warning("Veuillez saisir le nombre de parcelle", {
+        closeButton: true
+      });
+    }else if (!$scope.formdata_gen.increment) {
+      toastr.clear();
+      toastr.warning("Veuillez choisir un type d'incrémentation", {
+        closeButton: true
+      });
+    }else {
+      $scope.formdata_gen.ferme.disabled = true;
+      let index = $scope.formdata_gen.index;
+      $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
+      $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
+      $scope.allformxls[index].increment = $scope.formdata_gen.increment;
+      $scope.formdata_gen = {};
+      toastr.clear();
+      toastr.success("Paramètre bien Modifié", {
+        closeButton: true
+      });
+    }
+
+  }
+
+
+    }
+
+  }
+
+
+
+);

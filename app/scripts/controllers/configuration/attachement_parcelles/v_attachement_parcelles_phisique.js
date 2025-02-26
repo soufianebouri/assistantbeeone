@@ -961,11 +961,11 @@ angular.module('beeOneWebFrontApp')
         }
       }
 
-      $scope.generateExcelData = function() {
+      $scope.generateExcelData = async function() {
       let excelData = [];
       let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
       excelData.push(headers);
-
+      let totalParcelles = 0; // Track total parcels
       $scope.allformxls.forEach(item => {
           let fermeName = item.ferme.Nom;
           let refrence = null;
@@ -980,19 +980,23 @@ angular.module('beeOneWebFrontApp')
                      ref = refrence
                   }
                   excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
+                   totalParcelles++;
               }
-          /* else if (item.increment === 2) {
-              excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
-          }*/
+
+
       });
+      toastr.clear();
+      toastr.success(`Génération réussie : ${totalParcelles} parcelle(s) ajoutée(s) au fichier excel`, { closeButton: true });
 
       return excelData;
   };
 
-  $scope.downloadExcel = function() {
+    $scope.downloadExcel = async function() {
 
       if($scope.allformxls.length>0){
-        let excelData = $scope.generateExcelData();
+
+        NProgress.start()
+        let excelData = await $scope.generateExcelData();
 
         // Create a new workbook and a worksheet
         let ws = XLSX.utils.aoa_to_sheet(excelData);
@@ -1012,6 +1016,7 @@ angular.module('beeOneWebFrontApp')
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        NProgress.done();
       }else {
         toastr.clear();
         toastr.warning("Veuillez choisir au moin un Paramètre", {

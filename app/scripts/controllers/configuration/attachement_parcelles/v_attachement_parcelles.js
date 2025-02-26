@@ -47,7 +47,7 @@ angular.module('beeOneWebFrontApp')
       if(vm.currect_step != 15){
         vm.currect_step ++ ;
         vm.gostep(vm.currect_step)
-  
+
         $timeout(function () {
           let selectedStep = document.getElementById("step-" + vm.currect_step);
           if (selectedStep) {
@@ -55,16 +55,16 @@ angular.module('beeOneWebFrontApp')
           }
         }, 100);
       }
-      
+
     }
-   
-  
+
+
     vm.preveusStep = function(){
       //max = 15
       if(vm.currect_step != 1){
         vm.currect_step -- ;
         vm.gostep(vm.currect_step)
-  
+
         $timeout(function () {
           let selectedStep = document.getElementById("step-" + vm.currect_step);
           if (selectedStep) {
@@ -73,19 +73,17 @@ angular.module('beeOneWebFrontApp')
         }, 100);
       }
       }
-      
+
 
     vm.gostep = function(index){
       if(index == 1){
-        vm.stepUrl = "views/configuration/referentiel/v_attachement_parcelles_phisique.html";
+        vm.stepUrl = "views/configuration/attachement_parcelles/v_attachement_parcelles_phisique.html";
       }else if(index == 2){
-        vm.stepUrl = "views/configuration/referentiel/2.html";
-      }else{
-        vm.stepUrl = "views/configuration/referentiel/3.html";
+        vm.stepUrl = "views/configuration/attachement_parcelles/v_attachement_parcelles_culturale.html";
       }
     }
 
-  
+
 
     /***transcription */
     $scope.transcriptionEnabled = true;
@@ -780,39 +778,39 @@ angular.module('beeOneWebFrontApp')
     vm.isAI = false;
     vm.ai = function () {
     vm.isAI = true;
-      
+
     };
 
     vm.go_back_video = function () {
       vm.isAI = false;
       };
-    
-
-
-      
-
-
-      
 
 
 
 
- 
-
-  
 
 
-    
-       
- 
-    
 
-  
 
-  
 
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       /**chat */
        // Initialize messages array
   $scope.messages = [{
@@ -826,16 +824,16 @@ angular.module('beeOneWebFrontApp')
 
   // Format timestamp
   $scope.formatTime = function(date) {
-    return new Date(date).toLocaleTimeString('fr-FR', { 
-      hour: 'numeric', 
+    return new Date(date).toLocaleTimeString('fr-FR', {
+      hour: 'numeric',
       minute: '2-digit',
-      hour12: true 
+      hour12: true
     });
   };
 
   // Format date
   $scope.formatDate = function(date) {
-    return new Date(date).toLocaleDateString('fr-FR', { 
+    return new Date(date).toLocaleDateString('fr-FR', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
@@ -877,9 +875,9 @@ angular.module('beeOneWebFrontApp')
       $scope.$apply(); // Apply changes to update the UI
       }, 2000);
 
-       
-     
-      
+
+
+
 
       // Clear input
       $scope.newMessage = '';

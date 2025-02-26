@@ -33,7 +33,7 @@ angular
     "ngSanitize",
     /*"ngTouch",*/
     "ngFileUpload",
-    "datatables", 
+    "datatables",
     "datatables.buttons",
     "toastr",
     "base64",
@@ -81,7 +81,7 @@ angular
       preventDuplicates: false,
       timeOut: 5000
     });
-    
+
     $cookiesProvider.defaults = {
       samesite: 'None',
       secure: true
@@ -99,7 +99,7 @@ angular
       if (date) return moment(date).format("YYYY-MM-DD");
       return "";
     };
-   
+
     $provide.decorator('$state', function($delegate, $stateParams) {
       $delegate.forceReload = function(state, local) {
         return $delegate.go(state, $stateParams, {
@@ -128,6 +128,14 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+
+    .state('v_attachement_parcelles_culturale', {
+      url: '/configuration/v_attachement_parcelles_culturale',
+      templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles_culturale.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Attachement Parcelles"
+      }
+    })
 
     .state('v_attachement_parcelles_phisique', {
       url: '/configuration/v_attachement_parcelles_phisique',
@@ -202,7 +210,7 @@ angular
       data: {
         pageTitle: "BeeOne Assistant - Onboarding"
       }
-    })    
+    })
       .state("login", {
         url: "/login",
         templateUrl: "views/login.html",
@@ -238,27 +246,27 @@ angular
 
       // keep user logged in after page refresh
       $rootScope.globals = $cookies.getObject("globals") || {};
-    
+
       // Set the authorization header if the token exists
       if ($rootScope.globals.currentUser && $rootScope.globals.currentUser.token) {
         $http.defaults.headers.common["Authorization"] = $rootScope.globals.currentUser.token;
       }
-  
+
       // Watch for changes in the token
       $rootScope.$watch('globals.currentUser.token', function(newToken) {
         if (newToken) {
           $http.defaults.headers.common["Authorization"] = newToken;
         }
       });
-  
+
       // Optionally, handle redirection here if needed
       if (!$rootScope.globals.currentUser) {
         $location.path("/login"); // Redirect if no user is logged in
       } else {
         $location.path("/"); // Redirect if the user is logged in
       }
-        
-     
+
+
       //for data-rocks warning issues when changing routes before component loaded
       alert = function() {};
       $rootScope.$state = $state;

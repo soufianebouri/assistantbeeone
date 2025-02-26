@@ -1019,7 +1019,7 @@ angular.module('beeOneWebFrontApp')
         NProgress.done();
       }else {
         toastr.clear();
-        toastr.warning("Veuillez choisir au moin un Paramètre", {
+        toastr.warning("Veuillez ajouter au moin un Paramètre", {
           closeButton: true
         });
       }

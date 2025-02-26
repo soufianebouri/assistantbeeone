@@ -294,13 +294,11 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.modifier = async function  () {
-      console.log(vm.formData);
-
 
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          parcelleCultural.edit(vm.formData).then(async e => {
+          parcelleCulturalService.edit(vm.formData).then(async e => {
 
               toastr.clear();
               toastr.success(e.data.message, {
@@ -428,7 +426,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            parcelleCultural.delete(data).then(async function(result) {
+            parcelleCulturalService.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -527,16 +525,16 @@ angular.module('beeOneWebFrontApp')
 
 
 
-      vm.parcelle_action = {};
+      vm.parcelleCu_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.parcelle_action[data.ID] = data;
+          vm.parcelleCu_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.parcelle_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.parcelleCu_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.parcelle_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.parcelleCu_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
@@ -545,6 +543,16 @@ angular.module('beeOneWebFrontApp')
 
       vm.edit = function (data) {
         vm.formData = data;
+        vm.formData.Dat_Plant = (vm.formData.Dat_Plant) ? new Date(moment(vm.formData.Dat_Plant).format("YYYY-MM-DD")) : null;
+
+        vm.formData.Date_prevu_recolte = (vm.formData.Date_prevu_recolte) ? new Date(moment(vm.formData.Date_prevu_recolte).format("YYYY-MM-DD")) : null;
+        vm.formData.Date_Previsionnelle = (vm.formData.Date_Previsionnelle) ? new Date(moment(vm.formData.Date_Previsionnelle).format("YYYY-MM-DD")) : null;
+        vm.formData.Date_debut_prouduction = (vm.formData.Date_debut_prouduction) ? new Date(moment(vm.formData.Date_debut_prouduction).format("YYYY-MM-DD")) : null;
+        vm.formData.Date_pleine_production = (vm.formData.Date_pleine_production) ? new Date(moment(vm.formData.Date_pleine_production).format("YYYY-MM-DD")) : null;
+
+
+        vm.formData.Date_fin_recolte = (vm.formData.Date_fin_recolte) ? new Date(moment(vm.formData.Date_fin_recolte).format("YYYY-MM-DD")) : null;
+        vm.formData.Dat_Arrach = (vm.formData.Dat_Arrach) ? new Date(moment(vm.formData.Dat_Arrach).format("YYYY-MM-DD")) : null;
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref}. 👆`, {
@@ -1007,7 +1015,7 @@ angular.module('beeOneWebFrontApp')
     vm.gen_canvas = function(ev) {
       $mdDialog.show({
           controller: DialogControllerGen,
-          templateUrl: '././views/configuration/attachement_parcelles/canvas/canvas_parcelle.html',
+          templateUrl: '././views/configuration/attachement_parcelles/canvas/canvas_parcelle_culturale.html',
           parent: angular.element(document.body),
           targetEvent: ev,
           clickOutsideToClose: false,
@@ -1048,15 +1056,42 @@ angular.module('beeOneWebFrontApp')
       $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
       $scope.formdata_gen = {
         ferme : null,
+        physique : null,
+        variete : null,
         nbrparcelle : null,
         increment : null
       }
       $scope.allformxls = [];
 
+
+      $scope.getPhysiqueVariete = function () {
+        NProgress.start();
+          $q.all([parcelleCultural.getbyferme({
+            IDFermes: $scope.formdata_gen.ferme.IDFermes
+          }),
+          VarieteService.getbyferme({
+            IDFermes: $scope.formdata_gen.ferme.IDFermes
+          })]).then((values) => {
+            NProgress.done();
+            $scope.data_physique = values[0].data;
+            $scope.data_variete = values[1].data;
+            console.log($scope.data_variete);
+          })
+      }
       $scope.canva_ajouter = function(){
         if(!$scope.formdata_gen.ferme){
           toastr.clear();
           toastr.warning("Veuillez choisir une ferme", {
+            closeButton: true
+          });
+        }else if(!$scope.formdata_gen.physique){
+          toastr.clear();
+          toastr.warning("Veuillez choisir une Parcelle Physique", {
+            closeButton: true
+          });
+        }else if(!$scope.formdata_gen.variete){
+          toastr.clear();
+          toastr.warning("Veuillez choisir une Variété", {
             closeButton: true
           });
         }else if ($scope.formdata_gen.nbrparcelle <= 0) {
@@ -1072,16 +1107,40 @@ angular.module('beeOneWebFrontApp')
         }else {
           $scope.formdata_gen.ferme.disabled = true;
           $scope.allformxls.push($scope.formdata_gen);
-
           console.log($scope.allformxls);
-
           $scope.formdata_gen = {};
         }
       }
 
       $scope.generateExcelData = async function() {
       let excelData = [];
-      let headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"];
+      let headers = [
+         "Ferme",
+         "Parcelle Physique",
+         "Ref",
+         "Référence",
+         "Groupe culturale",
+         "Superficie",
+         "Variété",
+         "Produit Rendement",
+         "Mode de plantation",
+         "Géneration",
+         "Date de plantation",
+         "Date prévue de récolte",
+         "Date début de travaux",
+         "Nombre de plants réels",
+         "Nombre de plants théoriques",
+         "Nombre de plants manquants",
+         "Ecartement",
+         "Densité",
+         "Surgreffée",
+         "Porte-Greffe",
+         "Mode d'application",
+         "Date entrée en production",
+         "Date plein production",
+         "Date fin de récolte",
+         "Date d'arrachage",
+        ];
       excelData.push(headers);
       let totalParcelles = 0; // Track total parcels
       $scope.allformxls.forEach(item => {
@@ -1137,7 +1196,7 @@ angular.module('beeOneWebFrontApp')
         NProgress.done();
       }else {
         toastr.clear();
-        toastr.warning("Veuillez choisir au moin un Paramètre", {
+        toastr.warning("Veuillez ajouter au moin un Paramètre", {
           closeButton: true
         });
       }

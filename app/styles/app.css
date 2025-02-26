@@ -21,6 +21,14 @@ md-input-container label {
     color: rgb(66 58 58 / 87%) !important;
 }
 
+md-switch.md-default-theme.md-checked:not([disabled]).md-warn .md-thumb, md-switch.md-checked:not([disabled]).md-warn .md-thumb {
+    background-color: rgb(129 187 38) !important;
+}
+
+md-switch.md-default-theme.md-checked:not([disabled]).md-warn .md-bar, md-switch.md-checked:not([disabled]).md-warn .md-bar {
+    background-color: #b6b6b6 !important;
+}
+
 .header {
   background-color: #3f51b5;
   color: white;

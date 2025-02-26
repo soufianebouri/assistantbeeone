@@ -191,8 +191,7 @@
                         <md-input-container class="form-input">
                           <label>Surgreffée (Non/Oui)</label>
                               <md-switch ng-model="vm.formData.surgreffee" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                  <span class="badge-green_withe" ng-if="vm.formData.surgreffee == 1">{{'Oui' |translate}}</span>
-                                  <span class="badge-red_withe" ng-if="vm.formData.surgreffee == 0">{{'Non' | translate}}</span>
+                                {{ (vm.formData.surgreffee == 0) ? 'Non' : 'Oui'}}
                               </md-switch>
                         </md-input-container>
 

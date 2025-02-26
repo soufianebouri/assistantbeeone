@@ -218,6 +218,7 @@ angular.module('beeOneWebFrontApp')
         Sup: null,
         IDVariete: null,
         IDProduit_Rendement: null,
+        Mode_Application: null,
         Type_plant: null,
         Generation: null,
         Dat_Plant: null,
@@ -267,39 +268,17 @@ angular.module('beeOneWebFrontApp')
           }),
           VarieteService.getbyferme({
             IDFermes: vm.formData.IDFermes
+          }),produitrendement.getbyferme({
+            IDFermes: vm.formData.IDFermes
           })]).then((values) => {
             NProgress.done();
-            vm.data_parcelleCulbyFarm = values[0].data;
+            vm.data_parcellebyFarm = values[0].data;
             vm.data_variete = values[1].data;
+            vm.data_Produit_Rendement = values[2].data;
           })
 
-          if(vm.formData.IDVariete){
-            $q.all([produitrendement.getbyferme({
-              IDFermes: vm.formData.IDFermes,
-              IDVariete : vm.formData.IDVariete
-            })]).then((values) => {
-              NProgress.done();
-              vm.data_Produit_Rendement = values[0].data;
-            })
-          }
 
       }
-
-      $scope.get_produit = function() {
-            NProgress.start();
-
-            if(vm.formData.IDFermes){
-              $q.all([produitrendement.getbyferme({
-                IDFermes: vm.formData.IDFermes,
-                IDVariete : vm.formData.IDVariete
-              })]).then((values) => {
-                NProgress.done();
-                vm.data_Produit_Rendement = values[0].data;
-              })
-            }
-
-        }
-
 
 
     vm.types = [{
@@ -353,23 +332,11 @@ angular.module('beeOneWebFrontApp')
             Groupe_culturale: "Groupe culturale is required.",
             Sup: "Superficie is required.",
             IDVariete: "Variété is required.",
-            //IDProduit_Rendement: null,
             Type_plant: "Mode de plantation is required",
-            //Generation: null,
             Dat_Plant: "Date de plantation is required",
-            //Date_prevu_recolte: null,
             Date_Previsionnelle: "Date début de travaux is required",
-            //Nbre_plant: null,
-            //Nbr_plant_therique: null,
-            //NBr_manquants: null,
             Ecartement: "Ecartement is required.",
             Densite: "Densité is required.",
-            surgreffee: 0,
-            IDPorte_greffe: null,
-            Date_debut_prouduction: null,
-            Date_pleine_production: null,
-            Date_fin_recolte: null,
-            Dat_Arrach: null,
           };
 
 

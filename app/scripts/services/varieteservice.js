@@ -11,54 +11,26 @@
 angular.module('beeOneWebFrontApp')
   .factory('VarieteService', function($http, _url) {
     return {
-      pushDataVariete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/", data);
+      get_all: function() {
+        return $http.post(_url + "/variete/get_all");
       },
-      getVariete: function(baseUrl) {
-        return $http.get(baseUrl + "/varietes");
+      add: function(data) {
+        return $http.post(_url + "/variete/add", data);
       },
-      getVarieteByFerme: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/byferme", data);
+      edit: function(data) {
+        return $http.post(_url + "/variete/edit", data);
       },
-      deleteVariete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/delete", data);
+      delete: function(data) {
+        return $http.post(_url + "/variete/delete", data);
       },
-      updateDataVariete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/update", data);
+      multidelete: function(data) {
+        return $http.post(_url + "/variete/multidelete", data);
       },
-      getNameIdVariete: function(baseUrl, data) {
-        return $http.get(baseUrl + "/varietes/withNameId", data);
+      multiadd: function(data) {
+        return $http.post(_url + "/variete/multiadd", data);
       },
-      getVarieteByParcel: function(data) {
-        return $http.post(_url + "/varietes/getVarieteByParcel", data);
-      },
-      getVarieteByFarm: function(data) {
-        return $http.post(_url + "/varietes/getVarieteByFarm", data);
-      },
-      getVarieteByFarmSociete: function(data) {
-        return $http.post(_url + "/fermes_varietes/varietes", data);
-      },
-      showVarieteByCultureFerme: function(data) {
-        return $http.post(_url + "/varietes/showByCultureFerme", data);
-      },
-      getVarieteByFermeGroup: function(data) {
-        return $http.post(_url + "/varietes/getVarieteByFermeGroup", data);
-      },
-      getVarieteFiltrer: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/getVarieteFiltrer", data);
-      },
-      showByFerme: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/showByFerme", data);
-      },
-      ByFamilleCulture: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/varietes/ByFamilleCulture", data);
+      getbyferme: function(data) {
+        return $http.post(_url + "/variete/getbyferme", data);
       }
     };
   });

@@ -13,7 +13,7 @@ angular.module('beeOneWebFrontApp')
     $scope,$mdDialog,
     toastr,
     $timeout,
-    _url,
+    _url,VarieteService,
     $window,
     $translatePartialLoader,
     $translate,
@@ -208,6 +208,13 @@ angular.module('beeOneWebFrontApp')
       ferme.get_all()
     ]).then((values) => {
       vm.data_ferme = values[0].data;
+      vm.data_search_Type_plant = [{
+        ID : 1,
+        name : 'Plants'
+      },{
+        ID : 2,
+        name : 'Semence'
+      }]
       console.log(vm.data_ferme);
     }).catch((error) => {
       toastr.clear();
@@ -215,6 +222,23 @@ angular.module('beeOneWebFrontApp')
         closeButton: true
       });
     });
+
+    $scope.get_parcelle = function() {
+          NProgress.start();
+          vm.data_parcellebyFarm = [];
+
+          $q.all([parcelleCultural.getbyferme({
+            IDFermes: vm.formData.IDFermes
+          }),
+          VarieteService.getbyferme({
+            IDFermes: vm.formData.IDFermes
+          })]).then((values) => {
+            NProgress.done();
+            vm.data_parcellebyFarm = values[0].data;
+            vm.data_variete = values[1].data;
+          })
+
+      }
 
 
 

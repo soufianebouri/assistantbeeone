@@ -15,7 +15,7 @@
                     <div class="form-row   " >
                         <md-input-container class="form-input" >
                             <label>Ferme</label>
-                            <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select name="IDFermes" ng-model="vm.formData.IDFermes" ng-change="get_parcelle()" data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
@@ -27,12 +27,12 @@
 
                         <md-input-container class="form-input" >
                             <label>Parcelle Physique</label>
-                            <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select name="IDFermes" ng-model="vm.formData.IDParcelle"  data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
-                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                <input ng-model="search_data_parcelle" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
-                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                                >{{data_ferme.Nom}}
+                              <md-option ng-value="data_parcelle.ID" ng-repeat="data_parcelle in vm.data_parcellebyFarm | orderBy:'Ref' | filter:search_data_parcelle"
+                                >{{data_parcelle.Ref}}
                                </md-option>
                             </md-select>
                         </md-input-container>
@@ -42,12 +42,12 @@
 
                     <div class="form-row   " >
                         <md-input-container class="form-input">
-                            <label>Référence</label>
-                            <input type="text" ng-model="vm.formData.Reference"   required>
+                            <label>Ref</label>
+                            <input type="text" ng-model="vm.formData.Ref"   required>
                           </md-input-container>
 
                           <md-input-container class="form-input">
-                              <label>Désignation</label>
+                              <label>Reference</label>
                               <input type="text" ng-model="vm.formData.Reference"   required>
                             </md-input-container>
 
@@ -56,7 +56,7 @@
                     <div class="form-row  " >
                       <md-input-container class="form-input">
                           <label>Groupe culturale</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
+                          <input type="text" ng-model="vm.formData.Groupe_culturale"   required>
                         </md-input-container>
 
                         <md-input-container class="form-input">
@@ -71,24 +71,24 @@
 
                       <md-input-container class="form-input" >
                           <label>Variété</label>
-                          <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select ng-model="vm.formData.IDVariete"  data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              <input ng-model="search_IDVariete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
+                            <md-option ng-value="data_variete.ID" ng-repeat="data_variete in vm.data_variete | orderBy:'Variete' | filter:search_IDVariete"
+                              >{{data_variete.Variete}}
                              </md-option>
                           </md-select>
                       </md-input-container>
 
                       <md-input-container class="form-input" >
                           <label>Produit Rendement</label>
-                          <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select name="IDFermes" ng-model="vm.formData.IDProduit_Rendement"  data-md-container-class="selectdemoSelectHeader" >
                             <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              <input ng-model="search_data_Produit_Rendement" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
+                            <md-option ng-value="data_Produit_Rendement.IDFermes" ng-repeat="data_Produit_Rendement in vm.data_Produit_Rendement | orderBy:'search_data_Produit_Rendement' | filter:search_str"
+                              >{{data_Produit_Rendement.Ref_technique}}
                              </md-option>
                           </md-select>
                       </md-input-container>
@@ -97,31 +97,22 @@
 
                     <div class="form-row   ">
 
-
-                      <md-input-container class="form-input" >
-                          <label>Zone</label>
-                          <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
-
                       <md-input-container class="form-input" >
                           <label>Mode de plantation</label>
-                          <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select name="IDFermes" ng-model="vm.formData.Type_plant"  data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              <input ng-model="search_Type_plant" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
+                            <md-option ng-value="data_search_Type_plant.ID" ng-repeat="data_search_Type_plant in vm.data_search_Type_plant | orderBy:'Nom' | filter:search_Type_plant"
+                              >{{data_search_Type_plant.name}}
                              </md-option>
                           </md-select>
                       </md-input-container>
 
+                      <md-input-container class="form-input">
+                          <label>Géneration</label>
+                          <input type="text" ng-model="vm.formData.Generation"   >
+                        </md-input-container>
 
                     </div>
 
@@ -129,112 +120,106 @@
 
                     <div class="form-row " >
 
-                      <md-input-container class="form-input">
-                          <label>Géneration</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
+
 
                         <md-input-container class="form-input" >
                             <label>Date de plantation</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                            <input type="date" ng-model="vm.formData.Dat_Plant" required>
+                          </md-input-container>
+
+
+                          <md-input-container class="form-input">
+                              <label>Date prévue de récolt</label>
+                              <input type="date" ng-model="vm.formData.Date_prevu_recolte"   >
+                            </md-input-container>
+
+                    </div>
+
+                    <div class="form-row " >
+
+
+
+                        <md-input-container class="form-input" >
+                            <label>Date debut de travaux</label>
+                            <input type="date" ng-model="vm.formData.Date_Previsionnelle" required>
+                        </md-input-container>
+
+                        <md-input-container class="form-input">
+                            <label>Nombre de plants réels</label>
+                            <input type="number" ng-model="vm.formData.Nbre_plant"  class="number_right" >
                           </md-input-container>
 
                     </div>
 
                     <div class="form-row " >
 
-                      <md-input-container class="form-input">
-                          <label>Date prévue de récolt</label>
-                          <input type="date" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
 
-                        <md-input-container class="form-input" >
-                            <label>Date debut de travaux</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
-                        </md-input-container>
-
-                    </div>
-
-                    <div class="form-row " >
-
-                      <md-input-container class="form-input">
-                          <label>Nombre de plants réels</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
 
                         <md-input-container class="form-input">
                           <label>Nombre de plants théoriques</label>
-                          <input type="number" ng-model="vm.formData.Sup" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                          <input type="number" ng-model="vm.formData.Nbr_plant_therique"  class="number_right" >
                         </md-input-container>
+
+                        <md-input-container class="form-input">
+                            <label>Nombre de plants manquants</label>
+                            <input type="text" ng-model="vm.formData.NBr_manquants"   >
+                          </md-input-container>
 
                     </div>
 
                     <div class="form-row " >
 
-                      <md-input-container class="form-input">
-                          <label>Nombre de plants manquants</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
+
 
                         <md-input-container class="form-input">
                           <label>Ecartement</label>
-                          <input type="number" ng-model="vm.formData.Sup" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                          <input type="text" ng-model="vm.formData.Ecartement"  required>
                         </md-input-container>
+
+                        <md-input-container class="form-input">
+                            <label>Densité</label>
+                            <input type="number" ng-model="vm.formData.Densite"  class="number_right"  required>
+                          </md-input-container>
+
 
                     </div>
 
                     <div class="form-row " >
 
-                      <md-input-container class="form-input">
-                          <label>Densité</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
+
 
                         <md-input-container class="form-input">
                           <label>Surgreffée (Oui / Non)</label>
-                              <md-switch ng-model="decision_verger" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                  <span class="badge-green_withe" ng-if="decision_verger == 0">{{'Station' |translate}}</span>
-                                  <span class="badge-red_withe" ng-if="decision_verger == 1">{{'Marché local' | translate}}</span>
+                              <md-switch ng-model="surgreffee" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                                  <span class="badge-green_withe" ng-if="surgreffee == 1">{{'OUI' |translate}}</span>
+                                  <span class="badge-red_withe" ng-if="surgreffee == 0">{{'NON' | translate}}</span>
                               </md-switch>
                         </md-input-container>
 
-                    </div>
-
-
-                    <div class="form-row  ">
-
-
-                      <md-input-container class="form-input" >
-                          <label>Porte-Greffe</label>
-                          <md-select name="IDFermes" ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                          <label>Mot d'application</label>
-                          <input type="text" ng-model="vm.formData.Reference"   required>
+                        <md-input-container class="form-input" >
+                            <label>Porte-Greffe</label>
+                            <md-select name="IDFermes" ng-model="vm.formData.IDPorte_greffe"  data-md-container-class="selectdemoSelectHeader" >
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="search_Greffer" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_Greffe.IDPorte_greffe" ng-repeat="data_ferme in vm.data_Greffe | orderBy:'Libile' | filter:search_Greffer"
+                                >{{data_Greffe.Libile}}
+                               </md-option>
+                            </md-select>
                         </md-input-container>
 
-
                     </div>
-
 
                     <div class="form-row " >
 
                       <md-input-container class="form-input">
                           <label>Date entrée en production</label>
-                          <input type="date" ng-model="vm.formData.Reference"   required>
+                          <input type="date" ng-model="vm.formData.Date_debut_prouduction"   >
                         </md-input-container>
 
                         <md-input-container class="form-input" >
                             <label>Date plein production</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
+                            <input type="date" ng-model="vm.formData.Date_pleine_production" >
                         </md-input-container>
 
                     </div>
@@ -242,25 +227,17 @@
                     <div class="form-row " >
 
                       <md-input-container class="form-input">
-                          <label>Date entrée en production</label>
-                          <input type="date" ng-model="vm.formData.Reference"   required>
+                          <label>Date fin de récolte</label>
+                          <input type="date" ng-model="vm.formData.Date_fin_recolte">
                         </md-input-container>
 
-                        <md-input-container class="form-input" >
-                            <label>Date fin de récolte</label>
-                            <input type="date" ng-model="vm.formData.Date_Creatio_Ferme" required>
-                        </md-input-container>
+                        <md-input-container class="form-input">
+                            <label>Date d'arrachage</label>
+                            <input type="date" ng-model="vm.formData.Dat_Arrach">
+                          </md-input-container>
 
                     </div>
 
-                    <div class="form-row " >
-
-                      <md-input-container class="form-input">
-                          <label>Date d'arrachage</label>
-                          <input type="date" ng-model="vm.formData.Reference"   required>
-                        </md-input-container>
-
-                    </div>
 
 
 

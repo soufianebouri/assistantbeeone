@@ -10,29 +10,26 @@
 angular.module('beeOneWebFrontApp')
   .factory('produitrendement', function($http, _url) {
     return {
-      byvariete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/byvariete", data);
+      get_all: function() {
+        return $http.post(_url + "/produit_rendement/get_all");
       },
-      getlast: function() {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/getlast");
+      add: function(data) {
+        return $http.post(_url + "/produit_rendement/add", data);
       },
-      getall: function() {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/getall");
-      },
-      create: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/create", data);
-      },
-      update: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/update", data);
+      edit: function(data) {
+        return $http.post(_url + "/produit_rendement/edit", data);
       },
       delete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/produitrendement/delete", data);
+        return $http.post(_url + "/produit_rendement/delete", data);
+      },
+      multidelete: function(data) {
+        return $http.post(_url + "/produit_rendement/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/produit_rendement/multiadd", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/produit_rendement/getbyferme", data);
       }
     };
   });

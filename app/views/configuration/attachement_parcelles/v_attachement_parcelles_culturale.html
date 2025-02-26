@@ -71,7 +71,7 @@
 
                       <md-input-container class="form-input" >
                           <label>Variété</label>
-                          <md-select ng-model="vm.formData.IDVariete"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select ng-model="vm.formData.IDVariete" ng-change="get_produit()" data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_IDVariete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
@@ -87,8 +87,8 @@
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_data_Produit_Rendement" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
-                            <md-option ng-value="data_Produit_Rendement.IDFermes" ng-repeat="data_Produit_Rendement in vm.data_Produit_Rendement | orderBy:'search_data_Produit_Rendement' | filter:search_str"
-                              >{{data_Produit_Rendement.Ref_technique}}
+                            <md-option ng-value="data_Produit_Rendement.IDProduit_Rendement" ng-repeat="data_Produit_Rendement in vm.data_Produit_Rendement | orderBy:'Ref_technique' | filter:search_data_Produit_Rendement"
+                              >{{data_Produit_Rendement.Ref_technique}} {{data_Produit_Rendement.designation}}
                              </md-option>
                           </md-select>
                       </md-input-container>
@@ -189,10 +189,10 @@
 
 
                         <md-input-container class="form-input">
-                          <label>Surgreffée (Oui / Non)</label>
-                              <md-switch ng-model="surgreffee" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                  <span class="badge-green_withe" ng-if="surgreffee == 1">{{'OUI' |translate}}</span>
-                                  <span class="badge-red_withe" ng-if="surgreffee == 0">{{'NON' | translate}}</span>
+                          <label>Surgreffée (Non/Oui)</label>
+                              <md-switch ng-model="vm.formData.surgreffee" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
+                                  <span class="badge-green_withe" ng-if="vm.formData.surgreffee == 1">{{'OUI' |translate}}</span>
+                                  <span class="badge-red_withe" ng-if="vm.formData.surgreffee == 0">{{'NON' | translate}}</span>
                               </md-switch>
                         </md-input-container>
 
@@ -202,8 +202,8 @@
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_Greffer" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
-                              <md-option ng-value="data_Greffe.IDPorte_greffe" ng-repeat="data_ferme in vm.data_Greffe | orderBy:'Libile' | filter:search_Greffer"
-                                >{{data_Greffe.Libile}}
+                              <md-option ng-value="data_Greff.IDPorte_greffe" ng-repeat="data_Greff in vm.data_Greffe | orderBy:'Libile' | filter:search_Greffer"
+                                >{{data_Greff.Libile}}
                                </md-option>
                             </md-select>
                         </md-input-container>

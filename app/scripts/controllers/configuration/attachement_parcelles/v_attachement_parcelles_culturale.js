@@ -11,11 +11,11 @@ angular.module('beeOneWebFrontApp')
   .controller('ConfigurationAttachementParcellesVAttachementParcellesCulturaleCtrl', function (
     $q,
     $scope,$mdDialog,
-    toastr,
+    toastr,portGreffe,
     $timeout,
     _url,VarieteService,
     $window,
-    $translatePartialLoader,
+    $translatePartialLoader,produitrendement,
     $translate,
     _version,
     DTOptionsBuilder,
@@ -204,10 +204,47 @@ angular.module('beeOneWebFrontApp')
     //get data and refresh datatable
     vm.data_parcelle = [];
 
+
+    vm.reset = function () {
+      vm.data_parcellebyFarm = [];
+      vm.data_variete = [];
+      vm.data_Produit_Rendement = [];
+      vm.formData =  {
+        IDFermes : null,
+        IDParcelle: null,
+        Ref: null,
+        Reference: null,
+        Groupe_culturale: null,
+        Sup: null,
+        IDVariete: null,
+        IDProduit_Rendement: null,
+        Type_plant: null,
+        Generation: null,
+        Dat_Plant: null,
+        Date_prevu_recolte: null,
+        Date_Previsionnelle: null,
+        Nbre_plant: null,
+        Nbr_plant_therique: null,
+        NBr_manquants: null,
+        Ecartement: null,
+        Densite: null,
+        surgreffee: 0,
+        IDPorte_greffe: null,
+        Date_debut_prouduction: null,
+        Date_pleine_production: null,
+        Date_fin_recolte: null,
+        Dat_Arrach: null,
+      }
+     }
+   vm.reset()
+
+
     $q.all([
-      ferme.get_all()
+      ferme.get_all(),
+      portGreffe.get_all(),
     ]).then((values) => {
       vm.data_ferme = values[0].data;
+      vm.data_Greffe = values[1].data;
       vm.data_search_Type_plant = [{
         ID : 1,
         name : 'Plants'
@@ -215,7 +252,6 @@ angular.module('beeOneWebFrontApp')
         ID : 2,
         name : 'Semence'
       }]
-      console.log(vm.data_ferme);
     }).catch((error) => {
       toastr.clear();
       toastr.error(error.message, {
@@ -225,7 +261,6 @@ angular.module('beeOneWebFrontApp')
 
     $scope.get_parcelle = function() {
           NProgress.start();
-          vm.data_parcellebyFarm = [];
 
           $q.all([parcelleCultural.getbyferme({
             IDFermes: vm.formData.IDFermes
@@ -238,7 +273,32 @@ angular.module('beeOneWebFrontApp')
             vm.data_variete = values[1].data;
           })
 
+          if(vm.formData.IDVariete){
+            $q.all([produitrendement.getbyferme({
+              IDFermes: vm.formData.IDFermes,
+              IDVariete : vm.formData.IDVariete
+            })]).then((values) => {
+              NProgress.done();
+              vm.data_Produit_Rendement = values[0].data;
+            })
+          }
+
       }
+
+      $scope.get_produit = function() {
+            NProgress.start();
+
+            if(vm.formData.IDFermes){
+              $q.all([produitrendement.getbyferme({
+                IDFermes: vm.formData.IDFermes,
+                IDVariete : vm.formData.IDVariete
+              })]).then((values) => {
+                NProgress.done();
+                vm.data_Produit_Rendement = values[0].data;
+              })
+            }
+
+        }
 
 
 
@@ -601,16 +661,7 @@ angular.module('beeOneWebFrontApp')
       '<center><img src="././images/loading.gif"/></center>'
     );
 
-    vm.reset = function () {
-      vm.formData =  {
-        IDFermes : null,
-        Reference : null,
-        Ref : null,
-        Sup : null,
-        Type : null
-      }
-     }
-   vm.reset()
+
 
 
 

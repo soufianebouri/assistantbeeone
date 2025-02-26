@@ -10,11 +10,26 @@
 angular.module('beeOneWebFrontApp')
   .factory('portGreffe', function($http, _url) {
     return {
-      getPortGreffe: function() {
-        return $http.get(_url + "/porte_greffe");
+      get_all: function() {
+        return $http.post(_url + "/porte_greffe/get_all");
       },
-      getPortGreffeByFerme: function(idFerme) {
-        return $http.get(_url + "/porte_greffe/byfarm/"+idFerme);
-      }      
+      add: function(data) {
+        return $http.post(_url + "/porte_greffe/add", data);
+      },
+      edit: function(data) {
+        return $http.post(_url + "/porte_greffe/edit", data);
+      },
+      delete: function(data) {
+        return $http.post(_url + "/porte_greffe/delete", data);
+      },
+      multidelete: function(data) {
+        return $http.post(_url + "/porte_greffe/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/porte_greffe/multiadd", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/porte_greffe/getbyferme", data);
+      }
     };
   });

@@ -973,11 +973,15 @@ angular.module('beeOneWebFrontApp')
           let superficie = null;
           let typeParcelle = null;
 
-          if (item.increment === 1) {
+
               for (let i = 1; i <= item.nbrparcelle; i++) {
+                  if (item.increment === 1) {
+                     refrence = `P${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                     ref = refrence
+                  }
                   excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
               }
-          }/* else if (item.increment === 2) {
+          /* else if (item.increment === 2) {
               excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
           }*/
       });

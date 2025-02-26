@@ -47,7 +47,7 @@
                           </md-input-container>
 
                           <md-input-container class="form-input">
-                              <label>Reference</label>
+                              <label>Référence</label>
                               <input type="text" ng-model="vm.formData.Reference"   required>
                             </md-input-container>
 
@@ -129,7 +129,7 @@
 
 
                           <md-input-container class="form-input">
-                              <label>Date prévue de récolt</label>
+                              <label>Date prévue de récolte</label>
                               <input type="date" ng-model="vm.formData.Date_prevu_recolte"   >
                             </md-input-container>
 
@@ -140,7 +140,7 @@
 
 
                         <md-input-container class="form-input" >
-                            <label>Date debut de travaux</label>
+                            <label>Date début de travaux</label>
                             <input type="date" ng-model="vm.formData.Date_Previsionnelle" required>
                         </md-input-container>
 
@@ -191,8 +191,8 @@
                         <md-input-container class="form-input">
                           <label>Surgreffée (Non/Oui)</label>
                               <md-switch ng-model="vm.formData.surgreffee" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                  <span class="badge-green_withe" ng-if="vm.formData.surgreffee == 1">{{'OUI' |translate}}</span>
-                                  <span class="badge-red_withe" ng-if="vm.formData.surgreffee == 0">{{'NON' | translate}}</span>
+                                  <span class="badge-green_withe" ng-if="vm.formData.surgreffee == 1">{{'Oui' |translate}}</span>
+                                  <span class="badge-red_withe" ng-if="vm.formData.surgreffee == 0">{{'Non' | translate}}</span>
                               </md-switch>
                         </md-input-container>
 
@@ -213,32 +213,41 @@
                     <div class="form-row " >
 
                       <md-input-container class="form-input">
+                          <label>Mode d'application</label>
+                          <input type="text" ng-model="vm.formData.Mode_Application"   >
+                        </md-input-container>
+
+                      <md-input-container class="form-input">
                           <label>Date entrée en production</label>
                           <input type="date" ng-model="vm.formData.Date_debut_prouduction"   >
                         </md-input-container>
 
-                        <md-input-container class="form-input" >
-                            <label>Date plein production</label>
-                            <input type="date" ng-model="vm.formData.Date_pleine_production" >
-                        </md-input-container>
 
                     </div>
 
                     <div class="form-row " >
+
+
+                    <md-input-container class="form-input" >
+                          <label>Date plein production</label>
+                        <input type="date" ng-model="vm.formData.Date_pleine_production" >
+                    </md-input-container>
 
                       <md-input-container class="form-input">
                           <label>Date fin de récolte</label>
                           <input type="date" ng-model="vm.formData.Date_fin_recolte">
                         </md-input-container>
 
+
+
+                    </div>
+
+                      <div class="form-row " >
                         <md-input-container class="form-input">
                             <label>Date d'arrachage</label>
                             <input type="date" ng-model="vm.formData.Dat_Arrach">
                           </md-input-container>
-
-                    </div>
-
-
+                      </div>
 
 
                     <div class="form-actions">
@@ -366,7 +375,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Parcelles Physiques Ajoutées ({{vm.data_parcelle.length}})</h2>
+                  <h2 class="form-title" >Parcelles Physiques Ajoutées ({{vm.data_parcelleCul.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

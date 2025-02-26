@@ -13,7 +13,7 @@ angular.module('beeOneWebFrontApp')
     $scope,$mdDialog,
     toastr,portGreffe,
     $timeout,
-    _url,VarieteService,
+    _url,VarieteService,parcelleCulturalService,
     $window,
     $translatePartialLoader,produitrendement,
     $translate,
@@ -202,11 +202,11 @@ angular.module('beeOneWebFrontApp')
     vm.selectAll = false;
 
     //get data and refresh datatable
-    vm.data_parcelle = [];
+    vm.data_parcelleCul = [];
 
 
     vm.reset = function () {
-      vm.data_parcellebyFarm = [];
+      vm.data_parcelleCulbyFarm = [];
       vm.data_variete = [];
       vm.data_Produit_Rendement = [];
       vm.formData =  {
@@ -269,7 +269,7 @@ angular.module('beeOneWebFrontApp')
             IDFermes: vm.formData.IDFermes
           })]).then((values) => {
             NProgress.done();
-            vm.data_parcellebyFarm = values[0].data;
+            vm.data_parcelleCulbyFarm = values[0].data;
             vm.data_variete = values[1].data;
           })
 
@@ -346,11 +346,30 @@ angular.module('beeOneWebFrontApp')
     vm.validateFormData = async function() {
 
           let rules = {
-              IDFermes: "Ferme is required.",
-              Reference: "Référence is required.",
-              Ref: "Parcelle Physique is required.",
-              Sup: "Superficie is required.",
-              Type: "Type Parcelle is required."
+            IDFermes : "Ferme is required.",
+            IDParcelle: "Parcelle is required.",
+            Ref: "Réf is required.",
+            Reference: "Référence is required.",
+            Groupe_culturale: "Groupe culturale is required.",
+            Sup: "Superficie is required.",
+            IDVariete: "Variété is required.",
+            //IDProduit_Rendement: null,
+            Type_plant: "Mode de plantation is required",
+            //Generation: null,
+            Dat_Plant: "Date de plantation is required",
+            //Date_prevu_recolte: null,
+            Date_Previsionnelle: "Date début de travaux is required",
+            //Nbre_plant: null,
+            //Nbr_plant_therique: null,
+            //NBr_manquants: null,
+            Ecartement: "Ecartement is required.",
+            Densite: "Densité is required.",
+            surgreffee: 0,
+            IDPorte_greffe: null,
+            Date_debut_prouduction: null,
+            Date_pleine_production: null,
+            Date_fin_recolte: null,
+            Dat_Arrach: null,
           };
 
 
@@ -371,7 +390,7 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          parcelleCultural.add(vm.formData).then(async e => {
+          parcelleCulturalService.add(vm.formData).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
@@ -396,7 +415,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_parcelle);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_parcelleCul);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -468,7 +487,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_parcelle.some(function(societe) {
+      var isDuplicate = vm.data_parcelleCul.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -485,7 +504,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_parcelle.some(function(societe) {
+      var isDuplicate = vm.data_parcelleCul.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -503,13 +522,13 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.updatedata = function() {
-      return parcelleCultural.get_all();
+      return parcelleCulturalService.get_all();
     };
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
         $scope.updatedata().then(function(res) {
-          vm.data_parcelle = res.data;
+          vm.data_parcelleCul = res.data;
           console.log(res.data);
 
           defer.resolve(res.data);
@@ -576,7 +595,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_parcelle.forEach(societe => {
+      vm.data_parcelleCul.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -591,7 +610,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_parcelle = vm.data_parcelle.map(societe => {
+    vm.data_parcelleCul = vm.data_parcelleCul.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -608,7 +627,7 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_parcelle = vm.data_parcelle.map(societe => {
+      vm.data_parcelleCul = vm.data_parcelleCul.map(societe => {
           if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -616,7 +635,7 @@ angular.module('beeOneWebFrontApp')
           return societe;
       });
       /* if (!found) {
-            vm.data_parcelle.push({ id_sco_temp: id, selected: true });
+            vm.data_parcelleCul.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
@@ -626,7 +645,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return vm.data_parcelle.filter(societe => societe.selected).length;
+      return vm.data_parcelleCul.filter(societe => societe.selected).length;
     };
 
 
@@ -635,18 +654,75 @@ angular.module('beeOneWebFrontApp')
         .withTitle(
           '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
         ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),
-        DTColumnBuilder.newColumn("Nom").withTitle("Fermes"),
-        DTColumnBuilder.newColumn("Ref").withTitle("Référence Technique"),
-        DTColumnBuilder.newColumn("Reference").withTitle("Parcelle Physique"),
+        DTColumnBuilder.newColumn("Ferme_nom").withTitle("Ferme").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("parcelleRef").withTitle("Parcelle Physique").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ref").withTitle("Ref").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Reference").withTitle("Référence").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Groupe_culturale").withTitle("Groupe culturale").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Sup").withTitle("Superficie").renderWith(function(data, type, full, meta) {
         if (full.Sup)
               return full.Sup + 'Ha';
           return '';
         }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Type").withTitle("Type Parcelle").renderWith(function(data, type, full, meta) {
-          if (full.Type == 1)
-                return 'Plein champ';
-            return 'Sous serre';
+        DTColumnBuilder.newColumn("Nom_Variete").withTitle("Variété").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Produit_RendementName").withTitle("Produit Rendement").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Type_plant").withTitle("Mode de plantation").renderWith(function(data, type, full, meta) {
+          if (full.Type_plant == 1)
+                return 'Plants';
+            return 'Semence';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Generation").withTitle("Géneration").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Dat_Plant").withTitle("Date de plantation").renderWith(function(data, type, full, meta) {
+          if(full.Dat_Plant)
+          return moment(full.Dat_Plant).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Date_prevu_recolte").withTitle("Date prévue de récolte").renderWith(function(data, type, full, meta) {
+          if(full.Date_prevu_recolte)
+          return moment(full.Date_prevu_recolte).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Date_Previsionnelle").withTitle("Date début de travaux").renderWith(function(data, type, full, meta) {
+          if(full.Date_Previsionnelle)
+          return moment(full.Date_Previsionnelle).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Nbre_plant").withTitle("Nombre de plants réels").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Nbr_plant_therique").withTitle("Nombre de plants théoriques").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("NBr_manquants").withTitle("Nombre de plants manquants").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ecartement").withTitle("Ecartement").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Densite").withTitle("Densité").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("surgreffee").withTitle("Surgreffée").renderWith(function(data, type, full, meta) {
+          if (full.surgreffee)
+                return 'Oui';
+            return 'Non';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Libile").withTitle("Porte-Greffe").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Mode_Application").withTitle("Mode d'application").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Date_debut_prouduction").withTitle("Date entrée en production").renderWith(function(data, type, full, meta) {
+          if(full.Date_debut_prouduction)
+          return moment(full.Date_debut_prouduction).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Date_pleine_production").withTitle("Date plein production").renderWith(function(data, type, full, meta) {
+          if(full.Date_pleine_production)
+          return moment(full.Date_pleine_production).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Date_fin_recolte").withTitle("Date fin de récolte").renderWith(function(data, type, full, meta) {
+          if(full.Date_fin_recolte)
+          return moment(full.Date_fin_recolte).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Dat_Arrach").withTitle("Date d'arrachage").renderWith(function(data, type, full, meta) {
+          if(full.Dat_Arrach)
+          return moment(full.Dat_Arrach).format('DD/MM/YYYY');
+          return ''
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Statut_Cycle").withTitle("Status").renderWith(function(data, type, full, meta) {
+          if (full.Statut_Cycle == 2)
+                return 'Arrachée';
+            return 'En cours';
         }).withOption("width", "100px"),
         DTColumnBuilder.newColumn(null)
         .withTitle("Actions")

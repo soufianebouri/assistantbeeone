@@ -214,14 +214,18 @@ angular.module('beeOneWebFrontApp')
       vm.data_societe = [];
       vm.new = 0;
       vm.old_items = 0;
-
+NProgress.start();
       $q.all([
         societe.get_all()
       ]).then((values) => {
         vm.data_societe = values[0].data;
         vm.old_items = vm.data_societe.length;
         vm.dtInstance.reloadData();
+
+        NProgress.done();
       }).catch((error) => {
+
+        NProgress.done();
         if (error && error.message) {
           console.error("Error message:", error.message);
           toastr.clear();

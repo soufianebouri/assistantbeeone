@@ -29,6 +29,12 @@ angular.module('beeOneWebFrontApp')
     var vm = this;
     vm._version = _version;
 
+    vm.form_part = false;
+
+    vm.hideshow_form_par = function() {
+      vm.form_par = !vm.form_par;
+    };
+
     vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
     vm.IDUser = $cookies.getObject('globals').currentUser.ID;
 

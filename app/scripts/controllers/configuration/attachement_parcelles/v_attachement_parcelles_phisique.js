@@ -203,13 +203,14 @@ angular.module('beeOneWebFrontApp')
 
     //get data and refresh datatable
     vm.data_parcelle = [];
-
+NProgress.start();
     $q.all([
       ferme.get_all()
     ]).then((values) => {
       vm.data_ferme = values[0].data;
-      console.log(vm.data_ferme);
+      NProgress.done();
     }).catch((error) => {
+      NProgress.done();
       toastr.clear();
       toastr.error(error.message, {
         closeButton: true

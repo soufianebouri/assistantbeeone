@@ -66,7 +66,7 @@
 
                     </div>
 
-
+<bn ng-show="vm.form_par" class="expandable-section" ng-class="{'expanded': vm.form_par}">
                     <div style="margin-bottom: 1.6rem;" class="form-row  " >
 
                       <md-input-container class="form-input" >
@@ -247,9 +247,9 @@
                             <input type="date" ng-model="vm.formData.Dat_Arrach">
                           </md-input-container>
                       </div>
+                   </bn>
 
-
-                    <div class="form-actions">
+                    <div class="form-actions" style="margin-bottom: 15px;" ng-if="vm.form_par">
                       <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
                         Reset
                       </md-button>
@@ -257,7 +257,24 @@
                       <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID) ? vm.modifier() : vm.ajouter()">
                         {{(vm.formData.ID) ? 'Modifier': 'Ajouter'}}
                       </md-button>
+
+
                     </div>
+
+                    <div class="form-actions" style="margin-bottom: 15px;" >
+                      <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.hideshow_form_par()">
+  <span ng-if="vm.form_par" style="display: block; transform: rotate(90deg);">
+    &lt;
+  </span>
+  <span ng-if="!vm.form_par" style="display: block; transform: rotate(-90deg);">
+    &lt;
+  </span>
+  <span ng-if="vm.form_par"> Expand</span>
+  <span ng-if="!vm.form_par"> Reduce</span>
+</md-button>
+
+                    </div>
+
 
                   </md-content>
 

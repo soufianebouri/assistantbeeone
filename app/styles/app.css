@@ -117,6 +117,12 @@ border: 1px solid #dbd6d6;
 border-radius: 5px;
 }
 
+.collapse_ctnt {
+  background-color: #ffffff;
+border: 1px solid #dbd6d6;
+border-radius: 5px;
+}
+
 .number_right {
   text-align: right;
 }
@@ -2521,4 +2527,17 @@ input[type="search"] {
   padding: 4px 8px; /* Add some padding for better readability */
   box-sizing: border-box; /* Include padding in width calculation (important) */
   background-color: transparent; /* Make background transparent */
+}
+
+
+.expandable-section {
+  transition: height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+}
+
+.expandable-section.expanded {
+  height: auto;
+  opacity: 1;
 }

@@ -239,7 +239,7 @@ angular.module('beeOneWebFrontApp')
      }
    vm.reset()
 
-
+    NProgress.start();
     $q.all([
       ferme.get_all(),
       portGreffe.get_all(),
@@ -253,7 +253,9 @@ angular.module('beeOneWebFrontApp')
         ID : 2,
         name : 'Semence'
       }]
+      NProgress.done();
     }).catch((error) => {
+      NProgress.done();
       toastr.clear();
       toastr.error(error.message, {
         closeButton: true
@@ -732,7 +734,33 @@ angular.module('beeOneWebFrontApp')
 
     /** Step1 excel*/
 
-    vm.headers = ["Ferme", "Réference Technique", "Parcelle Physique", "Superficie", "Type Parcelle"]
+    vm.headers =  [
+       "Ferme",
+       "Parcelle Physique",
+       "Ref",
+       "Variété",
+       "Référence",
+       "Groupe culturale",
+       "Superficie",
+       "Produit Rendement",
+       "Mode de plantation",
+       "Géneration",
+       "Date de plantation",
+       "Date prévue de récolte",
+       "Date début de travaux",
+       "Nombre de plants réels",
+       "Nombre de plants théoriques",
+       "Nombre de plants manquants",
+       "Ecartement",
+       "Densité",
+       "Surgreffée",
+       "Porte-Greffe",
+       "Mode d'application",
+       "Date entrée en production",
+       "Date plein production",
+       "Date fin de récolte",
+       "Date d'arrachage",
+      ];
 
 
 
@@ -770,11 +798,32 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
-      }));
+        fermeName: item["Ferme"] || null,
+        physiqueName: item["Parcelle Physique"] || null,
+        varieteName: item["Variété"] || null,
+        Ref: item["Ref"] || null,
+        Reference: item["Référence"] || null,
+        Groupe_culturale: item["Groupe culturale"] || null,
+        Sup: item["Superficie"] || null,
+        Produit_RendementName: item["Produit Rendement"] || null,
+        Type_plant: item["Mode de plantation"] || null,
+        Generation: item["Géneration"] || null,
+        Dat_Plant: item["Date de plantation"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date de plantation"]) : null,
+        Date_prevu_recolte: item["Date prévue de récolte"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date prévue de récolte"]) : null,
+        Date_Previsionnelle: item["Date début de travaux"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date début de travaux"]) : null,
+        Nbre_plant: item["Nombre de plants réels"] || null,
+        Nbr_plant_therique: item["Nombre de plants théoriques"] || null,
+        NBr_manquants: item["Nombre de plants manquants"] || null,
+        Ecartement: item["Ecartement"] || null,
+        Densite: item["Densité"] || null,
+        surgreffee: item["Surgreffée"] || null,
+        PorteName: item["Porte-Greffe"] || null,
+        Mode_ApplicationName: item["Mode d'application"] || null,
+        Date_debut_prouduction: item["Date entrée en production"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date entrée en production"]) : null,
+        Date_pleine_production: item["Date plein production"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date plein production"]) : null,
+        Date_fin_recolte: item["Date fin de récolte"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date fin de récolte"]) : null,
+        Dat_Arrach: item["Date d'arrachage"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date d'arrachage"]) : null,
+       }));
     };
 
 
@@ -885,8 +934,8 @@ angular.module('beeOneWebFrontApp')
 
           NProgress.start();
 
-          familleculture.multiadd({
-            familles :vm.jsonData
+          parcelleCulturalService.multiadd({
+            parcellesculturales :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
@@ -1117,11 +1166,11 @@ angular.module('beeOneWebFrontApp')
       let headers = [
          "Ferme",
          "Parcelle Physique",
+         "Variété",
          "Ref",
          "Référence",
          "Groupe culturale",
          "Superficie",
-         "Variété",
          "Produit Rendement",
          "Mode de plantation",
          "Géneration",
@@ -1145,18 +1194,24 @@ angular.module('beeOneWebFrontApp')
       let totalParcelles = 0; // Track total parcels
       $scope.allformxls.forEach(item => {
           let fermeName = item.ferme.Nom;
-          let refrence = null;
-          let ref = null;
-          let superficie = null;
-          let typeParcelle = null;
-
+          let physiqueName = item.physique.Ref;
+          let varieteName = item.variete.Variete;
+          let refrence=null
+          let ref=null
 
               for (let i = 1; i <= item.nbrparcelle; i++) {
                   if (item.increment === 1) {
                      refrence = `P${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
                      ref = refrence
                   }
-                  excelData.push([fermeName, refrence, ref, superficie, typeParcelle]);
+                  excelData.push([fermeName,
+                  physiqueName,
+                  varieteName,
+                  refrence,ref,null,null,
+                  null,null,null,null,null,
+                  null,null,null,null,null,
+                  null,null,null,null,
+                  null,null,null,null]);
                    totalParcelles++;
               }
 
@@ -1178,7 +1233,7 @@ angular.module('beeOneWebFrontApp')
         // Create a new workbook and a worksheet
         let ws = XLSX.utils.aoa_to_sheet(excelData);
         let wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Parcelle Physique");
+        XLSX.utils.book_append_sheet(wb, ws, "Parcelle Culturale");
 
         // Generate a binary string from the workbook
         let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
@@ -1189,7 +1244,7 @@ angular.module('beeOneWebFrontApp')
         // Create a link element and trigger the download
         let link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "Canvas Parcelle Physique.xlsx";
+        link.download = "Canvas Parcelle Culturale.xlsx";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1235,7 +1290,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.editCanva = function(index) {
-
+console.log($scope.allformxls);
 
     $scope.formdata_gen = {
       ferme : $scope.allformxls[index].ferme,

@@ -124,7 +124,7 @@
 
 
                   <div class="centered-card " ng-if="vm.isFileSelected" layout="column"
-                    style="padding: 40px;background: #F8F8F9;border: 2px dashed rgb(129 187 38);">
+                    style="padding: 40px;background: #F8F8F9;border: 1px dashed rgb(129 187 38);">
 
 
 
@@ -220,9 +220,9 @@
 
                   <div class="warn-header unified_pad fadeInOut_err" ng-if="vm.errData.err">
                     <h2 class="warn-title"> Err File :
-                      <ul>
-                        <li>{{vm.errData.message}}</li>
-                      </ul>
+
+                        <p style="  white-space: pre-line;padding-left: 21px" ng-bind-html="vm.errData.message"></p>
+
                     </h2>
                   </div>
 

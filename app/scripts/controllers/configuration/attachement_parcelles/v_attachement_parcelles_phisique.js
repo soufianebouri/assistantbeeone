@@ -645,10 +645,11 @@ NProgress.start();
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
+      fermeName : item["Ferme"] || null,
+      Reference : item["Réference Technique"] || null,
+      Ref : item["Parcelle Physique"] || null,
+      Sup : item["Superficie"] || null,
+      Type : item["Type Parcelle"] || null
       }));
     };
 
@@ -754,14 +755,12 @@ NProgress.start();
 
     vm.integer = async function(){
 
-
-
       if(vm.jsonData.length>0){
 
           NProgress.start();
 
-          familleculture.multiadd({
-            familles :vm.jsonData
+          parcelleCultural.multiadd({
+            physiques :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {

@@ -49,8 +49,13 @@ angular.module('beeOneWebFrontApp')
 
 
            await auth.SetCredentials(vm.loginOrMail, vm.password, e.data.nom, e.data.prenom, e.data.Superviseur, e.data.id, [], [], authToken, 1, 1);
-           $state.go('onboarding');
-            $scope.loading = false;
+
+
+           $timeout(function () {
+             $scope.loading = false;
+             $state.go('onboarding');
+           }, 2000);
+
 
 
 

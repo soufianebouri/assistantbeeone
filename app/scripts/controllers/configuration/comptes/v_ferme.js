@@ -138,7 +138,7 @@ angular.module('beeOneWebFrontApp')
           };
 
           reader.onerror = function (error) {
-            console.log("onerror",error);
+
 
               vm.isFileSelected = false;
               toastr.clear();
@@ -212,8 +212,6 @@ angular.module('beeOneWebFrontApp')
 
       //get data and refresh datatable
       vm.data_societe = [];
-      vm.new = 0;
-      vm.old_items = 0;
 NProgress.start();
       $q.all([
         ferme.get_all(),
@@ -279,7 +277,6 @@ NProgress.start();
 
             NProgress.start()   ;
 
-console.log(vm.formData);
 
             ferme.edit(vm.formData).then(async e => {
                 //validate success
@@ -296,7 +293,7 @@ console.log(vm.formData);
                 }
 
                 toastr.clear();
-                toastr.success("Ferme bien modifié.", {
+                toastr.success("Ferme bien modifiée.", {
                   closeButton: true
                 });
                 NProgress.done();
@@ -360,17 +357,14 @@ console.log(vm.formData);
                 //validate success
 
                 vm.data_societe.unshift(e.data.inserted_data);
-                console.log("e.data.inserted_data", e.data.inserted_data);
 
-                console.log(vm.data_societe);
 
                 toastr.clear();
-                toastr.success("Société bien ajoutée au tableau.", {
+                toastr.success("Ferme bien ajoutée.", {
                   closeButton: true
                 });
                 await $scope.undoSelect()
                 NProgress.done();
-                vm.new++;
                 vm.dtInstance.reloadData();
                 vm.reset();
             }).catch(async e => {
@@ -405,7 +399,7 @@ console.log(vm.formData);
 
                   vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.IDFermes));
 
-                  vm.new -= newItemCount;
+
                   await $scope.undoSelect()
                   toastr.clear();
                   toastr.success("Suppression réussie", {
@@ -441,9 +435,7 @@ console.log(vm.formData);
 
                 vm.data_societe = vm.data_societe.filter(item => item.IDFermes !== data.IDFermes);
 
-                if(data.newItem){
-                  vm.new--;
-                }
+
                 await $scope.undoSelect()
                 toastr.clear();
                 toastr.success("Suppression réussie", {
@@ -551,7 +543,6 @@ console.log(vm.formData);
 
         vm.edit = function (data) {
           vm.formData = data;
-          console.log(vm.formData);
 
           vm.formData.Latitude = parseFloat(vm.formData.Latitude || 0);  // or set a default value
           vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
@@ -598,7 +589,7 @@ console.log(vm.formData);
       let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
       let selectedIds = selectedItems.map(item => item.IDFermes); // Extract IDs
-      let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
+      let newItemCount =0 // Count `newItem === true`
 
       return {
         selectedIds,  // Array of selected IDs
@@ -692,9 +683,9 @@ console.log(vm.formData);
 
       function createdRow(row, data, dataIndex) {
         // Add row highlighting first
-        if (data.newItem) {
+        /*if (data.newItem) {
           angular.element(row).addClass('new-row');
-        }
+        }*/
 
         // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
@@ -734,7 +725,7 @@ console.log(vm.formData);
 
               // Extract headers from the first row of the data
               var fileHeaders = Object.keys(data[0] || {});
-              console.log(fileHeaders);
+
 
               // Check if all required headers are present
               var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
@@ -877,7 +868,6 @@ console.log(vm.formData);
 
       vm.integer = async function(){
 
-        console.log("integer",vm.jsonData);
 
         if(vm.jsonData.length>0){
 
@@ -888,8 +878,7 @@ console.log(vm.formData);
 
           if(status){
             let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_societe);
-            console.log(status_name);
-            console.log(message_name);
+
             if(status_name){
               /**Create en masse */
 
@@ -903,7 +892,7 @@ console.log(vm.formData);
 
                 vm.data_societe.unshift(...e.data.inserted_data);
 
-                console.log("e.data.inserted_data", e.data.inserted_data);
+
 
                 toastr.clear();
                 toastr.success(e.data.message, {
@@ -911,7 +900,6 @@ console.log(vm.formData);
                 });
                 await $scope.undoSelect()
                 NProgress.done();
-                vm.new += vm.jsonData.length;
                 vm.dtInstance.reloadData();
                 vm.reset();
                 vm.isFileSelected = false;

@@ -7,7 +7,7 @@
         <p class="delay OnboardingQst text-center main_title">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de votre compte</p>
       </center>
     </div>
-  
+
   </div>
   <!--<hr class="styled-hr">-->
 
@@ -15,25 +15,25 @@
 
 
   <!-- Scrollable Cards Container -->
-  <div 
-    layout="row" 
+  <div
+    layout="row"
     layout-wrap
-    layout-align="start center" 
-    class="cards-container"
+    layout-align="start center"
+    class="cards-container fade-in"
   >
 
       <!--1. Configuration Du compte-->
       <md-card class="step-card" layout="column">
         <div class="header_main">
           <img src="././images/main_configuration/acount.svg" alt="account">
-          <span class="progress">0% Complété</span>
+          <span class="progress">{{vm.data_percents.percentage_compt}}% Complété</span>
         </div>
         <span class="title">1. Configuration Du compte</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and adressing all the needed informations</p>
           <div class="info">
             <img src="././images/main_configuration/post.svg" alt="checked">
-            <span style="font-size: 12px;">Responsable Rh - Controleur De Gestion</span>
+            <span style="font-size: 12px;">Controleur De Gestion</span>
           </div>
           <div class="info">
             <img src="././images/main_configuration/checked.svg" alt="checked">
@@ -45,18 +45,18 @@
           </div>
         </md-card-content>
 
-       
-          <md-button class="start_btn"  ng-click="vm.go_config(1)">
-            Commencer
+
+          <md-button class="{{ (vm.data_percents.percentage_compt >= 100) ? 'start_btn_Consulter' : (vm.data_percents.percentage_compt === 0 ? 'start_btn_Commencer' : 'start_btn') }}"  ng-click="vm.go_config(1)">
+            {{ (vm.data_percents.percentage_compt >= 100) ? 'Consulter' : (vm.data_percents.percentage_compt === 0 ? 'Commencer' : 'Continuer') }}
           </md-button>
-        
+
       </md-card>
 
       <!--2. Création du référentiel-->
       <md-card class="step-card">
         <div class="header_main">
           <img src="././images/main_configuration/database.svg" alt="account">
-          <span class="progress">0% Complété</span>
+          <span class="progress">{{vm.data_percents.percentage_ref}}% Complété</span>
         </div>
         <span class="title">2. Création du référentiel</span>
         <md-card-content>
@@ -75,23 +75,23 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn"  ng-click="vm.go_config(2)">
-          Commencer
+        <md-button class="{{ (vm.data_percents.percentage_ref >= 100) ? 'start_btn_Consulter' : (vm.data_percents.percentage_ref === 0 ? 'start_btn_Commencer' : 'start_btn') }}" ng-click="vm.go_config(2)">
+          {{ (vm.data_percents.percentage_ref >= 100) ? 'Consulter' : (vm.data_percents.percentage_ref === 0 ? 'Commencer' : 'Continuer') }}
         </md-button>
       </md-card>
-      
+
       <!--3. Attachement Parcelles-->
       <md-card class="step-card">
         <div class="header_main">
           <img src="././images/main_configuration/attachement.svg" alt="account">
-          <span class="progress">0% Complété</span>
+          <span class="progress">{{vm.data_percents.percentage_parcelle}}% Complété</span>
         </div>
         <span class="title">3. Attachement Parcelles</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and addressing all the needed informations.</p>
           <div class="info">
             <img src="././images/main_configuration/post.svg" alt="checked">
-            <span style="font-size: 12px;">Gestionnaire de ferme  de ferme  de ferme </span>
+            <span style="font-size: 12px;">Gestionnaire de ferme</span>
           </div>
           <div class="info">
             <img src="././images/main_configuration/checked.svg" alt="checked">
@@ -103,15 +103,15 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn" ng-click="vm.go_config(3)" >
-          Commencer
+        <md-button class="{{ (vm.data_percents.percentage_parcelle >= 100) ? 'start_btn_Consulter' : (vm.data_percents.percentage_parcelle === 0 ? 'start_btn_Commencer' : 'start_btn') }}" ng-click="vm.go_config(3)" >
+          {{ (vm.data_percents.percentage_parcelle >= 100) ? 'Consulter' : (vm.data_percents.percentage_parcelle === 0 ? 'Commencer' : 'Continuer') }}
         </md-button>
       </md-card>
 
       <!--4. Sécteurs D’irrigation-->
       <md-card class="step-card">
         <div class="header_main">
-          <img src="././images/main_configuration/secteur.svg" alt="account">
+          <img src="././images/main_configuration/irrig.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
         <span class="title">4. Sécteurs D’irrigation</span>
@@ -131,11 +131,11 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn" >
+        <md-button class="start_btn_Commencer" ng-click="vm.go_config(99)">
           Commencer
         </md-button>
       </md-card>
-      
+
       <!--5. Paramétrage Main d’oeuvre-->
       <md-card class="step-card">
         <div class="header_main">
@@ -159,7 +159,7 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn" >
+        <md-button class="start_btn_Commencer" ng-click="vm.go_config(99)">
           Commencer
         </md-button>
       </md-card>
@@ -187,7 +187,7 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn"  >
+        <md-button class="start_btn_Commencer"  ng-click="vm.go_config(99)">
           Commencer
         </md-button>
       </md-card>
@@ -215,7 +215,7 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn"  >
+        <md-button class="start_btn_Commencer"  ng-click="vm.go_config(99)">
           Commencer
         </md-button>
       </md-card>
@@ -226,7 +226,7 @@
           <img src="././images/main_configuration/mobile.svg" alt="account">
           <span class="progress">0% Complété</span>
         </div>
-        <span class="title">1. Configuration Du Compte</span>
+        <span class="title">8. Configuration PDA</span>
         <md-card-content>
           <p class="desc">This step is about simply configuring your account and adressing all the needed informations </p>
           <div class="info">
@@ -243,21 +243,20 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn"  >
+        <md-button class="start_btn_Commencer"  ng-click="vm.go_config(99)">
           Commencer
         </md-button>
       </md-card>
 
-      
 
-      
+
+
 
     </div>
 
 <br/><br/>
 <br/><br/>
-  
+
 
     <loading-spinner is-loading="loading"></loading-spinner>
   </div>
-  

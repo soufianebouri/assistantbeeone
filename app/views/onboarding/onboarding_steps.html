@@ -71,7 +71,7 @@
                             <md-input-container class="md-block" flex>
                               <img src="../images/onboarding/user.svg" alt="user"  />
                           </md-input-container>
-                          </div>    
+                          </div>
                         <div flex="100" flex-gt-sm="25" layout="column">
                           <md-input-container class="md-block" flex>
                             <label>{{"Prénom" | translate}}...</label>
@@ -90,11 +90,11 @@
                           </md-input-container>
                         </div>
                       </div>
-                      
+
 
                 </form>
             </div>
-            
+
              <!--step 4-->
              <div ng-if="vm.step_4">
                 <p class="fade-in delay Onboarding_steps nomarging">Étape 4 Sur 6</p>
@@ -108,28 +108,28 @@
                           <md-radio-button value="Support BeeOne">
                             Support BeeOne
                           </md-radio-button>
-                      
+
                           <!-- Radio Button: Responsable technique -->
                           <md-radio-button value="Responsable technique">
                             Responsable technique
                           </md-radio-button>
-                      
+
                           <!-- Radio Button: Gestionnaire de ferme -->
                           <md-radio-button value="Gestionnaire de ferme">
                             Gestionnaire de ferme
                           </md-radio-button>
-                      
+
                           <!-- Radio Button: Responsable RH -->
                           <md-radio-button value="Responsable RH">
                             Responsable RH
                           </md-radio-button>
-                      
+
                           <!-- Radio Button: Autre -->
                           <md-radio-button value="Autre">
                             Autre
                           </md-radio-button>
                         </md-radio-group>
-                      
+
                         <!-- Input field displayed when "Autre" is selected -->
                         <div layout="row" layout-align="start center" ng-show="vm.poste === 'Autre'">
                           <md-input-container>
@@ -138,7 +138,7 @@
                           </md-input-container>
                         </div>
                       </div>
-                      
+
 
                 </form>
             </div>
@@ -152,43 +152,49 @@
                 <form>
                     <div layout="column" layout-align="start start">
                         <md-radio-group ng-model="vm.usedbefore" layout="column">
-                         
+
                           <!-- Radio Button: Responsable technique -->
                           <md-radio-button value="1">
                             Oui
                           </md-radio-button>
-                      
+
                           <!-- Radio Button: Gestionnaire de ferme -->
                           <md-radio-button value="0">
                            Non
                           </md-radio-button>
-                      
-                         
+
+
                       </div>
-                      
+
 
                 </form>
             </div>
 
             <!--step 6-->
             <div ng-if="vm.step_6">
-                
+
 
                 <p class="fade-in delay Onboarding_steps nomarging">Étape 6 Sur 6</p>
                 <h2 class="fade-in nomarging">Bienvenue à bord 👋</h2>
                 <p class="fade-in delay OnboardingQst ">Ce n'est que le début de votre aventure avec BeeOne eRP. Nous sommes impatients de voir ce que vous accomplirez !
                     <br />
-                
+
             </div>
 </div>
             <!-- Left-side Footer -->
-            <div class="footer_onbord">               
-                <button class="btn_onboarding  right_notes" ng-click="vm.steps(1)" ng-disabled="!vm.langue" ng-show="vm.step_1">Continuer</button>
-                <button class="btn_onboarding  right_notes" ng-click="vm.steps(2)" ng-disabled="!vm.country" ng-show="vm.step_2">Continuer</button>
-                <button class="btn_onboarding  right_notes" ng-click="vm.steps(3)" ng-disabled="!vm.nom && !vm.prenom" ng-show="vm.step_3">Continuer</button>
-                <button class="btn_onboarding  right_notes" ng-click="vm.steps(4)" ng-disabled="!vm.poste" ng-show="vm.step_4">Continuer</button>
-                <button class="btn_onboarding  right_notes" ng-click="vm.steps(5)" ng-disabled="!vm.usedbefore" ng-show="vm.step_5">Continuer</button>
-                <button class="btn_onboarding  right_notes" ng-click="vm.continuer()"  ng-show="vm.step_6">Confirmer</button>
+            <div class="footer_onbord">
+                <md-button class="btn_onboarding  right_notes" style="{{vm.langue ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(1)" ng-disabled="!vm.langue" ng-show="vm.step_1">Continuer
+                </md-button>
+                <md-button class="btn_onboarding  right_notes" style="{{vm.country ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(2)" ng-disabled="!vm.country" ng-show="vm.step_2">Continuer
+                </md-button>
+                <md-button class="btn_onboarding  right_notes" style="{{(vm.nom || vm.prenom)? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(3)" ng-disabled="!vm.nom && !vm.prenom" ng-show="vm.step_3">Continuer
+                </md-button>
+                <md-button class="btn_onboarding  right_notes" style="{{vm.poste ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(4)" ng-disabled="!vm.poste" ng-show="vm.step_4">Continuer
+                </md-button>
+                <md-button class="btn_onboarding  right_notes" style="{{vm.usedbefore ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(5)" ng-disabled="!vm.usedbefore" ng-show="vm.step_5">Continuer
+                </md-button>
+                <md-button class="btn_onboarding  right_notes" style="{{vm.langue ? 'background-color: #0b522b;' : ''}}" ng-click="vm.continuer()"  ng-show="vm.step_6">Confirmer
+                </md-button>
             </div>
 
         </div>

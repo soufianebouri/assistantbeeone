@@ -47,12 +47,6 @@ angular.module('beeOneWebFrontApp')
 
 
 
-      vm.currect_step = 1;
-      vm.stepUrl = "views/configuration/comptes/v_societe.html";
-      vm.step = async function (params, stepUrl) {
-        vm.currect_step = params;
-        vm.stepUrl = stepUrl
-      };
 
       $scope.uploadFile = function (event) {
         var file = event.target.files[0];
@@ -138,7 +132,7 @@ angular.module('beeOneWebFrontApp')
           };
 
           reader.onerror = function (error) {
-            console.log("onerror",error);
+            
 
               vm.isFileSelected = false;
               toastr.clear();
@@ -212,8 +206,6 @@ angular.module('beeOneWebFrontApp')
 
       //get data and refresh datatable
       vm.data_societe = [];
-      vm.new = 0;
-      vm.old_items = 0;
 NProgress.start();
       $q.all([
         societe.get_all()
@@ -306,17 +298,14 @@ NProgress.start();
                 //validate success
 
                 vm.data_societe.unshift(e.data.inserted_data);
-                console.log("e.data.inserted_data", e.data.inserted_data);
 
-                console.log(vm.data_societe);
 
                 toastr.clear();
-                toastr.success("Société bien ajoutée au tableau.", {
+                toastr.success("Société bien ajoutée.", {
                   closeButton: true
                 });
                 await $scope.undoSelect()
                 NProgress.done();
-                vm.new++;
                 vm.dtInstance.reloadData();
                 vm.reset();
             }).catch(async e => {
@@ -356,7 +345,7 @@ NProgress.start();
 
                   vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.ID));
 
-                  vm.new -= newItemCount;
+
                   await $scope.undoSelect()
                   toastr.clear();
                   toastr.success("Suppression réussie", {
@@ -392,9 +381,7 @@ NProgress.start();
 
                 vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
 
-                if(data.newItem){
-                  vm.new--;
-                }
+
                 await $scope.undoSelect()
                 toastr.clear();
                 toastr.success("Suppression réussie", {
@@ -544,7 +531,7 @@ NProgress.start();
       let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
       let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
-      let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
+      let newItemCount =0
 
       return {
         selectedIds,  // Array of selected IDs
@@ -625,7 +612,6 @@ NProgress.start();
           ICE : null,
           Prefixe_matricule : null,
           ID : null,
-          newItem : true,
           ID_Profil : vm.IDUser,
           DateCreated : moment().format("YYYYMMDD")
         }
@@ -639,9 +625,9 @@ NProgress.start();
 
       function createdRow(row, data, dataIndex) {
         // Add row highlighting first
-        if (data.newItem) {
+        /*if (data.newItem) {
           angular.element(row).addClass('new-row');
-        }
+        }*/
 
         // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
@@ -691,7 +677,7 @@ NProgress.start();
 
               // Extract headers from the first row of the data
               var fileHeaders = Object.keys(data[0] || {});
-              console.log(fileHeaders);
+
 
               // Check if all required headers are present
               var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
@@ -764,7 +750,7 @@ NProgress.start();
 
 
                 if (seen.has(lowerCaseName)) {
-                    console.log(`Duplicate found in row ${rowIndex}: ${item.Rais_Social}`);
+
                     return {
                         status: false,
                         message: `Duplicate Raison Social found in row ${rowIndex}: ${item.Rais_Social}`
@@ -776,7 +762,7 @@ NProgress.start();
             rowIndex++;  // Increment the row index
         }
 
-        console.log("No duplicates found.");
+
         return {
             status: true
         }; // No duplicates found
@@ -817,7 +803,7 @@ NProgress.start();
 
                 vm.data_societe.unshift(...e.data.inserted_data);
 
-                console.log("e.data.inserted_data", e.data.inserted_data);
+
 
                 toastr.clear();
                 toastr.success(e.data.message, {
@@ -825,7 +811,6 @@ NProgress.start();
                 });
                 await $scope.undoSelect()
                 NProgress.done();
-                vm.new += vm.jsonData.length;
                 vm.dtInstance.reloadData();
                 vm.reset();
                 vm.isFileSelected = false;

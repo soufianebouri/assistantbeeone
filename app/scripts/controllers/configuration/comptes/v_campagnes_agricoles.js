@@ -61,8 +61,6 @@ angular.module('beeOneWebFrontApp')
 
     //get data and refresh datatable
     vm.data_societe = [];
-    vm.new = 0;
-    vm.old_items = 0;
 NProgress.start();
     $q.all([
       compagne.get_all(),
@@ -151,7 +149,7 @@ NProgress.start();
               }*/
 
               toastr.clear();
-              toastr.success("Campagne Agricole bien modifié.", {
+              toastr.success("Campagne Agricole bien modifiée.", {
                 closeButton: true
               });
               NProgress.done();
@@ -225,7 +223,7 @@ NProgress.start();
                 closeButton: true
               });
               NProgress.done();
-              vm.new++;
+
 
 
               $q.all([

@@ -947,6 +947,9 @@ angular.module('beeOneWebFrontApp')
               vm.reset();
               vm.isFileSelected = false;
               vm.jsonData = [];
+              vm.errData = {
+                err : false
+              }
           }).catch(async e => {
             NProgress.done();
             toastr.clear();

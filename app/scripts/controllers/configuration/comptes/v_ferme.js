@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationComptesVFermeCtrl', 
+  .controller('ConfigurationComptesVFermeCtrl',
     function (
       $q,
       $scope,
@@ -45,7 +45,7 @@ angular.module('beeOneWebFrontApp')
         }
       };
 
-    
+
 
       vm.currect_step = 1;
       vm.stepUrl = "views/configuration/comptes/v_societe.html";
@@ -95,7 +95,7 @@ angular.module('beeOneWebFrontApp')
               let sheet = workbook.Sheets[sheetName];
 
               // Convert sheet to JSON
-           
+
               vm.jsonData = XLSX.utils.sheet_to_json(sheet, {
                 defval: "",  // Ensures empty cells are included
                 raw: true    // Keeps data as-is without automatic conversion
@@ -133,13 +133,13 @@ angular.module('beeOneWebFrontApp')
                   $scope.excelData = jsonData; // Store JSON data in scope
               });*/
 
-           
+
 
           };
 
           reader.onerror = function (error) {
             console.log("onerror",error);
-            
+
               vm.isFileSelected = false;
               toastr.clear();
               toastr.warning("Error reading file", {
@@ -149,7 +149,7 @@ angular.module('beeOneWebFrontApp')
 
 
 
-            
+
           } else {
             vm.isFileSelected = false;
             toastr.clear();
@@ -199,9 +199,9 @@ angular.module('beeOneWebFrontApp')
         }
       };
 
- 
-    
-      
+
+
+
 
       /** Table */
 
@@ -211,7 +211,7 @@ angular.module('beeOneWebFrontApp')
       vm.societes = {};
 
       //get data and refresh datatable
-      vm.data_societe = []; 
+      vm.data_societe = [];
       vm.new = 0;
       vm.old_items = 0;
 
@@ -238,13 +238,13 @@ angular.module('beeOneWebFrontApp')
           });
         }
       });
-      
+
 
 
       vm.validateCoordinates = async function () {
         let isValidCoordinates = true;
         let messageCoordinates = ''
-    
+
         if (vm.formData.Latitude === undefined ) {
           isValidCoordinates = true;
         }
@@ -252,37 +252,37 @@ angular.module('beeOneWebFrontApp')
         if ( vm.formData.Longitude === undefined) {
           isValidCoordinates = true;
         }
-    
+
         if (vm.formData.Latitude < -90 || vm.formData.Latitude > 90) {
           isValidCoordinates = false;
           messageCoordinates = 'Latitude should be between -90 and 90'
         }
-    
+
         if (vm.formData.Longitude < -180 || vm.formData.Longitude > 180) {
           isValidCoordinates = false;
           messageCoordinates = 'Longitude should be between -180 and 180'
         }
-    
+
         return {
           isValidCoordinates,
           messageCoordinates
         };
     };
-    
-      
+
+
 
       vm.modifier = async function  () {
-       
+
           if(await vm.validateFormData()){
 
-            NProgress.start()   ;              
-            
+            NProgress.start()   ;
+
 console.log(vm.formData);
 
             ferme.edit(vm.formData).then(async e => {
                 //validate success
 
-               
+
                 let index = vm.data_societe.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
 
                 if (index !== -1) {
@@ -297,24 +297,24 @@ console.log(vm.formData);
                 toastr.success("Ferme bien modifié.", {
                   closeButton: true
                 });
-                NProgress.done();   
+                NProgress.done();
                 vm.dtInstance.reloadData();
                 vm.reset();
-                await $scope.undoSelect() 
-                
+                await $scope.undoSelect()
+
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
               toastr.error(e.data.message, {
                 closeButton: true
               });
-            });            
+            });
           }
       };
 
 
       vm.validateFormData = async function() {
-           
+
             let rules = {
                 Code: "Référence ferme is required.",
                 Nom: "Nom de la is required.",
@@ -322,10 +322,10 @@ console.log(vm.formData);
                 Superficie: (value) => value > 0 ? null : "Superficie must be greater than 0.",
                 Date_Creatio_Ferme: "Date de création de la ferme is required."
             };
-        
-           
+
+
             for (let key in rules) {
-                if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {                  
+                if (vm.formData[key] === null || vm.formData[key] === undefined || vm.formData[key] === '') {
                     toastr.clear();
                     toastr.warning(typeof rules[key] === "function" ? rules[key](vm.formData[key]) : rules[key], {
                       closeButton: true
@@ -346,29 +346,29 @@ console.log(vm.formData);
             }
             return true;
        };
-    
+
       vm.ajouter = async function  () {
         toastr.clear();
           if(await vm.validateFormData()){
-         
-            NProgress.start()                 
-            
+
+            NProgress.start()
+
 
             ferme.add(vm.formData).then(async e => {
                 //validate success
 
                 vm.data_societe.unshift(e.data.inserted_data);
                 console.log("e.data.inserted_data", e.data.inserted_data);
-                
+
                 console.log(vm.data_societe);
-                
+
                 toastr.clear();
                 toastr.success("Société bien ajoutée au tableau.", {
                   closeButton: true
                 });
-                await $scope.undoSelect() 
-                NProgress.done();            
-                vm.new++;    
+                await $scope.undoSelect()
+                NProgress.done();
+                vm.new++;
                 vm.dtInstance.reloadData();
                 vm.reset();
             }).catch(async e => {
@@ -380,13 +380,13 @@ console.log(vm.formData);
             });
 
           }
-         
-       
+
+
       };
 
 
         vm.multiDelete = async function() {
-         
+
           let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_societe);
 
           toastr.clear();
@@ -394,24 +394,24 @@ console.log(vm.formData);
             closeButton: true,
             allowHtml: true,
             onShown: function(toast) {
-            
+
               $("#confirmationRevertYes").click(function() {
-                NProgress.start()  
+                NProgress.start()
                 ferme.multidelete({
                   IDs : selectedIds
                 }).then(async function(result) {
-                  
+
                   vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.IDFermes));
 
                   vm.new -= newItemCount;
-                  await $scope.undoSelect()        
+                  await $scope.undoSelect()
                   toastr.clear();
                   toastr.success("Suppression réussie", {
                     closeButton: true
                   });
                   NProgress.done();
                   vm.dtInstance.reloadData();
-                  
+
                 }).catch(async e => {
                   NProgress.done();
                   toastr.clear();
@@ -422,34 +422,34 @@ console.log(vm.formData);
               });
             }
           });
-    
+
         }
 
 
       vm.delete = async function(data) {
-        
+
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
           closeButton: true,
           allowHtml: true,
           onShown: function(toast) {
             $("#confirmationRevertYes").click(function() {
-              NProgress.start()  
+              NProgress.start()
               ferme.delete(data).then(async function(result) {
-                
+
                 vm.data_societe = vm.data_societe.filter(item => item.IDFermes !== data.IDFermes);
-                
+
                 if(data.newItem){
                   vm.new--;
-                }        
-                await $scope.undoSelect()        
+                }
+                await $scope.undoSelect()
                 toastr.clear();
                 toastr.success("Suppression réussie", {
                   closeButton: true
                 });
                 NProgress.done();
                 vm.dtInstance.reloadData();
-                
+
               }).catch(async e => {
                 NProgress.done();
                 toastr.clear();
@@ -460,18 +460,18 @@ console.log(vm.formData);
             });
           }
         });
-  
+
       }
 
 
-      
+
       $scope.check_all_data_input = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
           return societe.Code === vm.formData.Code;
       });
-      
+
       if (isDuplicate) {
-        
+
         toastr.clear();
         toastr.warning("Raison Sociale already esist!", {
           closeButton: true,
@@ -479,16 +479,16 @@ console.log(vm.formData);
           return false
       } else {
           return true;
-      }      
+      }
       }
 
       $scope.check_all_data_input_edit = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
           return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
       });
-      
+
       if (isDuplicate) {
-        
+
         toastr.clear();
         toastr.warning("Raison Sociale already esist!", {
           closeButton: true,
@@ -496,10 +496,10 @@ console.log(vm.formData);
           return false
       } else {
           return true;
-      }      
+      }
       }
 
-     
+
 
       vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
         //var defer = $q.defer();
@@ -531,30 +531,30 @@ console.log(vm.formData);
           },
         ]);
 
-        
 
-        function actionsHtml(data, type, full, meta) { 
+
+        function actionsHtml(data, type, full, meta) {
             vm.societes[data.IDFermes] = data;
             var editbtn =
             '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
             data.IDFermes +
             '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
-          
+
           var deletebtn =
             '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
             data.IDFermes +
-            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
+            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
         return editbtn + deletebtn;
         }
-       
+
         vm.edit = function (data) {
-          vm.formData = data;  
+          vm.formData = data;
           console.log(vm.formData);
-          
+
           vm.formData.Latitude = parseFloat(vm.formData.Latitude || 0);  // or set a default value
           vm.formData.Longitude = parseFloat(vm.formData.Longitude || 0);
           vm.formData.Date_Creatio_Ferme = (vm.formData.Date_Creatio_Ferme) ? new Date(moment(vm.formData.Date_Creatio_Ferme).format("YYYY-MM-DD")) : null;
-       
+
           vm.formData.societe = vm.data_societe_all.find(societe => societe.ID === vm.formData.ID_societe);
 
           toastr.clear();
@@ -564,7 +564,7 @@ console.log(vm.formData);
 
         }
 
-        
+
 
 
 
@@ -575,7 +575,7 @@ console.log(vm.formData);
         $scope.allSelected = (!$scope.allSelected) ? true : false;
         vm.data_societe.forEach(societe => {
             societe.selected = $scope.allSelected; // Toggle selection
-        });        
+        });
         vm.dtInstance.reloadData();
     };
 
@@ -594,10 +594,10 @@ console.log(vm.formData);
     }
     $scope.getSelectedIDs = async function(data) {
       let selectedItems = data.filter(item => item.selected === true); // Get selected items
-      
+
       let selectedIds = selectedItems.map(item => item.IDFermes); // Extract IDs
       let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
-      
+
       return {
         selectedIds,  // Array of selected IDs
         newItemCount  // Count of new items
@@ -605,25 +605,25 @@ console.log(vm.formData);
     };
 
 
-      $scope.toggleSelection = function (id) {    
-        let found = false;    
+      $scope.toggleSelection = function (id) {
+        let found = false;
         vm.data_societe = vm.data_societe.map(societe => {
             if (societe.IDFermes === id) {
                 found = true;
                 return { ...societe, selected: !societe.selected }; // Toggle selection
             }
             return societe;
-        });    
+        });
         /* if (!found) {
               vm.data_societe.push({ id_sco_temp: id, selected: true });
           }    */
     };
-         
-      function checkboxHtml(data, type, full, meta) {        
+
+      function checkboxHtml(data, type, full, meta) {
           return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFermes})">`;
-      }   
-      
-      
+      }
+
+
       vm.updateSelectedCount = function () {
         return vm.data_societe.filter(societe => societe.selected).length;
       };
@@ -633,7 +633,7 @@ console.log(vm.formData);
         DTColumnBuilder.newColumn(null)
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
-          ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),         
+          ).renderWith(checkboxHtml).notSortable().withOption("width", "15px"),
         DTColumnBuilder.newColumn("Rais_Social").withTitle("Société").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Code").withTitle("Référence").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Nom").withTitle("Nom").withOption("width", "100px"),
@@ -679,12 +679,12 @@ console.log(vm.formData);
         Altitude: null,
         ID : null,
         newItem : true
-      }          
+      }
      }
      vm.reset()
 
 
-      
+
 
       vm.howto = true;
 
@@ -693,14 +693,14 @@ console.log(vm.formData);
         if (data.newItem) {
           angular.element(row).addClass('new-row');
         }
-        
+
         // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
       }
-      
+
 
       /** Step1 excel*/
-      
+
       vm.headers = [
         "Référence","Nom","Société",
         "Superficie","Date De Création","Gérant",
@@ -712,24 +712,24 @@ console.log(vm.formData);
            let headers=  vm.headers
             var ws_data = [headers]
             var ws = XLSX.utils.aoa_to_sheet(ws_data);
-    
+
             // Create workbook
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Fermes");
-    
+
             // Write the file and trigger download
             var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
             var blob = new Blob([wbout], { type: "application/octet-stream" });
-    
-            saveAs(blob, "Canvas Fermes.xlsx"); 
+
+            saveAs(blob, "Canvas Fermes.xlsx");
         };
-    
+
 
         $scope.checkExcelHeaders = async function (data) {
           if(data.length>0){
               // Define required headers
               var requiredHeaders = vm.headers
-                    
+
               // Extract headers from the first row of the data
               var fileHeaders = Object.keys(data[0] || {});
               console.log(fileHeaders);
@@ -752,29 +752,29 @@ console.log(vm.formData);
               message : "file is emplty!."
             };
           }
-         
-          
+
+
       };
 
       vm.cleanJsonKeys = async function (data) {
         return data.map(item => ({
           Code: item["Référence"] || null,
-          Nom: item["Nom"] || null,             
-          societe: item["Société"] || null, 
-          Superficie: item["Superficie"] || null, 
+          Nom: item["Nom"] || null,
+          societe: item["Société"] || null,
+          Superficie: item["Superficie"] || null,
           Date_Creatio_Ferme: item["Date De Création"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date De Création"]) : null,
-          Gerant: item["Gérant"] || null, 
-          Adresse: item["Adresse"] || null, 
-          Ville : item["Ville"] || null, 
-          Fax: item["Fax"] || null, 
+          Gerant: item["Gérant"] || null,
+          Adresse: item["Adresse"] || null,
+          Ville : item["Ville"] || null,
+          Fax: item["Fax"] || null,
           Tel: item["Téléphone"] || null,
-          statut_foncier: item["Statut Foncier"] || null, 
-          Latitude: item["Latitude"] || null, 
-          Longitude: item["Longitude"] || null, 
+          statut_foncier: item["Statut Foncier"] || null,
+          Latitude: item["Latitude"] || null,
+          Longitude: item["Longitude"] || null,
           Altitude: item["Altitude"] || null
         }));
       };
-    
+
 
 
       vm.transformExcelData = async function (data) {
@@ -783,87 +783,87 @@ console.log(vm.formData);
 
 
       vm.checkDuplicate__column_code = async function (newData, oldData) {
-      
-    
+
+
         // Ensure `seen` set is cleared each time the function is called
         let seen = new Set();
         let rowIndex = 2;  // To keep track of the row number
-    
+
         // Add old data "" values to the set
         oldData.forEach(item => {
             if (item.Code) {
                 seen.add(item.Code.toLowerCase()); // Convert to lowercase for case-insensitive check
             }
         });
-    
-     
-    
+
+
+
         // Check for duplicates in new data
         for (let item of newData) {
             if (item.Code) {
                 let lowerCaseName = item.Code.toLowerCase();
-    
-               
-    
+
+
+
                 if (seen.has(lowerCaseName)) {
                     return {
                         status: false,
                         message: `Duplicate Rférence found in row ${rowIndex}: ${item.Code}`
-                    }; 
+                    };
                 }
-    
+
                 seen.add(lowerCaseName);
             }
-            rowIndex++; 
+            rowIndex++;
         }
-    
+
         return {
             status: true
         }; // No duplicates found
       };
-    
+
       vm.checkDuplicate__column_name = async function (newData, oldData) {
-      
-    
+
+
         // Ensure `seen` set is cleared each time the function is called
         let seen = new Set();
         let rowIndex = 2;  // To keep track of the row number
-    
+
         // Add old data "" values to the set
         oldData.forEach(item => {
             if (item.Nom) {
                 seen.add(item.Nom.toLowerCase()); // Convert to lowercase for case-insensitive check
             }
         });
-    
-     
-    
+
+
+
         // Check for duplicates in new data
         for (let item of newData) {
             if (item.Nom) {
                 let lowerCaseName = item.Nom.toLowerCase();
-    
-               
-    
+
+
+
                 if (seen.has(lowerCaseName)) {
                     return {
                       status_name: false,
                       message_name: `Duplicate Nom found in row ${rowIndex}: ${item.Nom}`
-                    }; 
+                    };
                 }
-    
+
                 seen.add(lowerCaseName);
             }
-            rowIndex++; 
+            rowIndex++;
         }
-    
+
         return {
           status_name: true
         }; // No duplicates found
       };
-    
-    
-      
+
+
+
     vm.resetErrExcel = function(){
       vm.errData = {
         err : false
@@ -871,18 +871,18 @@ console.log(vm.formData);
     }
 
 
-   
+
 
       vm.integer = async function(){
-       
+
         console.log("integer",vm.jsonData);
-        
+
         if(vm.jsonData.length>0){
-         
+
           let { status , message} = await vm.checkDuplicate__column_code(vm.jsonData, vm.data_societe);
-         
-          
-          
+
+
+
 
           if(status){
             let { status_name , message_name} = await vm.checkDuplicate__column_name(vm.jsonData, vm.data_societe);
@@ -890,9 +890,9 @@ console.log(vm.formData);
             console.log(message_name);
             if(status_name){
               /**Create en masse */
-            
-            NProgress.start()               
-            
+
+            NProgress.start()
+
 
             ferme.multiadd({
               fermes :vm.jsonData
@@ -902,18 +902,21 @@ console.log(vm.formData);
                 vm.data_societe.unshift(...e.data.inserted_data);
 
                 console.log("e.data.inserted_data", e.data.inserted_data);
-                                                
+
                 toastr.clear();
                 toastr.success(e.data.message, {
                   closeButton: true
                 });
-                await $scope.undoSelect() 
-                NProgress.done();            
-                vm.new += vm.jsonData.length;    
+                await $scope.undoSelect()
+                NProgress.done();
+                vm.new += vm.jsonData.length;
                 vm.dtInstance.reloadData();
                 vm.reset();
                 vm.isFileSelected = false;
                 vm.jsonData = [];
+                vm.errData = {
+                  err : false
+                }
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
@@ -926,7 +929,7 @@ console.log(vm.formData);
               }
             });
 
-            
+
             }else{
               vm.errData = {
                 err : true,
@@ -938,10 +941,10 @@ console.log(vm.formData);
               closeButton: true,
             });
             }
-             
-            
-            
-          }else{  
+
+
+
+          }else{
             vm.errData = {
               err : true,
               status : status,
@@ -953,15 +956,15 @@ console.log(vm.formData);
           });
           }
 
-          
-          
-         
+
+
+
         }else{
           toastr.clear();
           toastr.warning("Upload your file!", {
           closeButton: true,
          });
-        }                
+        }
       }
 
       /** */
@@ -991,16 +994,16 @@ console.log(vm.formData);
 
     // Format timestamp
     $scope.formatTime = function(date) {
-      return new Date(date).toLocaleTimeString('fr-FR', { 
-        hour: 'numeric', 
+      return new Date(date).toLocaleTimeString('fr-FR', {
+        hour: 'numeric',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       });
     };
 
     // Format date
     $scope.formatDate = function(date) {
-      return new Date(date).toLocaleDateString('fr-FR', { 
+      return new Date(date).toLocaleDateString('fr-FR', {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
@@ -1042,9 +1045,9 @@ console.log(vm.formData);
         $scope.$apply(); // Apply changes to update the UI
         }, 2000);
 
-         
-       
-        
+
+
+
 
         // Clear input
         $scope.newMessage = '';

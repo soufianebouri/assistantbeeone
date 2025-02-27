@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationComptesVSocieteCtrl', 
+  .controller('ConfigurationComptesVSocieteCtrl',
     function (
       $q,
       $scope,
@@ -45,7 +45,7 @@ angular.module('beeOneWebFrontApp')
         }
       };
 
-    
+
 
       vm.currect_step = 1;
       vm.stepUrl = "views/configuration/comptes/v_societe.html";
@@ -95,7 +95,7 @@ angular.module('beeOneWebFrontApp')
               let sheet = workbook.Sheets[sheetName];
 
               // Convert sheet to JSON
-           
+
               vm.jsonData = XLSX.utils.sheet_to_json(sheet, {
                 defval: "",  // Ensures empty cells are included
                 raw: true    // Keeps data as-is without automatic conversion
@@ -133,13 +133,13 @@ angular.module('beeOneWebFrontApp')
                   $scope.excelData = jsonData; // Store JSON data in scope
               });*/
 
-           
+
 
           };
 
           reader.onerror = function (error) {
             console.log("onerror",error);
-            
+
               vm.isFileSelected = false;
               toastr.clear();
               toastr.warning("Error reading file", {
@@ -149,7 +149,7 @@ angular.module('beeOneWebFrontApp')
 
 
 
-            
+
           } else {
             vm.isFileSelected = false;
             toastr.clear();
@@ -199,9 +199,9 @@ angular.module('beeOneWebFrontApp')
         }
       };
 
- 
-    
-      
+
+
+
 
       /** Table */
 
@@ -211,7 +211,7 @@ angular.module('beeOneWebFrontApp')
       vm.societes = {};
 
       //get data and refresh datatable
-      vm.data_societe = []; 
+      vm.data_societe = [];
       vm.new = 0;
       vm.old_items = 0;
 
@@ -238,20 +238,20 @@ angular.module('beeOneWebFrontApp')
       });
 
 
-      
+
 
       vm.modifier = async function  () {
         if (vm.formData.Rais_Social) {
           if(await $scope.check_all_data_input_edit(vm.formData.ID)){
 
-            NProgress.start()                 
-            
+            NProgress.start()
+
 
             societe.edit(vm.formData).then(async e => {
                 //validate success
 
                 //vm.data_societe.push(e.data.inserted_data);
-               
+
                 let index = vm.data_societe.findIndex(item => item.ID === e.data.inserted_data.ID);
 
                 if (index !== -1) {
@@ -266,20 +266,20 @@ angular.module('beeOneWebFrontApp')
                 toastr.success("Société bien modifié.", {
                   closeButton: true
                 });
-                NProgress.done();   
+                NProgress.done();
                 vm.dtInstance.reloadData();
                 vm.reset();
-                await $scope.undoSelect() 
-                
+                await $scope.undoSelect()
+
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
               toastr.error(e.data.message, {
                 closeButton: true
               });
-            });            
+            });
           }
-         
+
         } else {
           toastr.clear();
           toastr.warning("Raison Sociale is required!", {
@@ -289,30 +289,30 @@ angular.module('beeOneWebFrontApp')
       };
 
 
-     
+
       vm.ajouter = async function  () {
         toastr.clear();
         if (vm.formData.Rais_Social) {
           if(await $scope.check_all_data_input()){
-         
-            NProgress.start()                 
-            
+
+            NProgress.start()
+
 
             societe.add(vm.formData).then(async e => {
                 //validate success
 
                 vm.data_societe.unshift(e.data.inserted_data);
                 console.log("e.data.inserted_data", e.data.inserted_data);
-                
+
                 console.log(vm.data_societe);
-                
+
                 toastr.clear();
                 toastr.success("Société bien ajoutée au tableau.", {
                   closeButton: true
                 });
-                await $scope.undoSelect() 
-                NProgress.done();            
-                vm.new++;    
+                await $scope.undoSelect()
+                NProgress.done();
+                vm.new++;
                 vm.dtInstance.reloadData();
                 vm.reset();
             }).catch(async e => {
@@ -324,7 +324,7 @@ angular.module('beeOneWebFrontApp')
             });
 
           }
-         
+
         } else {
           toastr.clear();
           toastr.warning("Raison Sociale is required!", {
@@ -335,7 +335,7 @@ angular.module('beeOneWebFrontApp')
 
 
         vm.multiDelete = async function() {
-         
+
           let { selectedIds, newItemCount } = await $scope.getSelectedIDs(vm.data_societe);
 
           toastr.clear();
@@ -343,24 +343,24 @@ angular.module('beeOneWebFrontApp')
             closeButton: true,
             allowHtml: true,
             onShown: function(toast) {
-            
+
               $("#confirmationRevertYes").click(function() {
-                NProgress.start()  
+                NProgress.start()
                 societe.multidelete({
                   IDs : selectedIds
                 }).then(async function(result) {
-                  
+
                   vm.data_societe = vm.data_societe.filter(item => !selectedIds.includes(item.ID));
 
                   vm.new -= newItemCount;
-                  await $scope.undoSelect()        
+                  await $scope.undoSelect()
                   toastr.clear();
                   toastr.success("Suppression réussie", {
                     closeButton: true
                   });
                   NProgress.done();
                   vm.dtInstance.reloadData();
-                  
+
                 }).catch(async e => {
                   NProgress.done();
                   toastr.clear();
@@ -371,34 +371,34 @@ angular.module('beeOneWebFrontApp')
               });
             }
           });
-    
+
         }
 
 
       vm.delete = async function(data) {
-        
+
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
           closeButton: true,
           allowHtml: true,
           onShown: function(toast) {
             $("#confirmationRevertYes").click(function() {
-              NProgress.start()  
+              NProgress.start()
               societe.delete(data).then(async function(result) {
-                
+
                 vm.data_societe = vm.data_societe.filter(item => item.ID !== data.ID);
-                
+
                 if(data.newItem){
                   vm.new--;
-                }        
-                await $scope.undoSelect()        
+                }
+                await $scope.undoSelect()
                 toastr.clear();
                 toastr.success("Suppression réussie", {
                   closeButton: true
                 });
                 NProgress.done();
                 vm.dtInstance.reloadData();
-                
+
               }).catch(async e => {
                 NProgress.done();
                 toastr.clear();
@@ -409,18 +409,18 @@ angular.module('beeOneWebFrontApp')
             });
           }
         });
-  
+
       }
 
 
-      
+
       $scope.check_all_data_input = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
           return societe.Rais_Social === vm.formData.Rais_Social;
       });
-      
+
       if (isDuplicate) {
-        
+
         toastr.clear();
         toastr.warning("Raison Sociale already esist!", {
           closeButton: true,
@@ -428,16 +428,16 @@ angular.module('beeOneWebFrontApp')
           return false
       } else {
           return true;
-      }      
+      }
       }
 
       $scope.check_all_data_input_edit = async function(){
         var isDuplicate = vm.data_societe.some(function(societe) {
           return (societe.Rais_Social === vm.formData.Rais_Social && societe.ID != vm.formData.ID);
       });
-      
+
       if (isDuplicate) {
-        
+
         toastr.clear();
         toastr.warning("Raison Sociale already esist!", {
           closeButton: true,
@@ -445,14 +445,14 @@ angular.module('beeOneWebFrontApp')
           return false
       } else {
           return true;
-      }      
+      }
       }
 
-     
 
 
 
-      
+
+
 
       vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
         //var defer = $q.defer();
@@ -461,7 +461,7 @@ angular.module('beeOneWebFrontApp')
         .withOption("createdRow", createdRow)
         .withDOM("<lf<t>ip>")
         .withPaginationType("simple_numbers")
-        .withOption("responsive", true)        
+        .withOption("responsive", true)
         .withOption("pageLength", 5)  // Default number of items per page
          .withOption("lengthMenu", [5, 10, 20, 50, 100])  // Options for page length
       /*  .withOption('scrollX', false) // Add this line
@@ -484,31 +484,31 @@ angular.module('beeOneWebFrontApp')
           },
         ]);
 
-        
 
-        function actionsHtml(data, type, full, meta) { 
+
+        function actionsHtml(data, type, full, meta) {
             vm.societes[data.ID] = data;
             var editbtn =
             '<button class="btnEdit_tb" ng-click="vm.edit(vm.societes[' +
             data.ID +
             '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
-          
+
           var deletebtn =
             '<button class="btnEdit_tb" ng-click="vm.delete(vm.societes[' +
             data.ID +
-            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';    
+            '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
         return editbtn + deletebtn;
         }
-       
+
         vm.edit = function (data) {
-          vm.formData = data;  
+          vm.formData = data;
           toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Rais_Social}. 👆`, {
           closeButton: true
         });
         }
 
-        
+
 
 
 
@@ -519,7 +519,7 @@ angular.module('beeOneWebFrontApp')
         $scope.allSelected = (!$scope.allSelected) ? true : false;
         vm.data_societe.forEach(societe => {
             societe.selected = $scope.allSelected; // Toggle selection
-        });        
+        });
         vm.dtInstance.reloadData();
     };
 
@@ -538,10 +538,10 @@ angular.module('beeOneWebFrontApp')
     }
     $scope.getSelectedIDs = async function(data) {
       let selectedItems = data.filter(item => item.selected === true); // Get selected items
-      
+
       let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
       let newItemCount = selectedItems.filter(item => item.newItem === true).length; // Count `newItem === true`
-      
+
       return {
         selectedIds,  // Array of selected IDs
         newItemCount  // Count of new items
@@ -549,25 +549,25 @@ angular.module('beeOneWebFrontApp')
     };
 
 
-      $scope.toggleSelection = function (id) {    
-        let found = false;    
+      $scope.toggleSelection = function (id) {
+        let found = false;
         vm.data_societe = vm.data_societe.map(societe => {
             if (societe.ID === id) {
                 found = true;
                 return { ...societe, selected: !societe.selected }; // Toggle selection
             }
             return societe;
-        });    
+        });
         /* if (!found) {
               vm.data_societe.push({ id_sco_temp: id, selected: true });
           }    */
     };
-         
-      function checkboxHtml(data, type, full, meta) {        
+
+      function checkboxHtml(data, type, full, meta) {
           return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
-      }   
-      
-      
+      }
+
+
       vm.updateSelectedCount = function () {
         return vm.data_societe.filter(societe => societe.selected).length;
       };
@@ -578,7 +578,7 @@ angular.module('beeOneWebFrontApp')
           .withTitle(
             '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
           )
-          .renderWith(checkboxHtml).notSortable().withOption("width", "10px"), 
+          .renderWith(checkboxHtml).notSortable().withOption("width", "10px"),
         DTColumnBuilder.newColumn("Rais_Social").withTitle("Raison Sociale").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Statut_juridique").withTitle("Statut juridique").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Capital").withTitle("Capital").withOption("width", "100px"),
@@ -624,12 +624,12 @@ angular.module('beeOneWebFrontApp')
           newItem : true,
           ID_Profil : vm.IDUser,
           DateCreated : moment().format("YYYYMMDD")
-        }              
+        }
      }
      vm.reset()
 
 
-      
+
 
       vm.howto = true;
 
@@ -638,53 +638,53 @@ angular.module('beeOneWebFrontApp')
         if (data.newItem) {
           angular.element(row).addClass('new-row');
         }
-        
+
         // Then handle Angular compilation
         $compile(angular.element(row).contents())($scope);
       }
-      
+
 
       /** Step1 excel*/
-      
+
       vm.headers = [
-        "Raison Sociale", "Statut Juridique", "Capital", "Ville", 
-        "Adresse Email", "Fax", "Patente", "N° CNSS", "N° AMO", 
+        "Raison Sociale", "Statut Juridique", "Capital", "Ville",
+        "Adresse Email", "Fax", "Patente", "N° CNSS", "N° AMO",
         "ICE", "Pré Fix Matricule Ouvrier", "Adresse"
     ];
 
         vm.exportToExcel = function () {
-            // Define headers           
+            // Define headers
            let headers=  vm.headers
             // Example data (replace this with dynamic data)
            /* var data = [
-                ["Company A", "SARL", "1000000", "Casablanca", 
-                "email@example.com", "0522-123456", "12345678", "987654", "456789", 
+                ["Company A", "SARL", "1000000", "Casablanca",
+                "email@example.com", "0522-123456", "12345678", "987654", "456789",
                 "ICE123456789", "PREF123", "123 Street, Casablanca"]
             ];*/
-    
+
             // Combine headers and data
             //var ws_data = [headers, ...data];
             var ws_data = [headers]
             // Create worksheet
             var ws = XLSX.utils.aoa_to_sheet(ws_data);
-    
+
             // Create workbook
             var wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Société");
-    
+
             // Write the file and trigger download
             var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
             var blob = new Blob([wbout], { type: "application/octet-stream" });
-    
+
             saveAs(blob, "Canvas Société.xlsx"); // Save and trigger download
         };
-    
+
 
         $scope.checkExcelHeaders = async function (data) {
           if(data.length>0){
               // Define required headers
               var requiredHeaders = vm.headers
-                    
+
               // Extract headers from the first row of the data
               var fileHeaders = Object.keys(data[0] || {});
               console.log(fileHeaders);
@@ -707,8 +707,8 @@ angular.module('beeOneWebFrontApp')
               message : "file is emplty!."
             };
           }
-         
-          
+
+
       };
 
       vm.cleanJsonKeys = async function (data) {
@@ -728,7 +728,7 @@ angular.module('beeOneWebFrontApp')
             Prefixe_matricule: item["Pré Fix Matricule Ouvrier"] || null
         }));
     };
-    
+
 
 
       vm.transformExcelData = async function (data) {
@@ -737,28 +737,28 @@ angular.module('beeOneWebFrontApp')
 
 
       vm.checkDuplicate__column = async function (newData, oldData) {
-      
-    
+
+
         // Ensure `seen` set is cleared each time the function is called
         let seen = new Set();
         let rowIndex = 2;  // To keep track of the row number
-    
+
         // Add old data "Rais_Social" values to the set
         oldData.forEach(item => {
             if (item.Rais_Social) {
                 seen.add(item.Rais_Social.toLowerCase()); // Convert to lowercase for case-insensitive check
             }
         });
-    
-     
-    
+
+
+
         // Check for duplicates in new data
         for (let item of newData) {
             if (item.Rais_Social) {
                 let lowerCaseName = item.Rais_Social.toLowerCase();
-    
-               
-    
+
+
+
                 if (seen.has(lowerCaseName)) {
                     console.log(`Duplicate found in row ${rowIndex}: ${item.Rais_Social}`);
                     return {
@@ -766,21 +766,21 @@ angular.module('beeOneWebFrontApp')
                         message: `Duplicate Raison Social found in row ${rowIndex}: ${item.Rais_Social}`
                     }; // Stop checking and return false
                 }
-    
+
                 seen.add(lowerCaseName);
             }
             rowIndex++;  // Increment the row index
         }
-    
+
         console.log("No duplicates found.");
         return {
             status: true
         }; // No duplicates found
     };
-    
-    
-    
-      
+
+
+
+
     vm.resetErrExcel = function(){
       vm.errData = {
         err : false
@@ -788,23 +788,23 @@ angular.module('beeOneWebFrontApp')
     }
 
 
-   
+
 
       vm.integer = async function(){
-       
-        
+
+
         if(vm.jsonData.length>0){
-         
+
           let { status , message} = await vm.checkDuplicate__column(vm.jsonData, vm.data_societe);
-         
-          
+
+
 
           if(status){
-             
+
             /**Create en masse */
-            
-            NProgress.start()               
-            
+
+            NProgress.start()
+
 
             societe.multiadd({
               societes :vm.jsonData
@@ -814,18 +814,21 @@ angular.module('beeOneWebFrontApp')
                 vm.data_societe.unshift(...e.data.inserted_data);
 
                 console.log("e.data.inserted_data", e.data.inserted_data);
-                                                
+
                 toastr.clear();
                 toastr.success(e.data.message, {
                   closeButton: true
                 });
-                await $scope.undoSelect() 
-                NProgress.done();            
-                vm.new += vm.jsonData.length;    
+                await $scope.undoSelect()
+                NProgress.done();
+                vm.new += vm.jsonData.length;
                 vm.dtInstance.reloadData();
                 vm.reset();
                 vm.isFileSelected = false;
                 vm.jsonData = [];
+                vm.errData = {
+                  err : false
+                }
             }).catch(async e => {
               NProgress.done();
               toastr.clear();
@@ -838,9 +841,9 @@ angular.module('beeOneWebFrontApp')
               }
             });
 
-            
-            
-          }else{  
+
+
+          }else{
             vm.errData = {
               err : true,
               status : status,
@@ -852,15 +855,15 @@ angular.module('beeOneWebFrontApp')
           });
           }
 
-          
-          
-         
+
+
+
         }else{
           toastr.clear();
           toastr.warning("Upload your file!", {
           closeButton: true,
          });
-        }                
+        }
       }
 
       /** */
@@ -890,16 +893,16 @@ angular.module('beeOneWebFrontApp')
 
     // Format timestamp
     $scope.formatTime = function(date) {
-      return new Date(date).toLocaleTimeString('fr-FR', { 
-        hour: 'numeric', 
+      return new Date(date).toLocaleTimeString('fr-FR', {
+        hour: 'numeric',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       });
     };
 
     // Format date
     $scope.formatDate = function(date) {
-      return new Date(date).toLocaleDateString('fr-FR', { 
+      return new Date(date).toLocaleDateString('fr-FR', {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
@@ -941,9 +944,9 @@ angular.module('beeOneWebFrontApp')
         $scope.$apply(); // Apply changes to update the UI
         }, 2000);
 
-         
-       
-        
+
+
+
 
         // Clear input
         $scope.newMessage = '';

@@ -1023,16 +1023,21 @@ div.dt-button-collection {
 }
 
 .dataTables_filter input[type="search"] {
-  content: "ee" !important;
-  /* border: none !important; */
-  /* border-bottom: 2px solid #81bb26 !important; */
-  border-radius: 0 !important;
-  outline: none !important;
-  /* padding: 8px 10px !important; */
-  /* font-size: 16px !important; */
-  background: transparent !important;
-  width: 150px !important;
-  transition: border-bottom 0.3s ease-in-out !important;
+    content: "Rechercher" !important;
+    /* border: none !important; */
+    border-bottom: 1px solid #81bb26 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    /* padding: 8px 10px !important; */
+    /* font-size: 16px !important; */
+    background: transparent !important;
+    width: 150px !important;
+    transition: border-bottom 0.3sease-in-out !important;
+    height: 20px !important;
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    font-family: "Poppins", sans-serif !important;
 }
 
 /* Focus effect */

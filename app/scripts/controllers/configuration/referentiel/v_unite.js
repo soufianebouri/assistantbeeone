@@ -497,7 +497,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.IDUnite_Operation); // Extract IDs
 
     return selectedIds;
   };
@@ -506,7 +506,7 @@ angular.module('beeOneWebFrontApp')
     $scope.toggleSelection = function (id) {
       let found = false;
       vm.data_unite = vm.data_unite.map(societe => {
-          if (societe.ID === id) {
+          if (societe.IDUnite_Operation === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -518,7 +518,7 @@ angular.module('beeOneWebFrontApp')
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDUnite_Operation})">`;
     }
 
 
@@ -577,10 +577,9 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Famille culturale",
-      "Référence culture",
-      "Désignation culture"];
+      "Référence",
+      "Désignation unité",
+      "Liés à la récolte"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -589,13 +588,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Culture");
+          XLSX.utils.book_append_sheet(wb, ws, "Unité");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Culture.xlsx");
+          saveAs(blob, "Canvas Unité.xlsx");
       };
 
 
@@ -632,14 +631,11 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
+        Code: item["Référence"] || null,
+        Unite: item["Désignation unité"] || null,
+        Recolte: item["Liés à la récolte"] || null
       }));
     };
-
-
 
     vm.transformExcelData = async function (data) {
       return await vm.cleanJsonKeys(data);
@@ -741,14 +737,12 @@ angular.module('beeOneWebFrontApp')
 
     vm.integer = async function(){
 
-
-
       if(vm.jsonData.length>0){
 
           NProgress.start();
 
-          familleculture.multiadd({
-            familles :vm.jsonData
+          uniteoperation.multiadd({
+            unites :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
@@ -873,253 +867,6 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
-
-  vm.gen_canvas = function(ev) {
-    $mdDialog.show({
-        controller: DialogControllerGen,
-        templateUrl: '././views/configuration/referentiel/canvas/canvas_variete.html',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          data: vm.data_ferme
-        }
-      })
-      .then(function(answer) {
-        $scope.status = 'You said the information was "' + answer + '".';
-      }, function() {
-        $scope.status = 'You cancelled the dialog.';
-      });
-  };
-
-  function DialogControllerGen($scope, $mdDialog, data) {
-    $scope.scrollCards = function(direction) {
-      const container = document.getElementById('cardContainer');
-      const scrollAmount = 300; // Adjust scroll amount as needed
-
-            if (direction === 'left') {
-               container.scroll({
-                   left: container.scrollLeft - scrollAmount,
-                   behavior: 'smooth'
-               });
-           } else if (direction === 'right') {
-               container.scroll({
-                   left: container.scrollLeft + scrollAmount,
-                   behavior: 'smooth'
-               });
-           }
-        }
-
-        $scope.annuler = function() {
-          $mdDialog.cancel();
-        };
-
-    $scope.data_ferme = data;
-    $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
-    $scope.formdata_gen = {
-      ferme : null,
-      culture : null,
-      nbrparcelle : null,
-      increment : null
-    }
-    $scope.allformxls = [];
-
-
-    $scope.getCulture = function () {
-      NProgress.start();
-        $q.all([cultureService.get_byfermes({
-          IDFermes: [$scope.formdata_gen.ferme.IDFermes]
-        })]).then((values) => {
-          NProgress.done();
-          $scope.data_culture = values[0].data;
-        })
-    }
-    $scope.canva_ajouter = function(){
-      if(!$scope.formdata_gen.ferme){
-        toastr.clear();
-        toastr.warning("Veuillez choisir une ferme", {
-          closeButton: true
-        });
-      }else if(!$scope.formdata_gen.culture){
-        toastr.clear();
-        toastr.warning("Veuillez choisir une Culture", {
-          closeButton: true
-        });
-      }else if ($scope.formdata_gen.nbrparcelle <= 0) {
-        toastr.clear();
-        toastr.warning("Veuillez saisir le nombre de Variétés", {
-          closeButton: true
-        });
-      }else if (!$scope.formdata_gen.increment) {
-        toastr.clear();
-        toastr.warning("Veuillez choisir un type d'incrémentation", {
-          closeButton: true
-        });
-      }else {
-        $scope.formdata_gen.ferme.disabled = true;
-        $scope.allformxls.push($scope.formdata_gen);
-        console.log($scope.allformxls);
-        $scope.formdata_gen = {};
-      }
-    }
-
-    $scope.generateExcelData = async function() {
-    let excelData = [];
-    let headers = [
-       "Ferme",
-       "Culture",
-       "Référence variété",
-       "Désignation variété",
-       "Référence type variété",
-       "Désignation type variété",
-       "Age d'entrée en production",
-       "Age adulte",
-       "Descriptif"
-      ];
-    excelData.push(headers);
-    let totalParcelles = 0; // Track total parcels
-    $scope.allformxls.forEach(item => {
-        let fermeName = item.ferme.Nom;
-        let cultureName = item.culture.Culture;
-        let refrence=null
-
-            for (let i = 1; i <= item.nbrparcelle; i++) {
-                if (item.increment === 1) {
-                   refrence = `V${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
-                }
-                excelData.push([fermeName,
-                cultureName,
-                refrence,
-                refrence,
-                null,
-                null,
-                null,
-                null,
-                null]);
-                 totalParcelles++;
-            }
-
-
-    });
-    toastr.clear();
-    toastr.success(`Génération réussie : ${totalParcelles} variété(s) ajoutée(s) au fichier excel`, { closeButton: true });
-
-    return excelData;
-};
-
-  $scope.downloadExcel = async function() {
-
-    if($scope.allformxls.length>0){
-
-      NProgress.start()
-      let excelData = await $scope.generateExcelData();
-
-      // Create a new workbook and a worksheet
-      let ws = XLSX.utils.aoa_to_sheet(excelData);
-      let wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Variété");
-
-      // Generate a binary string from the workbook
-      let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-
-      // Convert the binary string to a Blob
-      let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-
-      // Create a link element and trigger the download
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "Canvas Variété.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      NProgress.done();
-    }else {
-      toastr.clear();
-      toastr.warning("Veuillez ajouter au moin un Paramètre", {
-        closeButton: true
-      });
-    }
-
-};
-
-// Utility function to convert string to ArrayBuffer
-function s2ab(s) {
-    let buf = new ArrayBuffer(s.length);
-    let view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-    return buf;
-}
-
-
-$scope.deleteCanva = function(index) {
-
-  toastr.clear();
-  toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
-    closeButton: true,
-    allowHtml: true,
-    onShown: function(toast) {
-
-      $("#confirmationRevertYes").click(function() {
-        $scope.allformxls.splice(index, 1);
-        toastr.clear();
-        toastr.success("Paramètre bien Supprimé", {
-          closeButton: true
-        });
-        $scope.formdata_gen = {};
-      });
-    }
-  });
-}
-
-
-
-$scope.editCanva = function(index) {
-console.log($scope.allformxls);
-
-  $scope.formdata_gen = {
-    ferme : $scope.allformxls[index].ferme,
-    nbrparcelle : $scope.allformxls[index].nbrparcelle,
-    increment : $scope.allformxls[index].increment,
-    update : true,
-    index : index
-  }
-
-}
-
-$scope.canva_modifer = function(){
-
-  if(!$scope.formdata_gen.ferme){
-    toastr.clear();
-    toastr.warning("Veuillez choisir une ferme", {
-      closeButton: true
-    });
-  }else if ($scope.formdata_gen.nbrparcelle <= 0) {
-    toastr.clear();
-    toastr.warning("Veuillez saisir le nombre de parcelle", {
-      closeButton: true
-    });
-  }else if (!$scope.formdata_gen.increment) {
-    toastr.clear();
-    toastr.warning("Veuillez choisir un type d'incrémentation", {
-      closeButton: true
-    });
-  }else {
-    $scope.formdata_gen.ferme.disabled = true;
-    let index = $scope.formdata_gen.index;
-    $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
-    $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
-    $scope.allformxls[index].increment = $scope.formdata_gen.increment;
-    $scope.formdata_gen = {};
-    toastr.clear();
-    toastr.success("Paramètre bien Modifié", {
-      closeButton: true
-    });
-  }
-
-}
-
-
-  }
 
 
   }

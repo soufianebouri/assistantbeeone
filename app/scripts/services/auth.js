@@ -44,8 +44,8 @@ angular.module('beeOneWebFrontApp')
             Prenom: Prenom,
             isAdmin: isAdmin,
             role: role,
-            authdata: token,
-            ID: id,
+            authdata: null,
+            ID: null,
             token: token
           },
           ferme: {
@@ -80,7 +80,7 @@ angular.module('beeOneWebFrontApp')
       ClearCredentials: function() {
         $rootScope.globals = {};
         $cookies.remove('globals');
-        $http.defaults.headers.common.Authorization = 'Basic';
+        $http.defaults.headers.common.Authorization = '';
         $window.sessionStorage.removeItem(3)
         $window.location.reload();
       }

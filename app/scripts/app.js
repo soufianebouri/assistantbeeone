@@ -298,7 +298,7 @@ angular
 
       $rootScope.$on("$locationChangeStart", function(event, next, current) {
         var restrictedPage = $.inArray($location.path(), ["/login"]) === -1;
-        var usr = $rootScope.globals.currentUser;
+        var usr = $rootScope.globals.currentUser.token;
         if (restrictedPage && !usr) {
           $location.path("/login");
         } else if (next.includes("login") && usr) {

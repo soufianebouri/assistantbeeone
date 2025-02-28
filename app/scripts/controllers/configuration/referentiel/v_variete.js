@@ -10,10 +10,10 @@
 angular.module('beeOneWebFrontApp')
   .controller('ConfigurationReferentielVCultureCtrl', function (
     $q,
-    $scope,
+    $scope,$mdDialog,
     toastr,
     $timeout,cultureService,
-    _url,
+    _url,VarieteService,
     $window,
     $translatePartialLoader,
     $translate,
@@ -47,36 +47,35 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    $scope.get_famille = function () {
+    $scope.get_culture = function () {
 
-      vm.formData.IDFamille_Culture = null;
+      vm.formData.IDculture = null;
       NProgress.start();
       if(vm.formData.fermes && !vm.formData.ID){
-        console.log("NO" , vm.formData.fermes);
-        $q.all([familleculture.get_byfermes({
+        $q.all([cultureService.get_byfermes({
           IDFermes: vm.formData.fermes
         })]).then((values) => {
           NProgress.done();
-          vm.data_famille = values[0].data;
+          vm.data_culture = values[0].data;
         })
       }else {
           NProgress.done();
-          vm.data_famille = []
+          vm.data_culture = []
       }
 
 
     }
 
 
-    $scope.get_famille_edit = function () {
+    $scope.get_culture_edit = function () {
 
       NProgress.start();
       if(vm.formData.fermes){
-        $q.all([familleculture.get_byfermes({
+        $q.all([cultureService.get_byfermes({
           IDFermes: vm.formData.fermes
         })]).then((values) => {
           NProgress.done();
-          vm.data_famille = values[0].data;
+          vm.data_culture = values[0].data;
         })
       }
 
@@ -239,7 +238,7 @@ angular.module('beeOneWebFrontApp')
     vm.selectAll = false;
 
     //get data and refresh datatable
-    vm.data_culture = [];
+    vm.data_variete = [];
     NProgress.start();
     $q.all([
       ferme.get_all()
@@ -266,13 +265,11 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.modifier = async function  () {
-      console.log(vm.formData);
-
 
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          cultureService.edit(vm.formData).then(async e => {
+          VarieteService.edit(vm.formData).then(async e => {
 
               toastr.clear();
               toastr.success(e.data.message, {
@@ -297,9 +294,11 @@ angular.module('beeOneWebFrontApp')
     vm.validateFormData = async function() {
         let rules = {
             fermes: "Ferme is required.",
-            IDFamille_Culture: "Famille culturale is required.",
-            Reference: "Référence Culture is required.",
-            Culture: "Désignation Culture is required."
+            IDculture: "Culturale is required.",
+            Reference: "Référence Variété is required.",
+            Variete: "Désignation Variété is required.",
+            ReferenceType_variete: "Référence type variété is required.",
+            Type_variete: "Désignation type variété is required."
         };
 
         for (let key in rules) {
@@ -322,7 +321,7 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          cultureService.add(vm.formData).then(async e => {
+          VarieteService.add(vm.formData).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
@@ -347,7 +346,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_culture);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_variete);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -357,7 +356,7 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              cultureService.multidelete({
+              VarieteService.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
@@ -393,7 +392,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            cultureService.delete(data).then(async function(result) {
+            VarieteService.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -419,7 +418,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_culture.some(function(societe) {
+      var isDuplicate = vm.data_variete.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -436,7 +435,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_culture.some(function(societe) {
+      var isDuplicate = vm.data_variete.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -454,13 +453,13 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.updatedata = function() {
-      return cultureService.get_all();
+      return VarieteService.get_all();
     };
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
         $scope.updatedata().then(function(res) {
-          vm.data_culture = res.data;
+          vm.data_variete = res.data;
           defer.resolve(res.data);
           NProgress.done();
         });
@@ -490,16 +489,16 @@ angular.module('beeOneWebFrontApp')
 
 
 
-      vm.culture_action = {};
+      vm.variete_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.culture_action[data.ID] = data;
+          vm.variete_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.culture_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.variete_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.culture_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.variete_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
@@ -511,12 +510,13 @@ angular.module('beeOneWebFrontApp')
         vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
 
 
-          $q.all([familleculture.get_byfermes({
-            IDFermes: vm.formData.fermes
-          })]).then((values) => {
-            NProgress.done();
-            vm.data_famille = values[0].data;
-          })
+        $q.all([cultureService.get_byfermes({
+          IDFermes: vm.formData.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_culture = values[0].data;
+        })
+
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
@@ -534,7 +534,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_culture.forEach(societe => {
+      vm.data_variete.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -549,7 +549,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_culture = vm.data_culture.map(societe => {
+    vm.data_variete = vm.data_variete.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -566,7 +566,7 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_culture = vm.data_culture.map(societe => {
+      vm.data_variete = vm.data_variete.map(societe => {
           if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -574,7 +574,7 @@ angular.module('beeOneWebFrontApp')
           return societe;
       });
       /* if (!found) {
-            vm.data_culture.push({ id_sco_temp: id, selected: true });
+            vm.data_variete.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
@@ -584,7 +584,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return vm.data_culture.filter(societe => societe.selected).length;
+      return vm.data_variete.filter(societe => societe.selected).length;
     };
 
 
@@ -599,10 +599,14 @@ angular.module('beeOneWebFrontApp')
         }
         return "";
        }).withOption("width", "110px"),
-      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Famille culturale").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Reference").withTitle("Référence culture").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Culture").withTitle("Désignation culture").withOption("width", "100px"),
-
+      DTColumnBuilder.newColumn("Nameculture").withTitle("Culture").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Reference").withTitle("Référence variété").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Variete").withTitle("Désignation variété").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("ReferenceType_variete").withTitle("Référence type variété").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Type_variete").withTitle("Désignation type variété").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("age_entree_production").withTitle("Age d'entrée en production").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("age_adulte").withTitle("Age adulte").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Descriptif").withTitle("Descriptif").withOption("width", "100px"),
       DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -619,11 +623,16 @@ angular.module('beeOneWebFrontApp')
     vm.reset = function () {
       vm.formData =  {
         fermes : [],
-        IDFamille_Culture : null,
-        Reference : null,
-        Culture : null,
-        Referencegenereation: null,
-        genereation: null,
+        IDFamille_variete: null,
+        IDculture: null,
+        Nameculture: null,
+        Reference: null,
+        Variete: null,
+        ReferenceType_variete: null,
+        Type_variete: null,
+        age_entree_production: null,
+        age_adulte: null,
+        Descriptif: null,
       }
      }
    vm.reset()
@@ -942,6 +951,255 @@ angular.module('beeOneWebFrontApp')
       $scope.sendMessage();
     }
   };
+
+
+  vm.gen_canvas = function(ev) {
+    $mdDialog.show({
+        controller: DialogControllerGen,
+        templateUrl: '././views/configuration/referentiel/canvas/canvas_variete.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          data: vm.data_ferme
+        }
+      })
+      .then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+  };
+
+  function DialogControllerGen($scope, $mdDialog, data) {
+    $scope.scrollCards = function(direction) {
+      const container = document.getElementById('cardContainer');
+      const scrollAmount = 300; // Adjust scroll amount as needed
+
+            if (direction === 'left') {
+               container.scroll({
+                   left: container.scrollLeft - scrollAmount,
+                   behavior: 'smooth'
+               });
+           } else if (direction === 'right') {
+               container.scroll({
+                   left: container.scrollLeft + scrollAmount,
+                   behavior: 'smooth'
+               });
+           }
+        }
+
+        $scope.annuler = function() {
+          $mdDialog.cancel();
+        };
+
+    $scope.data_ferme = data;
+    $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
+    $scope.formdata_gen = {
+      ferme : null,
+      culture : null,
+      nbrparcelle : null,
+      increment : null
+    }
+    $scope.allformxls = [];
+
+
+    $scope.getCulture = function () {
+      NProgress.start();
+        $q.all([cultureService.get_byfermes({
+          IDFermes: [$scope.formdata_gen.ferme.IDFermes]
+        })]).then((values) => {
+          NProgress.done();
+          $scope.data_culture = values[0].data;
+        })
+    }
+    $scope.canva_ajouter = function(){
+      if(!$scope.formdata_gen.ferme){
+        toastr.clear();
+        toastr.warning("Veuillez choisir une ferme", {
+          closeButton: true
+        });
+      }else if(!$scope.formdata_gen.culture){
+        toastr.clear();
+        toastr.warning("Veuillez choisir une Culture", {
+          closeButton: true
+        });
+      }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+        toastr.clear();
+        toastr.warning("Veuillez saisir le nombre de Variétés", {
+          closeButton: true
+        });
+      }else if (!$scope.formdata_gen.increment) {
+        toastr.clear();
+        toastr.warning("Veuillez choisir un type d'incrémentation", {
+          closeButton: true
+        });
+      }else {
+        $scope.formdata_gen.ferme.disabled = true;
+        $scope.allformxls.push($scope.formdata_gen);
+        console.log($scope.allformxls);
+        $scope.formdata_gen = {};
+      }
+    }
+
+    $scope.generateExcelData = async function() {
+    let excelData = [];
+    let headers = [
+       "Ferme",
+       "Culture",
+       "Référence variété",
+       "Désignation variété",
+       "Référence type variété",
+       "Désignation type variété",
+       "Age d'entrée en production",
+       "Age adulte",
+       "Descriptif"
+      ];
+    excelData.push(headers);
+    let totalParcelles = 0; // Track total parcels
+    $scope.allformxls.forEach(item => {
+        let fermeName = item.ferme.Nom;
+        let cultureName = item.culture.Culture;
+        let refrence=null
+
+            for (let i = 1; i <= item.nbrparcelle; i++) {
+                if (item.increment === 1) {
+                   refrence = `V${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                }
+                excelData.push([fermeName,
+                cultureName,
+                refrence,
+                refrence,
+                null,
+                null,
+                null,
+                null,
+                null]);
+                 totalParcelles++;
+            }
+
+
+    });
+    toastr.clear();
+    toastr.success(`Génération réussie : ${totalParcelles} variété(s) ajoutée(s) au fichier excel`, { closeButton: true });
+
+    return excelData;
+};
+
+  $scope.downloadExcel = async function() {
+
+    if($scope.allformxls.length>0){
+
+      NProgress.start()
+      let excelData = await $scope.generateExcelData();
+
+      // Create a new workbook and a worksheet
+      let ws = XLSX.utils.aoa_to_sheet(excelData);
+      let wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Variété");
+
+      // Generate a binary string from the workbook
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+      // Convert the binary string to a Blob
+      let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+      // Create a link element and trigger the download
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Canvas Variété.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      NProgress.done();
+    }else {
+      toastr.clear();
+      toastr.warning("Veuillez ajouter au moin un Paramètre", {
+        closeButton: true
+      });
+    }
+
+};
+
+// Utility function to convert string to ArrayBuffer
+function s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+}
+
+
+$scope.deleteCanva = function(index) {
+
+  toastr.clear();
+  toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+    closeButton: true,
+    allowHtml: true,
+    onShown: function(toast) {
+
+      $("#confirmationRevertYes").click(function() {
+        $scope.allformxls.splice(index, 1);
+        toastr.clear();
+        toastr.success("Paramètre bien Supprimé", {
+          closeButton: true
+        });
+        $scope.formdata_gen = {};
+      });
+    }
+  });
+}
+
+
+
+$scope.editCanva = function(index) {
+console.log($scope.allformxls);
+
+  $scope.formdata_gen = {
+    ferme : $scope.allformxls[index].ferme,
+    nbrparcelle : $scope.allformxls[index].nbrparcelle,
+    increment : $scope.allformxls[index].increment,
+    update : true,
+    index : index
+  }
+
+}
+
+$scope.canva_modifer = function(){
+
+  if(!$scope.formdata_gen.ferme){
+    toastr.clear();
+    toastr.warning("Veuillez choisir une ferme", {
+      closeButton: true
+    });
+  }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+    toastr.clear();
+    toastr.warning("Veuillez saisir le nombre de parcelle", {
+      closeButton: true
+    });
+  }else if (!$scope.formdata_gen.increment) {
+    toastr.clear();
+    toastr.warning("Veuillez choisir un type d'incrémentation", {
+      closeButton: true
+    });
+  }else {
+    $scope.formdata_gen.ferme.disabled = true;
+    let index = $scope.formdata_gen.index;
+    $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
+    $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
+    $scope.allformxls[index].increment = $scope.formdata_gen.increment;
+    $scope.formdata_gen = {};
+    toastr.clear();
+    toastr.success("Paramètre bien Modifié", {
+      closeButton: true
+    });
+  }
+
+}
+
+
+  }
+
 
   }
 );

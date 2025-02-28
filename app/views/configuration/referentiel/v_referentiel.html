@@ -31,7 +31,14 @@
 
           <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
 
-            <div class="info-header unified_pad scrollhand" style="overflow: auto;
+
+
+            <md-button class="md-icon-button"
+            ng-click="vm.preveusStep()" ng-disabled="vm.currect_step == 1"  style="margin: -8px;border-bottom: 1px solid #dbd6d6;">
+            <
+            </md-button>
+
+            <div class="info-header unified_pad scrollhand" style="overflow: hidden;
             scrollbar-width: thin;
             scroll-behavior: smooth;-webkit-overflow-scrolling: touch;
             width: 70%;
@@ -429,9 +436,22 @@
                     </td>
                 </tr>
             </table>
+    </div>
 
-        </div>
 
+    <md-button class="md-icon-button"
+      ng-click="vm.nextStep()"
+      ng-disabled="vm.currect_step == 15" style="margin: -8px;border-bottom: 1px solid #dbd6d6;">
+    >
+    </md-button>
+    <!--<md-button
+  class="md-raised md-primary btn-circle"
+  ng-class="vm.currect_step == 15 ? 'btn-step_disable' : 'btn-action'"
+  ng-click="vm.nextStep()"
+  ng-disabled="vm.currect_step == 15"
+>
+  >
+</md-button>-->
 
 
 

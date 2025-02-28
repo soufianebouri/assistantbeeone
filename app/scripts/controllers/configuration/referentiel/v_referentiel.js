@@ -59,6 +59,20 @@ angular.module('beeOneWebFrontApp')
     }
 
 
+    vm.preveusStep_scroll = function(){
+      //max = 15
+      if(vm.currect_step != 1){
+        vm.currect_step -- ;
+
+        $timeout(function () {
+          let selectedStep = document.getElementById("step-" + vm.currect_step);
+          if (selectedStep) {
+              selectedStep.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 100);
+      }
+      }
+
     vm.preveusStep = function(){
       //max = 15
       if(vm.currect_step != 1){

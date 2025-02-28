@@ -132,7 +132,7 @@ angular.module('beeOneWebFrontApp')
           };
 
           reader.onerror = function (error) {
-            
+
 
               vm.isFileSelected = false;
               toastr.clear();
@@ -471,7 +471,7 @@ NProgress.start();
             extend: "excel",
             text: "EXCEL",
             titleAttr: "EXCEL",
-            title: 'Liste des sociétés'
+            title: 'Liste Des Sociétés'
           },
         ]);
 

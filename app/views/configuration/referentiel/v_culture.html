@@ -13,9 +13,9 @@
 
                     <div class="form-row tiny-space sotiny">
 
-                        <md-input-container class="form-input" >
+                        <md-input-container class="form-input" ng-if="!vm.formData.ID" >
                             <label>Ferme</label>
-                            <md-select ng-model="vm.formData.fermes"  ng-change="get_famille()" multiple data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select ng-model="vm.formData.fermes"  ng-change="get_famille() " multiple data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
@@ -25,6 +25,18 @@
                             </md-select>
                         </md-input-container>
 
+
+                        <md-input-container class="form-input" ng-if="vm.formData.ID" >
+                            <label>Ferme</label>
+                            <md-select ng-model="vm.formData.fermes"  ng-change="get_famille_edit()" multiple data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
+                                >{{data_ferme.Nom}}
+                               </md-option>
+                            </md-select>
+                        </md-input-container>
 
 
                     </div>
@@ -56,10 +68,7 @@
                           </md-input-container>
 
 
-                          <md-input-container class="form-input">
-                                  <label>Désignation culture</label>
-                                  <input type="text" ng-model="vm.formData.Culture"  required>
-                          </md-input-container>
+
 
 
                     </div>
@@ -67,16 +76,10 @@
 
                     <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
-                        <md-input-container class="form-input">
-                            <label>Code génération</label>
-                            <input type="text" ng-model="vm.formData.Referencegenereation"   >
-                          </md-input-container>
-
-
-                              <md-input-container class="form-input">
-                                  <label>Désignation génération</label>
-                                  <input type="text" ng-model="vm.formData.genereation"  >
-                                </md-input-container>
+                      <md-input-container class="form-input">
+                              <label>Désignation culture</label>
+                              <input type="text" ng-model="vm.formData.Culture"  required>
+                      </md-input-container>
 
 
                     </div>
@@ -86,8 +89,8 @@
                         Reset
                       </md-button>
 
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFamille_Culture) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDFamille_Culture) ? 'Modifier': 'Ajouter'}}
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.ID) ? 'Modifier': 'Ajouter'}}
                       </md-button>
                     </div>
 
@@ -192,31 +195,14 @@
                   </md-button>
 
 
-                  <md-card flex class="card_form_multi">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  </md-card>
                 </div>
               </div>
 
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Cultures Ajoutées ({{vm.data_familleculture.length}})</h2>
+                  <h2 class="form-title" >Cultures Ajoutées ({{vm.data_culture.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

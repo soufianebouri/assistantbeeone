@@ -51,7 +51,8 @@ angular.module('beeOneWebFrontApp')
 
       vm.formData.IDFamille_Culture = null;
       NProgress.start();
-      if(vm.formData.fermes){
+      if(vm.formData.fermes && !vm.formData.ID){
+        console.log("NO" , vm.formData.fermes);
         $q.all([familleculture.get_byfermes({
           IDFermes: vm.formData.fermes
         })]).then((values) => {
@@ -61,6 +62,22 @@ angular.module('beeOneWebFrontApp')
       }else {
           NProgress.done();
           vm.data_famille = []
+      }
+
+
+    }
+
+
+    $scope.get_famille_edit = function () {
+
+      NProgress.start();
+      if(vm.formData.fermes){
+        $q.all([familleculture.get_byfermes({
+          IDFermes: vm.formData.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_famille = values[0].data;
+        })
       }
 
 
@@ -223,7 +240,7 @@ angular.module('beeOneWebFrontApp')
 
     //get data and refresh datatable
     vm.data_culture = [];
-NProgress.start();
+    NProgress.start();
     $q.all([
       ferme.get_all()
     ]).then((values) => {
@@ -238,25 +255,7 @@ NProgress.start();
       });
     });
 
-    vm.data_filier = [{
-      id : 1,
-      name : 'Maraichage'
-    },{
-      id : 2,
-      name : 'Arboriculture'
-    },
-    {
-      id : 3,
-      name : 'Grande Culture'
-    },
-    {
-      id : 4,
-      name : 'Floriculture'
-    },
-    {
-      id : 5,
-      name : 'Fruits rouges'
-    }]
+
 
     vm.selectedFarm = [];
     /*vm.isSelected =  function(selcted, data) {
@@ -485,23 +484,23 @@ NProgress.start();
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste des fermes'
+          title: 'Liste Des Cultures'
         },
       ]);
 
 
 
-      vm.familleculture_action = {};
+      vm.culture_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.familleculture_action[data.IDFamille_Culture] = data;
+          vm.culture_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.familleculture_action[' +
-          data.IDFamille_Culture +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.culture_action[' +
+          data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.familleculture_action[' +
-          data.IDFamille_Culture +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.culture_action[' +
+          data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
@@ -509,12 +508,15 @@ NProgress.start();
 
       vm.edit = function (data) {
         vm.formData = data;
-        const matches = data.fermes.map(ferme => { // from previous example
-          const data_ferme = vm.data_ferme.find(df => df.IDFermes === ferme.IDFermes);
-          return data_ferme ? { data_ferme, ferme } : null;
-        }).filter(match => match !== null);
+        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
 
-        vm.formData.fermes = matches.map(match => match.data_ferme);
+
+          $q.all([familleculture.get_byfermes({
+            IDFermes: vm.formData.fermes
+          })]).then((values) => {
+            NProgress.done();
+            vm.data_famille = values[0].data;
+          })
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
@@ -556,7 +558,7 @@ NProgress.start();
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.IDFamille_Culture); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
 
     return selectedIds;
   };
@@ -565,7 +567,7 @@ NProgress.start();
     $scope.toggleSelection = function (id) {
       let found = false;
       vm.data_culture = vm.data_culture.map(societe => {
-          if (societe.IDFamille_Culture === id) {
+          if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -577,7 +579,7 @@ NProgress.start();
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDFamille_Culture})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
     }
 
 
@@ -597,23 +599,9 @@ NProgress.start();
         }
         return "";
        }).withOption("width", "110px"),
-      DTColumnBuilder.newColumn("filier").withTitle("Filière").renderWith(function(data, type, full, meta) {
-        if (full.filier == 1) {
-          return "Maraichage";
-        } else if (full.filier == 2) {
-          return "Arboriculture";
-        } else if (full.filier == 3) {
-          return "Grande Culture";
-        } else if (full.filier == 4) {
-          return "Floriculture";
-        } else if (full.filier == 5) {
-          return "Fruits rouges";
-        } else {
-          return '';
-        }
-      }).withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Reference").withTitle("Référence famille").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Désignation Famille").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Nom_Famille").withTitle("Famille culturale").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Reference").withTitle("Référence culture").withOption("width", "100px"),
+      DTColumnBuilder.newColumn("Culture").withTitle("Désignation culture").withOption("width", "100px"),
 
       DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
@@ -660,9 +648,9 @@ NProgress.start();
 
     vm.headers = [
       "Ferme",
-      "Filière",
-      "Référence famille",
-      "Désignation Famille"];
+      "Famille culturale",
+      "Référence culture",
+      "Désignation culture"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -671,13 +659,13 @@ NProgress.start();
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Famille Culturale");
+          XLSX.utils.book_append_sheet(wb, ws, "Culture");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Famille Culturale.xlsx");
+          saveAs(blob, "Canvas Culture.xlsx");
       };
 
 

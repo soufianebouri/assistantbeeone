@@ -527,7 +527,7 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste des fermes'
+          title: 'Liste Des Parcelles Culturale'
         },
       ]);
 

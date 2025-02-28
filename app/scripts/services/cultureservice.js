@@ -10,51 +10,26 @@
 angular.module('beeOneWebFrontApp')
   .factory('cultureService', function($http, Upload, _url) {
     return {
-      ByFermeIfExist: function(d) {
-        return $http.post(_url + "/cultures/ByFermeIfExist", d);
+      get_all: function() {
+        return $http.post(_url + "/culture/get_all");
       },
-      getFamilleCulture: function(baseUrl) {
-        return $http.get(baseUrl + "/familleCulture/listID");
+      get_byfermes: function(data) {
+          return $http.post(_url + "/culture/get_byfermes", data);
       },
-      pushDataCulture: function(baseUrl, data) {
-        return $http.post(baseUrl + "/cultures/", data);
+      add: function(data) {
+        return $http.post(_url + "/culture/add", data);
       },
-      create: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/create", data);
-      },
-      GetFullByFerme: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/FullByFerme", data);
-      },
-      getCulture: function(baseUrl) {
-        return $http.get(baseUrl + "/cultures");
-      },
-      getCultureByFerme: function(f) {
-        return $http.get(_url + "/cultures/ByFerme/" + f);
-      },
-      getCultureIdName: function(baseUrl) {
-        return $http.get(baseUrl + "/cultures/listID");
+      edit: function(data) {
+        return $http.post(_url + "/culture/edit", data);
       },
       delete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/delete", data);
+        return $http.post(_url + "/culture/delete", data);
       },
-      update: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/update", data);
+      multidelete: function(data) {
+        return $http.post(_url + "/culture/multidelete", data);
       },
-      getCultureFiltrer: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/getCultureFiltrer", data);
+      multiadd: function(data) {
+        return $http.post(_url + "/culture/multiadd", data);
       },
-      byFamille: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/byFamille", data);
-      },
-      ByFermeEncours: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/cultures/ByFermeEncours", data);
-      }
     };
   });

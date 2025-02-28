@@ -14,6 +14,9 @@ angular.module('beeOneWebFrontApp')
       get_all: function() {
         return $http.post(_url + "/famille_culture/get_all");
       },
+      get_byfermes: function(data) {
+          return $http.post(_url + "/famille_culture/get_byfermes", data);
+      },
       add: function(data) {
         return $http.post(_url + "/famille_culture/add", data);
       },

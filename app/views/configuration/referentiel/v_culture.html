@@ -1,0 +1,254 @@
+<div ng-controller="ConfigurationReferentielVCultureCtrl as vm">
+    <div class="grid-column-container" >
+
+        <div id="grid1" class="grid  fade-in">
+                  <div class="form-header" >
+                    <h2 class="form-title">Infomrations Sur La Culture</h2>
+                    <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
+                  </div>
+
+                  <md-content class="form-content">
+                    <!-- Row 1 -->
+
+
+                    <div class="form-row tiny-space sotiny">
+
+                        <md-input-container class="form-input" >
+                            <label>Ferme</label>
+                            <md-select ng-model="vm.formData.fermes"  ng-change="get_famille()" multiple data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
+                                >{{data_ferme.Nom}}
+                               </md-option>
+                            </md-select>
+                        </md-input-container>
+
+
+
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="form-row tiny-space sotiny">
+
+
+                      <md-input-container class="form-input" >
+                          <label>Famille culturale</label>
+                          <md-select ng-model="vm.formData.IDFamille_Culture"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_IDFamille_Culture" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_famille.IDFamille_Culture" ng-repeat="data_famille in vm.data_famille | orderBy:'Nom_Famille' | filter:search_IDFamille_Culture"
+                              >{{data_famille.Nom_Famille}}
+                             </md-option>
+                          </md-select>
+                      </md-input-container>
+
+
+                    </div>
+
+                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
+
+                        <md-input-container class="form-input">
+                            <label>Référence culture</label>
+                            <input type="text" ng-model="vm.formData.Reference"   required>
+                          </md-input-container>
+
+
+                          <md-input-container class="form-input">
+                                  <label>Désignation culture</label>
+                                  <input type="text" ng-model="vm.formData.Culture"  required>
+                          </md-input-container>
+
+
+                    </div>
+
+
+                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
+
+                        <md-input-container class="form-input">
+                            <label>Code génération</label>
+                            <input type="text" ng-model="vm.formData.Referencegenereation"   >
+                          </md-input-container>
+
+
+                              <md-input-container class="form-input">
+                                  <label>Désignation génération</label>
+                                  <input type="text" ng-model="vm.formData.genereation"  >
+                                </md-input-container>
+
+
+                    </div>
+
+                    <div class="form-actions">
+                      <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
+                        Reset
+                      </md-button>
+
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDFamille_Culture) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDFamille_Culture) ? 'Modifier': 'Ajouter'}}
+                      </md-button>
+                    </div>
+
+                  </md-content>
+
+                </div>
+
+                <div id="grid2" class="grid  fade-in">
+
+                  <div class="form-header">
+                    <h2 class="form-title">Importation En Masse ?</h2>
+                    <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de
+                      votre compte</p>
+                  </div>
+
+                  <md-card class="card" layout="column" style="padding: 10px;background: #F3F5F7;">
+
+                    <div layout="row" layout-align="space-between center">
+                      <div layout="row" layout-align="start center">
+                        <img src="././images/main_configuration/xls.svg" alt="time"
+                          style="width: 20px; height: 20px; margin-right: 5px;">
+                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Culture.xls</h2>
+                      </div>
+                      <md-button class="md-raised md-primary btn-download" ng-click="vm.exportToExcel()"
+                        style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
+                        Télécharger</md-button>
+                    </div>
+
+
+                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                      You can download the attached example and use it as a starting point for your own file.
+                    </p>
+                  </md-card>
+
+                  <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
+                    style="padding: 40px;background: #F8F8F9;border: 1px dashed #ccc;cursor: pointer;border-radius: 5px;"
+                    ngf-drop="onDrop($files)" ng-click="triggerFileInput()">
+                    <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
+
+
+                    <img src="././images/main_configuration/file.svg" alt="time"
+                      style="width: 20px; height: 20px; margin-right: 5px;">
+
+
+                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                      Drop your file here, or <font color="#81BB26">browse</font>
+                    </p>
+                  </div>
+
+
+                  <div class="centered-card " ng-if="vm.isFileSelected" layout="column"
+                    style="padding: 40px;background: #F8F8F9;border: 1px dashed rgb(129 187 38);">
+
+
+
+                    <img src="././images/main_configuration/file.svg" alt="time"
+                      style="width: 20px; height: 20px; margin-right: 5px;">
+
+
+                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
+                      Well uploaded
+                    </p>
+                  </div>
+
+                  <div layout="row" layout-align="space-between center">
+                    <div layout="row" layout-align="start center">
+                      <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                        Supported formats: XLS, XLSX</p>
+                    </div>
+                    <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                      Maximum
+                      size: 25MB</p>
+                  </div>
+
+                  <md-card class="card" layout="column" style="padding: 10px; background: #c2c5c7;" ng-if="vm.isFileSelected">
+
+                    <div layout="row" layout-align="space-between center">
+
+                      <div layout="row">
+                        <img src="././images/main_configuration/file.svg" alt="file-icon"
+                          style="margin-right: 10px;">
+
+                        <div layout="column" style="line-height: 1.2;">
+                          <h3 style="font-size: 10px;">
+                            {{vm.fileName}}
+                          </h3>
+                          <p style="color: #63675d; font-family: Poppins; font-size: 10px; margin: 0;">
+                            {{vm.fileSize}}
+                          </p>
+                        </div>
+                      </div>
+
+
+                      <p style="margin: 0;" ng-click="vm.delete_file()">
+                        <img src="././images/main_configuration/close.svg" alt="close"
+                          style="width: 20px; height: 20px; cursor: pointer;">
+                      </p>
+                    </div>
+                  </md-card>
+                  <md-button class="md-raised md-primary custom-button full-width-btn" ng-click="vm.integer()">
+                    Intégrer
+                  </md-button>
+
+
+                  <md-card flex class="card_form_multi">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  </md-card>
+                </div>
+              </div>
+
+              <div id="grid4" class="grid">
+                <!--Table-->
+                <div class="info-header unified_pad">
+                  <h2 class="form-title" >Cultures Ajoutées ({{vm.data_familleculture.length}})</h2>
+                  <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
+                    eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
+                    eleifend arcu, velar ipsum</p>
+                </div>
+
+
+
+                <div class="warn-header unified_pad fadeInOut_err" ng-if="vm.updateSelectedCount()>0">
+                  <h2 class="warn-title">Checked items to delete ({{vm.updateSelectedCount()}})
+                    <md-button class="md-raised md-warn delete-button pull_right" ng-click="vm.multiDelete()">
+                      DELETE {{vm.updateSelectedCount()}} item(s)
+                    </md-button>
+                  </h2>
+                </div>
+
+
+                  <div class="warn-header unified_pad fadeInOut_err" ng-if="vm.errData.err">
+                    <h2 class="warn-title"> Err File :
+
+                        <p style="  white-space: pre-line;padding-left: 21px" ng-bind-html="vm.errData.message"></p>
+
+                    </h2>
+                  </div>
+
+
+
+
+                <div class="info-header unified_pad" id="tablescroll">
+                  <table style="background-color: white; display: table;"  datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"
+                    dt-instance="vm.dtInstance"  class="table table-striped table-sm table-responsive-sm table-hover jambo_table bulk_action">
+                  </table>
+                </div>
+
+              </div>
+</div>

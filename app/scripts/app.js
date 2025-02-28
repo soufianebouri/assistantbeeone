@@ -129,6 +129,14 @@ angular
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
 
+    .state('v_culture', {
+      url: '/configuration/v_culture',
+      templateUrl: 'views/configuration/referentiel/v_culture.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
+
     .state('v_attachement_parcelles_culturale', {
       url: '/configuration/v_attachement_parcelles_culturale',
       templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles_culturale.html',
@@ -155,7 +163,7 @@ angular
 
     .state('v_famille_culture', {
       url: '/configuration/referentiel/campagnes_agricoles',
-      templateUrl: 'views/configuration/comptes/v_famille_culture.html',
+      templateUrl: 'views/configuration/referentiel/v_famille_culture.html',
       data: {
         pageTitle: "BeeOne Assistant - Référenciel"
       }

@@ -2,17 +2,17 @@
 
 /**
  * @ngdoc function
- * @name beeOneWebFrontApp.controller:ConfigurationReferentielVFamilleCultureCtrl
+ * @name beeOneWebFrontApp.controller:ConfigurationReferentielVCultureCtrl
  * @description
- * # ConfigurationReferentielVFamilleCultureCtrl
+ * # ConfigurationReferentielVCultureCtrl
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationReferentielVFamilleCultureCtrl', function (
+  .controller('ConfigurationReferentielVCultureCtrl', function (
     $q,
     $scope,
     toastr,
-    $timeout,
+    $timeout,cultureService,
     _url,
     $window,
     $translatePartialLoader,
@@ -47,12 +47,24 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/comptes/v_societe.html";
-    vm.step = async function (params, stepUrl) {
-      vm.currect_step = params;
-      vm.stepUrl = stepUrl
-    };
+    $scope.get_famille = function () {
+
+      vm.formData.IDFamille_Culture = null;
+      NProgress.start();
+      if(vm.formData.fermes){
+        $q.all([familleculture.get_byfermes({
+          IDFermes: vm.formData.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_famille = values[0].data;
+        })
+      }else {
+          NProgress.done();
+          vm.data_famille = []
+      }
+
+
+    }
 
     $scope.uploadFile = function (event) {
       var file = event.target.files[0];
@@ -210,7 +222,7 @@ angular.module('beeOneWebFrontApp')
     vm.selectAll = false;
 
     //get data and refresh datatable
-    vm.data_familleculture = [];
+    vm.data_culture = [];
 NProgress.start();
     $q.all([
       ferme.get_all()
@@ -284,36 +296,34 @@ NProgress.start();
 
 
     vm.validateFormData = async function() {
+        let rules = {
+            fermes: "Ferme is required.",
+            IDFamille_Culture: "Famille culturale is required.",
+            Reference: "Référence Culture is required.",
+            Culture: "Désignation Culture is required."
+        };
 
-          let rules = {
-              fermes: "Ferme is required.",
-              filier: "Filière is required.",
-              Reference: "Référence famille is required.",
-              Nom_Famille: "Désignation Famille is required."
-          };
+        for (let key in rules) {
+            let value = vm.formData[key];
 
+            // Check if value is null, undefined, empty string, or an empty array
+            if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
+                toastr.clear();
+                toastr.warning(typeof rules[key] === "function" ? rules[key](value) : rules[key], {
+                    closeButton: true
+                });
 
-          for (let key in rules) {
-              let value = vm.formData[key];
-
-              // Check if value is null, undefined, empty string, or an empty array
-              if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
-                  toastr.clear();
-                  toastr.warning(typeof rules[key] === "function" ? rules[key](value) : rules[key], {
-                      closeButton: true
-                  });
-
-                  return false;
-              }
-          }
-          return true;
-     };
+                return false;
+            }
+        }
+        return true;
+    };
 
     vm.ajouter = async function  () {
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          familleculture.add(vm.formData).then(async e => {
+          cultureService.add(vm.formData).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
                 closeButton: true
@@ -338,7 +348,7 @@ NProgress.start();
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_familleculture);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_culture);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -348,7 +358,7 @@ NProgress.start();
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              familleculture.multidelete({
+              cultureService.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
@@ -384,7 +394,7 @@ NProgress.start();
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            familleculture.delete(data).then(async function(result) {
+            cultureService.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -410,7 +420,7 @@ NProgress.start();
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_familleculture.some(function(societe) {
+      var isDuplicate = vm.data_culture.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -427,7 +437,7 @@ NProgress.start();
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_familleculture.some(function(societe) {
+      var isDuplicate = vm.data_culture.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -445,13 +455,13 @@ NProgress.start();
 
 
     $scope.updatedata = function() {
-      return familleculture.get_all();
+      return cultureService.get_all();
     };
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
         $scope.updatedata().then(function(res) {
-          vm.data_familleculture = res.data;
+          vm.data_culture = res.data;
           defer.resolve(res.data);
           NProgress.done();
         });
@@ -522,7 +532,7 @@ NProgress.start();
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_familleculture.forEach(societe => {
+      vm.data_culture.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -537,7 +547,7 @@ NProgress.start();
 
 
   $scope.undoSelect = async function(){
-    vm.data_familleculture = vm.data_familleculture.map(societe => {
+    vm.data_culture = vm.data_culture.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -554,7 +564,7 @@ NProgress.start();
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_familleculture = vm.data_familleculture.map(societe => {
+      vm.data_culture = vm.data_culture.map(societe => {
           if (societe.IDFamille_Culture === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -562,7 +572,7 @@ NProgress.start();
           return societe;
       });
       /* if (!found) {
-            vm.data_familleculture.push({ id_sco_temp: id, selected: true });
+            vm.data_culture.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
@@ -572,7 +582,7 @@ NProgress.start();
 
 
     vm.updateSelectedCount = function () {
-      return vm.data_familleculture.filter(societe => societe.selected).length;
+      return vm.data_culture.filter(societe => societe.selected).length;
     };
 
 
@@ -620,11 +630,12 @@ NProgress.start();
 
     vm.reset = function () {
       vm.formData =  {
+        fermes : [],
         IDFamille_Culture : null,
         Reference : null,
-        Nom_Famille : null,
-        filier : null,
-        fermes : []
+        Culture : null,
+        Referencegenereation: null,
+        genereation: null,
       }
      }
    vm.reset()

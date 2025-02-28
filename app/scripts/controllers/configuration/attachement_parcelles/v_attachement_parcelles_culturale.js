@@ -562,6 +562,20 @@ angular.module('beeOneWebFrontApp')
         vm.formData.Date_fin_recolte = (vm.formData.Date_fin_recolte) ? new Date(moment(vm.formData.Date_fin_recolte).format("YYYY-MM-DD")) : null;
         vm.formData.Dat_Arrach = (vm.formData.Dat_Arrach) ? new Date(moment(vm.formData.Dat_Arrach).format("YYYY-MM-DD")) : null;
 
+        $q.all([parcelleCultural.getbyferme({
+          IDFermes: vm.formData.IDFermes
+        }),
+        VarieteService.getbyferme({
+          IDFermes: vm.formData.IDFermes
+        }),produitrendement.getbyferme({
+          IDFermes: vm.formData.IDFermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_parcellebyFarm = values[0].data;
+          vm.data_variete = values[1].data;
+          vm.data_Produit_Rendement = values[2].data;
+        })
+        
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref}. 👆`, {
           closeButton: true

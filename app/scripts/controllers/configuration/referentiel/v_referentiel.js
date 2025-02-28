@@ -94,8 +94,12 @@ angular.module('beeOneWebFrontApp')
         vm.stepUrl = "views/configuration/referentiel/v_famille_culture.html";
       }else if(index == 2){
         vm.stepUrl = "views/configuration/referentiel/v_culture.html";
-      }else{
+      }else if(index == 3){
         vm.stepUrl = "views/configuration/referentiel/v_variete.html";
+      }else if(index == 4){
+        vm.stepUrl = "views/configuration/referentiel/v_unite.html";
+      }else {
+        vm.stepUrl = "views/configuration/referentiel/777.html";
       }
     }
 

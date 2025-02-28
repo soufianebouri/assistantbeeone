@@ -9,25 +9,27 @@
  */
 angular.module('beeOneWebFrontApp')
   .factory('uniteoperation', function($http, _url, $translatePartialLoader, $translate,$window) {
-    $translatePartialLoader.addPart('conduitetechnique');
-    $translate.use($window.localStorage.getItem("lang").toLowerCase());
-    $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
     return {
-      getall: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/uniteoperation/getall", data);
+      get_all: function() {
+        return $http.post(_url + "/unite/get_all");
       },
-      create: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/uniteoperation/create", data);
+      add: function(data) {
+        return $http.post(_url + "/unite/add", data);
       },
-      update: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/uniteoperation/update", data);
+      edit: function(data) {
+        return $http.post(_url + "/unite/edit", data);
       },
       delete: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/uniteoperation/delete", data);
+        return $http.post(_url + "/unite/delete", data);
+      },
+      multidelete: function(data) {
+        return $http.post(_url + "/unite/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/unite/multiadd", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/unite/getbyferme", data);
       }
     };
   });

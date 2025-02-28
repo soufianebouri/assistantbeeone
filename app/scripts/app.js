@@ -129,6 +129,14 @@ angular
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
 
+    .state('v_unite', {
+      url: '/configuration/v_unite',
+      templateUrl: 'views/configuration/referentiel/v_unite.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
+
     .state('v_variete', {
       url: '/configuration/v_variete',
       templateUrl: 'views/configuration/referentiel/v_variete.html',

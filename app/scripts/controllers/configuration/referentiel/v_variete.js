@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name beeOneWebFrontApp.controller:ConfigurationReferentielVCultureCtrl
+ * @name beeOneWebFrontApp.controller:ConfigurationReferentielVVarieteCtrl
  * @description
- * # ConfigurationReferentielVCultureCtrl
+ * # ConfigurationReferentielVVarieteCtrl
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
@@ -943,10 +943,5 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
-    /**** Step 1 *****/
-
-    /**** Step 2 *****/
-
-    /**** Step 3 *****/
   }
 );

@@ -70,10 +70,10 @@ module.exports = function(grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: process.env.PORT || 3001,
+        port: process.env.PORT || 8000,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: '0.0.0.0',
-        livereload: 35735
+        livereload: 35790
       },
       livereload: {
         options: {
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
       },
       test: {
         options: {
-          port: process.env.PORT || 3001,
+          port: process.env.PORT || 8000,
           middleware: function(connect) {
             return [
               connect.static('.tmp'),

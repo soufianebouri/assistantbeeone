@@ -282,9 +282,10 @@ angular
           $http.defaults.headers.common["Authorization"] = newToken;
         }
       });
-
+  console.log("$rootScope.globals.currentUser.token", $rootScope.globals.currentUser.token);
       // Optionally, handle redirection here if needed
       if (!$rootScope.globals.currentUser.token) {
+        console.log("$rootScope.globals.currentUser.token", $rootScope.globals.currentUser.token);
         $location.path("/login"); // Redirect if no user is logged in
       } else {
         $location.path("/"); // Redirect if the user is logged in

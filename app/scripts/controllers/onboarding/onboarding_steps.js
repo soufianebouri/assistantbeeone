@@ -8,19 +8,24 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('OnboardingOnboardingStepsCtrl', function($scope, $timeout, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
+  .controller('OnboardingOnboardingStepsCtrl', function($scope,mainAssist, $timeout, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
     var vm = this;
     vm._version = _version;
+
+
+
     $translatePartialLoader.addPart('conduitetechnique');
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
-    
+
     vm.countries = country.get_country();
 
     vm.step_1 = true;
 
+    mainAssist.checkauth()
 
-    vm.steps = async function (step){    
+
+    vm.steps = async function (step){
       NProgress.start();
 
       if(step == 1){
@@ -40,14 +45,14 @@ angular.module('beeOneWebFrontApp')
         vm.step_6 = true;
       }
 
-      NProgress.done();      
+      NProgress.done();
       return;
     };
 
     vm.continuer = async function () {
       $scope.loading = true;
       $timeout(function () {
-        $scope.loading = false;  
+        $scope.loading = false;
         $state.go('main_configuration');
       }, 3000);
     }

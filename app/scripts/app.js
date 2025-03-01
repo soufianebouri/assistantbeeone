@@ -272,20 +272,19 @@ angular
       $rootScope.globals = $cookies.getObject("globals") || {};
 
       // Set the authorization header if the token exists
-      if ($rootScope.globals.currentUser && $rootScope.globals.currentUser.tokenAssistant) {
-        $http.defaults.headers.common["Authorization"] = $rootScope.globals.currentUser.tokenAssistant;
+      if ($rootScope.globals.currentUser && $rootScope.globals.currentUser.token) {
+        $http.defaults.headers.common["Authorization"] = $rootScope.globals.currentUser.token;
       }
 
       // Watch for changes in the token
-      $rootScope.$watch('globals.currentUser.tokenAssistant', function(newToken) {
+      $rootScope.$watch('globals.currentUser.token', function(newToken) {
         if (newToken) {
           $http.defaults.headers.common["Authorization"] = newToken;
         }
       });
 
       // Optionally, handle redirection here if needed
-      if (!$rootScope.globals.currentUser.tokenAssistant) {
-        console.log("$rootScope.globals.currentUser.tokenAssistant", $rootScope.globals.currentUser.tokenAssistant);
+      if (!$rootScope.globals.currentUser) {
         $location.path("/login"); // Redirect if no user is logged in
       } else {
         $location.path("/"); // Redirect if the user is logged in
@@ -299,7 +298,7 @@ angular
 
       $rootScope.$on("$locationChangeStart", function(event, next, current) {
         var restrictedPage = $.inArray($location.path(), ["/login"]) === -1;
-        var usr = $rootScope.globals.currentUser.tokenAssistant;
+        var usr = $rootScope.globals.currentUser;
         if (restrictedPage && !usr) {
           $location.path("/login");
         } else if (next.includes("login") && usr) {

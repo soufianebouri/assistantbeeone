@@ -8,10 +8,19 @@
  * Factory in the beeOneWebFrontApp.
  */
 angular.module('beeOneWebFrontApp')
-  .factory('mainAssist', function (_url,$http ) {
+  .factory('mainAssist', function (_url,$http,$state ) {
     return {
       get_percents: function() {
         return $http.post(_url + "/main_assist/get_percents");
+      }
+      , checkauth: function() {
+        return $http.post(_url + "/checkauth/checkauth")
+          .catch(function(error) {
+            if (error.status === 401) {
+              $state.go('login'); // Redirect to login if 400 error occurs
+            }
+            return Promise.reject(error); // Ensure the error is propagated
+          });
       }
     };
   });

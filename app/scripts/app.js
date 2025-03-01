@@ -261,6 +261,37 @@ angular
       $state,
       $stateParams
     ) {
+
+      function loadTawkTo() {
+        if (!window.Tawk_API) {
+            var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/618d3b906bb0760a49422f8a/1il7q73v1';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        } else {
+            Tawk_API.show();
+        }
+    }
+
+    function removeTawkTo() {
+          if (window.Tawk_API) {
+              Tawk_API.hide();
+          }
+      }
+
+      $rootScope.$on('$routeChangeSuccess', function() {
+        if ($location.path() === "/configuration/main") {
+            loadTawkTo();
+        } else {
+            removeTawkTo();
+        }
+    });
+
+
+
       // Sends this header with any AJAX request
       $http.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       // Send this header only in post requests. Specifies you are sending a JSON object

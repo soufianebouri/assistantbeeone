@@ -24,7 +24,7 @@ angular.module('beeOneWebFrontApp')
 
     mainAssist.checkauth()
 
-    $q.all([
+    /*$q.all([
           mainAssist.checkauth()
       ])
       .then((values) => {
@@ -37,7 +37,7 @@ angular.module('beeOneWebFrontApp')
           console.error("Request failed with status:", error.status);
           auth.ClearCredentials();
         }
-      });
+      });*/
 
 
     vm.steps = async function (step){

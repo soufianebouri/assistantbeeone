@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('OnboardingOnboardingStepsCtrl', function($scope,mainAssist, $timeout, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
+  .controller('OnboardingOnboardingStepsCtrl', function($scope,mainAssist, $timeout, $q, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
     var vm = this;
     vm._version = _version;
 

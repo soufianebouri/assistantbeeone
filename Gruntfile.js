@@ -73,9 +73,9 @@ module.exports = function(grunt) {
         port: process.env.PORT || 8000,
         // Change this to '0.0.0.0' to access the server from outside.
         hostname: '0.0.0.0',
-        livereload: false
+        livereload: 35790
       },
-      livereload: {
+      /*livereload: {
         options: {
           open: true,
           middleware: function(connect) {
@@ -93,7 +93,7 @@ module.exports = function(grunt) {
             ];
           }
         }
-      },
+      },*/
       test: {
         options: {
           port: process.env.PORT || 8000,
@@ -445,7 +445,7 @@ module.exports = function(grunt) {
       'wiredep',
       'concurrent:server',
       'postcss:server',
-      /*'connect:livereload',*/
+      'connect:livereload',
       'watch'
     ]);
   });

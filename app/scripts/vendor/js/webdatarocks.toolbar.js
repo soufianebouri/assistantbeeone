@@ -1085,7 +1085,7 @@ WebDataRocksToolbar.prototype.showOptionsDialog = function () {
     item.appendChild(itemWrap);
     list.appendChild(item);
 
-    var options = self.pivot.getReport({ withDefaults: true, withGlobals: true });
+    var options = self.pivot.getReport({ withDefaults: true, withbeeoneAssistant: true });
 
         // layout - flat
         var item = document.createElement("li");

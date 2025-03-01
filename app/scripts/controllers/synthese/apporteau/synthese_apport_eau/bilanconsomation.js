@@ -17,7 +17,7 @@ angular.module('beeOneWebFrontApp')
       STANDARD: false,
       DATE_DEBUT: moment().format('YYYYMMDD'),
       DATE_FIN: moment().format('YYYYMMDD'),
-      FERME: $cookies.getObject('globals').ferme.IDFerme,
+      FERME: $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       mode_irrigation: 0
     }
     $translatePartialLoader.addPart('conduitetechnique');
@@ -77,8 +77,8 @@ angular.module('beeOneWebFrontApp')
       $scope.date_debut = moment(moment(pc.obj.DATE_FIN).format('YYYYMMDD'), 'YYYY-MM-DD').toDate();
     };
 
-    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('globals').ferme.IDSociete), ApportEau.getModeIrrigation({
-      id_ferme: $cookies.getObject('globals').ferme.IDFerme
+    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('beeoneAssistant').ferme.IDSociete), ApportEau.getModeIrrigation({
+      id_ferme: $cookies.getObject('beeoneAssistant').ferme.IDFerme
     })]).then((values) => {
       var canGo = true;
       pc.campagne = values[0].data;

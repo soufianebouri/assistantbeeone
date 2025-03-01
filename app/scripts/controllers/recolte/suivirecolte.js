@@ -10,7 +10,7 @@
 angular.module('beeOneWebFrontApp')
   .controller('RecolteSuivirecolteCtrl', function ($rootScope,$scope,$cookies,DTOptionsBuilder,DTDefaultOptions,DTColumnBuilder) {
     var pc = this;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
 
 
     $scope.generatePdf= function(){

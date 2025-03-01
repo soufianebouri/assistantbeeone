@@ -11,9 +11,9 @@ angular.module('beeOneWebFrontApp')
   .controller('TableaudebordTechniqueTabsTbTechniqueTraitementphytosanitaireCtrl', function($scope, translatedwords, campagneagricole, $window, $http, $translatePartialLoader, $translate, $cookies, $q, $rootScope, tbTechnique, domaine) {
     moment.locale('fr');
     var pc = this;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
-    pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
+    pc.IDSOCIETE = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
     pc.obj = {
       "FERME": pc.IDferme,
       "IDSOCIETE": pc.IDSOCIETE,
@@ -43,7 +43,7 @@ angular.module('beeOneWebFrontApp')
 
     }, 1000);
 
-    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('globals').ferme.IDSociete)]).then(function(values) {
+    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('beeoneAssistant').ferme.IDSociete)]).then(function(values) {
       pc.compagne_array = values[0].data;
       NProgress.done();
       setTimeout(function() {

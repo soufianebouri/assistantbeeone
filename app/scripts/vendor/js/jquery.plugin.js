@@ -1,4 +1,4 @@
-/* globals JQClass */
+/* beeoneAssistant JQClass */
 /*! Simple JavaScript Inheritance
  * By John Resig http://ejohn.org/
  * MIT Licensed.

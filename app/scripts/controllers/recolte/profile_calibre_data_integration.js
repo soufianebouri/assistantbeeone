@@ -25,10 +25,10 @@ angular.module('beeOneWebFrontApp')
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
     pc.dtInstance = {};
-    pc.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').assistUser.ID;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
+    pc.User = $cookies.getObject('beeoneAssistant').assistUser.Nom + " " + $cookies.getObject('beeoneAssistant').assistUser.Prenom;
+    pc.IDUser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.IDSociete = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
 
@@ -40,7 +40,7 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
 
 
     pc.obj = {

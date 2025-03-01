@@ -26,7 +26,7 @@ angular.module('beeOneWebFrontApp')
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     pc.obj = {
       "STANDARD": true,
-      "FERME": [$cookies.getObject('globals').ferme.IDFerme],
+      "FERME": [$cookies.getObject('beeoneAssistant').ferme.IDFerme],
       "DATE_DEBUT": 0,
       "DATE_FIN": moment().format('YYYYMMDD')
     };

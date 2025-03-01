@@ -11,7 +11,7 @@ angular.module('beeOneWebFrontApp')
   .controller('RecolteExpeditionssyntheseCtrl', function($scope, $q, $cookies, translatedwords, $translatePartialLoader, $translate, $window, expeditions, parcellecultural, toastr, VarieteService) {
 
     var pc = this;
-    pc.IDFerme = $cookies.getObject('globals').ferme.IDFerme;
+    pc.IDFerme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
     pc.YearNow = moment().format('YYYY');
     var pivot = undefined;
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();

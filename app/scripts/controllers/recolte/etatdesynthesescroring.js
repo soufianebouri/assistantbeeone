@@ -14,7 +14,7 @@ angular.module('beeOneWebFrontApp')
     NProgress.start();
     var pc = this;
     //var heightOfTable = $(window).height() - ($("#filter_form").height() * 3);
-    pc.IDFerme = $cookies.getObject('globals').ferme.IDFerme
+    pc.IDFerme = $cookies.getObject('beeoneAssistant').ferme.IDFerme
     //set date input
     $scope.reload = true;
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();

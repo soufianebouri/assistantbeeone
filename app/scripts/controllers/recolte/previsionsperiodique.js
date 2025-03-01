@@ -173,7 +173,7 @@ angular.module('beeOneWebFrontApp')
             }
 
           },
-          className: 'pull-left' + (($cookies.getObject('globals').assistUser.isAdmin) ? '' : (((permission.a) ? '' : ' disabled'))),
+          className: 'pull-left' + (($cookies.getObject('beeoneAssistant').assistUser.isAdmin) ? '' : (((permission.a) ? '' : ' disabled'))),
           titleAttr: translatedwords.getTranslatedWord($translate("Ajouter"))
         },
         {
@@ -483,7 +483,7 @@ angular.module('beeOneWebFrontApp')
       }
 
       $scope.saveData = function() {
-        var rqtPart = "('" + moment().format('YYYY-MM-DD') + "','" + moment().format("HH:mm:ss") + "','" + $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom + "',";
+        var rqtPart = "('" + moment().format('YYYY-MM-DD') + "','" + moment().format("HH:mm:ss") + "','" + $cookies.getObject('beeoneAssistant').assistUser.Nom + " " + $cookies.getObject('beeoneAssistant').assistUser.Prenom + "',";
         rqtPart += "'" + pc.current_campagne + "',0,'" + moment().format('YYYY-MM-DD') + "','" + moment($scope.selectedDay).format('YYYY-MM-DD') + "',";
         var qrtGlob = "";
         angular.forEach($scope.selectedParcel, function(value, key) {

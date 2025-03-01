@@ -14,13 +14,13 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader.addPart('conduitetechnique');
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
-    pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
-    pc.IDProfil = $cookies.getObject('globals').assistUser.ID;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
+    pc.IDSOCIETE = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
+    pc.IDProfil = $cookies.getObject('beeoneAssistant').assistUser.ID;
     pc.mode_irrigation = 1;
 
-    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
     var permission_data = JSON.parse($window.localStorage.getItem('permission'));
     var permission = {
       modules_array: permission_data[0],
@@ -278,7 +278,7 @@ angular.module('beeOneWebFrontApp')
     $q.all([campagneagricole.getCampagneByDateNow(pc.obj), domaine.DomaineByID({
       "IDFermes": pc.IDferme
     }), ApportEau.getModeIrrigation({
-      id_ferme: $cookies.getObject('globals').ferme.IDFerme
+      id_ferme: $cookies.getObject('beeoneAssistant').ferme.IDFerme
     })]).then(function(values) {
       pc.currentCampagneagricole = values[0].data;
       pc.MyDomaine = values[1].data;

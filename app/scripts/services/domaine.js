@@ -11,13 +11,13 @@ angular.module('beeOneWebFrontApp')
   .factory('domaine', function($http, _url, $cookies) {
     return {
       getDomaine: function() {
-        var IDuser = $cookies.getObject('globals').assistUser.ID;
-        var IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+        var IDuser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+        var IsAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
         return $http.get(_url + "/get_domaines/" + IDuser + "/" + IsAdmin);
       },
       getListDomaine: function() {
-        var IDuser = $cookies.getObject('globals').assistUser.ID;
-        var IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+        var IDuser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+        var IsAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
         return $http.get(_url + "/get_domaines/listFerme/" + IDuser + "/" + IsAdmin);
       },
       EditFerme: function(data) {
@@ -33,18 +33,18 @@ angular.module('beeOneWebFrontApp')
         return $http.post(_url + "/get_domaines/delete/", data);
       },
       getDomaineByRegion: function(data) {
-        data.IDuser = $cookies.getObject('globals').assistUser.ID;
-        data.IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+        data.IDuser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+        data.IsAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
         return $http.post(_url + "/get_domaines/getDomaineByRegion/", data);
       },
       getDomaineByRegions: function(data) {
-        data.IDuser = $cookies.getObject('globals').assistUser.ID;
-        data.IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+        data.IDuser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+        data.IsAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
         return $http.post(_url + "/get_domaines/getDomaineByRegions/", data);
       },
       list_only_arbo: function() {
-        var IDuser = $cookies.getObject('globals').assistUser.ID;
-        var IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+        var IDuser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+        var IsAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
         return $http.post(_url + "/get_domaines/list_only_arbo/", {
           IsAdmin: IsAdmin,
           IDuser: IDuser

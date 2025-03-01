@@ -24,7 +24,7 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    vm.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    vm.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
     var permission_data = JSON.parse($window.localStorage.getItem('permission'));
     var permission = {
       modules_array: permission_data[0],

@@ -21,9 +21,9 @@ angular.module('beeOneWebFrontApp')
     pc.toggleAll = toggleAll;
     pc.toggleOne = toggleOne;
     pc.showtable = true;
-    pc.IDFERME = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
+    pc.IDFERME = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.IDSociete = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
     pc.YearNow = moment().format('YYYY');
     pc.DateNow = moment().format('DD/MM/YYYY');
     pc.TimeNow = moment().format('HH:mm');
@@ -45,7 +45,7 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
 
     var opsemisAccess = _.filter(permission.sous_modules_array, {
       ss_module: 'Declaration_recolte'

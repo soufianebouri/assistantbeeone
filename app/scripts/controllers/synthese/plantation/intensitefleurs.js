@@ -22,7 +22,7 @@ angular.module('beeOneWebFrontApp')
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
     pc.obj = {
       "STANDARD": true,
-      "DOMAINE": [$cookies.getObject('globals').ferme.IDFerme],
+      "DOMAINE": [$cookies.getObject('beeoneAssistant').ferme.IDFerme],
       "CAMPAGNE_AGRICOLE": 0,
       "PARCELLE_CULTURAL": [0],
       "DATE_DEBUT": 0,
@@ -73,7 +73,7 @@ angular.module('beeOneWebFrontApp')
 
     $q.all([IntensiteFleur.getParcelWithArbre(pc.obj),
       IntensiteFleur.getParcelWithOrientation(pc.obj),
-      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('globals').ferme.IDFerme)
+      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme)
     ]).then((values) => {
       pc.parcelWithArbre = values[0].data;
       pc.nbrfeuillebyfiltre = values[1].data;

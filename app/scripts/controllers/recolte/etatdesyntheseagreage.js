@@ -21,7 +21,7 @@ angular.module('beeOneWebFrontApp')
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
     pc.obj = {
-      "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
+      "DOMAINE": $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       "PARCELLE_CULTURAL": [],
       "FamilleCible": [],
       "DATE_DEBUT": 0,
@@ -97,7 +97,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $q.all([
-      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('globals').ferme.IDFerme),
+      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme),
       familleCible.getall()
     ]).then((values) => {
       pc.parcellescultural = values[0].data;

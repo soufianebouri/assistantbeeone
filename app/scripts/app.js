@@ -269,22 +269,22 @@ angular
 
 
       // keep user logged in after page refresh
-      $rootScope.globals = $cookies.getObject("globals") || {};
+      $rootScope.beeoneAssistant = $cookies.getObject("beeoneAssistant") || {};
 
       // Set the authorization header if the token exists
-      if ($rootScope.globals.assistUser && $rootScope.globals.assistUser.token) {
-        $http.defaults.headers.common["Authorization"] = $rootScope.globals.assistUser.token;
+      if ($rootScope.beeoneAssistant.assistUser && $rootScope.beeoneAssistant.assistUser.token) {
+        $http.defaults.headers.common["Authorization"] = $rootScope.beeoneAssistant.assistUser.token;
       }
 
       // Watch for changes in the token
-      $rootScope.$watch('globals.assistUser.token', function(newToken) {
+      $rootScope.$watch('beeoneAssistant.assistUser.token', function(newToken) {
         if (newToken) {
           $http.defaults.headers.common["Authorization"] = newToken;
         }
       });
 
       // Optionally, handle redirection here if needed
-      if (!$rootScope.globals.assistUser) {
+      if (!$rootScope.beeoneAssistant.assistUser) {
         $location.path("/login"); // Redirect if no user is logged in
       } else {
         $location.path("/"); // Redirect if the user is logged in
@@ -298,7 +298,7 @@ angular
 
       $rootScope.$on("$locationChangeStart", function(event, next, current) {
         var restrictedPage = $.inArray($location.path(), ["/login"]) === -1;
-        var usr = $rootScope.globals.assistUser;
+        var usr = $rootScope.beeoneAssistant.assistUser;
         if (restrictedPage && !usr) {
           $location.path("/login");
         } else if (next.includes("login") && usr) {

@@ -11,11 +11,11 @@ angular.module('beeOneWebFrontApp')
   .controller('TableaudebordTechniqueTabsTbTechniqueMetioCtrl', function($scope, $rootScope, translatedwords, $translatePartialLoader, $translate, $http, campagneagricole, $cookies, $q, tbTechnique, domaine, $window) {
     moment.locale('fr');
     var pc = this;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
-    pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
-    pc.latFerme = $cookies.getObject('globals').ferme.latitude;
-    pc.lngFerme = $cookies.getObject('globals').ferme.longitude;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
+    pc.IDSOCIETE = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
+    pc.latFerme = $cookies.getObject('beeoneAssistant').ferme.latitude;
+    pc.lngFerme = $cookies.getObject('beeoneAssistant').ferme.longitude;
     pc.obj = {
       "FERME": pc.IDferme,
       "IDSOCIETE": pc.IDSOCIETE,
@@ -292,7 +292,7 @@ angular.module('beeOneWebFrontApp')
     }, 1000);
 
 
-    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('globals').ferme.IDSociete)]).then(function(values) {
+    $q.all([campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('beeoneAssistant').ferme.IDSociete)]).then(function(values) {
       pc.compagne_array = values[0].data;
       setTimeout(function() {
         $("#compagne").selectpicker('refresh');

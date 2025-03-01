@@ -48,10 +48,10 @@ angular
       pc.toggleAll = toggleAll;
       pc.toggleOne = toggleOne;
       pc.showtable = true;
-      pc.IDFERME = $cookies.getObject("globals").ferme.IDFerme;
+      pc.IDFERME = $cookies.getObject("beeoneAssistant").ferme.IDFerme;
 
-      pc.IDSociete = $cookies.getObject("globals").ferme.IDSociete;
-      pc.NomFerme = $cookies.getObject("globals").ferme.NomFerme;
+      pc.IDSociete = $cookies.getObject("beeoneAssistant").ferme.IDSociete;
+      pc.NomFerme = $cookies.getObject("beeoneAssistant").ferme.NomFerme;
       pc.YearNow = moment().format("YYYY");
       pc.DateNow = moment().format("DD/MM/YYYY");
       pc.TimeNow = moment().format("HH:mm");
@@ -73,7 +73,7 @@ angular
         sous_modules_array: permission_data[2],
       };
 
-      pc.isAdmin = $cookies.getObject("globals").assistUser.isAdmin;
+      pc.isAdmin = $cookies.getObject("beeoneAssistant").assistUser.isAdmin;
       $scope.isAdministrator = pc.isAdmin;
 
 

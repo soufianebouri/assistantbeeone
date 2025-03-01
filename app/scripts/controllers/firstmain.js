@@ -82,7 +82,7 @@ angular.module('beeOneWebFrontApp')
         sous_modules_array: permission_data[2]
       }
 
-      if ($cookies.getObject('globals').assistUser.isAdmin)
+      if ($cookies.getObject('beeoneAssistant').assistUser.isAdmin)
         return true;
       for (let index = 0; index < permission.modules_array.length; index++) {
         if (permission.modules_array[index].module == module) {
@@ -202,8 +202,8 @@ angular.module('beeOneWebFrontApp')
       } else {
         var url = 'http://beeone-mainoeuvre.herokuapp.com';
       }
-      //$window.location.href = `${url}/?q=${$cookies.getObject('globals').assistUser.token}`;
-      window.open(`${url}/?user=${$cookies.getObject('globals').assistUser.ID}`, '_blank');
+      //$window.location.href = `${url}/?q=${$cookies.getObject('beeoneAssistant').assistUser.token}`;
+      window.open(`${url}/?user=${$cookies.getObject('beeoneAssistant').assistUser.ID}`, '_blank');
     }
 
     $scope.go_Stock = function() {
@@ -213,8 +213,8 @@ angular.module('beeOneWebFrontApp')
       } else {
         var url = 'http://beeone-warehouse.herokuapp.com';
       }
-      //$window.location.href = `${url}/?q=${$cookies.getObject('globals').assistUser.token}`;
-      window.open(`${url}/?user=${$cookies.getObject('globals').assistUser.ID}`, '_blank');
+      //$window.location.href = `${url}/?q=${$cookies.getObject('beeoneAssistant').assistUser.token}`;
+      window.open(`${url}/?user=${$cookies.getObject('beeoneAssistant').assistUser.ID}`, '_blank');
     }
 
 

@@ -11,9 +11,9 @@ angular.module('beeOneWebFrontApp')
   .controller('TableaudebordTechniqueTabsTbTechniqueTelemetriesaisieCtrl', function($scope, translatedwords, $window, campagneagricole, $http, $cookies, $q, $translatePartialLoader, $translate, $rootScope, tbTechnique, gestionprofils) {
     moment.locale('fr');
     var pc = this;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
-    pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
+    pc.IDSOCIETE = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
     var Pivot_TableauDernieresSaisiesParUtilisateur = undefined;
     pc.obj = {
       "FERME": pc.IDferme,
@@ -100,7 +100,7 @@ angular.module('beeOneWebFrontApp')
       Title: "Eclaircissage des régimes"
     }]
 
-    $q.all([gestionprofils.getUsers(), tbTechnique.getTableauDernieresSaisiesParUtilisateur(pc.obj), campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('globals').ferme.IDSociete)]).then(function(values) {
+    $q.all([gestionprofils.getUsers(), tbTechnique.getTableauDernieresSaisiesParUtilisateur(pc.obj), campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('beeoneAssistant').ferme.IDSociete)]).then(function(values) {
       pc.users = values[0].data;
       pc.TableauDernieresSaisiesParUtilisateur = values[1].data;
       pc.compagne_array = values[2].data;

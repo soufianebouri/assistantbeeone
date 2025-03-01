@@ -35,8 +35,8 @@ angular.module('beeOneWebFrontApp')
       vm.form_par = !vm.form_par;
     };
 
-    vm.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
-    vm.IDUser = $cookies.getObject('globals').assistUser.ID;
+    vm.User = $cookies.getObject('beeoneAssistant').assistUser.Nom + " " + $cookies.getObject('beeoneAssistant').assistUser.Prenom;
+    vm.IDUser = $cookies.getObject('beeoneAssistant').assistUser.ID;
 
     $translatePartialLoader.addPart("conduitetechnique");
     $translate.use($window.localStorage.getItem("lang").toLowerCase());

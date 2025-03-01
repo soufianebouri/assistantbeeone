@@ -23,21 +23,21 @@ angular.module('beeOneWebFrontApp')
         return $http.post(_url + "/auth", data);
       },
       saveFarm: function(IDFerme, NomFerme, IDSociete) {
-        var ObjectUser = $cookies.getObject('globals');
+        var ObjectUser = $cookies.getObject('beeoneAssistant');
         ObjectUser.ferme.IDFerme = IDFerme;
         ObjectUser.ferme.NomFerme = NomFerme;
         ObjectUser.ferme.IDSociete = IDSociete;
-        $cookies.putObject('globals', ObjectUser);
+        $cookies.putObject('beeoneAssistant', ObjectUser);
       },
       savelatest_release: function(latest_release) {
-        var ObjectUser = $cookies.getObject('globals');
+        var ObjectUser = $cookies.getObject('beeoneAssistant');
         ObjectUser.latest_release = true;
-        $cookies.putObject('globals', ObjectUser);
+        $cookies.putObject('beeoneAssistant', ObjectUser);
       },
       SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, token, latest_release, role) {
         //  var authdata = $base64.encode(username + ':' + password);
         //var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
-        $rootScope.globals = {
+        $rootScope.beeoneAssistant = {
           assistUser: {
             username: username,
             Nom: Nom,
@@ -64,12 +64,12 @@ angular.module('beeOneWebFrontApp')
         // set default auth header for http requests
         $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
-        // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
+        // store user details in beeoneAssistant cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();
         var plustwohr = cookieExp.getHours() + 2;
         cookieExp.setHours(plustwohr);
         //cookieExp.setDate(cookieExp.getDate() + 7);
-        $cookies.putObject('globals', $rootScope.globals, {
+        $cookies.putObject('beeoneAssistant', $rootScope.beeoneAssistant, {
             secure: false
           }
           /*, {
@@ -78,8 +78,8 @@ angular.module('beeOneWebFrontApp')
         );
       },
       ClearCredentials: function() {
-        $rootScope.globals = {};
-        $cookies.remove('globals');
+        $rootScope.beeoneAssistant = {};
+        $cookies.remove('beeoneAssistant');
         $http.defaults.headers.common.Authorization = 'Basic';
         $window.sessionStorage.removeItem(3)
         $window.location.reload();

@@ -32,7 +32,7 @@ angular.module('beeOneWebFrontApp')
       "PARCELLE": 0,
       "GROUP_OPERATIONNEL": 0,
       "STANDARD": true,
-      "FERME": [$cookies.getObject('globals').ferme.IDFerme],
+      "FERME": [$cookies.getObject('beeoneAssistant').ferme.IDFerme],
       "DATE_DEBUT": 0,
       "DATE_FIN": moment().format('YYYYMMDD')
     };
@@ -70,13 +70,13 @@ angular.module('beeOneWebFrontApp')
     }
 
     $q.all([GroupeOperationnel.getGroupeOperationnelByFerme({
-        idferme: $cookies.getObject('globals').ferme.IDFerme
+        idferme: $cookies.getObject('beeoneAssistant').ferme.IDFerme
       }),
       ParcellePhysique.getParcellePhysique(_url, {
-        IDFermes: $cookies.getObject('globals').ferme.IDFerme
+        IDFermes: $cookies.getObject('beeoneAssistant').ferme.IDFerme
       }),
       VarieteService.getVarieteByFarm({
-        idferme: $cookies.getObject('globals').ferme.IDFerme
+        idferme: $cookies.getObject('beeoneAssistant').ferme.IDFerme
       })
     ]).then((values) => {
       pc.groupe_operationnel_array = values[0].data;

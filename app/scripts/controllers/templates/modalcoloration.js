@@ -19,7 +19,7 @@ angular.module('beeOneWebFrontApp')
 
     function loadData() {
       if (pc.data.CultureArray == undefined) {
-        cultureService.getCultureByFerme($cookies.getObject('globals').ferme.IDFerme).then(function(res) {
+        cultureService.getCultureByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme).then(function(res) {
           pc.loading = false;
           pc.data.CultureArray = res.data;
         });

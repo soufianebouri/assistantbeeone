@@ -11,9 +11,9 @@ angular.module('beeOneWebFrontApp')
   .controller('TableaudebordTechniqueTabsTbTechniqueRendementCtrl', function($scope, translatedwords, $window, $translatePartialLoader, $translate, $http, $cookies, $q, $rootScope, campagneagricole, _url, cultureService, VarieteService, TrancheAge, portGreffe, tbTechnique) {
     moment.locale('fr');
     var pc = this;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
-    pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
+    pc.IDSOCIETE = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
     var Pivot_TableauRendementParVariete = undefined;
     var Pivot_TableauRendementParCulture = undefined;
     pc.obj = {
@@ -39,10 +39,10 @@ angular.module('beeOneWebFrontApp')
     }, 1000);
 
     $q.all([cultureService.getCultureByFerme(pc.obj.FERME), VarieteService.getVarieteByFarm({
-        idferme: $cookies.getObject('globals').ferme.IDFerme
+        idferme: $cookies.getObject('beeoneAssistant').ferme.IDFerme
       }), TrancheAge.getcode(_url), portGreffe.getPortGreffe(),
       tbTechnique.getTableauRendementParCulture(pc.obj),
-      tbTechnique.getTableauRendementParVariete(pc.obj), campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('globals').ferme.IDSociete)
+      tbTechnique.getTableauRendementParVariete(pc.obj), campagneagricole.getCampagneAgricoleByIDSociete($cookies.getObject('beeoneAssistant').ferme.IDSociete)
     ]).then(function(values) {
       pc.cultures = values[0].data;
       pc.Varietes = values[1].data;

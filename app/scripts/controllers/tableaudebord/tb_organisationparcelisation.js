@@ -12,8 +12,8 @@ angular.module('beeOneWebFrontApp')
     var pc = this;
     pc.NombreByElement = [];
     pc.ALLParcelle = [];
-    pc.IDDOMAINE = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
+    pc.IDDOMAINE = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.IDSociete = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
     //set date input
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();

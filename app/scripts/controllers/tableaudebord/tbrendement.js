@@ -22,7 +22,7 @@ angular.module('beeOneWebFrontApp')
     $scope.obj = {
       DateDebutCampagne: "",
       DateFinCampagne: "",
-      FERME: $cookies.getObject('globals').ferme.IDFerme,
+      FERME: $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       culture: [0],
       VARIETE: [0]
     };

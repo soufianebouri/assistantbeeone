@@ -20,9 +20,9 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader.addPart('conduitetechnique');
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
     pc.obj = {
-      "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
+      "DOMAINE": $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       "PARCELLE_CULTURAL": [0],
       "CULTURE": 0,
       "DATE_DEBUT": 0,
@@ -100,8 +100,8 @@ angular.module('beeOneWebFrontApp')
 
 
     $q.all([
-      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('globals').ferme.IDFerme),
-      cultureService.getCultureByFerme($cookies.getObject('globals').ferme.IDFerme)
+      parcellecultural.getParcelleCulturalByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme),
+      cultureService.getCultureByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme)
       /*,
             analyseQualitative.getForSynthese(pc.obj)*/
     ]).then((values) => {
@@ -209,7 +209,7 @@ angular.module('beeOneWebFrontApp')
       $q.all([parcellecultural.getParcelleByVarieteCulture({
         culture: [pc.obj.CULTURE],
         VARIETE: [0],
-        FERME: $cookies.getObject('globals').ferme.IDFerme
+        FERME: $cookies.getObject('beeoneAssistant').ferme.IDFerme
       }), NiveauColorationService.getColorationbyculture({
         ID_Culture: pc.obj.CULTURE
       })]).then((values) => {

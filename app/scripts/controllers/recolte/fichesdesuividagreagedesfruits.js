@@ -11,8 +11,8 @@ angular.module('beeOneWebFrontApp')
   .controller('RecolteFichesdesuividagreagedesfruitsCtrl', function($scope, translatedwords, DTOptionsBuilder, $translatePartialLoader, $translate, $window, DTColumnBuilder, $q, $compile, AgreageFruit, $state, DTDefaultOptions, $cookies, parcellecultural, toastr) {
     var pc = this;
     pc.dtInstance = {};
-    pc.IDFerme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
+    pc.IDFerme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.NomFerme = $cookies.getObject('beeoneAssistant').ferme.NomFerme;
     pc.YearNow = moment().format('YYYY');
     pc.DateNow = moment().format('DD/MM/YYYY');
     pc.TimeNow = moment().format('HH:mm');

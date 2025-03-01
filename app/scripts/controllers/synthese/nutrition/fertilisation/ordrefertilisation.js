@@ -76,7 +76,7 @@ angular.module('beeOneWebFrontApp')
 
 
     pc.obj = {
-      "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
+      "DOMAINE": $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       "OPERATION": null,
       "DATE_DEBUT": 0,
       "DATE_FIN": moment().format('YYYYMMDD'),
@@ -84,7 +84,7 @@ angular.module('beeOneWebFrontApp')
       "BLOC": 0
     };
 
-    Bloc.getBlocByFarm($cookies.getObject('globals').ferme.IDFerme).then(e => {
+    Bloc.getBlocByFarm($cookies.getObject('beeoneAssistant').ferme.IDFerme).then(e => {
 
       pc.bloc_array = e.data;
     });

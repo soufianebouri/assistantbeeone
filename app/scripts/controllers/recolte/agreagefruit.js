@@ -41,10 +41,10 @@ angular.module('beeOneWebFrontApp')
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
 
-    pc.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').assistUser.ID;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
+    pc.User = $cookies.getObject('beeoneAssistant').assistUser.Nom + " " + $cookies.getObject('beeoneAssistant').assistUser.Prenom;
+    pc.IDUser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.IDSociete = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
 
     var permission_data = JSON.parse($window.localStorage.getItem('permission'));
     var permission = {
@@ -53,7 +53,7 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
 
     var opsemisAccess = _.filter(permission.sous_modules_array, {
       ss_module: 'agreage_fruit'
@@ -78,7 +78,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     pc.obj = {
-      "DOMAINE": $cookies.getObject('globals').ferme.IDFerme,
+      "DOMAINE": $cookies.getObject('beeoneAssistant').ferme.IDFerme,
       "DATE_DEBUT": 0,
       "DATE_FIN": moment().format('YYYYMMDD')
     };

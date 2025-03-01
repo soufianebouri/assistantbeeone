@@ -19,10 +19,10 @@ angular.module('beeOneWebFrontApp')
 
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
-    pc.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').assistUser.ID;
-    pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
-    pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
+    pc.User = $cookies.getObject('beeoneAssistant').assistUser.Nom + " " + $cookies.getObject('beeoneAssistant').assistUser.Prenom;
+    pc.IDUser = $cookies.getObject('beeoneAssistant').assistUser.ID;
+    pc.IDferme = $cookies.getObject('beeoneAssistant').ferme.IDFerme;
+    pc.IDSociete = $cookies.getObject('beeoneAssistant').ferme.IDSociete;
 
 
     analyseQualitative.getmodeAnalyseQualitative({
@@ -52,7 +52,7 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('beeoneAssistant').assistUser.isAdmin;
 
     var opsemisAccess = _.filter(permission.sous_modules_array, {
       ss_module: 'analyse_qualitative'
@@ -94,7 +94,7 @@ angular.module('beeOneWebFrontApp')
       });
     });
 
-    $q.all([parcellecultural.getParcelleCulturalByFerme($cookies.getObject('globals').ferme.IDFerme), analyseQualitativesimplified.getforgraph(pc.obj)]).then((values) => {
+    $q.all([parcellecultural.getParcelleCulturalByFerme($cookies.getObject('beeoneAssistant').ferme.IDFerme), analyseQualitativesimplified.getforgraph(pc.obj)]).then((values) => {
       pc.parcelles_array = values[0].data;
       NProgress.done();
       pc.createChart(values[1].data)

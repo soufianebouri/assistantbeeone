@@ -20,7 +20,7 @@ angular.module('beeOneWebFrontApp')
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       // redirect to login page if not logged in and trying to access a restricted page
-      $scope.loggedIn = $rootScope.globals.currentUser;
+      $scope.loggedIn = $rootScope.globals.assistUser;
       if (toState.name == "login" && $scope.loggedIn) {
         event.preventDefault();
         return;

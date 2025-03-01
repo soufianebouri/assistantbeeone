@@ -84,7 +84,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.saveData = () => {
-      var rqtPart = "('" + moment().format('YYYY-MM-DD') + "','" + moment().format("HH:mm:ss") + "','" + $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom + "',";
+      var rqtPart = "('" + moment().format('YYYY-MM-DD') + "','" + moment().format("HH:mm:ss") + "','" + $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom + "',";
       rqtPart += "'" + $scope.current_campagne + "',0,'" + moment().format('YYYY-MM-DD') + "',";
       var qrtGlob = "";
       angular.forEach($scope.estimation_periode_array, function(value, key) {

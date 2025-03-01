@@ -11,8 +11,8 @@ angular.module('beeOneWebFrontApp')
   .factory('ressourcesHydriques', function($http, _url, $cookies) {
     return {
       showbyfiltre: function(data) {
-        data.IDuser = $cookies.getObject('globals').currentUser.ID;
-        data.IsAdmin = $cookies.getObject('globals').currentUser.isAdmin;
+        data.IDuser = $cookies.getObject('globals').assistUser.ID;
+        data.IsAdmin = $cookies.getObject('globals').assistUser.isAdmin;
         NProgress.start();
         return $http.post(_url + "/ressources_hydriques/showbyfiltre", data);
       },

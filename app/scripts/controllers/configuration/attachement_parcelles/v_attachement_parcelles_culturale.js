@@ -35,8 +35,8 @@ angular.module('beeOneWebFrontApp')
       vm.form_par = !vm.form_par;
     };
 
-    vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-    vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+    vm.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
+    vm.IDUser = $cookies.getObject('globals').assistUser.ID;
 
     $translatePartialLoader.addPart("conduitetechnique");
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
@@ -575,7 +575,7 @@ angular.module('beeOneWebFrontApp')
           vm.data_variete = values[1].data;
           vm.data_Produit_Rendement = values[2].data;
         })
-        
+
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref}. 👆`, {
           closeButton: true

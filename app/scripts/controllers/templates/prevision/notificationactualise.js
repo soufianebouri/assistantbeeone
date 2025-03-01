@@ -116,7 +116,7 @@ angular.module('beeOneWebFrontApp')
       angular.forEach(tabProfile, function(profile, key) {
         tabeTokens.push(profile.token_notification);
         angular.forEach(tabeDates, function(value, key) {
-          rqt += "(" + profile.id + ",'" + moment(new Date(value)).format('YYYY-MM-DD') + "','" + moment().format('YYYY-MM-DD') + "','" + $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom + "'),";
+          rqt += "(" + profile.id + ",'" + moment(new Date(value)).format('YYYY-MM-DD') + "','" + moment().format('YYYY-MM-DD') + "','" + $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom + "'),";
         });
       });
 

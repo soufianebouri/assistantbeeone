@@ -25,8 +25,8 @@ angular.module('beeOneWebFrontApp')
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
     pc.dtInstance = {};
-    pc.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').currentUser.ID;
+    pc.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
+    pc.IDUser = $cookies.getObject('globals').assistUser.ID;
     pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
     pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
@@ -40,8 +40,8 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
-    
+    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
+
 
     pc.obj = {
       "DATE_DEBUT": 0,
@@ -74,7 +74,7 @@ angular.module('beeOneWebFrontApp')
     pc.data_to_clone = [];
     pc.dtOptions = DTOptionsBuilder.fromFnPromise(function() {
         var defer = $q.defer();
-        scoring.get_data_from_profile_profile(pc.obj).then(function(result) {  
+        scoring.get_data_from_profile_profile(pc.obj).then(function(result) {
           pc.data_to_clone = result.data;
           defer.resolve(pc.data_to_clone);
           NProgress.done();
@@ -124,7 +124,7 @@ angular.module('beeOneWebFrontApp')
         }
       ]);
 
-    pc.dtColumns = [      
+    pc.dtColumns = [
       DTColumnBuilder.newColumn('ferme_name').withTitle("Ferme"),
       DTColumnBuilder.newColumn('dateObservation').withTitle("Date Profile Calibre").renderWith(function(data, type, full, meta) {
         return moment(full.dateObservation).format('DD/MM/YYYY');
@@ -153,7 +153,7 @@ angular.module('beeOneWebFrontApp')
 
     function Dialogscript_forcumulbufarm($scope, $mdDialog) {
 
-      
+
       toastr.clear();
 
       scoring.clone_data(pc.obj).then(async e => {
@@ -172,14 +172,14 @@ angular.module('beeOneWebFrontApp')
           toastr.error(e.data, {
             closeButton: true
           });
-          NProgress.done();          
+          NProgress.done();
           $mdDialog.cancel();
         }
       }).catch(async e => {
         toastr.clear();
         toastr.error(e.data.description, {
           closeButton: true
-        });        
+        });
         $mdDialog.cancel();
         NProgress.done();
       });

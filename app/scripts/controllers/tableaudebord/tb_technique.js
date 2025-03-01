@@ -17,10 +17,10 @@ angular.module('beeOneWebFrontApp')
     pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
     pc.NomFerme = $cookies.getObject('globals').ferme.NomFerme;
     pc.IDSOCIETE = $cookies.getObject('globals').ferme.IDSociete;
-    pc.IDProfil = $cookies.getObject('globals').currentUser.ID;
+    pc.IDProfil = $cookies.getObject('globals').assistUser.ID;
     pc.mode_irrigation = 1;
 
-    pc.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
     var permission_data = JSON.parse($window.localStorage.getItem('permission'));
     var permission = {
       modules_array: permission_data[0],

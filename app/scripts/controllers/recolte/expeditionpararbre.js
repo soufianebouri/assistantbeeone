@@ -71,7 +71,7 @@ angular.module('beeOneWebFrontApp')
         sous_modules_array: permission_data[2],
       };
 
-      pc.isAdmin = $cookies.getObject("globals").currentUser.isAdmin;
+      pc.isAdmin = $cookies.getObject("globals").assistUser.isAdmin;
 
       var opsemisAccess = _.filter(permission.sous_modules_array, {
         ss_module: "expedition_arbre",

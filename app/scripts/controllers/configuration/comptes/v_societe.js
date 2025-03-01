@@ -29,8 +29,8 @@ angular.module('beeOneWebFrontApp')
       var vm = this;
       vm._version = _version;
 
-      vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-      vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+      vm.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
+      vm.IDUser = $cookies.getObject('globals').assistUser.ID;
 
       $translatePartialLoader.addPart("conduitetechnique");
       $translate.use($window.localStorage.getItem("lang").toLowerCase());

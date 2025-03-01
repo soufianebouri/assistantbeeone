@@ -25,8 +25,8 @@ angular
       var vm = this;
       vm._version = _version;
 
-      vm.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-      vm.IDUser = $cookies.getObject('globals').currentUser.ID;
+      vm.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
+      vm.IDUser = $cookies.getObject('globals').assistUser.ID;
 
       $translatePartialLoader.addPart("conduitetechnique");
       $translate.use($window.localStorage.getItem("lang").toLowerCase());
@@ -67,7 +67,7 @@ angular
         }
       }
 
-    
+
 
       /***transcription */
       $scope.transcriptionEnabled = true;
@@ -293,39 +293,39 @@ angular
       vm.isAI = false;
       vm.ai = function () {
       vm.isAI = true;
-        
+
       };
 
       vm.go_back_video = function () {
         vm.isAI = false;
         };
-      
-
-
-        
-
-
-        
 
 
 
 
-   
-
-    
 
 
-      
-         
-   
-      
 
-    
 
-    
 
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /**chat */
          // Initialize messages array
     $scope.messages = [{
@@ -339,16 +339,16 @@ angular
 
     // Format timestamp
     $scope.formatTime = function(date) {
-      return new Date(date).toLocaleTimeString('fr-FR', { 
-        hour: 'numeric', 
+      return new Date(date).toLocaleTimeString('fr-FR', {
+        hour: 'numeric',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       });
     };
 
     // Format date
     $scope.formatDate = function(date) {
-      return new Date(date).toLocaleDateString('fr-FR', { 
+      return new Date(date).toLocaleDateString('fr-FR', {
         month: 'short',
         day: 'numeric',
         year: 'numeric'
@@ -390,9 +390,9 @@ angular
         $scope.$apply(); // Apply changes to update the UI
         }, 2000);
 
-         
-       
-        
+
+
+
 
         // Clear input
         $scope.newMessage = '';

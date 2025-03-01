@@ -19,8 +19,8 @@ angular.module('beeOneWebFrontApp')
 
     $scope.date_fin = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
     $scope.current_date = moment(moment().format('YYYY-MM-DD'), 'YYYY-MM-DD').toDate();
-    pc.User = $cookies.getObject('globals').currentUser.Nom + " " + $cookies.getObject('globals').currentUser.Prenom;
-    pc.IDUser = $cookies.getObject('globals').currentUser.ID;
+    pc.User = $cookies.getObject('globals').assistUser.Nom + " " + $cookies.getObject('globals').assistUser.Prenom;
+    pc.IDUser = $cookies.getObject('globals').assistUser.ID;
     pc.IDferme = $cookies.getObject('globals').ferme.IDFerme;
     pc.IDSociete = $cookies.getObject('globals').ferme.IDSociete;
 
@@ -52,7 +52,7 @@ angular.module('beeOneWebFrontApp')
       sous_modules_array: permission_data[2]
     }
 
-    pc.isAdmin = $cookies.getObject('globals').currentUser.isAdmin;
+    pc.isAdmin = $cookies.getObject('globals').assistUser.isAdmin;
 
     var opsemisAccess = _.filter(permission.sous_modules_array, {
       ss_module: 'analyse_qualitative'

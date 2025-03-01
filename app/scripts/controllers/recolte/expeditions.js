@@ -73,7 +73,7 @@ angular
         sous_modules_array: permission_data[2],
       };
 
-      pc.isAdmin = $cookies.getObject("globals").currentUser.isAdmin;
+      pc.isAdmin = $cookies.getObject("globals").assistUser.isAdmin;
       $scope.isAdministrator = pc.isAdmin;
 
 

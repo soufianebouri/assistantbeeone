@@ -38,7 +38,7 @@ angular.module('beeOneWebFrontApp')
         //  var authdata = $base64.encode(username + ':' + password);
         //var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
         $rootScope.globals = {
-          currentUser: {
+          assistUser: {
             username: username,
             Nom: Nom,
             Prenom: Prenom,

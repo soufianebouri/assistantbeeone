@@ -32,7 +32,7 @@ angular.module('beeOneWebFrontApp')
 })
 .catch((error) => {
   NProgress.done();
-
+  console.log(error);
   if (error.status && error.status !== 200) {
     console.error("Request failed with status:", error.status);
     $state.go('login'); // Redirect to login if status is not 200

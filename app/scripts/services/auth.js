@@ -34,7 +34,7 @@ angular.module('beeOneWebFrontApp')
         ObjectUser.latest_release = true;
         $cookies.putObject('globals', ObjectUser);
       },
-      SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, token, latest_release, role) {
+      SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, tokenAssistant, latest_release, role) {
         //  var authdata = $base64.encode(username + ':' + password);
         //var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
         $rootScope.globals = {
@@ -46,7 +46,8 @@ angular.module('beeOneWebFrontApp')
             role: role,
             authdata: null,
             ID: null,
-            token: token
+            tokenAssistant: tokenAssistant,
+            token: null
           },
           ferme: {
             IDFerme: 0,
@@ -62,7 +63,7 @@ angular.module('beeOneWebFrontApp')
         $window.sessionStorage.setItem(3, JSON.stringify(modulePermission));
 
         // set default auth header for http requests
-        $http.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        $http.defaults.headers.common['Authorization'] = 'Bearer ' + tokenAssistant;
 
         // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
         var cookieExp = new Date();

@@ -14,7 +14,7 @@ angular.module('beeOneWebFrontApp')
         return $http.post(_url + "/main_assist/get_percents");
       }
       , checkauth: function() {
-        return $http.post(_url + "/checkauth/checkauth");
+        return $http.post(_url + "/checkauth");
       }
     };
   });

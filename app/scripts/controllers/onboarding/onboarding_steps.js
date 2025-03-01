@@ -36,7 +36,6 @@ angular.module('beeOneWebFrontApp')
         if (error.status && error.status !== 200) {
           console.error("Request failed with status:", error.status);
           auth.ClearCredentials();
-          $state.go('login'); 
         }
       });
 

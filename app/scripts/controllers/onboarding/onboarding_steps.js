@@ -25,19 +25,20 @@ angular.module('beeOneWebFrontApp')
     mainAssist.checkauth()
 
     $q.all([
-  mainAssist.checkauth()
-])
-.then((values) => {
-  // Handle success (values is an array of resolved promises)
-})
-.catch((error) => {
-  NProgress.done();
-  console.log(error);
-  if (error.status && error.status !== 200) {
-    console.error("Request failed with status:", error.status);
-    $state.go('login'); // Redirect to login if status is not 200
-  }
-});
+          mainAssist.checkauth()
+      ])
+      .then((values) => {
+        // Handle success (values is an array of resolved promises)
+      })
+      .catch((error) => {
+        NProgress.done();
+        console.log(error);
+        if (error.status && error.status !== 200) {
+          console.error("Request failed with status:", error.status);
+          auth.ClearCredentials();
+          $state.go('login'); 
+        }
+      });
 
 
     vm.steps = async function (step){

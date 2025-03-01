@@ -35,6 +35,12 @@ angular.module('beeOneWebFrontApp')
         $scope.loading = false;
         $state.go('v_attachement_parcelles');
       }, 2000);
+    }else if(params == 4){
+      $scope.loading = true;
+      $timeout(function () {
+        $scope.loading = false;
+        $state.go('v_secteurs_irrigation');
+      }, 2000);
     }else {
         toastr.clear();
         toastr.info("Task in progress 👀", {

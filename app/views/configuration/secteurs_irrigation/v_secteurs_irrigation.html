@@ -1,0 +1,335 @@
+<div ng-controller="ConfigurationSecteursIrrigationVSecteursIrrigationCtrl as vm">
+
+    <md-card class="card" layout="column" style="padding: 5px;background: #fafafa;box-shadow: none;">
+      <!-- First row: Image + Text on the left, Button on the right -->
+      <div layout="row" layout-align="space-between center">
+        <!-- Left section: Icon + File details -->
+        <div layout="row">
+          <img src="././images/main_configuration/back.svg" alt="back" style="padding: 10px;margin-right: 10px;cursor: pointer;border: none;border-radius: 60px;
+              background: #f0f0f0;
+              display: block;" ng-click="go_back()">
+          <!-- Column for file name and size -->
+          <div layout="column" style="line-height: 1.2;">
+            <h3>
+              Secteurs D’irrigation
+            </h3>
+            <p style="color: #63675d; font-family: 'Poppins', sans-serif;; font-size: 12px; margin: 0;">
+                Amet minim mollit non deserunt ullamco est sit aliqua dolor.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+
+    </md-card>
+
+    <div class="main-container">
+      <div class="scrollable-main">
+
+        <div class="scrollable-header">
+
+          <div layout="row" layout-align="center center" class="step-container" style="width: 100%;">
+            <!-- Steps Section (Middle) -->
+            <div layout="row" flex="auto" layout-align="center center">
+              <!-- Step 1 -->
+              <div class="step-box">
+                <table style="border-collapse: collapse;">
+                  <tr ng-click="vm.step(1, 'views/configuration/secteurs_irrigation/v_secteur.html')">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
+                        <img src="././images/main_configuration/farm.svg" alt="entreprise">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 1, 'step_position-disabled': vm.currect_step != 1}">
+                      Étape 1</td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
+                      Secteur</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              <!-- Step 2 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(2 , 'views/configuration/secteurs_irrigation/2.html')">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                        <img src="././images/main_configuration/farm.svg" alt="farm">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
+                      Étape 2</td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
+                      Sous-Parcelle</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              <!-- Step 3 -->
+              <div class="step-box">
+                <table>
+                  <tr ng-click="vm.step(3, 'views/configuration/secteurs_irrigation/3.html')">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                        <img src="././images/main_configuration/farm.svg" alt="campagne">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
+                      Étape 3
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
+                       Sous-Parcelle/Parcelle Culturale
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+
+
+
+
+          </div>
+
+        </div>
+
+        <div class="content" id="scollform">
+          <!-- Grids 1 & 2 as Columns -->
+
+          <div ng-include="vm.stepUrl"></div>
+
+
+
+          <div class="main-footer">
+            <div class="footer-buttons">
+              <md-button class="md-raised md-primary" ng-class="vm.currect_step == 1 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.preveusStep()" ng-disabled="vm.currect_step == 1"  >
+                <&nbsp; Précedent
+              </md-button>
+              <md-button class="md-raised md-primary"  ng-class="vm.currect_step == 3 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.nextStep()" ng-disabled="vm.currect_step == 3" >
+                Suivant &nbsp;>
+              </md-button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+      <div id="grid3" class="grid">
+        <md-card class="video-card">
+          <md-card-content>
+            <div ng-hide="vm.isAI">
+            <video id="videoPlayer" class="video-player" controls>
+              <source src="./vids/barackObama.mp4" type="video/mp4">
+
+
+            </video>
+
+            <div layout="row" layout-align="space-between center">
+              <div layout="row" layout-align="start center">
+                <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                  Tutoriel : Référentiel</p>
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <img src="././images/main_configuration/time.svg" alt="time" style="width: 12px;height: 12px;">
+                {{ vm.get_time(vm.videoDuration) }}
+              </p>
+            </div>
+
+            <!--<div class="form-header">
+                <p class="form-subtitle">
+                  {{ shortText }}
+                  <span ng-if="!isExpanded">{{ ellipsis }}</span>
+                  <span ng-if="isExpanded">{{ longText.substring(shortText.length) }}</span>
+                  <bn ng-if="longText.length > shortText.length" ng-click="toggleText()"
+                    style="cursor: pointer; color: #044b24;">
+                    {{ isExpanded ? 'Show Less' : 'Show More' }}
+                  </bn>
+                </p>
+              </div>-->
+
+
+            <div layout="row" layout-align="space-between center">
+              <div layout="row" layout-align="start center">
+                <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                  Transcrypt</p>
+              </div>
+              <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
+                <md-switch ng-model="transcriptionEnabled">
+                  <span ng-if="transcriptionEnabled">Auto Scroll</span>
+                  <span ng-if="!transcriptionEnabled" class="strikethrough">Auto Scroll</span>
+                </md-switch>
+              </p>
+            </div>
+
+
+            <div class="transcript-container" id="transcriptContainer">
+              <div class="transcript-item" ng-repeat="entry in transcript track by $index"
+                ng-class="{'highlight': isCurrentSubtitle(entry)}">
+                <md-card class="card" ng-style="{'background': isCurrentSubtitle(entry) ? '#E3EDD3' : '#ffffff',
+                                                   'color' : isCurrentSubtitle(entry) ? '#000000' : '#797979'}"
+                  layout="column" style="padding: 10px;box-shadow: none;border-radius: 0px;">
+
+                  <div layout="row" layout-align="space-between center">
+
+                    <div layout="row">
+                      <img src="././images/main_configuration/user.svg" alt="back" style="margin-right: 10px;border: none;border-radius: 50px;
+                              background: #f0f0f0;
+                              display: block;">
+
+                      <div layout="column" style="line-height: 1.2;">
+                        <strong>barack Obama &nbsp;
+                            <img src="././images/main_configuration/voice.svg" ng-if="isCurrentSubtitle(entry) && vm.isPlaying" class="speech-icon animated-icon" style="width: 12px;height: 12px;">
+                          </strong>
+
+                      </div>
+                    </div>
+
+
+                    <p style="margin: 0;">
+                      <img src="././images/main_configuration/time.svg"
+                        style="width: 11px; height: 11px;padding-top: 1px;"> {{vm.get_time(entry.start)}}
+                    </p>
+                  </div>
+                  <div style="padding-left: 25px;">
+                    {{ entry.text }}
+                  </div>
+
+                </md-card>
+
+              </div>
+            </div>
+
+          </div>
+          <div ng-hide="!vm.isAI">
+            <div class="chat-container">
+              <header class="chat-header">
+                <div class="header-content">
+
+                  <img src="././images/main_configuration/back.svg" alt="back" style="padding: 10px;margin-right: 10px;cursor: pointer;border: none;border-radius: 60px;
+                  background: #f0f0f0;
+                  display: block;" ng-click="vm.go_back_video()">
+
+                  <h1>Chat Assistant</h1>
+                </div>
+              </header>
+
+              <main class="chat-messages">
+                <div class="chat_loop-container" >
+                <div class="message" ng-repeat="message in messages" ng-class="{'user-message': message.role === 'user', 'assistant-message': message.role === 'BeeOne assistant'}">
+                  <div class="avatar">
+                    <svg ng-if="message.role === 'user'" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+
+
+                    <svg class="bot-icon" ng-if="message.role === 'BeeOne assistant'" viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-4-8c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm8 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm-4 4c2.21 0 4-1.79 4-4h-8c0 2.21 1.79 4 4 4z"/>
+                    </svg>
+                  </div>
+
+
+                  <div class="message-content" >
+                    <div class="message-header">
+                    <p class="sender">{{message.role === 'user' ? 'You' : 'BeeOne assistant'}}</p>
+
+                  </div>
+                    <p class="text" ng-class="{'flashing': message.wait}">{{(message.wait) ? 'Thinking....' :  message.content}}</p>
+                    <span class="timestamp" ng-if="!message.wait"><br/>
+                      {{formatDate(message.timestamp)}} - {{formatTime(message.timestamp)}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              </main>
+
+
+            </div>
+
+          </div>
+            <div class="sticky-footer" layout="row" layout-align="space-between center" >
+
+              <footer class="chat-input" ng-hide="!vm.isAI">
+                <form ng-submit="sendMessage()" class="input-form">
+                  <textarea
+                    ng-model="newMessage"
+                    placeholder="Ask BeeOne AI ..."
+                    rows="1"
+                    ng-keydown="handleKeyPress($event)">
+                  </textarea>
+                  <button type="submit" ng-disabled="!newMessage.trim()" class="btn_send">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                  </button>
+                </form>
+              </footer>
+
+              <div class="footer-buttons " ng-hide="vm.isAI">
+                <div layout="row" flex="auto" layout-align="center center" style="gap:12px;">
+                  <!-- Step 1 -->
+
+
+                  <!--<div class="no-b">
+                    <img src="././images/main_configuration/headphone.svg" />
+                    <font color="#000000" size="1px" style="flex-wrap: nowrap;"></font>
+                  </div>-->
+
+
+
+                  <div class="infos-btn " ng-click="vm.makeCall()">
+                    <img src="././images/main_configuration/phone.svg" />
+                  </div>
+
+
+
+                  <div class="infos-btn " ng-click="vm.sendEmail()">
+                    <img src="././images/main_configuration/email.svg" />
+                  </div>
+
+                  <div class="infos-btn  ai-btn pull_right" ng-click="vm.ai()">
+                    <img src="././images/main_configuration/ai.svg" />
+                  </div>
+
+
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+
+          </md-card-content>
+
+
+
+
+        </md-card>
+      </div>
+
+
+    </div>
+  </div>

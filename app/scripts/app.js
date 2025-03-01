@@ -124,10 +124,27 @@ angular
     $translateProvider.useLoader("$translatePartialLoader", {
       urlTemplate: "/scripts/i18n/{part}/{lang}.json",
     });
+
     $urlRouterProvider.otherwise("/");
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+
+    .state('v_secteur', {
+      url: '/configuration/v_secteur',
+      templateUrl: 'views/configuration/secteurs_irrigation/v_secteur.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
+      }
+    })
+
+    .state('v_secteurs_irrigation', {
+      url: '/configuration/secteurs_irrigation',
+      templateUrl: 'views/configuration/secteurs_irrigation/v_secteurs_irrigation.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
+      }
+    })
 
     .state('v_unite', {
       url: '/configuration/v_unite',

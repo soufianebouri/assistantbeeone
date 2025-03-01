@@ -658,7 +658,7 @@ angular.module('beeOneWebFrontApp')
         DTColumnBuilder.newColumn("Groupe_culturale").withTitle("Groupe culturale").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Sup").withTitle("Superficie").renderWith(function(data, type, full, meta) {
         if (full.Sup)
-              return full.Sup + 'Ha';
+              return full.Sup + ' Ha';
           return '';
         }).withOption("width", "100px"),
         DTColumnBuilder.newColumn("Nom_Variete").withTitle("Variété").withOption("width", "100px"),

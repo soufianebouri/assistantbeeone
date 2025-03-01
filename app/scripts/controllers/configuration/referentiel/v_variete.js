@@ -8,7 +8,7 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationReferentielVCultureCtrl', function (
+  .controller('ConfigurationReferentielVVarieteCtrl', function (
     $q,
     $scope,$mdDialog,
     toastr,
@@ -262,31 +262,48 @@ angular.module('beeOneWebFrontApp')
           return selectedFerme.IDFermes === data.IDFermes;
       });
     };*/
-
+    vm.validateVarieteFields = function () {
+        if ((vm.formData.ReferenceType_variete && !vm.formData.Type_variete) ||
+            (!vm.formData.ReferenceType_variete && vm.formData.Type_variete)) {
+            return false;
+        }
+        return true;
+    };
 
     vm.modifier = async function  () {
 
         if(await vm.validateFormData()){
-          NProgress.start()   ;
 
-          VarieteService.edit(vm.formData).then(async e => {
+          if(vm.validateVarieteFields()){
+            NProgress.start()   ;
 
+            VarieteService.edit(vm.formData).then(async e => {
+
+                toastr.clear();
+                toastr.success(e.data.message, {
+                  closeButton: true
+                });
+                NProgress.done();
+                vm.dtInstance.reloadData();
+                vm.reset();
+                await $scope.undoSelect()
+
+            }).catch(async e => {
+              NProgress.done();
               toastr.clear();
-              toastr.success(e.data.message, {
+              toastr.error(e.data.message, {
                 closeButton: true
               });
-              NProgress.done();
-              vm.dtInstance.reloadData();
-              vm.reset();
-              await $scope.undoSelect()
+            });
 
-          }).catch(async e => {
+          }else {
             NProgress.done();
             toastr.clear();
-            toastr.error(e.data.message, {
+            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
               closeButton: true
             });
-          });
+          }
+
         }
     };
 
@@ -296,9 +313,7 @@ angular.module('beeOneWebFrontApp')
             fermes: "Ferme is required.",
             IDculture: "Culturale is required.",
             Reference: "Référence Variété is required.",
-            Variete: "Désignation Variété is required.",
-            ReferenceType_variete: "Référence type variété is required.",
-            Type_variete: "Désignation type variété is required."
+            Variete: "Désignation Variété is required."
         };
 
         for (let key in rules) {
@@ -317,26 +332,38 @@ angular.module('beeOneWebFrontApp')
         return true;
     };
 
+
+
     vm.ajouter = async function  () {
       toastr.clear();
         if(await vm.validateFormData()){
-          NProgress.start()
-          VarieteService.add(vm.formData).then(async e => {
+          if(vm.validateVarieteFields()){
+            NProgress.start()
+            VarieteService.add(vm.formData).then(async e => {
+                toastr.clear();
+                toastr.success(e.data.message, {
+                  closeButton: true
+                });
+                await $scope.undoSelect()
+                NProgress.done();
+                vm.dtInstance.reloadData();
+                vm.reset();
+            }).catch(async e => {
+              NProgress.done();
               toastr.clear();
-              toastr.success(e.data.message, {
+              toastr.error(e.data.message, {
                 closeButton: true
               });
-              await $scope.undoSelect()
-              NProgress.done();
-              vm.dtInstance.reloadData();
-              vm.reset();
-          }).catch(async e => {
+            });
+          }else {
             NProgress.done();
             toastr.clear();
-            toastr.error(e.data.message, {
+            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
               closeButton: true
             });
-          });
+          }
+
+
 
         }
 
@@ -657,9 +684,12 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Famille culturale",
-      "Référence culture",
-      "Désignation culture"];
+      "Culture",
+      "Référence variété",
+      "Désignation variété",
+      "Age d'entrée en production",
+      "Age adulte",
+      "Descriptif"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -711,10 +741,13 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
+      fermneName  : item["Ferme"] || null,
+      cultureName  : item["Culture"] || null,
+      Reference  : item["Référence variété"] || null,
+      Variete  : item["Désignation variété"] || null,
+      age_entree_production  : item["Age d'entrée en production"] || null,
+      age_adulte  : item["Age adulte"] || null,
+      Descriptif  : item["Descriptif"] || null
       }));
     };
 
@@ -826,8 +859,8 @@ angular.module('beeOneWebFrontApp')
 
           NProgress.start();
 
-          familleculture.multiadd({
-            familles :vm.jsonData
+          VarieteService.multiadd({
+            varietes :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
@@ -1049,8 +1082,6 @@ angular.module('beeOneWebFrontApp')
        "Culture",
        "Référence variété",
        "Désignation variété",
-       "Référence type variété",
-       "Désignation type variété",
        "Age d'entrée en production",
        "Age adulte",
        "Descriptif"
@@ -1070,8 +1101,6 @@ angular.module('beeOneWebFrontApp')
                 cultureName,
                 refrence,
                 refrence,
-                null,
-                null,
                 null,
                 null,
                 null]);

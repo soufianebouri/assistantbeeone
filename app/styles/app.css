@@ -544,6 +544,16 @@ border-radius: 5px;
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
+  .v_mobile {
+    display: none !important;
+  }
+
+  .v_mobile_scroll{
+    overflow: auto;
+    padding-left: 212px;
+  }
+
   .config-header-card {
     flex-direction: column;
     align-items: stretch;

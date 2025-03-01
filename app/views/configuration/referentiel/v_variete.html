@@ -1,4 +1,4 @@
-<div ng-controller="ConfigurationReferentielVCultureCtrl as vm">
+<div ng-controller="ConfigurationReferentielVVarieteCtrl as vm">
     <div class="grid-column-container" >
 
         <div id="grid1" class="grid  fade-in">
@@ -73,12 +73,12 @@
 
                         <md-input-container class="form-input">
                             <label>Référence type variété</label>
-                            <input type="text" ng-model="vm.formData.ReferenceType_variete"   required>
+                            <input type="text" ng-model="vm.formData.ReferenceType_variete"   >
                           </md-input-container>
 
                           <md-input-container class="form-input">
                               <label>Désignation type variété</label>
-                              <input type="text" ng-model="vm.formData.Type_variete"   required>
+                              <input type="text" ng-model="vm.formData.Type_variete"   >
                           </md-input-container>
 
                     </div>
@@ -128,7 +128,7 @@
                       votre compte</p>
                   </div>
 
-                  
+
 
                   <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
                     style="padding: 40px;background: #F8F8F9;border: 1px dashed #ccc;cursor: pointer;border-radius: 5px;"

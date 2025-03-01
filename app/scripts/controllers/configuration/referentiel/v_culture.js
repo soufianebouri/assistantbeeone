@@ -452,7 +452,7 @@ angular.module('beeOneWebFrontApp')
     }
     }
 
-
+console.log("hereeeeeeeeeeeeeeeeeeeeeeee");
     $scope.updatedata = function() {
       return cultureService.get_all();
     };
@@ -461,6 +461,7 @@ angular.module('beeOneWebFrontApp')
       var defer = $q.defer();
         $scope.updatedata().then(function(res) {
           vm.data_culture = res.data;
+          console.log("  vm.data_culture",   vm.data_culture);
           defer.resolve(res.data);
           NProgress.done();
         });
@@ -702,10 +703,10 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
+      fermneName  : item["Ferme"] || null,
+      familleName  : item["Famille culturale"] || null,
+      Reference : item["Référence culture"] || null,
+      Culture : item["Désignation culture"] || null
       }));
     };
 
@@ -817,8 +818,8 @@ angular.module('beeOneWebFrontApp')
 
           NProgress.start();
 
-          familleculture.multiadd({
-            familles :vm.jsonData
+          cultureService.multiadd({
+            cultures :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {

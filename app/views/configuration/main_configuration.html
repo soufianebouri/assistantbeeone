@@ -112,7 +112,7 @@
       <md-card class="step-card">
         <div class="header_main">
           <img src="././images/main_configuration/irrig.svg" alt="account">
-          <span class="progress">0% Complété</span>
+          <span class="progress">{{vm.data_percents.percentage_secteur | number:2}}% Complété</span>
         </div>
         <span class="title">4. Sécteurs D’irrigation</span>
         <md-card-content>
@@ -131,8 +131,8 @@
           </div>
         </md-card-content>
 
-        <md-button class="start_btn_Commencer" ng-click="vm.go_config(4)">
-          Commencer
+        <md-button class="{{ (vm.data_percents.percentage_secteur >= 100) ? 'start_btn_Consulter' : (vm.data_percents.percentage_secteur === 0 ? 'start_btn_Commencer' : 'start_btn') }}" ng-click="vm.go_config(4)" >
+          {{ (vm.data_percents.percentage_secteur >= 100) ? 'Consulter' : (vm.data_percents.percentage_secteur === 0 ? 'Commencer' : 'Continuer') }}
         </md-button>
       </md-card>
 

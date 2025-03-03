@@ -31,6 +31,9 @@ angular.module('beeOneWebFrontApp')
       },
       getbyferme: function(data) {
         return $http.post(_url + "/variete/getbyferme", data);
+      },
+      getbyMultiferme: function(data) {
+        return $http.post(_url + "/variete/getbyMultiferme", data);
       }
     };
   });

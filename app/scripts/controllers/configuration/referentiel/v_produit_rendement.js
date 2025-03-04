@@ -68,6 +68,26 @@ angular.module('beeOneWebFrontApp')
     }
 
 
+    $scope.get_variete_edit = function () {
+
+      NProgress.start();
+      if(vm.formData.fermes){
+        $q.all([VarieteService.getbyMultiferme({
+          IDFermes: vm.formData.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_variete = values[0].data;
+          console.log(vm.data_variete);
+        })
+      } else {
+          NProgress.done();
+          vm.data_culture = []
+      }
+
+
+    }
+
+
     $scope.get_culture_edit = function () {
 
       NProgress.start();
@@ -336,6 +356,7 @@ angular.module('beeOneWebFrontApp')
     vm.ajouter = async function  () {
       toastr.clear();
         if(await vm.validateFormData()){
+          if(vm.formData.unites.every(unite => unite.IDUnite_Operation !== null && unite.PM_estime > 0)){
             NProgress.start()
             produitrendement.add(vm.formData).then(async e => {
                 toastr.clear();
@@ -353,6 +374,13 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
             });
+          }else {
+            toastr.clear();
+            toastr.warning("Veuillez renseigner tous les champs obligatoires! Unités de récolte ", {
+              closeButton: true
+            });
+          }
+
         }
     };
 
@@ -504,37 +532,46 @@ angular.module('beeOneWebFrontApp')
 
       vm.variete_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.variete_action[data.ID] = data;
+          vm.variete_action[data.IDProduit_Rendement] = data;
           var editbtn =
           '<button class="btnEdit_tb" ng-click="vm.edit(vm.variete_action[' +
-          data.ID +
+          data.IDProduit_Rendement +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
           '<button class="btnEdit_tb" ng-click="vm.delete(vm.variete_action[' +
-          data.ID +
+          data.IDProduit_Rendement +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
 
 
       vm.edit = function (data) {
+        NProgress.start();
+          toastr.clear();
+          console.log("data", data);
         vm.formData = data;
         vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
+        vm.formData.variete = data.varietes.map(variete => variete.IDVariete);
 
 
-        $q.all([cultureService.get_byfermes({
+        $q.all([VarieteService.getbyMultiferme({
           IDFermes: vm.formData.fermes
-        })]).then((values) => {
+        }),
+          produitrendement.getUnites({
+            IDProduit_Rendement: vm.formData.IDProduit_Rendement
+          })]).then((values) => {
           NProgress.done();
-          vm.data_culture = values[0].data;
+          vm.data_variete = values[0].data;
+          vm.formData.unites = values[1].data;
+
+          toastr.clear();
+             toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref_technique}. 👆`, {
+             closeButton: true
+           });
+
         })
 
-
-       toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
-          closeButton: true
-        });
 
       }
 
@@ -571,7 +608,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.IDProduit_Rendement); // Extract IDs
 
     return selectedIds;
   };
@@ -580,7 +617,7 @@ angular.module('beeOneWebFrontApp')
     $scope.toggleSelection = function (id) {
       let found = false;
       vm.data_produit_rendement = vm.data_produit_rendement.map(societe => {
-          if (societe.ID === id) {
+          if (societe.IDProduit_Rendement === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -592,7 +629,7 @@ angular.module('beeOneWebFrontApp')
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDProduit_Rendement})">`;
     }
 
 
@@ -646,7 +683,6 @@ angular.module('beeOneWebFrontApp')
 
     vm.reset = function () {
       vm.formData =  {
-        IDProduit_Rendement : null,
         unites : [{
               IDUnite_Operation: null,
               PM_estime: null
@@ -655,8 +691,8 @@ angular.module('beeOneWebFrontApp')
         variete: [],
         Ref_technique: null,
         designation: null,
-        Principale_Accessoire: null,
-        Stockable: null
+        Principale_Accessoire: 1,
+        Stockable: false
       }
      }
    vm.reset()
@@ -724,12 +760,11 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Culture",
-      "Référence variété",
-      "Désignation variété",
-      "Age d'entrée en production",
-      "Age adulte",
-      "Descriptif"];
+      "Variété",
+      "Référence produit",
+      "Désignation produit",
+      "Type",
+      "Stockable"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -782,12 +817,11 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
       fermneName  : item["Ferme"] || null,
-      cultureName  : item["Culture"] || null,
-      Reference  : item["Référence variété"] || null,
-      Variete  : item["Désignation variété"] || null,
-      age_entree_production  : item["Age d'entrée en production"] || null,
-      age_adulte  : item["Age adulte"] || null,
-      Descriptif  : item["Descriptif"] || null
+      varieteName  : item["Variété"] || null,
+      Ref_technique  : item["Référence produit"] || null,
+      designation  : item["Désignation produit"] || null,
+      Principale_Accessoire  : item["Type"] || null,
+      Stockable  : item["Stockable"] || null
       }));
     };
 
@@ -899,8 +933,8 @@ angular.module('beeOneWebFrontApp')
 
           NProgress.start();
 
-          VarieteService.multiadd({
-            varietes :vm.jsonData
+          produitrendement.multiadd({
+            produits :vm.jsonData
           }).then(async e => {
               toastr.clear();
               toastr.success(e.data.message, {
@@ -1029,7 +1063,7 @@ angular.module('beeOneWebFrontApp')
   vm.gen_canvas = function(ev) {
     $mdDialog.show({
         controller: DialogControllerGen,
-        templateUrl: '././views/configuration/referentiel/canvas/canvas_variete.html',
+        templateUrl: '././views/configuration/referentiel/canvas/canvas_produit_rendement.html',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose: false,
@@ -1070,20 +1104,20 @@ angular.module('beeOneWebFrontApp')
     $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
     $scope.formdata_gen = {
       ferme : null,
-      culture : null,
+      variete : null,
       nbrparcelle : null,
       increment : null
     }
     $scope.allformxls = [];
 
 
-    $scope.getCulture = function () {
+    $scope.getVariete = function () {
       NProgress.start();
-        $q.all([cultureService.get_byfermes({
+        $q.all([VarieteService.getbyferme({
           IDFermes: [$scope.formdata_gen.ferme.IDFermes]
         })]).then((values) => {
           NProgress.done();
-          $scope.data_culture = values[0].data;
+          $scope.data_variete = values[0].data;
         })
     }
     $scope.canva_ajouter = function(){
@@ -1092,14 +1126,14 @@ angular.module('beeOneWebFrontApp')
         toastr.warning("Veuillez choisir une ferme", {
           closeButton: true
         });
-      }else if(!$scope.formdata_gen.culture){
+      }else if(!$scope.formdata_gen.variete){
         toastr.clear();
-        toastr.warning("Veuillez choisir une Culture", {
+        toastr.warning("Veuillez choisir une Variété", {
           closeButton: true
         });
-      }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+      }else if ($scope.formdata_gen.nbrparcelle <=0 || !$scope.formdata_gen.nbrparcelle) {
         toastr.clear();
-        toastr.warning("Veuillez saisir le nombre de Variétés", {
+        toastr.warning("Veuillez saisir le nombre de Produit Rendement", {
           closeButton: true
         });
       }else if (!$scope.formdata_gen.increment) {
@@ -1110,47 +1144,48 @@ angular.module('beeOneWebFrontApp')
       }else {
         $scope.formdata_gen.ferme.disabled = true;
         $scope.allformxls.push($scope.formdata_gen);
-        console.log($scope.allformxls);
         $scope.formdata_gen = {};
       }
     }
 
     $scope.generateExcelData = async function() {
     let excelData = [];
+
     let headers = [
        "Ferme",
-       "Culture",
-       "Référence variété",
-       "Désignation variété",
-       "Age d'entrée en production",
-       "Age adulte",
-       "Descriptif"
+       "Variété",
+       "Référence produit",
+       "Désignation produit",
+       "Type",
+       "Stockable"
       ];
+
     excelData.push(headers);
     let totalParcelles = 0; // Track total parcels
     $scope.allformxls.forEach(item => {
         let fermeName = item.ferme.Nom;
-        let cultureName = item.culture.Culture;
+        let varieteName = item.variete.Variete;
         let refrence=null
 
             for (let i = 1; i <= item.nbrparcelle; i++) {
                 if (item.increment === 1) {
                    refrence = `V${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
                 }
-                excelData.push([fermeName,
-                cultureName,
-                refrence,
-                refrence,
-                null,
-                null,
-                null]);
+                excelData.push([
+
+                  fermeName,
+                  varieteName,
+                  refrence,
+                  refrence,
+                  null,
+                  null]);
                  totalParcelles++;
             }
 
 
     });
     toastr.clear();
-    toastr.success(`Génération réussie : ${totalParcelles} variété(s) ajoutée(s) au fichier excel`, { closeButton: true });
+    toastr.success(`Génération réussie : ${totalParcelles} Produit(s) rendement ajouté(s) au fichier excel`, { closeButton: true });
 
     return excelData;
 };
@@ -1165,7 +1200,7 @@ angular.module('beeOneWebFrontApp')
       // Create a new workbook and a worksheet
       let ws = XLSX.utils.aoa_to_sheet(excelData);
       let wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Variété");
+      XLSX.utils.book_append_sheet(wb, ws, "Produit Rendement");
 
       // Generate a binary string from the workbook
       let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
@@ -1176,7 +1211,7 @@ angular.module('beeOneWebFrontApp')
       // Create a link element and trigger the download
       let link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Canvas Variété.xlsx";
+      link.download = "Produit Rendement.xlsx";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1221,50 +1256,8 @@ $scope.deleteCanva = function(index) {
 
 
 
-$scope.editCanva = function(index) {
-console.log($scope.allformxls);
 
-  $scope.formdata_gen = {
-    ferme : $scope.allformxls[index].ferme,
-    nbrparcelle : $scope.allformxls[index].nbrparcelle,
-    increment : $scope.allformxls[index].increment,
-    update : true,
-    index : index
-  }
 
-}
-
-$scope.canva_modifer = function(){
-
-  if(!$scope.formdata_gen.ferme){
-    toastr.clear();
-    toastr.warning("Veuillez choisir une ferme", {
-      closeButton: true
-    });
-  }else if ($scope.formdata_gen.nbrparcelle <= 0) {
-    toastr.clear();
-    toastr.warning("Veuillez saisir le nombre de parcelle", {
-      closeButton: true
-    });
-  }else if (!$scope.formdata_gen.increment) {
-    toastr.clear();
-    toastr.warning("Veuillez choisir un type d'incrémentation", {
-      closeButton: true
-    });
-  }else {
-    $scope.formdata_gen.ferme.disabled = true;
-    let index = $scope.formdata_gen.index;
-    $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
-    $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
-    $scope.allformxls[index].increment = $scope.formdata_gen.increment;
-    $scope.formdata_gen = {};
-    toastr.clear();
-    toastr.success("Paramètre bien Modifié", {
-      closeButton: true
-    });
-  }
-
-}
 
 
   }

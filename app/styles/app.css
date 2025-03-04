@@ -1541,7 +1541,9 @@ a.dt-button {
   background-color: #FFEBE5;
 }
 
-
+md-input-container label{
+  font-size: 14px !important;
+}
 @keyframes fadeIn {
   0% {
       opacity: 0;

@@ -30,6 +30,9 @@ angular.module('beeOneWebFrontApp')
       },
       getbyferme: function(data) {
         return $http.post(_url + "/produit_rendement/getbyferme", data);
+      },
+      getUnites: function(data) {
+        return $http.post(_url + "/produit_rendement/getUnites", data);
       }
     };
   });

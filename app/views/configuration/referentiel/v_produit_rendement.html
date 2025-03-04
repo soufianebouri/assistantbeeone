@@ -15,7 +15,20 @@
 
                         <md-input-container class="form-input"  >
                             <label>Ferme</label>
-                            <md-select ng-model="vm.formData.fermes"  ng-change="get_variete() " multiple data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select ng-model="vm.formData.fermes" ng-if="!vm.formData.ID" ng-change="get_variete() " multiple data-md-container-class="selectdemoSelectHeader" required>
+                              <md-select-header class="demo-select-header">
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                              </md-select-header>
+                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
+                                >{{data_ferme.Nom}}
+                               </md-option>
+                            </md-select>
+                        </md-input-container>
+
+
+                        <md-input-container class="form-input" ng-if="vm.formData.ID" >
+                            <label>Ferme</label>
+                            <md-select ng-model="vm.formData.fermes"  ng-change="get_variete_edit()" multiple data-md-container-class="selectdemoSelectHeader" required>
                               <md-select-header class="demo-select-header">
                                 <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                               </md-select-header>
@@ -60,14 +73,14 @@
                     <div class="form-row tiny-space">
 
                       <md-input-container class="form-input">
-                        <label>Type (Accessoire / Principal)</label>
-                            <md-switch ng-model="vm.formData.Principale_Accessoire" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="2" class="md-warn">
-                              {{ (vm.formData.surgreffee == 1) ? 'Principal' : 'Accessoire'}}
+                        <label>Type <font size="0.9px">(Principal / Accessoire)</font></label>
+                            <md-switch ng-model="vm.formData.Principale_Accessoire" style="width:90%;" aria-label="Switch 2" ng-true-value="2" ng-false-value="1" class="md-warn">
+                              {{ (vm.formData.Principale_Accessoire == 1) ? 'Principal' : 'Accessoire'}}
                             </md-switch>
                       </md-input-container>
 
                       <md-input-container class="form-input">
-                        <label>Stockable (Non / Oui)</label>
+                        <label>Stockable <font size="0.9px">(Non / Oui)</font></label>
                             <md-switch ng-model="vm.formData.Stockable" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
                               {{ (vm.formData.Stockable) ? 'Oui' : 'Non'}}
                             </md-switch>
@@ -76,7 +89,7 @@
                     </div>
 
 
-                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;" data-ng-repeat="unite in vm.formData.unites">
+                    <div class="form-row tiny-space" style="margin-bottom: 0rem !important;" data-ng-repeat="unite in vm.formData.unites">
 
                       <md-input-container class="form-input"  >
                           <label>Unité de récolte</label>
@@ -123,8 +136,8 @@
                         Reset
                       </md-button>
 
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.ID) ? 'Modifier': 'Ajouter'}}
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDProduit_Rendement) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDProduit_Rendement) ? 'Modifier': 'Ajouter'}}
                       </md-button>
                     </div>
 
@@ -225,7 +238,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Prodtuits Rendement Ajoutés ({{vm.data_variete.length}})</h2>
+                  <h2 class="form-title" >Prodtuits Rendement Ajoutés ({{vm.data_produit_rendement.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

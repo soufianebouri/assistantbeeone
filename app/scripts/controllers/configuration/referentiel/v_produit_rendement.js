@@ -83,6 +83,10 @@ angular.module('beeOneWebFrontApp')
 
     }
 
+
+
+
+
     $scope.uploadFile = function (event) {
       var file = event.target.files[0];
       if (file) {
@@ -265,22 +269,16 @@ angular.module('beeOneWebFrontApp')
           return selectedFerme.IDFermes === data.IDFermes;
       });
     };*/
-    vm.validateVarieteFields = function () {
-        if ((vm.formData.ReferenceType_variete && !vm.formData.Type_variete) ||
-            (!vm.formData.ReferenceType_variete && vm.formData.Type_variete)) {
-            return false;
-        }
-        return true;
-    };
+
 
     vm.modifier = async function  () {
 
         if(await vm.validateFormData()){
 
-          if(vm.validateVarieteFields()){
+
             NProgress.start()   ;
 
-            VarieteService.edit(vm.formData).then(async e => {
+            produitrendement.edit(vm.formData).then(async e => {
 
                 toastr.clear();
                 toastr.success(e.data.message, {
@@ -299,24 +297,22 @@ angular.module('beeOneWebFrontApp')
               });
             });
 
-          }else {
-            NProgress.done();
-            toastr.clear();
-            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
-              closeButton: true
-            });
-          }
+
 
         }
     };
 
 
     vm.validateFormData = async function() {
+
+
+
         let rules = {
+            unites : "Unité produit is required",
             fermes: "Ferme is required.",
-            IDculture: "Culturale is required.",
-            Reference: "Référence Variété is required.",
-            Variete: "Désignation Variété is required."
+            variete: "Variété is required.",
+            Ref_technique: "Référence Produit Rendement is required.",
+            designation: "Désignation Produit Rendement is required."
         };
 
         for (let key in rules) {
@@ -340,9 +336,8 @@ angular.module('beeOneWebFrontApp')
     vm.ajouter = async function  () {
       toastr.clear();
         if(await vm.validateFormData()){
-          if(vm.validateVarieteFields()){
             NProgress.start()
-            VarieteService.add(vm.formData).then(async e => {
+            produitrendement.add(vm.formData).then(async e => {
                 toastr.clear();
                 toastr.success(e.data.message, {
                   closeButton: true
@@ -358,19 +353,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
             });
-          }else {
-            NProgress.done();
-            toastr.clear();
-            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
-              closeButton: true
-            });
-          }
-
-
-
         }
-
-
     };
 
 
@@ -386,7 +369,7 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              VarieteService.multidelete({
+              produitrendement.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
@@ -422,7 +405,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            VarieteService.delete(data).then(async function(result) {
+            produitrendement.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -660,23 +643,67 @@ angular.module('beeOneWebFrontApp')
       '<center><img src="././images/loading.gif"/></center>'
     );
 
+
     vm.reset = function () {
       vm.formData =  {
+        IDProduit_Rendement : null,
+        unites : [{
+              IDUnite_Operation: null,
+              PM_estime: null
+            }],
         fermes : [],
-        IDFamille_variete: null,
-        IDculture: null,
-        Nameculture: null,
-        Reference: null,
-        Variete: null,
-        ReferenceType_variete: null,
-        Type_variete: null,
-        age_entree_production: null,
-        age_adulte: null,
-        Descriptif: null,
+        variete: [],
+        Ref_technique: null,
+        designation: null,
+        Principale_Accessoire: null,
+        Stockable: null
       }
      }
    vm.reset()
 
+   $scope.cloneItem = async function(index) {
+           var itemToClone = {
+             IDUnite_Operation: null,
+             PM_estime: null
+           };
+           if (vm.formData.unites[index].IDUnite_Operation && vm.formData.unites[index].PM_estime>0) {
+             if (vm.formData.unites.length != vm.data_unite.length) {
+               vm.formData.unites.push(itemToClone);
+             } else {
+               toastr.clear();
+               toastr.warning("Vous avez choisis tous les unités d'opération", {
+                 closeButton: true
+               });
+             }
+           } else {
+             toastr.clear();
+             toastr.warning("Veuillez renseigner tous les champs obligatoires", {
+               closeButton: true
+             });
+           }
+         }
+
+         $scope.removeItem = function(itemIndex) {
+           toastr.clear();
+           toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+             closeButton: true,
+             allowHtml: true,
+             onShown: function(toast) {
+
+               $("#confirmationRevertYes").click(function() {
+                 vm.formData.unites.splice(itemIndex, 1);
+                 if (vm.formData.unites.length == 0) {
+                 vm.formData.unites.push({
+                     IDUnite_Operation: null,
+                     PM_estime: null
+                   });
+                 }
+               });
+             }
+           });
+
+
+          }
 
 
 

@@ -47,12 +47,12 @@
 
                         <md-input-container class="form-input">
                             <label>Référence produit</label>
-                            <input type="text" ng-model="vm.formData.Reference"   required>
+                            <input type="text" ng-model="vm.formData.Ref_technique"   required>
                           </md-input-container>
 
                           <md-input-container class="form-input">
                               <label>Désignation produit</label>
-                              <input type="text" ng-model="vm.formData.Variete"   required>
+                              <input type="text" ng-model="vm.formData.designation"   required>
                           </md-input-container>
 
                     </div>
@@ -61,7 +61,7 @@
 
                       <md-input-container class="form-input">
                         <label>Type (Accessoire / Principal)</label>
-                            <md-switch ng-model="vm.formData.Type" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="2" class="md-warn">
+                            <md-switch ng-model="vm.formData.Principale_Accessoire" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="2" class="md-warn">
                               {{ (vm.formData.surgreffee == 1) ? 'Principal' : 'Accessoire'}}
                             </md-switch>
                       </md-input-container>
@@ -76,11 +76,11 @@
                     </div>
 
 
-                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
+                    <div class="form-row tiny-space " style="margin-bottom: 0rem !important;" data-ng-repeat="unite in vm.formData.unites">
 
                       <md-input-container class="form-input"  >
                           <label>Unité de récolte</label>
-                          <md-select ng-model="vm.formData.variete"  data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select ng-model="unite.IDUnite_Operation"  data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_data_unite" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
@@ -92,8 +92,27 @@
 
                       <md-input-container class="form-input">
                               <label>Poids moyen estimé</label>
-                              <input type="number" ng-model="vm.formData.poids"  class="number_right" required>
+                              <input type="number" ng-model="unite.PM_estime"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" required>
+
+                              <md-icon>
+
+                                <md-button class="md-icon-button"    ng-click="removeItem($index)"
+                                           style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                  <md-icon style="color: red;">
+                                    -
+                                  </md-icon>
+                                </md-button>
+
+                                <md-button class="md-icon-button"    ng-click="cloneItem($index)" ng-show="$last"
+                                           style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                                  <md-icon style="color: rgb(129 187 38);">
+                                    +
+                                  </md-icon>
+                                </md-button>
+                              </md-icon
                       </md-input-container>
+
+
 
 
                     </div>

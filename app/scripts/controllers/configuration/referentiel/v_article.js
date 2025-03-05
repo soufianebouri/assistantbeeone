@@ -207,18 +207,13 @@ angular.module('beeOneWebFrontApp')
     vm.selected = {};
     vm.selectAll = false;
 
-    //get data and refresh datatable
 
 
 
 
 
     vm.selectedFarm = [];
-    /*vm.isSelected =  function(selcted, data) {
-      return  selcted.some( function(selectedFerme) {
-          return selectedFerme.IDFermes === data.IDFermes;
-      });
-    };*/
+
 
 
     vm.modifier = async function  () {
@@ -226,13 +221,16 @@ angular.module('beeOneWebFrontApp')
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          uniteoperation.edit(vm.formData).then(async e => {
+          Produit.edit(vm.formData).then(async e => {
 
               toastr.clear();
-              toastr.success(e.data.message, {
+              toastr.success('Article bien modifé', {
                 closeButton: true
               });
               NProgress.done();
+              let index = vm.data_article.findIndex(item => item.ID === e.data.ID);
+              vm.data_article[index] = e.data;
+
               vm.dtInstance.reloadData();
               vm.reset();
               await $scope.undoSelect()
@@ -312,17 +310,18 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              uniteoperation.multidelete({
+              Produit.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
                 await $scope.undoSelect()
                 toastr.clear();
-                toastr.success(result.data.message, {
+                toastr.success("Article(s) successfully deleted.", {
                   closeButton: true
                 });
-                NProgress.done();
+                vm.data_article = vm.data_article.filter(item => !selectedIds.includes(item.ID));
                 vm.dtInstance.reloadData();
+                NProgress.done();
 
               }).catch(async e => {
                 NProgress.done();
@@ -348,18 +347,22 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            uniteoperation.delete(data).then(async function(result) {
+            Produit.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
-              toastr.success(result.data.message, {
+              toastr.success("Suppression réussie", {
                 closeButton: true
               });
-              NProgress.done();
+
+              vm.data_article = vm.data_article.filter(item => item.ID !== data.ID);
               vm.dtInstance.reloadData();
+
+              NProgress.done();
 
             }).catch(async e => {
               NProgress.done();
+              console.log(e);
               toastr.clear();
               toastr.error(e.data.message, {
                 closeButton: true
@@ -468,7 +471,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.edit = function (data) {
         vm.formData = data;
-
+        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
           closeButton: true
@@ -535,7 +538,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return vm.data_article.filter(societe => societe.selected).length;
+      return (vm.data_article) ? vm.data_article.filter(article => article.selected).length : 0;
     };
 
 
@@ -663,9 +666,20 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Référence",
-      "Désignation unité",
-      "Liés à la récolte"];
+      "Ferme",
+      "Référence article",
+      "Article",
+      "Référence sous catégorie",
+      "Sous catégorie",
+      "Unité",
+      "Type article",
+      "% TVA",
+      "Prix UHT",
+      "Transité par module achat",
+      "Demande d'achat obligatoire",
+      "Bon de commande obligatoire",
+      "Article amortissable",
+      "Article d'entretien du matèriel"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -674,13 +688,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Unité");
+          XLSX.utils.book_append_sheet(wb, ws, "Article");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Unité.xlsx");
+          saveAs(blob, "Canvas Article.xlsx");
       };
 
 
@@ -717,9 +731,19 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        Code: item["Référence"] || null,
-        Unite: item["Désignation unité"] || null,
-        Recolte: item["Liés à la récolte"] || null
+        FermeName : item["Ferme"] || null,
+        Ref : item["Référence article"] || null,
+        Designation : item["Article"] || null,
+        Sous_Categorie : item["Référence sous catégorie"] || null,
+        Categorie: item["Sous catégorie"] || null,
+        Unite: item["Unité"] || null,
+        Type: item["Type article"] || null,
+        Taux_TVA: item["% TVA"] || null,
+        PU: item["Prix UHT"] || null,
+        Peut_etre_achete: item["Transité par module achat"] || null,
+        DA_obligatoire: item["Demande d'achat obligatoire"] || null,
+        BC_obligatoire: item["Bon de commande obligatoire"] || null,
+        Amortissable: item["Article amortissable"] || null
       }));
     };
 
@@ -821,52 +845,155 @@ angular.module('beeOneWebFrontApp')
 
     }
 
+    $scope.getReealName = function(field) {
+      const fieldNames = {
+          'Peut_etre_achete': 'Transité par module achat',
+          'DA_obligatoire': 'Demande d\'achat obligatoire',
+          'BC_obligatoire': 'Bon de commande obligatoire',
+          'Amortissable': 'Article amortissable'
+      };
+      return fieldNames[field] || null;
+  };
+    $scope.validateData = async function() {
+        let errors = [];
+let seenPairs = new Set();
+        vm.jsonData.forEach((item, index) => {
+            let rowNum = index + 2;
+
+            if (!item.FermeName ) {
+                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+            }
+
+            if (item.FermeName ) {
+              let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
+
+               if(!newferme){
+                 errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
+               }else {
+                 vm.jsonData[index].IDFermes = newferme.IDFermes;
+               }
+            }
+
+              if (!item.Ref) {
+                errors.push(`Row ${rowNum}: Missing Référence article as required field`);
+            } else {
+              let newRef = vm.data_article.some(data_article => String(data_article.Ref).toUpperCase() === String(item.Ref).toUpperCase() );
+              console.log("newRef" , newRef);
+              if(newRef){
+                errors.push(`Row ${rowNum}: Référence article '${item.Ref}' already exist`);
+              }
+            }
+
+            if (!item.Designation) {
+                errors.push(`Row ${rowNum}: Missing Article as required field`);
+            }else {
+              let newDesignation = vm.data_article.some(data_article => String(data_article.Designation).toUpperCase() === String(item.Designation).toUpperCase());
+              if(newDesignation){
+                errors.push(`Row ${rowNum}: Article '${item.Designation}' already exist`);
+              }
+            }
+
+            if (!item.Type) {
+                errors.push(`Row ${rowNum}: Missing Type article as required field`);
+            }
+
+            if (item.Type !== 'Non Stockable' && item.Type !== 'Stockable') {
+                errors.push(`Row ${rowNum}: Type article must be 'Non Stockable' or 'Stockable'.`);
+            }
+
+            if (item.Taux_TVA !== null && (isNaN(item.Taux_TVA) || item.Taux_TVA < 0)) {
+                errors.push(`Row ${rowNum}: % TVA must be a number >= 0.`);
+            }
+            if (item.PU !== null && (isNaN(item.PU) || item.PU < 0)) {
+                errors.push(`Row ${rowNum}: Prix UHT must be a number >= 0.`);
+            }
+
+            ['Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire', 'Amortissable'].forEach(field => {
+                if (item[field] !== null && item[field] !== 'Oui' && item[field] !== 'Non') {
+                    errors.push(`Row ${rowNum}: ${$scope.getReealName(field)} must be 'Oui' or 'Non'.`);
+                }
+            });
+
+
+            if (item.IDFermes && item.Ref) {
+            let pairKey = `${item.IDFermes}_${item.Ref.toUpperCase()}`;
+            if (seenPairs.has(pairKey)) {
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence '${item.Ref}' found.`);
+               } else {
+                   seenPairs.add(pairKey);
+               }
+           }
+
+        });
+
+        if (errors.length > 0) {
+            NProgress.done();
+            vm.errData = {
+              err : true,
+              message : errors.join('\n')
+            }
+            toastr.clear();
+            toastr.error("Please correct all file errors, details bellow 👇 ", {
+              closeButton: true
+            });
+            return false
+        } else {
+            return true
+        }
+    };
+
     vm.integer = async function(){
 
       if(vm.jsonData.length>0){
+             NProgress.start();
+        if(await $scope.validateData()){
 
-          NProgress.start();
+                    Produit.multiadd({
+                      articles :vm.jsonData
+                    }).then(async e => {
+                        toastr.clear();
+                        toastr.success(e.data.message, {
+                          closeButton: true
+                        });
+                        await $scope.undoSelect()
+                        NProgress.done();
 
-          uniteoperation.multiadd({
-            unites :vm.jsonData
-          }).then(async e => {
-              toastr.clear();
-              toastr.success(e.data.message, {
-                closeButton: true
-              });
-              await $scope.undoSelect()
-              NProgress.done();
-              vm.dtInstance.reloadData();
-              vm.reset();
-              vm.isFileSelected = false;
-              vm.jsonData = [];
-              vm.errData = {
-                err : false
-              }
-          }).catch(async e => {
-            NProgress.done();
-            toastr.clear();
-            toastr.error(e.data.message, {
-              closeButton: true
-            });
-            vm.errData = {
-              err : true,
-              message : e.data.message
-            }
-          });
+                        vm.data_article.unshift(...e.data.inserted_data);
 
-
-
-
-
+                        vm.dtInstance.reloadData();
+                        vm.reset();
+                        vm.isFileSelected = false;
+                        vm.jsonData = [];
+                        vm.errData = {
+                          err : false
+                        }
+                    }).catch(async e => {
+                      NProgress.done();
+                      toastr.clear();
+                      toastr.error(e.data.message, {
+                        closeButton: true
+                      });
+                      vm.errData = {
+                        err : true,
+                        message : e.data.message
+                      }
+                    });
 
 
-      }else{
-        toastr.clear();
-        toastr.warning("Upload your file!", {
-        closeButton: true,
-       });
-      }
+
+
+
+
+
+                }
+        }else{
+          NProgress.done();
+          toastr.clear();
+          toastr.warning("Upload your file!", {
+          closeButton: true,
+         });
+        }
+
     }
 
 

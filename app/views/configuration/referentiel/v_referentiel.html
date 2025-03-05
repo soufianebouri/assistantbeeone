@@ -467,7 +467,8 @@
 
 
 
-          <div class="main-footer">
+          <div class="main-footer" ng-style="{'right': rightPanelCollapsed ? '61px' : '337px'}">
+
             <div class="footer-buttons">
               <md-button class="md-raised md-primary" ng-class="vm.currect_step == 1 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.preveusStep()" ng-disabled="vm.currect_step == 1"  >
                 <&nbsp; Précedent
@@ -484,9 +485,9 @@
 
       </div>
 
-      <div id="grid3" class="grid v_mobile">
+      <div id="grid3" class="grid v_mobile" ng-show="!rightPanelCollapsed">
         <md-card class="video-card">
-          <md-card-content>
+          <md-card-content >
             <div ng-hide="vm.isAI">
             <video id="videoPlayer" class="video-player" controls>
               <source src="./vids/EmmanuelMacron.mp4" type="video/mp4">
@@ -675,9 +676,30 @@
 
 
 
+
+
+
+
         </md-card>
       </div>
 
+      <div  class="grid v_mobile" ng-show="rightPanelCollapsed" style="width: 41px;background-color: #ffffff;">
+        <div class="sticky-footer" layout="row" layout-align="space-between center" >
+
+          <div class="footer-buttons" style="padding: 4px;
+          position: absolute;
+          bottom: 0;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                  <div class="infos-btn" ng-click="vm.makeCall()" style="display: flex; justify-content: center; align-items: center;">
+                      <img src="././images/main_configuration/phone.svg" />
+                  </div>
+                  <div class="infos-btn" ng-click="vm.sendEmail()" style="display: flex; justify-content: center; align-items: center;">
+                      <img src="././images/main_configuration/email.svg" />
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>

@@ -31,6 +31,12 @@ angular.module('beeOneWebFrontApp')
 
     /**** all steps **/
 
+    $scope.rightPanelCollapsed = true;
+
+          $scope.toggleRightPanel = function() {
+            $scope.rightPanelCollapsed = !$scope.rightPanelCollapsed;
+          };
+
     $scope.go_back = function () {
       $state.go("main_configuration");
     };

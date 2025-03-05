@@ -486,6 +486,27 @@
       </div>
 
       <div id="grid3" class="grid v_mobile" ng-show="!rightPanelCollapsed">
+
+        <div id="toggle_right_side" class="infos-btn" ng-click="toggleRightPanel()" style="
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        bottom: 55%;
+        /* left: 50%; */
+        transform: translateX(-50%);
+        background: #ffffff;
+        border-radius: 50%;
+        display: flex
+        ;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        /* animation: pulse 1.5s infiniteease-in-out;">
+            > >
+         </div>
+
+
         <md-card class="video-card">
           <md-card-content >
             <div ng-hide="vm.isAI">
@@ -684,18 +705,31 @@
       </div>
 
       <div  class="grid v_mobile" ng-show="rightPanelCollapsed" style="width: 41px;background-color: #ffffff;">
+
+        <div class="infos-btn" ng-click="toggleRightPanel()" style="padding-left: 3px;padding-right: 3px;display: flex; justify-content: center; align-items: center;">
+            <img src="././images/main_configuration/video.svg" />
+        </div>
+
+
         <div class="sticky-footer" layout="row" layout-align="space-between center" >
+
 
           <div class="footer-buttons" style="padding: 4px;
           position: absolute;
           bottom: 0;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                <div class="infos-btn" ng-click="toggleRightPanel()" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="././images/main_configuration/headphone.svg" />
+                </div>
+
                   <div class="infos-btn" ng-click="vm.makeCall()" style="display: flex; justify-content: center; align-items: center;">
                       <img src="././images/main_configuration/phone.svg" />
                   </div>
                   <div class="infos-btn" ng-click="vm.sendEmail()" style="display: flex; justify-content: center; align-items: center;">
                       <img src="././images/main_configuration/email.svg" />
                   </div>
+
+
               </div>
           </div>
         </div>

@@ -38,6 +38,13 @@ angular
         $state.go("main_configuration");
       };
 
+      $scope.rightPanelCollapsed = true;
+
+            $scope.toggleRightPanel = function() {
+              $scope.rightPanelCollapsed = !$scope.rightPanelCollapsed;
+            };
+
+            
       vm.currect_step = 1;
       vm.stepUrl = "views/configuration/comptes/v_societe.html";
       vm.step = async function (params, stepUrl) {

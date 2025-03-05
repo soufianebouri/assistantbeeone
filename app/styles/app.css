@@ -2601,3 +2601,27 @@ input[type="search"] {
   height: auto;
   opacity: 1;
 }
+
+    #grid3:hover #toggle_right_side {
+        visibility: visible;
+        animation: pulse 2s infinite ease-in-out; /* Animation triggered on hover */
+        transition: opacity 0.3s ease-in-out;
+    }
+    #toggle_right_side {
+            visibility: hidden;
+        }
+
+        @keyframes pulse {
+       0% {
+           transform: translateX(-50%) scale(1);
+           opacity: 1;
+       }
+       50% {
+           transform: translateX(-50%) scale(1.2);
+           opacity: 0.7;
+       }
+       100% {
+           transform: translateX(-50%) scale(1);
+           opacity: 1;
+       }
+   }

@@ -35,6 +35,13 @@ angular.module('beeOneWebFrontApp')
       $state.go("main_configuration");
     };
 
+    $scope.rightPanelCollapsed = true;
+
+    $scope.toggleRightPanel = function() {
+      $scope.rightPanelCollapsed = !$scope.rightPanelCollapsed;
+    };
+
+
     vm.currect_step = 1;
     vm.stepUrl = "views/configuration/attachement_parcelles/v_attachement_parcelles_phisique.html";
     vm.step = async function (params, stepUrl) {

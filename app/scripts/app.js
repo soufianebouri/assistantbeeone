@@ -12,8 +12,8 @@
 var version = '1.56.1'; /*global-version.new-views.improvements*/
 
 //enDev DEMO
-//var url = "http://127.0.0.1:4002/erpassistant/api";
-var url = "http://agridata2.hopto.org:4002/erpassistant/api"
+var url = "http://127.0.0.1:4002/erpassistant/api";
+//var url = "http://agridata2.hopto.org:4002/erpassistant/api"
 var appFor = "demo";
 
 
@@ -130,6 +130,22 @@ angular
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
 
+
+    .state('v_profile_production', {
+      url: '/configuration/v_profile_production',
+      templateUrl: 'views/configuration/referentiel/v_profile_production.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
+
+    .state('v_fournisseur', {
+      url: '/configuration/v_fournisseur',
+      templateUrl: 'views/configuration/referentiel/v_fournisseur.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
 
     .state('v_article', {
       url: '/configuration/v_article',

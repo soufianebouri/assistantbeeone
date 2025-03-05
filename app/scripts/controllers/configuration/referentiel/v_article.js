@@ -278,11 +278,12 @@ angular.module('beeOneWebFrontApp')
           NProgress.start()
           Produit.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.success(e.data.message, {
+              toastr.success('Article bien ajouté', {
                 closeButton: true
               });
               await $scope.undoSelect()
               NProgress.done();
+              vm.data_article.unshift(e.data);
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -408,26 +409,20 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    $scope.updatedata = function() {
-      NProgress.start();
-      return Produit.get_all();
-    };
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
 
-  if (!vm.data_article || vm.data_article.length === 0) {
-      // Simulate loading by waiting for data
-      var stopCheck = setInterval(function () {
-          if (vm.data_article && vm.data_article.length > 0) {
-              clearInterval(stopCheck); // Stop checking
-              defer.resolve(vm.data_article); // Resolve with data
-          }
-      }, 500); // Check every 500ms
-  } else {
-      // If data already exists, resolve immediately
-      defer.resolve(vm.data_article);
-  }
+      if (!vm.data_article) {
+          var stopCheck = setInterval(function () {
+              if (vm.data_article) {
+                  clearInterval(stopCheck);
+                  defer.resolve(vm.data_article);
+              }
+          }, 500);
+      } else {
+          defer.resolve(vm.data_article);
+      }
 
   return defer.promise;
       })
@@ -475,7 +470,7 @@ angular.module('beeOneWebFrontApp')
         vm.formData = data;
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
           closeButton: true
         });
 
@@ -561,22 +556,41 @@ angular.module('beeOneWebFrontApp')
         DTColumnBuilder.newColumn("Categorie").withTitle("Sous catégorie").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Unite").withTitle("Unité").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Type").withTitle("Type article").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Taux_TVA").withTitle("% TVA").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("PU").withTitle("Prix UHT").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Peut_etre_achete").withTitle("Transité par module achat").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("DA_obligatoire").withTitle("Demande d'achat obligatoire").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("BC_obligatoire").withTitle("Bon de commande obligatoire").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Amortissable").withTitle("Article amortissable").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Article_entretien__materiel").withTitle("Article d'entretien du matèriel").withOption("width", "100px"),
-
-
-
-
-      /*DTColumnBuilder.newColumn("Recolte").withTitle("Liés à la récolte").renderWith(function(data, type, full, meta) {
-        if (full.Recolte)
+        DTColumnBuilder.newColumn("Taux_TVA").withTitle("% TVA").renderWith(function(data, type, full, meta) {
+          if (full.Taux_TVA)
+            return (full.Taux_TVA).toFixed(2)
+          return "";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("PU").withTitle("Prix UHT").renderWith(function(data, type, full, meta) {
+          if (full.PU)
+            return (full.PU).toFixed(2)
+          return "";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Peut_etre_achete").withTitle("Transité par module achat").renderWith(function(data, type, full, meta) {
+          if (full.Peut_etre_achete)
             return "Oui"
           return "Non";
-     }).withOption("width", "110px"),*/
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("DA_obligatoire").withTitle("Demande d'achat obligatoire").renderWith(function(data, type, full, meta) {
+          if (full.DA_obligatoire)
+            return "Oui"
+          return "Non";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("BC_obligatoire").withTitle("Bon de commande obligatoire").renderWith(function(data, type, full, meta) {
+          if (full.BC_obligatoire)
+            return "Oui"
+          return "Non";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Amortissable").withTitle("Article amortissable").renderWith(function(data, type, full, meta) {
+          if (full.Amortissable)
+            return "Oui"
+          return "Non";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Article_entretien__materiel").renderWith(function(data, type, full, meta) {
+          if (full.Article_entretien__materiel)
+            return "Oui"
+          return "Non";
+       }).withTitle("Article d'entretien du matèriel").withOption("width", "100px"),
        DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -637,7 +651,6 @@ angular.module('beeOneWebFrontApp')
           vm.data_ferme = values[0].data;
           vm.data_unite = values[1].data;
           vm.data_article = values[2].data;
-          //if(vm.dtInstance)vm.dtInstance.reloadData();
         }).catch((error) => {
             NProgress.done();
           toastr.clear();

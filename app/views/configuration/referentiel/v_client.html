@@ -31,13 +31,13 @@
 
 
                         <md-input-container class="form-input">
-                              <label>Société fournisseur</label>
+                              <label>Société client</label>
                               <input type="text" ng-model="vm.formData.Societe"   required>
                         </md-input-container>
 
                         <md-input-container class="form-input">
                               <label>Code</label>
-                              <input type="text" ng-model="vm.formData.REF_Fournisseur"   required>
+                              <input type="text" ng-model="vm.formData.REF_client"   required>
                         </md-input-container>
 
 
@@ -79,6 +79,15 @@
                       <md-input-container class="form-input full-width">
                         <label>Adresse</label>
                         <textarea ng-model="vm.formData.Adresse" rows="3" md-maxlength="100"></textarea>
+                      </md-input-container>
+                    </div>
+
+                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                      <md-input-container class="form-input">
+                        <label>Type client<font size="0.9px"> (Station / Marché local)</font></label>
+                            <md-switch ng-model="vm.formData.marche_Local" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                              {{ (vm.formData.marche_Local) ? 'Marché local' : 'Station'}}
+                            </md-switch>
                       </md-input-container>
                     </div>
 

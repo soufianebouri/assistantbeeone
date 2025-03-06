@@ -606,7 +606,8 @@ angular.module('beeOneWebFrontApp')
       	  Telephone : null,
       	  GSM : null,
       	  EMail : null,
-      	  Fax : null
+      	  Fax : null,
+          marche_Local : 0
       }
      }
    vm.reset()
@@ -652,7 +653,6 @@ angular.module('beeOneWebFrontApp')
       "Nom",
       "Prénom",
       "Adresse",
-      "Type client",
       "Pays",
       "Ville",
       "Code postale",
@@ -719,7 +719,6 @@ angular.module('beeOneWebFrontApp')
         Prenom: item["Nom"] || null,
         Nom: item["Prénom"] || null,
         Adresse: item["Adresse"] || null,
-        marche_Local: item["Type client"] || null,
         Pays: item["Pays"] || null,
         Ville: item["Ville"] || null,
         CodePostal: item["Code postale"] || null,
@@ -828,15 +827,6 @@ angular.module('beeOneWebFrontApp')
 
     }
 
-    $scope.getReealName = function(field) {
-      const fieldNames = {
-          'Peut_etre_achete': 'Transité par module achat',
-          'DA_obligatoire': 'Demande d\'achat obligatoire',
-          'BC_obligatoire': 'Bon de commande obligatoire',
-          'Amortissable': 'Article amortissable'
-      };
-      return fieldNames[field] || null;
-  };
 
 
     $scope.validateData = async function() {
@@ -860,7 +850,7 @@ angular.module('beeOneWebFrontApp')
             }
 
               if (!item.REF_client) {
-                errors.push(`Row ${rowNum}: Missing Référence article as required field`);
+                errors.push(`Row ${rowNum}: Missing Référence client as required field`);
             } else {
               let newRef = vm.data_client.some(data_client => String(data_client.REF_client).toUpperCase() === String(item.data_client).toUpperCase() );
               console.log("newRef" , newRef);

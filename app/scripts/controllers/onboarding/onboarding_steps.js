@@ -8,10 +8,14 @@
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('OnboardingOnboardingStepsCtrl', function($scope,mainAssist, $timeout, $q, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
+  .controller('OnboardingOnboardingStepsCtrl', function($scope,mainAssist,  $cookies, toastr, $timeout, $q, auth,country, _url, $window, $state, $translatePartialLoader, $translate,onboarding, _version) {
     var vm = this;
     vm._version = _version;
 
+vm.onboardingData = $cookies.getObject('beeoneAssistant');
+    if(vm.onboardingData.assistUser.onbording_passed){
+      $state.go('main_configuration');
+    }
 
 
     $translatePartialLoader.addPart('conduitetechnique');
@@ -66,10 +70,35 @@ angular.module('beeOneWebFrontApp')
 
     vm.continuer = async function () {
       $scope.loading = true;
-      $timeout(function () {
+
+      vm.autreValue = (vm.autreValue) ? vm.autreValue : 'Autre'
+      let data = {
+        onbording_language : vm.langue,
+        onbording_country :vm.country,
+        Nom : vm.nom,
+        Prenom : vm.prenom,
+        Post : (vm.poste !== 'Autre') ? vm.poste : vm.autreValue,
+        already_use_beeone : (vm.usedbefore == 2) ? 1 : 0,
+        onbording_passed : true
+      }
+
+      NProgress.start()
+
+      toastr.clear();
+      auth.onbording(data).then( e => {
+          auth.saveOnboard(data);
+          $state.go('main_configuration');
+          $scope.loading = false;
+          NProgress.done();
+      }).catch( e => {
+        NProgress.done();
+        toastr.clear();
         $scope.loading = false;
-        $state.go('main_configuration');
-      }, 3000);
+        toastr.error(e.data.message, {
+          closeButton: true
+        });
+      });
+
     }
 
 

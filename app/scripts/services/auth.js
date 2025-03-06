@@ -22,6 +22,9 @@ angular.module('beeOneWebFrontApp')
       Login: function(data) {
         return $http.post(_url + "/auth", data);
       },
+      onbording: function(data) {
+        return $http.post(_url + "/onbording", data);
+      },
       saveFarm: function(IDFerme, NomFerme, IDSociete) {
         var ObjectUser = $cookies.getObject('beeoneAssistant');
         ObjectUser.ferme.IDFerme = IDFerme;
@@ -29,12 +32,21 @@ angular.module('beeOneWebFrontApp')
         ObjectUser.ferme.IDSociete = IDSociete;
         $cookies.putObject('beeoneAssistant', ObjectUser);
       },
+      saveOnboard: function(data) {
+        var ObjectUser = $cookies.getObject('beeoneAssistant');
+        ObjectUser.assistUser.onbording_passed = data.onbording_passed;
+        ObjectUser.assistUser.onbording_language =  data.onbording_language;
+        ObjectUser.assistUser.Post =  data.Post;
+        ObjectUser.assistUser.onbording_passed =  data.onbording_passed;
+        $cookies.putObject('beeoneAssistant', ObjectUser);
+      },
       savelatest_release: function(latest_release) {
         var ObjectUser = $cookies.getObject('beeoneAssistant');
         ObjectUser.latest_release = true;
         $cookies.putObject('beeoneAssistant', ObjectUser);
       },
-      SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, token, latest_release, role) {
+      SetCredentials: function(username, password, Nom, Prenom, isAdmin, id, permission_data, modulePermission, token, latest_release, role, onbording_passed, onbording_language, Post) {
+
         //  var authdata = $base64.encode(username + ':' + password);
         //var authdata = window.btoa(unescape(encodeURIComponent(username + ':' + password)))
         $rootScope.beeoneAssistant = {
@@ -46,7 +58,10 @@ angular.module('beeOneWebFrontApp')
             role: role,
             authdata: token,
             ID: id,
-            token: token
+            token: token,
+            onbording_passed : onbording_passed,
+            onbording_language : onbording_language,
+            Post : Post,
           },
           ferme: {
             IDFerme: 0,

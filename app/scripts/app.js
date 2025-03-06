@@ -345,7 +345,14 @@ angular
       if (!$rootScope.beeoneAssistant.assistUser) {
         $location.path("/login"); // Redirect if no user is logged in
       } else {
-        $location.path("/"); // Redirect if the user is logged in
+
+
+        let onbording_passed = $rootScope.beeoneAssistant.assistUser.onbording_passed
+        if(onbording_passed){
+          $location.path("/configuration/main");
+        }else {
+          $location.path("/");
+        }
       }
 
 

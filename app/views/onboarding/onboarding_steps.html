@@ -134,7 +134,7 @@
                         <div layout="row" layout-align="start center" ng-show="vm.poste === 'Autre'">
                           <md-input-container>
                             <label>Précisez</label>
-                            <input type="text" ng-model="autreValue" placeholder="Entrez votre poste">
+                            <input type="text" ng-model="vm.autreValue" placeholder="Entrez votre poste">
                           </md-input-container>
                         </div>
                       </div>
@@ -154,12 +154,12 @@
                         <md-radio-group ng-model="vm.usedbefore" layout="column">
 
                           <!-- Radio Button: Responsable technique -->
-                          <md-radio-button value="1">
+                          <md-radio-button ng-value="2">
                             Oui
                           </md-radio-button>
 
                           <!-- Radio Button: Gestionnaire de ferme -->
-                          <md-radio-button value="0">
+                          <md-radio-button ng-value="3">
                            Non
                           </md-radio-button>
 
@@ -187,7 +187,7 @@
                 </md-button>
                 <md-button class="btn_onboarding  right_notes" style="{{vm.country ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(2)" ng-disabled="!vm.country" ng-show="vm.step_2">Continuer
                 </md-button>
-                <md-button class="btn_onboarding  right_notes" style="{{(vm.nom || vm.prenom)? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(3)" ng-disabled="!vm.nom && !vm.prenom" ng-show="vm.step_3">Continuer
+                <md-button class="btn_onboarding  right_notes" style="{{(vm.nom && vm.prenom)? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(3)" ng-disabled="!vm.nom && !vm.prenom" ng-show="vm.step_3">Continuer
                 </md-button>
                 <md-button class="btn_onboarding  right_notes" style="{{vm.poste ? 'background-color: #0b522b;' : ''}}" ng-click="vm.steps(4)" ng-disabled="!vm.poste" ng-show="vm.step_4">Continuer
                 </md-button>

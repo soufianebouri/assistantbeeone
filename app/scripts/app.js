@@ -130,6 +130,14 @@ angular
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
 
+    .state('v_client', {
+      url: '/configuration/v_client',
+      templateUrl: 'views/configuration/referentiel/v_client.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
+
 
     .state('v_profile_production', {
       url: '/configuration/v_profile_production',

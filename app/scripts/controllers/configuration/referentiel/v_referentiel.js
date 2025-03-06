@@ -112,6 +112,8 @@ angular.module('beeOneWebFrontApp')
         vm.stepUrl = "views/configuration/referentiel/v_article.html";
       }else if(index == 8) {
         vm.stepUrl = "views/configuration/referentiel/v_fournisseur.html";
+      }else if(index == 9) {
+        vm.stepUrl = "views/configuration/referentiel/v_client.html";
       }else {
         vm.stepUrl = "views/configuration/referentiel/777.html";
       }

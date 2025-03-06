@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name beeOneWebFrontApp.controller:ConfigurationReferentielVFournisseurCtrl
+ * @name beeOneWebFrontApp.controller:ConfigurationReferentielVClientCtrl
  * @description
- * # ConfigurationReferentielVFournisseurCtrl
+ * # ConfigurationReferentielVClientCtrl
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationReferentielVFournisseurCtrl', function (
+  .controller('ConfigurationReferentielVClientCtrl', function (
     $q,
     $scope,$mdDialog,
     toastr,
@@ -18,13 +18,13 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader,
     $translate,uniteoperation,
     _version,
-    DTOptionsBuilder,Produit,
+    DTOptionsBuilder,
     $compile,
     DTColumnBuilder,
-    DTDefaultOptions,
+    DTDefaultOptions,client,
     $cookies,
     ferme,
-    familleculture,Fournisseur
+    familleculture
   ) {
     var vm = this;
     vm._version = _version;
@@ -221,15 +221,15 @@ angular.module('beeOneWebFrontApp')
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          Fournisseur.edit(vm.formData).then(async e => {
+          client.edit(vm.formData).then(async e => {
 
               toastr.clear();
               toastr.success('Article bien modifé', {
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_fournisseur.findIndex(item => item.ID === e.data.ID);
-              vm.data_fournisseur[index] = e.data;
+              let index = vm.data_client.findIndex(item => item.ID === e.data.ID);
+              vm.data_client[index] = e.data;
 
               vm.dtInstance.reloadData();
               vm.reset();
@@ -248,8 +248,8 @@ angular.module('beeOneWebFrontApp')
 
           let rules = {
             fermes : "Ferme is required.",
-            Societe: "Société fournisseur is required.",
-            REF_Fournisseur: "Code fournisseur is required."
+            Societe: "Société Client is required.",
+            REF_client: "Code Client is required."
           };
 
 
@@ -274,14 +274,14 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          Fournisseur.add(vm.formData).then(async e => {
+          client.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.success('Fournisseur bien ajouté', {
+              toastr.success('Client bien ajouté', {
                 closeButton: true
               });
               await $scope.undoSelect()
               NProgress.done();
-              vm.data_fournisseur.unshift(e.data);
+              vm.data_client.unshift(e.data);
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -300,7 +300,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_fournisseur);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_client);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -310,16 +310,16 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              Fournisseur.multidelete({
+              client.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
                 await $scope.undoSelect()
                 toastr.clear();
-                toastr.success("Fournisseur(s) successfully deleted.", {
+                toastr.success("Client(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_fournisseur = vm.data_fournisseur.filter(item => !selectedIds.includes(item.ID));
+                vm.data_client = vm.data_client.filter(item => !selectedIds.includes(item.ID));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -347,7 +347,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            Fournisseur.delete(data).then(async function(result) {
+            client.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -355,7 +355,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_fournisseur = vm.data_fournisseur.filter(item => item.ID !== data.ID);
+              vm.data_client = vm.data_client.filter(item => item.ID !== data.ID);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -377,7 +377,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_fournisseur.some(function(societe) {
+      var isDuplicate = vm.data_client.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -394,7 +394,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_fournisseur.some(function(societe) {
+      var isDuplicate = vm.data_client.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -416,15 +416,15 @@ angular.module('beeOneWebFrontApp')
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
 
-      if (!vm.data_fournisseur) {
+      if (!vm.data_client) {
           var stopCheck = setInterval(function () {
-              if (vm.data_fournisseur) {
+              if (vm.data_client) {
                   clearInterval(stopCheck);
-                  defer.resolve(vm.data_fournisseur);
+                  defer.resolve(vm.data_client);
               }
           }, 500);
       } else {
-          defer.resolve(vm.data_fournisseur);
+          defer.resolve(vm.data_client);
       }
 
   return defer.promise;
@@ -447,22 +447,22 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste Des Fournisseurs'
+          title: 'Liste Des Clients'
         },
       ]);
 
 
 
-      vm.produit_action = {};
+      vm.client_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.produit_action[data.ID] = data;
+          vm.client_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.produit_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.client_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.produit_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.client_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
@@ -488,7 +488,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_fournisseur.forEach(societe => {
+      vm.data_client.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -503,7 +503,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_fournisseur = vm.data_fournisseur.map(societe => {
+    vm.data_client = vm.data_client.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -520,7 +520,7 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_fournisseur = vm.data_fournisseur.map(societe => {
+      vm.data_client = vm.data_client.map(societe => {
           if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -528,7 +528,7 @@ angular.module('beeOneWebFrontApp')
           return societe;
       });
       /* if (!found) {
-            vm.data_fournisseur.push({ id_sco_temp: id, selected: true });
+            vm.data_client.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
@@ -538,7 +538,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return (vm.data_fournisseur) ? vm.data_fournisseur.filter(fournisseur => fournisseur.selected).length : 0;
+      return (vm.data_client) ? vm.data_client.filter(ta_client => ta_client.selected).length : 0;
     };
 
 
@@ -553,13 +553,18 @@ angular.module('beeOneWebFrontApp')
          }
          return "-"; // Display a dash if no farms exist
        }).withOption("width", "110px"),
-        DTColumnBuilder.newColumn("Societe").withTitle("Société fournisseur").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("REF_Fournisseur").withTitle("Code").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Societe").withTitle("Société client").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("REF_client").withTitle("Code").withOption("width", "100px"),
         DTColumnBuilder.newColumn("ICE").withTitle("ICE").withOption("width", "100px"),
         DTColumnBuilder.newColumn("IDF").withTitle("IF").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Prenom").withTitle("Nom").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Nom").withTitle("Prénom").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Adresse").withTitle("Adresse").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("marche_Local").withTitle("Type client").withOption("width", "100px").renderWith(function(data, type, full, meta) {
+          if (full.marche_Local)
+              return 'Marché local'
+                return 'Station';
+       }),
         DTColumnBuilder.newColumn("Pays").withTitle("Pays").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Ville").withTitle("Ville").withOption("width", "100px"),
         DTColumnBuilder.newColumn("CodePostal").withTitle("Code postale").withOption("width", "100px"),
@@ -589,7 +594,7 @@ angular.module('beeOneWebFrontApp')
       vm.formData =  {
           fermes : [],
           Societe : null,
-      	  REF_Fournisseur : null,
+      	  REF_client : null,
       	  ICE : null,
       	  IDF : null,
       	  Prenom : null,
@@ -622,11 +627,11 @@ angular.module('beeOneWebFrontApp')
     NProgress.start();
         $q.all([
           ferme.get_all(),
-          Fournisseur.get_all()
+          client.get_all()
         ]).then((values) => {
             NProgress.done();
           vm.data_ferme = values[0].data;
-          vm.data_fournisseur = values[1].data;
+          vm.data_client = values[1].data;
         }).catch((error) => {
             NProgress.done();
           toastr.clear();
@@ -640,13 +645,14 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Société fournisseur",
+      "Société client",
       "Code",
       "ICE",
       "IF",
       "Nom",
       "Prénom",
       "Adresse",
+      "Type client",
       "Pays",
       "Ville",
       "Code postale",
@@ -662,13 +668,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Fournisseur");
+          XLSX.utils.book_append_sheet(wb, ws, "Client");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Fournisseur.xlsx");
+          saveAs(blob, "Canvas Client.xlsx");
       };
 
 
@@ -706,13 +712,14 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
         FermeName: item["Ferme"] || null,
-        Societe: item["Société fournisseur"] || null,
-        REF_Fournisseur: item["Code"] || null,
+        Societe: item["Société client"] || null,
+        REF_client: item["Code"] || null,
         ICE: item["ICE"] || null,
         IDF: item["IF"] || null,
         Prenom: item["Nom"] || null,
         Nom: item["Prénom"] || null,
         Adresse: item["Adresse"] || null,
+        marche_Local: item["Type client"] || null,
         Pays: item["Pays"] || null,
         Ville: item["Ville"] || null,
         CodePostal: item["Code postale"] || null,
@@ -852,24 +859,24 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-              if (!item.REF_Fournisseur) {
+              if (!item.REF_client) {
                 errors.push(`Row ${rowNum}: Missing Référence article as required field`);
             } else {
-              let newRef = vm.data_fournisseur.some(data_fournisseur => String(data_fournisseur.REF_Fournisseur).toUpperCase() === String(item.data_fournisseur).toUpperCase() );
+              let newRef = vm.data_client.some(data_client => String(data_client.REF_client).toUpperCase() === String(item.data_client).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
-                errors.push(`Row ${rowNum}: Référence fournisseur '${item.data_fournisseur}' already exist`);
+                errors.push(`Row ${rowNum}: Référence client '${item.REF_client}' already exist`);
               }
             }
 
             if (!item.Societe) {
-                errors.push(`Row ${rowNum}: Missing societe fournisseur as required field`);
+                errors.push(`Row ${rowNum}: Missing societe client as required field`);
             }
 
-            if (item.IDFermes && item.REF_Fournisseur) {
-            let pairKey = `${item.IDFermes}_${item.REF_Fournisseur.toUpperCase()}`;
+            if (item.IDFermes && item.REF_client) {
+            let pairKey = `${item.IDFermes}_${item.REF_client.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence fournisseur '${item.REF_Fournisseur}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence client '${item.REF_client}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }
@@ -901,8 +908,8 @@ console.log(vm.jsonData);
 
 
 
-                    Fournisseur.multiadd({
-                      fournisseurs :vm.jsonData
+                    client.multiadd({
+                      clients :vm.jsonData
                     }).then(async e => {
                         toastr.clear();
                         toastr.success(e.data.message, {
@@ -911,7 +918,7 @@ console.log(vm.jsonData);
                         await $scope.undoSelect()
                         NProgress.done();
 
-                        vm.data_fournisseur.unshift(...e.data.inserted_data);
+                        vm.data_client.unshift(...e.data.inserted_data);
 
                         vm.dtInstance.reloadData();
                         vm.reset();

@@ -2602,6 +2602,17 @@ input[type="search"] {
   opacity: 1;
 }
 
+#grid_resized:hover #toggle_right_side_resized {
+    visibility: visible;
+    animation: pulse 2s infinite ease-in-out; /* Animation triggered on hover */
+    transition: opacity 0.3s ease-in-out;
+}
+#toggle_right_side_resized {
+        /*visibility: hidden;*/
+    }
+
+
+
     #grid3:hover #toggle_right_side {
         visibility: visible;
         animation: pulse 2s infinite ease-in-out; /* Animation triggered on hover */

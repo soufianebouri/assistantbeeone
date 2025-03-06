@@ -310,7 +310,7 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              Produit.multidelete({
+              Fournisseur.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
@@ -347,7 +347,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            Produit.delete(data).then(async function(result) {
+            Fournisseur.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -831,7 +831,7 @@ angular.module('beeOneWebFrontApp')
       return fieldNames[field] || null;
   };
 
-  
+
     $scope.validateData = async function() {
         let errors = [];
         let seenPairs = new Set();

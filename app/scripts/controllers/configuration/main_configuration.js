@@ -22,26 +22,26 @@ angular.module('beeOneWebFrontApp')
     if(params == 1){
       $scope.loading = true;
       $timeout(function () {
-        $scope.loading = false;
         $state.go('v_comptes');
+          $scope.loading = false;
       }, 2000);
     }else if(params == 2){
       $scope.loading = true;
         $timeout(function () {
-          $scope.loading = false;
           $state.go('v_referentiel');
+            $scope.loading = false;
         }, 2000);
     }else if(params == 3){
       $scope.loading = true;
       $timeout(function () {
-        $scope.loading = false;
         $state.go('v_attachement_parcelles');
+          $scope.loading = false;
       }, 2000);
     }else if(params == 4){
       $scope.loading = true;
       $timeout(function () {
-        $scope.loading = false;
         $state.go('v_secteurs_irrigation');
+          $scope.loading = false;
       }, 2000);
     }else {
         toastr.clear();

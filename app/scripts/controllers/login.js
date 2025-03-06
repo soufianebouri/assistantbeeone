@@ -52,10 +52,14 @@ angular.module('beeOneWebFrontApp')
 
 
            $timeout(function () {
-             $scope.loading = false;
-             if(e.data.onbording_passed)
-                 $state.go('main_configuration');
-               $state.go('onboarding');
+             if(e.data.onbording_passed){
+               $state.go('main_configuration');
+                  $scope.loading = false;
+             }else {
+                $state.go('onboarding');
+                   $scope.loading = false;
+             }
+
            }, 2000);
 
 

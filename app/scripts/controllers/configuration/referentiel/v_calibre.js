@@ -281,8 +281,10 @@ angular.module('beeOneWebFrontApp')
           let value = vm.formData[key];
 
           // Check if value is null, undefined, empty string, or an empty array
-          if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
-              toastr.clear();
+          if (value === null || value === undefined || value === '' ||
+            (Array.isArray(value) && value.length === 0) ||
+            (key === "fermes" && Array.isArray(value) && value.length === 2 && value.every(v => v === null))) {
+                toastr.clear();
               toastr.warning(rules[key], { closeButton: true });
               return false;
           }

@@ -281,8 +281,10 @@ angular.module('beeOneWebFrontApp')
           let value = vm.formData[key];
 
           // Check if value is null, undefined, empty string, or an empty array
-          if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
-              toastr.clear();
+          if (value === null || value === undefined || value === '' ||
+            (Array.isArray(value) && value.length === 0) ||
+            (key === "fermes" && Array.isArray(value) && value.length === 2 && value.every(v => v === null))) {
+                toastr.clear();
               toastr.warning(rules[key], { closeButton: true });
               return false;
           }
@@ -488,15 +490,10 @@ angular.module('beeOneWebFrontApp')
       }
 
 
-      vm.edit = function (data) {
+      vm.edit = async function (data) {
         vm.formData = data;
-        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
-        $q.all([produitrendement.getbymultiferme({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_produit = values[0].data;
-        })
+        vm.formData.fermes = await data.fermes.map(ferme => ferme.IDFermes);
+
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
           closeButton: true

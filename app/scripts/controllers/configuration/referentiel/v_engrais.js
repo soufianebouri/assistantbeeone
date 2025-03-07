@@ -268,13 +268,13 @@ angular.module('beeOneWebFrontApp')
     vm.validateFormData = async function() {
       let rules = {
           fermes: "Ferme is required.",
-          IDProduit_Rendement: "Produit is required.",
-          IDUnite_Operation: "Unité récolte is required.",
-          Code: "Code calibre is required.",
-          Calibre: "Désignation calibre is required.",
-          val_min: "Bornes Min is required.",
-          val_max: "Bornes Max is required.",
-          nbre_fruit_kg: "Nombre de fruits/Kg is required."
+          Ref : "Référence engrais is required.",
+          Designation : "Désignation engrais is required.",
+          Categorie : "Catégorie is required.",
+          Sous_Categorie : "Sous catégorie is required.",
+          Unite : "Unité is required.",
+          Dose : "Dose is required.",
+          Unite_Dose : "Unité dose is required."
       };
 
       for (let key in rules) {
@@ -287,17 +287,6 @@ angular.module('beeOneWebFrontApp')
               return false;
           }
       }
-
-      // Additional validation: val_min must be less than val_max
-      let valMin = parseFloat(vm.formData.val_min);
-      let valMax = parseFloat(vm.formData.val_max);
-
-      if (!isNaN(valMin) && !isNaN(valMax) && valMin >= valMax) {
-          toastr.clear();
-          toastr.warning("Bornes Min must be less than Bornes Max.", { closeButton: true });
-          return false;
-      }
-
       return true;
   };
 
@@ -324,10 +313,7 @@ angular.module('beeOneWebFrontApp')
               closeButton: true
             });
           });
-
         }
-
-
     };
 
 
@@ -665,8 +651,10 @@ angular.module('beeOneWebFrontApp')
           NH4 : null,
           MGO : null,
           Cu : null,
+          Mn : null,
           B : null,
           Fe : null,
+          Mo : null,
           Zn : null,
           Taux_TVA : null,
           PU : null,
@@ -1002,11 +990,10 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.integer = async function(){
-console.log(vm.jsonData);
       if(vm.jsonData.length>0){
              NProgress.start();
         if(await $scope.validateData()){
-console.log(vm.jsonData);
+
 
 
                     engrais.multiadd({

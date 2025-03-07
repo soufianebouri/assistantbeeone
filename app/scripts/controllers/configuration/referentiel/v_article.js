@@ -858,7 +858,7 @@ angular.module('beeOneWebFrontApp')
   };
     $scope.validateData = async function() {
         let errors = [];
-let seenPairs = new Set();
+        let seenPairs = new Set();
         vm.jsonData.forEach((item, index) => {
             let rowNum = index + 2;
 

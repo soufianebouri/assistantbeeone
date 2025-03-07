@@ -125,10 +125,19 @@ angular
       urlTemplate: "/scripts/i18n/{part}/{lang}.json",
     });
 
+
     $urlRouterProvider.otherwise("/");
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+
+    .state('v_engrais', {
+      url: '/configuration/v_engrais',
+      templateUrl: 'views/configuration/referentiel/v_engrais.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
 
     .state('v_calibre', {
       url: '/configuration/v_calibre',

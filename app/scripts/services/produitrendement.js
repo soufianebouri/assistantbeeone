@@ -33,6 +33,12 @@ angular.module('beeOneWebFrontApp')
       },
       getUnites: function(data) {
         return $http.post(_url + "/produit_rendement/getUnites", data);
+      },
+      getbymultiferme: function(data) {
+        return $http.post(_url + "/produit_rendement/getbymultiferme", data);
+      },
+      getall_min: function(data) {
+        return $http.post(_url + "/produit_rendement/getall_min", data);
       }
     };
   });

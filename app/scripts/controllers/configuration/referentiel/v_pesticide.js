@@ -922,16 +922,32 @@ if(vm.formData.ID){
     }
 
 
-
+'', 'Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire', ''
     $scope.getReealName = function(field) {
       const fieldNames = {
           'Peut_etre_achete': 'Transité par module achat',
           'DA_obligatoire': 'Demande d\'achat obligatoire',
           'BC_obligatoire': 'Bon de commande obligatoire',
-          'TVA': 'TVA Recupérable'
+          'homologue': 'Homologué Recupérable',
+          'TVA_recuperable': 'TVA récup Recupérable'
       };
       return fieldNames[field] || null;
   };
+
+
+
+/*
+
+
+
+
+  categorie_ennemi  : item["Catégorie ennemi"] || null,
+  ennemi  : item["Ennemi"] || null,
+  Dose  : item["Dose"] || null,
+  Unite_Dose  : item["Unité dose"] || null,
+  DAR: item["DAR"] || null,
+
+  */
 
     $scope.validateData = async function() {
 
@@ -955,94 +971,85 @@ if(vm.formData.ID){
             }
 
 
+            if (!item.culturName ) {
+                errors.push(`Row ${rowNum}: Missing Culture as required field`);
+            }
+
+            if (item.culturName ) {
+              let newferme = vm.data_cultureall.find(culture => String(culture.Culture).toUpperCase() === String(item.culturName).toUpperCase());
+
+               if(!newferme){
+                 errors.push(`Row ${rowNum}: Culture '${item.FermeName}' does not exist`);
+               }else {
+                 vm.jsonData[index].IDCulture = newferme.ID;
+               }
+            }
+
+
 
               if (!item.Ref) {
-                errors.push(`Row ${rowNum}: Missing Référence engrais as required field`);
+                errors.push(`Row ${rowNum}: Missing Référence pesticide as required field`);
             } else {
               let newRef = vm.data_pesticide.some(data_pesticide => String(data_pesticide.Ref).toUpperCase() === String(item.Ref).toUpperCase() );
                 if(newRef){
-                errors.push(`Row ${rowNum}: Référence engrais '${item.Ref}' already exist`);
+                errors.push(`Row ${rowNum}: Référence pesticide '${item.Ref}' already exist`);
               }
             }
 
             if (!item.Designation) {
-                errors.push(`Row ${rowNum}: Missing Désignation engrais as required field`);
+                errors.push(`Row ${rowNum}: Missing Désignation pesticide as required field`);
             }else {
               let newDesignation = vm.data_pesticide.some(data_pesticide => String(data_pesticide.Designation).toUpperCase() === String(item.Designation).toUpperCase());
               if(newDesignation){
-                errors.push(`Row ${rowNum}: Désignation '${item.Designation}' already exist`);
+                errors.push(`Row ${rowNum}: Désignation pesticide '${item.Designation}' already exist`);
               }
             }
 
+
+
+
+
             if (!item.Categorie) {
-                errors.push(`Row ${rowNum}: Missing Categorie engrais as required field`);
+                errors.push(`Row ${rowNum}: Missing Categorie as required field`);
             }
 
             if (!item.Sous_Categorie) {
-                errors.push(`Row ${rowNum}: Missing Sous catégorie engrais as required field`);
+                errors.push(`Row ${rowNum}: Missing Sous catégorie  as required field`);
             }
 
             if (!item.Unite) {
                 errors.push(`Row ${rowNum}: Missing Unité as required field`);
             }
 
-            if (!item.Unite_Dose) {
-                errors.push(`Row ${rowNum}: Missing Unité Dose as required field`);
+            if (!item.PU) {
+                errors.push(`Row ${rowNum}: Missing PU HT as required field`);
             }
 
-            if (!item.Dose) {
-                errors.push(`Row ${rowNum}: Dose is required`);
+            if (item.PU !== null && (isNaN(item.PU) || item.PU < 0)) {
+                errors.push(`Row ${rowNum}: PU HT must be a number >= 0.`);
             }
 
-            if (item.Dose !== null && (isNaN(item.Dose) || item.Dose < 0)) {
-                errors.push(`Row ${rowNum}: Dose must be a number >= 0.`);
+            if (!item.Famille_chimique) {
+                errors.push(`Row ${rowNum}: Missing Famille chimique as required field`);
             }
+
+            if (!item.Matiere_active) {
+                errors.push(`Row ${rowNum}: Missing Matière active as required field`);
+            }
+
+            if (!item.Teneur) {
+                errors.push(`Row ${rowNum}: Missing PU HT as required field`);
+            }
+
+            if (item.Teneur !== null && (isNaN(item.Teneur) || item.Teneur < 0)) {
+                errors.push(`Row ${rowNum}: Teneur must be a number >= 0.`);
+            }
+
             if (item.Taux_TVA !== null && (isNaN(item.Taux_TVA) || item.Taux_TVA < 0)) {
                 errors.push(`Row ${rowNum}: % TVA must be a number >= 0.`);
             }
-            if (item.PU !== null && (isNaN(item.PU) || item.PU < 0)) {
-                errors.push(`Row ${rowNum}: Prix UHT must be a number >= 0.`);
-            }
-            if (item.N !== null && (isNaN(item.N) || item.N < 0)) {
-                errors.push(`Row ${rowNum}: N must be a number >= 0.`);
-            }
-            if (item.P !== null && (isNaN(item.P) || item.P < 0)) {
-                errors.push(`Row ${rowNum}: P must be a number >= 0.`);
-            }
-            if (item.K !== null && (isNaN(item.K) || item.K < 0)) {
-                errors.push(`Row ${rowNum}: K must be a number >= 0.`);
-            }
-            if (item.CAO !== null && (isNaN(item.CAO) || item.CAO < 0)) {
-                errors.push(`Row ${rowNum}: CAO must be a number >= 0.`);
-            }
-            if (item.NH4 !== null && (isNaN(item.NH4) || item.NH4 < 0)) {
-                errors.push(`Row ${rowNum}: NH4 must be a number >= 0.`);
-            }
-            if (item.MGO !== null && (isNaN(item.MGO) || item.MGO < 0)) {
-                errors.push(`Row ${rowNum}: MGO must be a number >= 0.`);
-            }
-            if (item.Cu !== null && (isNaN(item.Cu) || item.Cu < 0)) {
-                errors.push(`Row ${rowNum}: Cu must be a number >= 0.`);
-            }
-            if (item.Mn !== null && (isNaN(item.Mn) || item.Mn < 0)) {
-                errors.push(`Row ${rowNum}: Mn must be a number >= 0.`);
-            }
-            if (item.B !== null && (isNaN(item.B) || item.B < 0)) {
-                errors.push(`Row ${rowNum}: B must be a number >= 0.`);
-            }
-            if (item.Fe !== null && (isNaN(item.Fe) || item.Fe < 0)) {
-                errors.push(`Row ${rowNum}: Fe must be a number >= 0.`);
-            }
-            if (item.Mo !== null && (isNaN(item.Mo) || item.Mo < 0)) {
-                errors.push(`Row ${rowNum}: Mo must be a number >= 0.`);
-            }
-            if (item.Zn !== null && (isNaN(item.Zn) || item.Zn < 0)) {
-                errors.push(`Row ${rowNum}: Zn must be a number >= 0.`);
-            }
 
-
-
-             ['TVA', 'Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire'].forEach(field => {
+             ['TVA_recuperable', 'Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire', 'homologue'].forEach(field => {
                 if (item[field] !== null && item[field] !== 'Oui' && item[field] !== 'Non') {
                     errors.push(`Row ${rowNum}: ${$scope.getReealName(field)} must be 'Oui' or 'Non'.`);
                 }
@@ -1076,56 +1083,69 @@ if(vm.formData.ID){
         }
     };
 
+    vm.data_cultureall = [];
+
     vm.integer = async function(){
       if(vm.jsonData.length>0){
              NProgress.start();
-        if(await $scope.validateData()){
+             $q.all([cultureService.get_byfermes({
+               IDFermes: []
+             })]).then(async (values) => {
+               NProgress.done();
+               vm.data_cultureall = values[0].data;
+               if(await $scope.validateData()){
 
-                    pesticide.multiadd({
-                      pesticides :vm.jsonData
-                    }).then(async e => {
-                        toastr.clear();
-                        toastr.success(e.data.message, {
-                          closeButton: true
-                        });
-                        await $scope.undoSelect()
-                        NProgress.done();
-
-                        vm.data_pesticide.unshift(...e.data.inserted_data);
-
-                        vm.dtInstance.reloadData();
-                        vm.reset();
-                        vm.isFileSelected = false;
-                        vm.jsonData = [];
-                        vm.errData = {
-                          err : false
-                        }
-                    }).catch(async e => {
-                      NProgress.done();
-                      toastr.clear();
-                      toastr.error(e.data.message, {
-                        closeButton: true
-                      });
-                      vm.errData = {
-                        err : true,
-                        message : e.data.message
-                      }
-                    });
+                           pesticide.multiadd({
+                             pesticides :vm.jsonData
+                           }).then(async e => {
+                               toastr.clear();
+                               toastr.success(e.data.message, {
+                                 closeButton: true
+                               });
+                               await $scope.undoSelect()
 
 
+                               vm.data_pesticide.unshift(...e.data.inserted_data);
+
+                               vm.dtInstance.reloadData();
+                               vm.reset();
+                               vm.isFileSelected = false;
+                               vm.jsonData = [];
+                               vm.errData = {
+                                 err : false
+                               }
+                               NProgress.done();
+                           }).catch(async e => {
+                             console.log(e);
+                               console.log(e);
+                                 console.log(e);
+                             NProgress.done();
+                             toastr.clear();
+                             toastr.error(e.data.message, {
+                               closeButton: true
+                             });
+                             vm.errData = {
+                               err : true,
+                               message : e.data.message
+                             }
+                           });
 
 
 
 
 
-                }
-        }else{
-          NProgress.done();
-          toastr.clear();
-          toastr.warning("Upload your file!", {
-          closeButton: true,
-         });
-        }
+
+
+                       }
+
+             })
+           }else{
+             NProgress.done();
+             toastr.clear();
+             toastr.warning("Upload your file!", {
+             closeButton: true,
+            });
+           }
 
     }
 

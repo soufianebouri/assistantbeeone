@@ -491,10 +491,9 @@ angular.module('beeOneWebFrontApp')
 
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
-        copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
           closeButton: true
         });
 
@@ -572,7 +571,7 @@ angular.module('beeOneWebFrontApp')
         DTColumnBuilder.newColumn("Reference").withTitle("Référence").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Name").withTitle("Désignation").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Superficie").withTitle("Superficie (ha)").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Liaison_fournisseur").withTitle("Liaison fornisseur").renderWith(function(data, type, full, meta) {
+        DTColumnBuilder.newColumn("Liaison_fournisseur").withTitle("Liaison fournisseur").renderWith(function(data, type, full, meta) {
           if (full.Liaison_fournisseur)
             return "Oui"
           return "Non";

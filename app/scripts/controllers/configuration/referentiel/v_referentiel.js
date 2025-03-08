@@ -42,7 +42,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/referentiel/v_depot.html";
+    vm.stepUrl = "views/configuration/referentiel/v_famille_culture.html";
     vm.step = async function (params, stepUrl) {
       vm.currect_step = params;
       vm.stepUrl = stepUrl

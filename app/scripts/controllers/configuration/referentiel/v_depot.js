@@ -639,32 +639,11 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Fermes",
-      "Référence engrais",
-      "Désignation engrais",
-      "Catégorie",
-      "Sous catégorie",
-      "Unité",
-      "Dose",
-      "Unité dose",
-      "N",
-      "P",
-      "K",
-      "CaO",
-      "NH4",
-      "MgO",
-      "Cu",
-      "B",
-      "Fe",
-      "Zn",
-      "Mn",
-      "Mo",
-      "% TVA",
-      "Prix UHT",
-      "TVA récup",
-      "Transité par module achat",
-      "Demande d'achat obligatoire",
-      "Bon de commande obligatoire"
+      "Ferme",
+      "Référence",
+      "Désignation",
+      "Superficie (ha)",
+      "Liaison fournisseur"
     ];
 
       vm.exportToExcel = function () {
@@ -717,32 +696,11 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Fermes"] || null,
-        Ref: item["Référence engrais"] || null,
-        Designation: item["Désignation engrais"] || null,
-        Categorie: item["Catégorie"] || null,
-        Sous_Categorie: item["Sous catégorie"] || null,
-        Unite: item["Unité"] || null,
-        Dose: item["Dose"] || null,
-        Unite_Dose: item["Unité dose"] || null,
-        N: item["N"] || null,
-        P: item["P"] || null,
-        K: item["K"] || null,
-        CAO: item["CaO"] || null,
-        NH4: item["NH4"] || null,
-        MGO: item["MgO"] || null,
-        Cu: item["Cu"] || null,
-        B: item["B"] || null,
-        Fe: item["Fe"] || null,
-        Zn: item["Zn"] || null,
-        Mn  : item["Mn"] || null,
-        Mo  : item["Mo"] || null,
-        Taux_TVA: item["% TVA"] || null,
-        PU: item["Prix UHT"] || null,
-        TVA: item["TVA récup"] || null,
-        Peut_etre_achete: item["Transité par module achat"] || null,
-        DA_obligatoire: item["Demande d'achat obligatoire"] || null,
-        BC_obligatoire: item["Bon de commande obligatoire"] || null
+          FermeName: item["Ferme"] || null,
+          Reference : item["Référence"] || null,
+          Name : item["Désignation"] || null,
+          Superficie : item["Superficie (ha)"] || null,
+          Liaison_fournisseur : item["Liaison fournisseur"] || null
       }));
     };
 
@@ -844,24 +802,8 @@ angular.module('beeOneWebFrontApp')
 
     }
 
-    vm.getProduitcheck = async function () {
-
-      return $q.all([produitrendement.getall_min()]).then((values) => {
-        return values[0].data;
-      })
-    }
 
 
-
-    $scope.getReealName = function(field) {
-      const fieldNames = {
-          'Peut_etre_achete': 'Transité par module achat',
-          'DA_obligatoire': 'Demande d\'achat obligatoire',
-          'BC_obligatoire': 'Bon de commande obligatoire',
-          'TVA': 'TVA Recupérable'
-      };
-      return fieldNames[field] || null;
-  };
 
     $scope.validateData = async function() {
 
@@ -874,6 +816,10 @@ angular.module('beeOneWebFrontApp')
                 errors.push(`Row ${rowNum}: Missing Ferme as required field`);
             }
 
+            if (!item.Superficie) {
+                errors.push(`Row ${rowNum}: Missing Superficie as required field`);
+            }
+
             if (item.FermeName ) {
               let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
 
@@ -881,88 +827,47 @@ angular.module('beeOneWebFrontApp')
                  errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
                }else {
                  vm.jsonData[index].IDFermes = newferme.IDFermes;
+                 vm.jsonData[index].IDSociete = newferme.IDSociete;
                }
             }
 
 
 
-              if (!item.Ref) {
+              if (!item.Reference) {
                 errors.push(`Row ${rowNum}: Missing Référence Dépôt as required field`);
             } else {
-              let newRef = vm.data_depot.some(data_depot => String(data_depot.Ref).toUpperCase() === String(item.Ref).toUpperCase() );
+              let newRef = vm.data_depot.some(data_depot => String(data_depot.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
                 if(newRef){
-                errors.push(`Row ${rowNum}: Référence Dépôt '${item.Ref}' already exist`);
+                errors.push(`Row ${rowNum}: Référence Dépôt '${item.Reference}' already exist`);
               }
             }
 
-            if (!item.Designation) {
+            if (!item.Name) {
                 errors.push(`Row ${rowNum}: Missing Désignation Dépôt as required field`);
             }else {
-              let newDesignation = vm.data_depot.some(data_depot => String(data_depot.Designation).toUpperCase() === String(item.Designation).toUpperCase());
+              let newDesignation = vm.data_depot.some(data_depot => String(data_depot.Name).toUpperCase() === String(item.Name).toUpperCase());
               if(newDesignation){
-                errors.push(`Row ${rowNum}: Désignation '${item.Designation}' already exist`);
+                errors.push(`Row ${rowNum}: Désignation Dépôt '${item.Name}' already exist`);
               }
             }
 
-            if (item.Dose !== null && (isNaN(item.Dose) || item.Dose < 0)) {
+            if (item.Superficie !== null && (isNaN(item.Superficie) || item.Superficie < 0)) {
                 errors.push(`Row ${rowNum}: Dose must be a number >= 0.`);
             }
-            if (item.Taux_TVA !== null && (isNaN(item.Taux_TVA) || item.Taux_TVA < 0)) {
-                errors.push(`Row ${rowNum}: % TVA must be a number >= 0.`);
-            }
-            if (item.PU !== null && (isNaN(item.PU) || item.PU < 0)) {
-                errors.push(`Row ${rowNum}: Prix UHT must be a number >= 0.`);
-            }
-            if (item.N !== null && (isNaN(item.N) || item.N < 0)) {
-                errors.push(`Row ${rowNum}: N must be a number >= 0.`);
-            }
-            if (item.P !== null && (isNaN(item.P) || item.P < 0)) {
-                errors.push(`Row ${rowNum}: P must be a number >= 0.`);
-            }
-            if (item.K !== null && (isNaN(item.K) || item.K < 0)) {
-                errors.push(`Row ${rowNum}: K must be a number >= 0.`);
-            }
-            if (item.CAO !== null && (isNaN(item.CAO) || item.CAO < 0)) {
-                errors.push(`Row ${rowNum}: CAO must be a number >= 0.`);
-            }
-            if (item.NH4 !== null && (isNaN(item.NH4) || item.NH4 < 0)) {
-                errors.push(`Row ${rowNum}: NH4 must be a number >= 0.`);
-            }
-            if (item.MGO !== null && (isNaN(item.MGO) || item.MGO < 0)) {
-                errors.push(`Row ${rowNum}: MGO must be a number >= 0.`);
-            }
-            if (item.Cu !== null && (isNaN(item.Cu) || item.Cu < 0)) {
-                errors.push(`Row ${rowNum}: Cu must be a number >= 0.`);
-            }
-            if (item.Mn !== null && (isNaN(item.Mn) || item.Mn < 0)) {
-                errors.push(`Row ${rowNum}: Mn must be a number >= 0.`);
-            }
-            if (item.B !== null && (isNaN(item.B) || item.B < 0)) {
-                errors.push(`Row ${rowNum}: B must be a number >= 0.`);
-            }
-            if (item.Fe !== null && (isNaN(item.Fe) || item.Fe < 0)) {
-                errors.push(`Row ${rowNum}: Fe must be a number >= 0.`);
-            }
-            if (item.Mo !== null && (isNaN(item.Mo) || item.Mo < 0)) {
-                errors.push(`Row ${rowNum}: Mo must be a number >= 0.`);
-            }
-            if (item.Zn !== null && (isNaN(item.Zn) || item.Zn < 0)) {
-                errors.push(`Row ${rowNum}: Zn must be a number >= 0.`);
-            }
 
 
 
-             ['TVA', 'Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire'].forEach(field => {
+             ['Liaison_fournisseur'].forEach(field => {
                 if (item[field] !== null && item[field] !== 'Oui' && item[field] !== 'Non') {
-                    errors.push(`Row ${rowNum}: ${$scope.getReealName(field)} must be 'Oui' or 'Non'.`);
+                    errors.push(`Row ${rowNum}: Liaison fournisseur must be 'Oui' or 'Non'.`);
                 }
             });
 
 
-            if (item.IDFermes && item.Ref) {
+            if (item.IDFermes && item.Reference) {
             let pairKey = `${item.IDFermes}_${item.Ref.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence '${item.Ref}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence '${item.Reference}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }

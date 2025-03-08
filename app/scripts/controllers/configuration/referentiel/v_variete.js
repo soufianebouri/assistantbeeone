@@ -535,8 +535,9 @@ angular.module('beeOneWebFrontApp')
 
 
       vm.edit = function (data) {
-        vm.formData = data;
-        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
+        var copiedArray = angular.copy(data);
+        vm.formData = copiedArray;
+        copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
 
 
         $q.all([cultureService.get_byfermes({

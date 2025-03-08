@@ -455,7 +455,11 @@ angular.module('beeOneWebFrontApp')
 
 
       vm.edit = function (data) {
-        vm.formData = data;
+      
+
+        var copiedArray = angular.copy(data);
+        vm.formData = copiedArray;
+
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {

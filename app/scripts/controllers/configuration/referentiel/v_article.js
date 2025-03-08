@@ -472,8 +472,11 @@ angular.module('beeOneWebFrontApp')
 
 
       vm.edit = function (data) {
-        vm.formData = data;
-        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
+
+        var copiedArray = angular.copy(data);
+        vm.formData = copiedArray;
+        copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
+
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
           closeButton: true

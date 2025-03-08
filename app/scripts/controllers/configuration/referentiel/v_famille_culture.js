@@ -500,13 +500,23 @@ NProgress.start();
 
 
       vm.edit = function (data) {
-        vm.formData = data;
-        const matches = data.fermes.map(ferme => { // from previous example
+
+
+
+
+
+
+        var copiedArray = angular.copy(data);
+        vm.formData = copiedArray;
+
+        const matches = copiedArray.fermes.map(ferme => { // from previous example
           const data_ferme = vm.data_ferme.find(df => df.IDFermes === ferme.IDFermes);
           return data_ferme ? { data_ferme, ferme } : null;
         }).filter(match => match !== null);
 
-        vm.formData.fermes = matches.map(match => match.data_ferme);
+          copiedArray.fermes = matches.map(match => match.data_ferme);
+          
+
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {

@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name beeOneWebFrontApp.controller:ConfigurationReferentielVCalibreCtrl
+ * @name beeOneWebFrontApp.controller:ConfigurationReferentielVPesticideCtrl
  * @description
- * # ConfigurationReferentielVCalibreCtrl
+ * # ConfigurationReferentielVPesticideCtrl
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationReferentielVCalibreCtrl', function (
+  .controller('ConfigurationReferentielVPesticideCtrl', function (
     $q,
     $scope,$mdDialog,
     toastr,
@@ -21,7 +21,7 @@ angular.module('beeOneWebFrontApp')
     DTOptionsBuilder,
     $compile,
     DTColumnBuilder,
-    DTDefaultOptions,calibre,
+    DTDefaultOptions,pesticide,
     $cookies,
     ferme,produitrendement,
     familleculture
@@ -241,15 +241,15 @@ angular.module('beeOneWebFrontApp')
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          calibre.edit(vm.formData).then(async e => {
+          pesticide.edit(vm.formData).then(async e => {
 
               toastr.clear();
-              toastr.success('Calibre bien modifé', {
+              toastr.success('Pesticide bien modifé', {
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_calibre.findIndex(item => item.IDCalibre === e.data.IDCalibre);
-              vm.data_calibre[index] = e.data;
+              let index = vm.data_pesticide.findIndex(item => item.ID === e.data.ID);
+              vm.data_pesticide[index] = e.data;
 
               vm.dtInstance.reloadData();
               vm.reset();
@@ -268,13 +268,13 @@ angular.module('beeOneWebFrontApp')
     vm.validateFormData = async function() {
       let rules = {
           fermes: "Ferme is required.",
-          IDProduit_Rendement: "Produit is required.",
-          IDUnite_Operation: "Unité récolte is required.",
-          Code: "Code calibre is required.",
-          Calibre: "Désignation calibre is required.",
-          val_min: "Bornes Min is required.",
-          val_max: "Bornes Max is required.",
-          nbre_fruit_kg: "Nombre de fruits/Kg is required."
+          Ref : "Référence engrais is required.",
+          Designation : "Désignation engrais is required.",
+          Categorie : "Catégorie is required.",
+          Sous_Categorie : "Sous catégorie is required.",
+          Unite : "Unité is required.",
+          Dose : "Dose is required.",
+          Unite_Dose : "Unité dose is required."
       };
 
       for (let key in rules) {
@@ -289,17 +289,6 @@ angular.module('beeOneWebFrontApp')
               return false;
           }
       }
-
-      // Additional validation: val_min must be less than val_max
-      let valMin = parseFloat(vm.formData.val_min);
-      let valMax = parseFloat(vm.formData.val_max);
-
-      if (!isNaN(valMin) && !isNaN(valMax) && valMin >= valMax) {
-          toastr.clear();
-          toastr.warning("Bornes Min must be less than Bornes Max.", { closeButton: true });
-          return false;
-      }
-
       return true;
   };
 
@@ -309,14 +298,14 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          calibre.add(vm.formData).then(async e => {
+          pesticide.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.success('Calibre bien ajouté', {
+              toastr.success('Pesticide bien ajouté', {
                 closeButton: true
               });
               await $scope.undoSelect()
               NProgress.done();
-              vm.data_calibre.unshift(e.data);
+              vm.data_pesticide.unshift(e.data);
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -326,16 +315,13 @@ angular.module('beeOneWebFrontApp')
               closeButton: true
             });
           });
-
         }
-
-
     };
 
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_calibre);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_pesticide);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -345,16 +331,16 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              calibre.multidelete({
+              pesticide.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
                 await $scope.undoSelect()
                 toastr.clear();
-                toastr.success("Calibre(s) successfully deleted.", {
+                toastr.success("Pesticide(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_calibre = vm.data_calibre.filter(item => !selectedIds.includes(item.IDCalibre));
+                vm.data_pesticide = vm.data_pesticide.filter(item => !selectedIds.includes(item.ID));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -382,7 +368,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            calibre.delete(data).then(async function(result) {
+            pesticide.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -390,7 +376,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_calibre = vm.data_calibre.filter(item => item.IDCalibre !== data.IDCalibre);
+              vm.data_pesticide = vm.data_pesticide.filter(item => item.ID !== data.ID);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -412,7 +398,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_calibre.some(function(societe) {
+      var isDuplicate = vm.data_pesticide.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -429,7 +415,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_calibre.some(function(societe) {
+      var isDuplicate = vm.data_pesticide.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -451,15 +437,15 @@ angular.module('beeOneWebFrontApp')
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
 
-      if (!vm.data_calibre) {
+      if (!vm.data_pesticide) {
           var stopCheck = setInterval(function () {
-              if (vm.data_calibre) {
+              if (vm.data_pesticide) {
                   clearInterval(stopCheck);
-                  defer.resolve(vm.data_calibre);
+                  defer.resolve(vm.data_pesticide);
               }
           }, 500);
       } else {
-          defer.resolve(vm.data_calibre);
+          defer.resolve(vm.data_pesticide);
       }
 
   return defer.promise;
@@ -482,38 +468,35 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste Des Calibres'
+          title: 'Liste Des Pesticide'
         },
       ]);
 
 
 
-      vm.calibre_action = {};
+      vm.pesticide_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.calibre_action[data.IDCalibre] = data;
+          vm.pesticide_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.calibre_action[' +
-          data.IDCalibre +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.pesticide_action[' +
+          data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.calibre_action[' +
-          data.IDCalibre +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.pesticide_action[' +
+          data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
 
 
-      vm.edit = function (data) {
+      vm.edit = async function (data) {
+
+
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
         copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
-        $q.all([produitrendement.getbymultiferme({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_produit = values[0].data;
-        })
+
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
           closeButton: true
@@ -530,7 +513,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_calibre.forEach(societe => {
+      vm.data_pesticide.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -545,7 +528,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_calibre = vm.data_calibre.map(societe => {
+    vm.data_pesticide = vm.data_pesticide.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -554,7 +537,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.IDCalibre); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.ID); // Extract IDs
 
     return selectedIds;
   };
@@ -562,25 +545,23 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_calibre = vm.data_calibre.map(societe => {
-          if (societe.IDCalibre === id) {
+      vm.data_pesticide = vm.data_pesticide.map(societe => {
+          if (societe.ID === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
           return societe;
       });
-      /* if (!found) {
-            vm.data_calibre.push({ id_sco_temp: id, selected: true });
-        }    */
+      
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDCalibre})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.ID})">`;
     }
 
 
     vm.updateSelectedCount = function () {
-      return (vm.data_calibre) ? vm.data_calibre.filter(ta_calibre => ta_calibre.selected).length : 0;
+      return (vm.data_pesticide) ? vm.data_pesticide.filter(dt_pesticide => dt_pesticide.selected).length : 0;
     };
 
 
@@ -593,16 +574,47 @@ angular.module('beeOneWebFrontApp')
           if (full.fermes && Array.isArray(full.fermes) ) {
              return full.fermes.map(f => f.Nom).join(", ");
          }
-         return "-"; // Display a dash if no farms exist
+         return "-";
        }).withOption("width", "110px"),
-        DTColumnBuilder.newColumn("designation").withTitle("Produit").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Unite").withTitle("Unité récolte").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Code").withTitle("Code calibre").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Calibre").withTitle("Désignation calibre").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("val_min").withTitle("Bornes Min").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("val_max").withTitle("Bornes Max").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("nbre_fruit_kg").withTitle("Nombre de fruits/Kg").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("calibre_moy").withTitle("Calibre Moyen").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ref").withTitle("Référence engrais").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Designation").withTitle("Désignation engrais").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Categorie").withTitle("Catégorie").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Sous_Categorie").withTitle("Sous catégorie").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Unite").withTitle("Unité").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Dose").withTitle("Dose").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Unite_Dose").withTitle("Unité dose").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("N").withTitle("N").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("P").withTitle("P").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("K").withTitle("K").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("CAO").withTitle("CaO").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("NH4").withTitle("NH4").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("MGO").withTitle("MgO").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Cu").withTitle("Cu").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("B").withTitle("B").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Fe").withTitle("Fe").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Zn").withTitle("Zn").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Taux_TVA").withTitle("% TVA").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("PU").withTitle("Prix UHT").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("TVA").withTitle("TVA récup").renderWith(function(data, type, full, meta) {
+          if (full.TVA)
+            return "Oui"
+          return "Non";
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Peut_etre_achete").withTitle("Transité par module achat").renderWith(function(data, type, full, meta) {
+          if (full.Peut_etre_achete)
+            return "Oui"
+          return "Non";
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("DA_obligatoire").withTitle("Demande d'achat obligatoire").renderWith(function(data, type, full, meta) {
+          if (full.DA_obligatoire)
+            return "Oui"
+          return "Non";
+       }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("BC_obligatoire").withTitle("Bon de commande obligatoire").renderWith(function(data, type, full, meta) {
+          if (full.BC_obligatoire)
+            return "Oui"
+          return "Non";
+       }).withOption("width", "100px"),
        DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -623,13 +635,31 @@ angular.module('beeOneWebFrontApp')
     vm.reset = function () {
       vm.formData =  {
           fermes : [],
-          IDProduit_Rendement : null,
-          IDUnite_Operation : null,
-          Code : null,
-          Calibre : null,
-          val_min : null,
-          val_max : null,
-          nbre_fruit_kg : null
+          Ref : null,
+          Designation : null,
+          Categorie : null,
+          Sous_Categorie : null,
+          Unite : null,
+          Dose : null,
+          Unite_Dose : null,
+          N : null,
+          P : null,
+          K : null,
+          CAO : null,
+          NH4 : null,
+          MGO : null,
+          Cu : null,
+          Mn : null,
+          B : null,
+          Fe : null,
+          Mo : null,
+          Zn : null,
+          Taux_TVA : null,
+          PU : null,
+          TVA : false,
+          Peut_etre_achete : false,
+          DA_obligatoire : false,
+          BC_obligatoire : false,
       }
      }
    vm.reset()
@@ -649,12 +679,12 @@ angular.module('beeOneWebFrontApp')
 
     NProgress.start();
         $q.all([
-          calibre.get_all(),
+          pesticide.get_all(),
           ferme.get_all(),
           uniteoperation.get_all()
         ]).then((values) => {
             NProgress.done();
-          vm.data_calibre = values[0].data;
+          vm.data_pesticide = values[0].data;
           vm.data_ferme = values[1].data;
           vm.data_unite = values[2].data;
         }).catch((error) => {
@@ -669,14 +699,32 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Produit",
-      "Unité récolte",
-      "Code calibre",
-      "Désignation calibre",
-      "Bornes Min",
-      "Bornes Max",
-      "Nombre de fruits/Kg"
+      "Fermes",
+      "Référence engrais",
+      "Désignation engrais",
+      "Catégorie",
+      "Sous catégorie",
+      "Unité",
+      "Dose",
+      "Unité dose",
+      "N",
+      "P",
+      "K",
+      "CaO",
+      "NH4",
+      "MgO",
+      "Cu",
+      "B",
+      "Fe",
+      "Zn",
+      "Mn",
+      "Mo",
+      "% TVA",
+      "Prix UHT",
+      "TVA récup",
+      "Transité par module achat",
+      "Demande d'achat obligatoire",
+      "Bon de commande obligatoire"
     ];
 
       vm.exportToExcel = function () {
@@ -686,13 +734,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Calibre");
+          XLSX.utils.book_append_sheet(wb, ws, "Pesticide");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Calibre.xlsx");
+          saveAs(blob, "Canvas Pesticide.xlsx");
       };
 
 
@@ -729,14 +777,32 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        ProduitName: item["Produit"] || null,
-        UniteName: item["Unité récolte"] || null,
-        Code: item["Code calibre"] || null,
-        Calibre: item["Désignation calibre"] || null,
-        val_min: item["Bornes Min"] || null,
-        val_max: item["Bornes Max"] || null,
-        nbre_fruit_kg: item["Nombre de fruits/Kg"] || null
+        FermeName: item["Fermes"] || null,
+        Ref: item["Référence engrais"] || null,
+        Designation: item["Désignation engrais"] || null,
+        Categorie: item["Catégorie"] || null,
+        Sous_Categorie: item["Sous catégorie"] || null,
+        Unite: item["Unité"] || null,
+        Dose: item["Dose"] || null,
+        Unite_Dose: item["Unité dose"] || null,
+        N: item["N"] || null,
+        P: item["P"] || null,
+        K: item["K"] || null,
+        CAO: item["CaO"] || null,
+        NH4: item["NH4"] || null,
+        MGO: item["MgO"] || null,
+        Cu: item["Cu"] || null,
+        B: item["B"] || null,
+        Fe: item["Fe"] || null,
+        Zn: item["Zn"] || null,
+        Mn  : item["Mn"] || null,
+        Mo  : item["Mo"] || null,
+        Taux_TVA: item["% TVA"] || null,
+        PU: item["Prix UHT"] || null,
+        TVA: item["TVA récup"] || null,
+        Peut_etre_achete: item["Transité par module achat"] || null,
+        DA_obligatoire: item["Demande d'achat obligatoire"] || null,
+        BC_obligatoire: item["Bon de commande obligatoire"] || null
       }));
     };
 
@@ -845,13 +911,23 @@ angular.module('beeOneWebFrontApp')
       })
     }
 
+
+
+    $scope.getReealName = function(field) {
+      const fieldNames = {
+          'Peut_etre_achete': 'Transité par module achat',
+          'DA_obligatoire': 'Demande d\'achat obligatoire',
+          'BC_obligatoire': 'Bon de commande obligatoire',
+          'TVA': 'TVA Recupérable'
+      };
+      return fieldNames[field] || null;
+  };
+
     $scope.validateData = async function() {
+
         let errors = [];
         let seenPairs = new Set();
-
-        vm.data_produiticheck = await vm.getProduitcheck();
-        console.log("vm.data_produiticheck",vm.data_produiticheck);
-        vm.jsonData.forEach((item, index) => {
+        vm.jsonData.forEach(async (item, index)  =>  {
             let rowNum = index + 2;
 
             if (!item.FermeName ) {
@@ -868,76 +944,109 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-            if (!item.ProduitName ) {
-                errors.push(`Row ${rowNum}: Missing Produit as required field`);
-            }
-
-            if (item.ProduitName ) {
-              let newferme = vm.data_produiticheck.find(produit => String(produit.designation).toUpperCase() === String(item.ProduitName).toUpperCase());
-
-               if(!newferme){
-                 errors.push(`Row ${rowNum}: Produit '${item.ProduitName}' does not exist`);
-               }else {
-                 vm.jsonData[index].IDProduit_Rendement = newferme.IDProduit_Rendement;
-               }
-            }
 
 
-            if (!item.UniteName ) {
-                errors.push(`Row ${rowNum}: Missing Unité récolte as required field`);
-            }
-
-            if (item.UniteName ) {
-              let newferme = vm.data_unite.find(unite => String(unite.Unite).toUpperCase() === String(item.UniteName).toUpperCase());
-
-               if(!newferme){
-                 errors.push(`Row ${rowNum}: Unité récolte '${item.UniteName}' does not exist`);
-               }else {
-                 vm.jsonData[index].IDUnite_Operation = newferme.IDUnite_Operation;
-               }
-            }
-
-
-
-              if (!item.Code) {
-                errors.push(`Row ${rowNum}: Missing Référence client as required field`);
+              if (!item.Ref) {
+                errors.push(`Row ${rowNum}: Missing Référence engrais as required field`);
             } else {
-              let newRef = vm.data_calibre.some(data_calibre => String(data_calibre.Code).toUpperCase() === String(item.Code).toUpperCase() );
-              let newRef1 = vm.data_calibre.some(data_calibre => String(data_calibre.REF_calibre).toUpperCase() === String(item.Code).toUpperCase() );
-
-              if(newRef || newRef1){
-                errors.push(`Row ${rowNum}: Code calibre '${item.Code}' already exist`);
+              let newRef = vm.data_pesticide.some(data_pesticide => String(data_pesticide.Ref).toUpperCase() === String(item.Ref).toUpperCase() );
+                if(newRef){
+                errors.push(`Row ${rowNum}: Référence engrais '${item.Ref}' already exist`);
               }
             }
 
-            if (!item.Calibre) {
-                errors.push(`Row ${rowNum}: Missing Désignation calibre as required field`);
+            if (!item.Designation) {
+                errors.push(`Row ${rowNum}: Missing Désignation engrais as required field`);
+            }else {
+              let newDesignation = vm.data_pesticide.some(data_pesticide => String(data_pesticide.Designation).toUpperCase() === String(item.Designation).toUpperCase());
+              if(newDesignation){
+                errors.push(`Row ${rowNum}: Désignation '${item.Designation}' already exist`);
+              }
             }
 
-            if (vm.jsonData[index].IDProduit_Rendement && item.Code) {
-            let pairKey = `${vm.jsonData[index].IDProduit_Rendement}_${item.Code.toUpperCase()}`;
+            if (!item.Categorie) {
+                errors.push(`Row ${rowNum}: Missing Categorie engrais as required field`);
+            }
+
+            if (!item.Sous_Categorie) {
+                errors.push(`Row ${rowNum}: Missing Sous catégorie engrais as required field`);
+            }
+
+            if (!item.Unite) {
+                errors.push(`Row ${rowNum}: Missing Unité as required field`);
+            }
+
+            if (!item.Unite_Dose) {
+                errors.push(`Row ${rowNum}: Missing Unité Dose as required field`);
+            }
+
+            if (!item.Dose) {
+                errors.push(`Row ${rowNum}: Dose is required`);
+            }
+
+            if (item.Dose !== null && (isNaN(item.Dose) || item.Dose < 0)) {
+                errors.push(`Row ${rowNum}: Dose must be a number >= 0.`);
+            }
+            if (item.Taux_TVA !== null && (isNaN(item.Taux_TVA) || item.Taux_TVA < 0)) {
+                errors.push(`Row ${rowNum}: % TVA must be a number >= 0.`);
+            }
+            if (item.PU !== null && (isNaN(item.PU) || item.PU < 0)) {
+                errors.push(`Row ${rowNum}: Prix UHT must be a number >= 0.`);
+            }
+            if (item.N !== null && (isNaN(item.N) || item.N < 0)) {
+                errors.push(`Row ${rowNum}: N must be a number >= 0.`);
+            }
+            if (item.P !== null && (isNaN(item.P) || item.P < 0)) {
+                errors.push(`Row ${rowNum}: P must be a number >= 0.`);
+            }
+            if (item.K !== null && (isNaN(item.K) || item.K < 0)) {
+                errors.push(`Row ${rowNum}: K must be a number >= 0.`);
+            }
+            if (item.CAO !== null && (isNaN(item.CAO) || item.CAO < 0)) {
+                errors.push(`Row ${rowNum}: CAO must be a number >= 0.`);
+            }
+            if (item.NH4 !== null && (isNaN(item.NH4) || item.NH4 < 0)) {
+                errors.push(`Row ${rowNum}: NH4 must be a number >= 0.`);
+            }
+            if (item.MGO !== null && (isNaN(item.MGO) || item.MGO < 0)) {
+                errors.push(`Row ${rowNum}: MGO must be a number >= 0.`);
+            }
+            if (item.Cu !== null && (isNaN(item.Cu) || item.Cu < 0)) {
+                errors.push(`Row ${rowNum}: Cu must be a number >= 0.`);
+            }
+            if (item.Mn !== null && (isNaN(item.Mn) || item.Mn < 0)) {
+                errors.push(`Row ${rowNum}: Mn must be a number >= 0.`);
+            }
+            if (item.B !== null && (isNaN(item.B) || item.B < 0)) {
+                errors.push(`Row ${rowNum}: B must be a number >= 0.`);
+            }
+            if (item.Fe !== null && (isNaN(item.Fe) || item.Fe < 0)) {
+                errors.push(`Row ${rowNum}: Fe must be a number >= 0.`);
+            }
+            if (item.Mo !== null && (isNaN(item.Mo) || item.Mo < 0)) {
+                errors.push(`Row ${rowNum}: Mo must be a number >= 0.`);
+            }
+            if (item.Zn !== null && (isNaN(item.Zn) || item.Zn < 0)) {
+                errors.push(`Row ${rowNum}: Zn must be a number >= 0.`);
+            }
+
+
+
+             ['TVA', 'Peut_etre_achete', 'DA_obligatoire', 'BC_obligatoire'].forEach(field => {
+                if (item[field] !== null && item[field] !== 'Oui' && item[field] !== 'Non') {
+                    errors.push(`Row ${rowNum}: ${$scope.getReealName(field)} must be 'Oui' or 'Non'.`);
+                }
+            });
+
+
+            if (item.IDFermes && item.Ref) {
+            let pairKey = `${item.IDFermes}_${item.Ref.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Produit '${item.ProduitName}' and Référence calibre '${item.Code}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence '${item.Ref}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }
-             }
-
-             if (item.val_min !== null && (isNaN(item.val_min) || item.val_min < 0)) {
-                 errors.push(`Row ${rowNum}: Bornes Min must be a number >= 0.`);
-             }
-
-             if (item.val_max !== null && (isNaN(item.val_max) || item.val_max < 0)) {
-                 errors.push(`Row ${rowNum}: Bornes Max must be a number >= 0.`);
-             }
-
-             if(item.val_min >= item.val_max){
-               errors.push(`Row ${rowNum}: Bornes Min must be less than Bornes Max.`);
-             }
-
-             if (item.nbre_fruit_kg !== null && (isNaN(item.nbre_fruit_kg) || item.nbre_fruit_kg < 0)) {
-                 errors.push(`Row ${rowNum}: Nombre de fruits/Kg must be a number >= 0.`);
-             }
+           }
 
         });
 
@@ -958,15 +1067,12 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.integer = async function(){
-console.log(vm.jsonData);
       if(vm.jsonData.length>0){
              NProgress.start();
         if(await $scope.validateData()){
-console.log(vm.jsonData);
 
-
-                    calibre.multiadd({
-                      calibres :vm.jsonData
+                    pesticide.multiadd({
+                      pesticides :vm.jsonData
                     }).then(async e => {
                         toastr.clear();
                         toastr.success(e.data.message, {
@@ -975,7 +1081,7 @@ console.log(vm.jsonData);
                         await $scope.undoSelect()
                         NProgress.done();
 
-                        vm.data_calibre.unshift(...e.data.inserted_data);
+                        vm.data_pesticide.unshift(...e.data.inserted_data);
 
                         vm.dtInstance.reloadData();
                         vm.reset();

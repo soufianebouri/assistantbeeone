@@ -38,17 +38,20 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    $scope.get_produit = function () {
+    $scope.get_culture = function () {
 
-      vm.formData.IDProduit_Rendement = null;
+if(vm.formData.ID){
+  vm.formData.cultures = [];
+}
+
+
       NProgress.start();
-      if(vm.formData.fermes && !vm.formData.ID){
-        $q.all([produitrendement.getbymultiferme({
+      if(vm.formData.fermes){
+        $q.all([cultureService.get_byfermes({
           IDFermes: vm.formData.fermes
         })]).then((values) => {
           NProgress.done();
-          vm.data_produit = values[0].data;
-          console.log(vm.data_produit);
+          vm.data_culture = values[0].data;
         })
       }else {
           NProgress.done();
@@ -265,16 +268,20 @@ angular.module('beeOneWebFrontApp')
         }
     };
 
+
     vm.validateFormData = async function() {
       let rules = {
           fermes: "Ferme is required.",
-          Ref : "Référence engrais is required.",
-          Designation : "Désignation engrais is required.",
+          cultures : "Culture is required.",
+          PU : "PU HT is required.",
+          Famille_chimique : "Famille chimique is required.",
+          Matiere_active : "Matière active is required.",
+          Teneur : "Teneur is required.",
+          Ref : "Référence pesticide is required.",
+          Designation : "Désignation pesticide is required.",
           Categorie : "Catégorie is required.",
           Sous_Categorie : "Sous catégorie is required.",
           Unite : "Unité is required.",
-          Dose : "Dose is required.",
-          Unite_Dose : "Unité dose is required."
       };
 
       for (let key in rules) {
@@ -492,10 +499,18 @@ angular.module('beeOneWebFrontApp')
 
       vm.edit = async function (data) {
 
-
+    NProgress.start();
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
         copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
+        copiedArray.cultures =  copiedArray.cultures.map(culture => culture.IDCulture);
+
+        $q.all([cultureService.get_byfermes({
+          IDFermes: copiedArray.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_culture = values[0].data;
+        })
 
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
@@ -552,7 +567,7 @@ angular.module('beeOneWebFrontApp')
           }
           return societe;
       });
-      
+
   };
 
     function checkboxHtml(data, type, full, meta) {
@@ -576,27 +591,29 @@ angular.module('beeOneWebFrontApp')
          }
          return "-";
        }).withOption("width", "110px"),
-        DTColumnBuilder.newColumn("Ref").withTitle("Référence engrais").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Designation").withTitle("Désignation engrais").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Ref").withTitle("Référence pesticide").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Designation").withTitle("Désignation pesticide").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Categorie").withTitle("Catégorie").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Sous_Categorie").withTitle("Sous catégorie").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Unite").withTitle("Unité").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Dose").withTitle("Dose").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Unite_Dose").withTitle("Unité dose").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("N").withTitle("N").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("P").withTitle("P").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("K").withTitle("K").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("CAO").withTitle("CaO").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("NH4").withTitle("NH4").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("MGO").withTitle("MgO").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Cu").withTitle("Cu").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("B").withTitle("B").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Fe").withTitle("Fe").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Zn").withTitle("Zn").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Taux_TVA").withTitle("% TVA").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("PU").withTitle("Prix UHT").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("TVA").withTitle("TVA récup").renderWith(function(data, type, full, meta) {
-          if (full.TVA)
+        DTColumnBuilder.newColumn("PU").withTitle("PU HT").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Famille_chimique").withTitle("Famille chimique").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Matiere_active").withTitle("Matière active").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Teneur").withTitle("Teneur").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("cultures").withTitle("Culture").renderWith(function(data, type, full, meta) {
+          if (full.cultures && Array.isArray(full.cultures) ) {
+             return full.cultures.map(f => f.Culture).join(", ");
+         }
+         return "-";
+       }).withOption("width", "110px").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("categorie_ennemi").withTitle("Catégorie ennemi?").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("ennemi").withTitle("Ennemi?").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Dose").withTitle("Dose?").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Unite_Dose").withTitle("Unité dose?").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("DAR").withTitle("DAR").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Taux_TVA").withTitle("TVA").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("TVA_recuperable").withTitle("TVA récup").renderWith(function(data, type, full, meta) {
+          if (full.TVA_recuperable)
             return "Oui"
           return "Non";
         }).withOption("width", "100px"),
@@ -615,6 +632,11 @@ angular.module('beeOneWebFrontApp')
             return "Oui"
           return "Non";
        }).withOption("width", "100px"),
+       DTColumnBuilder.newColumn("homologue").withTitle("Homologué").renderWith(function(data, type, full, meta) {
+         if (full.homologue)
+           return "Oui"
+         return "Non";
+      }).withOption("width", "100px"),
        DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -635,31 +657,27 @@ angular.module('beeOneWebFrontApp')
     vm.reset = function () {
       vm.formData =  {
           fermes : [],
-          Ref : null,
-          Designation : null,
-          Categorie : null,
-          Sous_Categorie : null,
-          Unite : null,
-          Dose : null,
-          Unite_Dose : null,
-          N : null,
-          P : null,
-          K : null,
-          CAO : null,
-          NH4 : null,
-          MGO : null,
-          Cu : null,
-          Mn : null,
-          B : null,
-          Fe : null,
-          Mo : null,
-          Zn : null,
-          Taux_TVA : null,
-          PU : null,
-          TVA : false,
-          Peut_etre_achete : false,
-          DA_obligatoire : false,
-          BC_obligatoire : false,
+          cultures : [],
+          Ref: null,
+          Designation: null,
+          Categorie: null,
+          Sous_Categorie: null,
+          Unite: null,
+          PU: null,
+          Famille_chimique: null,
+          Matiere_active: null,
+          Teneur: null,
+          categorie_ennemi: null,
+          ennemi: null,
+          Dose: null,
+          Unite_Dose: null,
+          DAR: null,
+          Taux_TVA: null,
+          TVA_recuperable: false,
+          Peut_etre_achete: false,
+          DA_obligatoire: false,
+          BC_obligatoire: false,
+          homologue: false
       }
      }
    vm.reset()

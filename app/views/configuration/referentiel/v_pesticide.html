@@ -12,7 +12,7 @@
                     <div class="form-row tiny-space sotiny" >
                       <md-input-container class="form-input" >
                           <label>Ferme</label>
-                          <md-select ng-model="vm.formData.fermes"  multiple  ng-change="get_produit() " data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select ng-model="vm.formData.fermes"  multiple  ng-change="get_culture() " data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
@@ -32,12 +32,12 @@
 
 
                                             <md-input-container class="form-input">
-                                                  <label>Référence engrais</label>
+                                                  <label>Référence pesticide</label>
                                                   <input type="text" ng-model="vm.formData.Ref"   required>
                                             </md-input-container>
 
                                             <md-input-container class="form-input">
-                                                  <label>Désignation engrais</label>
+                                                  <label>Désignation pesticide</label>
                                                   <input type="text" ng-model="vm.formData.Designation"   required>
                                             </md-input-container>
 
@@ -70,118 +70,102 @@
                             <input type="text" ng-model="vm.formData.Unite"   required>
                       </md-input-container>
 
-
-
                       <md-input-container class="form-input">
-                        <label>Dose</label>
-                        <input type="number" ng-model="vm.formData.Dose"  class="number_right" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" required>
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                            <label>Unité dose</label>
-                            <input type="text" ng-model="vm.formData.Unite_Dose"   required>
+                              <label>PU HT</label>
+                              <input type="number" ng-model="vm.formData.PU"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" required >
                       </md-input-container>
 
 
-                    </div>
 
-
-
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-
-                      <md-input-container class="form-input">
-                        <label>N</label>
-                        <input type="number" ng-model="vm.formData.N"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>P</label>
-                        <input type="number" ng-model="vm.formData.P"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>K</label>
-                        <input type="number" ng-model="vm.formData.K"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>CaO</label>
-                        <input type="number" ng-model="vm.formData.CAO"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
 
                     </div>
 
 
                     <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
 
+
                       <md-input-container class="form-input">
-                        <label>NH4</label>
-                        <input type="number" ng-model="vm.formData.NH4"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
+                            <label>Famille chimique </label>
+                            <input type="text" ng-model="vm.formData.Famille_chimique"   required>
                       </md-input-container>
 
                       <md-input-container class="form-input">
-                        <label>MgO</label>
-                        <input type="number" ng-model="vm.formData.MGO"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>Cu</label>
-                        <input type="number" ng-model="vm.formData.Cu"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>B</label>
-                        <input type="number" ng-model="vm.formData.B"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
+                            <label>Matière active</label>
+                            <input type="text" ng-model="vm.formData.Matiere_active"   required>
                       </md-input-container>
 
                     </div>
 
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                        <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
 
-                      <md-input-container class="form-input">
-                        <label>Fe</label>
-                        <input type="number" ng-model="vm.formData.Fe"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
+                          <md-input-container class="form-input">
+                                  <label>Teneur</label>
+                                  <input type="number" ng-model="vm.formData.Teneur"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" required>
+                          </md-input-container>
 
-                      <md-input-container class="form-input">
-                        <label>Zn</label>
-                        <input type="number" ng-model="vm.formData.Zn"   ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>Mn</label>
-                        <input type="number" ng-model="vm.formData.Mn"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
-                        <label>Mo</label>
-                        <input type="number" ng-model="vm.formData.Mo"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
-                      </md-input-container>
-
-                    </div>
-
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-
-                      <md-input-container class="form-input">
-                         <label>% TVA</label>
-                         <input type="number" ng-model="vm.formData.Taux_TVA"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" >
-                       </md-input-container>
+                          <md-input-container class="form-input" >
+                              <label>Culture</label>
+                              <md-select ng-model="vm.formData.cultures"  multiple   data-md-container-class="selectdemoSelectHeader" required>
+                                <md-select-header class="demo-select-header">
+                                  <input ng-model="search_cultures" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                </md-select-header>
+                                <md-option ng-value="data_culture.ID" ng-repeat="data_culture in vm.data_culture | orderBy:'Culture' | filter:search_cultures"
+                                  >{{data_culture.Culture}}
+                                 </md-option>
+                              </md-select>
+                          </md-input-container>
 
 
-                       <md-input-container class="form-input">
-                               <label>Prix UHT</label>
-                               <input type="number" ng-model="vm.formData.PU"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" >
-                       </md-input-container>
+
+                        </div>
 
 
-                    </div>
+                        <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
 
 
+                            <md-input-container class="form-input">
+                                  <label>Catégorie ennemi?</label>
+                                  <input type="text" ng-model="vm.formData.categorie_ennemi"   >
+                            </md-input-container>
+
+                            <md-input-container class="form-input">
+                                  <label>Ennemi?</label>
+                                  <input type="text" ng-model="vm.formData.ennemi"   >
+                            </md-input-container>
+
+
+                        </div>
+
+                      <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                        <md-input-container class="form-input">
+                          <label>Dose?</label>
+                          <input type="number" ng-model="vm.formData.Dose"  class="number_right" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" >
+                        </md-input-container>
+
+                        <md-input-container class="form-input">
+                              <label>Unité dose?</label>
+                              <input type="text" ng-model="vm.formData.Unite_Dose"   >
+                        </md-input-container>
+                      </div>
+
+  <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+
+                        <md-input-container class="form-input">
+                              <label>DAR</label>
+                              <input type="text" ng-model="vm.formData.DAR"   >
+                        </md-input-container>
+
+                        <md-input-container class="form-input">
+                           <label>TVA</label>
+                           <input type="number" ng-model="vm.formData.Taux_TVA"  ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/"  class="number_right" >
+                           </md-input-container>
+
+                           </div>
 
                                                   <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
                                                     <md-input-container class="form-input">
                                                       <label>TVA récup<font size="0.9px">(Non / Oui)</font></label>
-                                                          <md-switch ng-model="vm.formData.TVA" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                          <md-switch ng-model="vm.formData.TVA_recuperable" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
                                                             {{ (vm.formData.TVA) ? 'Oui' : 'Non'}}
                                                           </md-switch>
                                                     </md-input-container>
@@ -216,9 +200,16 @@
                                                                    </md-switch>
                                                              </md-input-container>
 
+                                                 </div>
 
-
-                                              </div>
+                                                  <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                                                       <md-input-container class="form-input">
+                                                         <label>Homologué<font size="0.9px">(Non / Oui)</font></label>
+                                                             <md-switch ng-model="vm.formData.homologue" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                               {{ (vm.formData.homologue) ? 'Oui' : 'Non'}}
+                                                             </md-switch>
+                                                       </md-input-container>
+                                                  </div>
 
 
                     <div class="form-actions">

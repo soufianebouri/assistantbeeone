@@ -499,7 +499,7 @@ if(vm.formData.ID){
 
       vm.edit = async function (data) {
 
-    NProgress.start();
+        NProgress.start();
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
         copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
@@ -717,32 +717,28 @@ if(vm.formData.ID){
     /** Step1 excel*/
 
     vm.headers = [
-      "Fermes",
-      "Référence engrais",
-      "Désignation engrais",
+      "Ferme",
+      "Référence pesticide",
+      "Désignation pesticide",
       "Catégorie",
       "Sous catégorie",
       "Unité",
+      "PU HT",
+      "Famille chimique",
+      "Matière active",
+      "Teneur",
+      "Culture",
+      "Catégorie ennemi",
+      "Ennemi",
       "Dose",
       "Unité dose",
-      "N",
-      "P",
-      "K",
-      "CaO",
-      "NH4",
-      "MgO",
-      "Cu",
-      "B",
-      "Fe",
-      "Zn",
-      "Mn",
-      "Mo",
-      "% TVA",
-      "Prix UHT",
+      "DAR",
+      "TVA",
       "TVA récup",
       "Transité par module achat",
       "Demande d'achat obligatoire",
-      "Bon de commande obligatoire"
+      "Bon de commande obligatoire",
+      "Homologué"
     ];
 
       vm.exportToExcel = function () {
@@ -795,32 +791,28 @@ if(vm.formData.ID){
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Fermes"] || null,
-        Ref: item["Référence engrais"] || null,
-        Designation: item["Désignation engrais"] || null,
+        FermeName: item["Ferme"] || null,
+        Ref : item["Référence pesticide"] || null,
+        Designation : item["Désignation pesticide"] || null,
         Categorie: item["Catégorie"] || null,
         Sous_Categorie: item["Sous catégorie"] || null,
-        Unite: item["Unité"] || null,
-        Dose: item["Dose"] || null,
-        Unite_Dose: item["Unité dose"] || null,
-        N: item["N"] || null,
-        P: item["P"] || null,
-        K: item["K"] || null,
-        CAO: item["CaO"] || null,
-        NH4: item["NH4"] || null,
-        MGO: item["MgO"] || null,
-        Cu: item["Cu"] || null,
-        B: item["B"] || null,
-        Fe: item["Fe"] || null,
-        Zn: item["Zn"] || null,
-        Mn  : item["Mn"] || null,
-        Mo  : item["Mo"] || null,
-        Taux_TVA: item["% TVA"] || null,
-        PU: item["Prix UHT"] || null,
-        TVA: item["TVA récup"] || null,
+        Unite : item["Unité"] || null,
+        PU: item["PU HT"] || null,
+        Famille_chimique: item["Famille chimique"] || null,
+        Matiere_active: item["Matière active"] || null,
+        Teneur: item["Teneur"] || null,
+        culturName: item["Culture"] || null,
+        categorie_ennemi  : item["Catégorie ennemi"] || null,
+        ennemi  : item["Ennemi"] || null,
+        Dose  : item["Dose"] || null,
+        Unite_Dose  : item["Unité dose"] || null,
+        DAR: item["DAR"] || null,
+        Taux_TVA: item["TVA"] || null,
+        TVA_recuperable: item["TVA récup"] || null,
         Peut_etre_achete: item["Transité par module achat"] || null,
         DA_obligatoire: item["Demande d'achat obligatoire"] || null,
-        BC_obligatoire: item["Bon de commande obligatoire"] || null
+        BC_obligatoire: item["Bon de commande obligatoire"] || null,
+        homologue: item["Homologué"] || null
       }));
     };
 

@@ -73,14 +73,14 @@
                     <div class="form-row tiny-space">
 
                       <md-input-container class="form-input">
-                        <label>Type <font size="0.9px">(Principal / Accessoire)</font></label>
+                        <label>Type <font size="0.9px"> (Principal / Accessoire)</font></label>
                             <md-switch ng-model="vm.formData.Principale_Accessoire" style="width:90%;" aria-label="Switch 2" ng-true-value="2" ng-false-value="1" class="md-warn">
                               {{ (vm.formData.Principale_Accessoire == 1) ? 'Principal' : 'Accessoire'}}
                             </md-switch>
                       </md-input-container>
 
                       <md-input-container class="form-input">
-                        <label>Stockable <font size="0.9px">(Non / Oui)</font></label>
+                        <label>Stockable <font size="0.9px"> (Non / Oui)</font></label>
                             <md-switch ng-model="vm.formData.Stockable" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
                               {{ (vm.formData.Stockable) ? 'Oui' : 'Non'}}
                             </md-switch>

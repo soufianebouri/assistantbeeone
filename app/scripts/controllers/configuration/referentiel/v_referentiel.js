@@ -42,7 +42,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/referentiel/v_pesticide.html";
+    vm.stepUrl = "views/configuration/referentiel/v_depot.html";
     vm.step = async function (params, stepUrl) {
       vm.currect_step = params;
       vm.stepUrl = stepUrl
@@ -120,6 +120,8 @@ angular.module('beeOneWebFrontApp')
         vm.stepUrl = "views/configuration/referentiel/v_engrais.html";
       }else if(index == 12) {
         vm.stepUrl = "views/configuration/referentiel/v_pesticide.html";
+      }else if(index == 13) {
+        vm.stepUrl = "views/configuration/referentiel/v_depot.html";
       }else {
         vm.stepUrl = "views/configuration/referentiel/777.html";
       }

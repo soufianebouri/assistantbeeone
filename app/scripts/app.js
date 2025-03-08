@@ -130,7 +130,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
-
+    .state('v_depot', {
+      url: '/configuration/v_depot',
+      templateUrl: 'views/configuration/referentiel/v_depot.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
     .state('v_pesticide', {
       url: '/configuration/v_pesticide',
       templateUrl: 'views/configuration/referentiel/v_pesticide.html',
@@ -138,8 +144,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
-
     .state('v_engrais', {
       url: '/configuration/v_engrais',
       templateUrl: 'views/configuration/referentiel/v_engrais.html',
@@ -147,7 +151,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_calibre', {
       url: '/configuration/v_calibre',
       templateUrl: 'views/configuration/referentiel/v_calibre.html',
@@ -155,7 +158,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_client', {
       url: '/configuration/v_client',
       templateUrl: 'views/configuration/referentiel/v_client.html',
@@ -163,8 +165,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
-
     .state('v_profile_production', {
       url: '/configuration/v_profile_production',
       templateUrl: 'views/configuration/referentiel/v_profile_production.html',
@@ -172,7 +172,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_fournisseur', {
       url: '/configuration/v_fournisseur',
       templateUrl: 'views/configuration/referentiel/v_fournisseur.html',
@@ -180,7 +179,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_article', {
       url: '/configuration/v_article',
       templateUrl: 'views/configuration/referentiel/v_article.html',
@@ -188,7 +186,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_produit_rendement', {
       url: '/configuration/v_produit_rendement',
       templateUrl: 'views/configuration/referentiel/v_produit_rendement.html',
@@ -196,7 +193,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_secteur', {
       url: '/configuration/v_secteur',
       templateUrl: 'views/configuration/secteurs_irrigation/v_secteur.html',
@@ -204,7 +200,6 @@ angular
         pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
       }
     })
-
     .state('v_secteurs_irrigation', {
       url: '/configuration/secteurs_irrigation',
       templateUrl: 'views/configuration/secteurs_irrigation/v_secteurs_irrigation.html',
@@ -212,7 +207,6 @@ angular
         pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
       }
     })
-
     .state('v_unite', {
       url: '/configuration/v_unite',
       templateUrl: 'views/configuration/referentiel/v_unite.html',
@@ -220,7 +214,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_variete', {
       url: '/configuration/v_variete',
       templateUrl: 'views/configuration/referentiel/v_variete.html',
@@ -228,7 +221,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_culture', {
       url: '/configuration/v_culture',
       templateUrl: 'views/configuration/referentiel/v_culture.html',
@@ -236,7 +228,6 @@ angular
         pageTitle: "BeeOne Assistant - Référenciel"
       }
     })
-
     .state('v_attachement_parcelles_culturale', {
       url: '/configuration/v_attachement_parcelles_culturale',
       templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles_culturale.html',
@@ -244,7 +235,6 @@ angular
         pageTitle: "BeeOne Assistant - Attachement Parcelles"
       }
     })
-
     .state('v_attachement_parcelles_phisique', {
       url: '/configuration/v_attachement_parcelles_phisique',
       templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles_phisique.html',
@@ -252,7 +242,6 @@ angular
         pageTitle: "BeeOne Assistant - Attachement Parcelles"
       }
     })
-
     .state('v_attachement_parcelles', {
       url: '/configuration/attachement_parcelles',
       templateUrl: 'views/configuration/attachement_parcelles/v_attachement_parcelles.html',
@@ -260,7 +249,6 @@ angular
         pageTitle: "BeeOne Assistant - Attachement Parcelles"
       }
     })
-
     .state('v_famille_culture', {
       url: '/configuration/referentiel/campagnes_agricoles',
       templateUrl: 'views/configuration/referentiel/v_famille_culture.html',
@@ -275,7 +263,6 @@ angular
         pageTitle: "BeeOne Assistant - Campagnes Agricoles"
       }
     })
-
     .state('v_referentiel', {
       url: '/configuration/referentiel',
       templateUrl: 'views/configuration/referentiel/v_referentiel.html',
@@ -283,7 +270,6 @@ angular
         pageTitle: "BeeOne Assistant - Référentiel"
       }
     })
-
     .state('v_ferme', {
       url: '/configuration/accounts/ferme',
       templateUrl: 'views/configuration/comptes/v_ferme.html',

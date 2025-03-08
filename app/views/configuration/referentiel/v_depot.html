@@ -1,47 +1,64 @@
-<div ng-controller="ConfigurationReferentielVUniteCtrl as vm">
+<div ng-controller="ConfigurationReferentielVDepotCtrl as vm">
     <div class="grid-column-container" >
 
         <div id="grid1" class="grid  fade-in">
                   <div class="form-header" >
-                    <h2 class="form-title">Infomrations Sur La Unité</h2>
+                    <h2 class="form-title">Informations Sur Le Dépôt</h2>
                     <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
                   </div>
 
                   <md-content class="form-content">
-                    <!-- Row 1 -->
 
+                    <div class="form-row tiny-space sotiny" >
 
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-                      <md-input-container class="form-input">
-                          <label>Référence</label>
-                          <input type="text" ng-model="vm.formData.Code"   required>
-                        </md-input-container>
-
-
-
-
-                    </div>
-
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-
-
-                        <md-input-container class="form-input">
-                              <label>Désignation unité</label>
-                              <input type="text" ng-model="vm.formData.Unite"   required>
-                        </md-input-container>
-
+                      <md-input-container class="form-input" >
+                          <label>Ferme</label>
+                          <md-select ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
+                              >{{data_ferme.Nom}}
+                             </md-option>
+                          </md-select>
+                      </md-input-container>
 
                     </div>
 
 
-       <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-                    <md-input-container class="form-input">
-                      <label>Liés à la récolte <font size="0.9px"> (Non / Oui)</font></label>
-                          <md-switch ng-model="vm.formData.Recolte" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                            {{ (vm.formData.Recolte == 0) ? 'Non' : 'Oui'}}
-                          </md-switch>
-                    </md-input-container>
-                      </div>
+
+                                        <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+
+
+                                            <md-input-container class="form-input">
+                                                  <label>Référence</label>
+                                                  <input type="text" ng-model="vm.formData.Reference"   required>
+                                            </md-input-container>
+
+                                            <md-input-container class="form-input">
+                                                  <label>Désignation</label>
+                                                  <input type="text" ng-model="vm.formData.Name"   required>
+                                            </md-input-container>
+
+                                            <md-input-container class="form-input">
+                                              <label>Superficie (ha)</label>
+                                              <input type="number" ng-model="vm.formData.Superficie" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                            </md-input-container>
+
+                                        </div>
+
+
+                                      <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                                                    <md-input-container class="form-input">
+                                                      <label>Liaison fornisseur<font size="0.9px"> (Non / Oui)</font></label>
+                                                          <md-switch ng-model="vm.formData.Liaison_fournisseur" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                            {{ (vm.formData.Liaison_fournisseur) ? 'Oui' : 'Non'}}
+                                                          </md-switch>
+                                                    </md-input-container>
+
+                                      </div>
+
+
 
 
                     <div class="form-actions">
@@ -49,8 +66,8 @@
                         Reset
                       </md-button>
 
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDUnite_Operation) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDUnite_Operation) ? 'Modifier': 'Ajouter'}}
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDDepots) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDDepots) ? 'Modifier': 'Ajouter'}}
                       </md-button>
                     </div>
 
@@ -72,7 +89,7 @@
                       <div layout="row" layout-align="start center">
                         <img src="././images/main_configuration/xls.svg" alt="time"
                           style="width: 20px; height: 20px; margin-right: 5px;">
-                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Unité.xls</h2>
+                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Dépôts.xls</h2>
                       </div>
                       <md-button class="md-raised md-primary btn-download" ng-click="vm.exportToExcel()"
                         style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
@@ -164,7 +181,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Unités Ajoutées ({{vm.data_unite.length}})</h2>
+                  <h2 class="form-title" >Engrais Ajoutées ({{vm.data_engrais.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

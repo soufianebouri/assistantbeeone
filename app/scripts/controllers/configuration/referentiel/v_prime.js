@@ -246,10 +246,9 @@ angular.module('beeOneWebFrontApp')
 
     vm.validateFormData = async function() {
       let rules = {
-          fermes: "Ferme is required.",
-          Reference : "Référence dépôt is required.",
-          Name : "Désignation dépôt is required.",
-          Superficie : "Superficie is required."
+        societes : "société is required.",
+        CODE : "Code prime is required.",
+        Nom_prime : "Désignation prime is required.",
       };
 
       for (let key in rules) {
@@ -470,8 +469,7 @@ angular.module('beeOneWebFrontApp')
 
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
-        copiedArray.fermes   =[1,2,3,4,5]
-      //  copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
+        copiedArray.societes =  copiedArray.societes.map(societe => societe.IDsociete);
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
           closeButton: true
@@ -602,7 +600,7 @@ angular.module('beeOneWebFrontApp')
         Categorie_prime : 1,
         imposable : false,
         Surplus : false,
-        Seuil_mois : false,
+        Seuil_mois : null,
         rang_surplus : null,
         Prime_Poncuelle : false
       }

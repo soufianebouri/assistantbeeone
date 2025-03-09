@@ -1,9 +1,9 @@
-<div ng-controller="ConfigurationReferentielVDepotCtrl as vm">
+<div ng-controller="ConfigurationReferentielVPrimeCtrl as vm">
     <div class="grid-column-container" >
 
         <div id="grid1" class="grid  fade-in">
                   <div class="form-header" >
-                    <h2 class="form-title">Informations Sur Le Dépôt</h2>
+                    <h2 class="form-title">Informations Sur La Prime</h2>
                     <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
                   </div>
 
@@ -12,13 +12,13 @@
                     <div class="form-row tiny-space sotiny" >
 
                       <md-input-container class="form-input" >
-                          <label>Ferme</label>
-                          <md-select ng-model="vm.formData.fermes"  multiple data-md-container-class="selectdemoSelectHeader" required>
+                          <label>Société</label>
+                          <md-select ng-model="vm.formData.societes"  multiple data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
+                            <md-option ng-value="data_societe.ID" ng-repeat="data_societe in vm.data_societe | orderBy:'Rais_Social' | filter:search_str"
+                              >{{data_societe.Rais_Social}}
                              </md-option>
                           </md-select>
                       </md-input-container>
@@ -31,34 +31,72 @@
 
 
                                             <md-input-container class="form-input">
-                                                  <label>Référence</label>
-                                                  <input type="text" ng-model="vm.formData.Reference"   required>
+                                                  <label>Code prime</label>
+                                                  <input type="text" ng-model="vm.formData.CODE"   required>
                                             </md-input-container>
 
                                             <md-input-container class="form-input">
-                                                  <label>Désignation</label>
-                                                  <input type="text" ng-model="vm.formData.Name"   required>
+                                                  <label>Désignation prime</label>
+                                                  <input type="text" ng-model="vm.formData.Nom_prime"   required>
                                             </md-input-container>
 
-                                            <md-input-container class="form-input">
-                                              <label>Superficie (ha)</label>
-                                              <input type="number" ng-model="vm.formData.Superficie" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
-                                            </md-input-container>
 
                                         </div>
 
 
                                       <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+
+
                                                     <md-input-container class="form-input">
-                                                      <label>Liaison fournisseur<font size="0.9px"> (Non / Oui)</font></label>
-                                                          <md-switch ng-model="vm.formData.Liaison_fournisseur" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
-                                                            {{ (vm.formData.Liaison_fournisseur) ? 'Oui' : 'Non'}}
+                                                      <label>Catégorie<font size="0.9px"> (Prime / Indemnité)</font></label>
+                                                          <md-switch ng-model="vm.formData.Categorie_prime" style="width:90%;" aria-label="Switch 2" ng-true-value="2" ng-false-value="1" class="md-warn">
+                                                            {{ (vm.formData.Categorie_prime == 2) ? 'Indemnité' : 'Prime'}}
+                                                          </md-switch>
+                                                    </md-input-container>
+
+                                                    <md-input-container class="form-input">
+                                                      <label>Imposable<font size="0.9px"> (Non / Oui)</font></label>
+                                                          <md-switch ng-model="vm.formData.imposable" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                            {{ (vm.formData.imposable) ? 'Oui' : 'Non'}}
+                                                          </md-switch>
+                                                    </md-input-container>
+
+                                                    <md-input-container class="form-input">
+                                                      <label>Surplus<font size="0.9px"> (Non / Oui)</font></label>
+                                                          <md-switch ng-model="vm.formData.Surplus" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                            {{ (vm.formData.Surplus) ? 'Oui' : 'Non'}}
                                                           </md-switch>
                                                     </md-input-container>
 
                                       </div>
 
+                                      <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+                                        <md-input-container class="form-input">
+                                          <label>Seuil</label>
+                                          <input type="number" ng-model="vm.formData.Seuil_mois" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                        </md-input-container>
 
+
+                                        <md-input-container class="form-input">
+                                          <label>Range</label>
+                                          <input type="number" ng-model="vm.formData.rang_surplus" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                        </md-input-container>
+
+                                        </div>
+
+                                        <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
+
+
+
+
+                                                      <md-input-container class="form-input">
+                                                        <label>Prime ponctuelle<font size="0.9px"> (Non / Oui)</font></label>
+                                                            <md-switch ng-model="vm.formData.Prime_Poncuelle" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                              {{ (vm.formData.Prime_Poncuelle) ? 'Oui' : 'Non'}}
+                                                            </md-switch>
+                                                      </md-input-container>
+
+                                        </div>
 
 
                     <div class="form-actions">
@@ -66,8 +104,8 @@
                         Reset
                       </md-button>
 
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDDepots) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDDepots) ? 'Modifier': 'Ajouter'}}
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDPrime) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.IDPrime) ? 'Modifier': 'Ajouter'}}
                       </md-button>
                     </div>
 
@@ -181,7 +219,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Engrais Ajoutées ({{vm.data_depot.length}})</h2>
+                  <h2 class="form-title" >Primes Ajoutées ({{vm.data_prime.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

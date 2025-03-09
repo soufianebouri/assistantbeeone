@@ -130,6 +130,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_prime', {
+      url: '/configuration/v_prime',
+      templateUrl: 'views/configuration/referentiel/v_prime.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Référenciel"
+      }
+    })
     .state('v_depot', {
       url: '/configuration/v_depot',
       templateUrl: 'views/configuration/referentiel/v_depot.html',

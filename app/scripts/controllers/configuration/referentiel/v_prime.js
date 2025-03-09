@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name beeOneWebFrontApp.controller:ConfigurationReferentielVDepotCtrl
+ * @name beeOneWebFrontApp.controller:ConfigurationReferentielVPrimeCtrl
  * @description
- * # ConfigurationReferentielVDepotCtrl
+ * # ConfigurationReferentielVPrimeCtrl
  * Controller of the beeOneWebFrontApp
  */
 angular.module('beeOneWebFrontApp')
-  .controller('ConfigurationReferentielVDepotCtrl', function (
+  .controller('ConfigurationReferentielVPrimeCtrl', function (
     $q,
     $scope,$mdDialog,
     toastr,
@@ -20,8 +20,8 @@ angular.module('beeOneWebFrontApp')
     _version,
     DTOptionsBuilder,
     $compile,
-    DTColumnBuilder,
-    DTDefaultOptions,depot,
+    DTColumnBuilder,societe,
+    DTDefaultOptions,prime,
     $cookies,
     ferme,produitrendement,
     familleculture
@@ -36,27 +36,6 @@ angular.module('beeOneWebFrontApp')
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
-
-
-    $scope.get_produit = function () {
-
-      vm.formData.IDProduit_Rendement = null;
-      NProgress.start();
-      if(vm.formData.fermes && !vm.formData.IDDepots){
-        $q.all([produitrendement.getbymultiferme({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_produit = values[0].data;
-          console.log(vm.data_produit);
-        })
-      }else {
-          NProgress.done();
-          vm.data_culture = []
-      }
-
-
-    }
 
 
 
@@ -241,15 +220,15 @@ angular.module('beeOneWebFrontApp')
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          depot.edit(vm.formData).then(async e => {
+          prime.edit(vm.formData).then(async e => {
 
               toastr.clear();
-              toastr.success('Depot bien modifé', {
+              toastr.success('Prime bien modifé', {
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_depot.findIndex(item => item.IDDepots === e.data.IDDepots);
-              vm.data_depot[index] = e.data;
+              let index = vm.data_prime.findIndex(item => item.IDPrime === e.data.IDPrime);
+              vm.data_prime[index] = e.data;
 
               vm.dtInstance.reloadData();
               vm.reset();
@@ -294,14 +273,14 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          depot.add(vm.formData).then(async e => {
+          prime.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.success('Dépôt bien ajouté', {
+              toastr.success('Prime bien ajouté', {
                 closeButton: true
               });
               await $scope.undoSelect()
               NProgress.done();
-              vm.data_depot.unshift(e.data);
+              vm.data_prime.unshift(e.data);
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -317,7 +296,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_depot);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_prime);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -327,16 +306,16 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              depot.multidelete({
+              prime.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
                 await $scope.undoSelect()
                 toastr.clear();
-                toastr.success("Dépôt(s) successfully deleted.", {
+                toastr.success("Prime(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_depot = vm.data_depot.filter(item => !selectedIds.includes(item.IDDepots));
+                vm.data_prime = vm.data_prime.filter(item => !selectedIds.includes(item.IDPrime));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -364,7 +343,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            depot.delete(data).then(async function(result) {
+            prime.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -372,7 +351,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_depot = vm.data_depot.filter(item => item.IDDepots !== data.IDDepots);
+              vm.data_prime = vm.data_prime.filter(item => item.IDPrime !== data.IDPrime);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -394,7 +373,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_depot.some(function(societe) {
+      var isDuplicate = vm.data_prime.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -411,7 +390,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_depot.some(function(societe) {
+      var isDuplicate = vm.data_prime.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -433,15 +412,15 @@ angular.module('beeOneWebFrontApp')
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
 
-      if (!vm.data_depot) {
+      if (!vm.data_prime) {
           var stopCheck = setInterval(function () {
-              if (vm.data_depot) {
+              if (vm.data_prime) {
                   clearInterval(stopCheck);
-                  defer.resolve(vm.data_depot);
+                  defer.resolve(vm.data_prime);
               }
           }, 500);
       } else {
-          defer.resolve(vm.data_depot);
+          defer.resolve(vm.data_prime);
       }
 
   return defer.promise;
@@ -464,23 +443,23 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste Des Dépôts'
+          title: 'Liste Des Primes'
         },
       ]);
 
 
 
-      vm.depot_action = {};
+      vm.prime_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.depot_action[data.IDDepots] = data;
+          vm.prime_action[data.IDPrime] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.depot_action[' +
-          data.IDDepots +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.prime_action[' +
+          data.IDPrime +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.depot_action[' +
-          data.IDDepots +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.prime_action[' +
+          data.IDPrime +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
@@ -509,7 +488,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_depot.forEach(societe => {
+      vm.data_prime.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -524,7 +503,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_depot = vm.data_depot.map(societe => {
+    vm.data_prime = vm.data_prime.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -533,7 +512,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.IDDepots); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.IDPrime); // Extract IDs
 
     return selectedIds;
   };
@@ -541,25 +520,25 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_depot = vm.data_depot.map(societe => {
-          if (societe.IDDepots === id) {
+      vm.data_prime = vm.data_prime.map(societe => {
+          if (societe.IDPrime === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
           return societe;
       });
       /* if (!found) {
-            vm.data_depot.push({ id_sco_temp: id, selected: true });
+            vm.data_prime.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDDepots})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDPrime})">`;
     }
 
 
     vm.updateSelectedCount = function () {
-      return (vm.data_depot) ? vm.data_depot.filter(dt_depot => dt_depot.selected).length : 0;
+      return (vm.data_prime) ? vm.data_prime.filter(dt_prime => dt_prime.selected).length : 0;
     };
 
 
@@ -568,20 +547,36 @@ angular.module('beeOneWebFrontApp')
         .withTitle(
           '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
         ).renderWith(checkboxHtml).notSortable().withOption("width", "10px"),
-        DTColumnBuilder.newColumn("fermes").withTitle("Ferme").renderWith(function(data, type, full, meta) {
-          if (full.fermes && Array.isArray(full.fermes)) {
-            return full.fermes.map(f => f.Nom).join(", ");
+        DTColumnBuilder.newColumn("societes").withTitle("Société").renderWith(function(data, type, full, meta) {
+          if (full.societes && Array.isArray(full.societes)) {
+            return full.societes.map(f => f.Rais_Social).join(", ");
         }
         return "";
        }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Reference").withTitle("Référence").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Name").withTitle("Désignation").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Superficie").withTitle("Superficie (ha)").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Liaison_fournisseur").withTitle("Liaison fournisseur").renderWith(function(data, type, full, meta) {
-          if (full.Liaison_fournisseur)
+        DTColumnBuilder.newColumn("CODE").withTitle("Code prime").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Nom_prime").withTitle("Désignation prime").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Categorie_prime").withTitle("Catégorie").renderWith(function(data, type, full, meta) {
+          if (full.Categorie_prime == 2)
+            return "Indemnité"
+          return "Prime";
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("imposable").withTitle("Imposable").withOption("width", "100px").renderWith(function(data, type, full, meta) {
+          if (full.imposable)
             return "Oui"
           return "Non";
-        }).withOption("width", "100px"),
+        }),
+        DTColumnBuilder.newColumn("Surplus").withTitle("Surplus").withOption("width", "100px").renderWith(function(data, type, full, meta) {
+          if (full.Surplus)
+            return "Oui"
+          return "Non";
+        }),
+        DTColumnBuilder.newColumn("Seuil_mois").withTitle("Seuil").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("rang_surplus").withTitle("Range").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Prime_Poncuelle").withTitle("Prime ponctuelle").withOption("width", "100px").renderWith(function(data, type, full, meta) {
+          if (full.Prime_Poncuelle)
+            return "Oui"
+          return "Non";
+        }),
        DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -601,11 +596,15 @@ angular.module('beeOneWebFrontApp')
 
     vm.reset = function () {
       vm.formData =  {
-        fermes : [],
-        Reference : null,
-        Name : null,
-        Superficie : null,
-        Liaison_fournisseur : false,
+        societes : [],
+        CODE : null,
+        Nom_prime : null,
+        Categorie_prime : 1,
+        imposable : false,
+        Surplus : false,
+        Seuil_mois : false,
+        rang_surplus : null,
+        Prime_Poncuelle : false
       }
      }
    vm.reset()
@@ -625,14 +624,12 @@ angular.module('beeOneWebFrontApp')
 
     NProgress.start();
         $q.all([
-          depot.get_all(),
-          ferme.get_all(),
-          uniteoperation.get_all()
+          prime.get_all(),
+          societe.get_all()
         ]).then((values) => {
             NProgress.done();
-          vm.data_depot = values[0].data;
-          vm.data_ferme = values[1].data;
-          vm.data_unite = values[2].data;
+          vm.data_prime = values[0].data;
+          vm.data_societe = values[1].data;
         }).catch((error) => {
             NProgress.done();
           toastr.clear();
@@ -659,13 +656,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Dépôts");
+          XLSX.utils.book_append_sheet(wb, ws, "Primes");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Dépôts.xlsx");
+          saveAs(blob, "Canvas Primes.xlsx");
       };
 
 
@@ -827,8 +824,8 @@ angular.module('beeOneWebFrontApp')
             }
 
             if (item.FermeName ) {
-              let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
-console.log(newferme);
+              let newferme = vm.data_societe.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
+
                if(!newferme){
                  errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
                }else {
@@ -842,7 +839,7 @@ console.log(newferme);
               if (!item.Reference) {
                 errors.push(`Row ${rowNum}: Missing Référence Dépôt as required field`);
             } else {
-              let newRef = vm.data_depot.some(data_depot => String(data_depot.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
+              let newRef = vm.data_prime.some(data_prime => String(data_prime.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
                 if(newRef){
                 errors.push(`Row ${rowNum}: Référence Dépôt '${item.Reference}' already exist`);
               }
@@ -851,7 +848,7 @@ console.log(newferme);
             if (!item.Name) {
                 errors.push(`Row ${rowNum}: Missing Désignation Dépôt as required field`);
             }else {
-              let newDesignation = vm.data_depot.some(data_depot => String(data_depot.Name).toUpperCase() === String(item.Name).toUpperCase());
+              let newDesignation = vm.data_prime.some(data_prime => String(data_prime.Name).toUpperCase() === String(item.Name).toUpperCase());
               if(newDesignation){
                 errors.push(`Row ${rowNum}: Désignation Dépôt '${item.Name}' already exist`);
               }
@@ -902,8 +899,8 @@ console.log(newferme);
              NProgress.start();
         if(await $scope.validateData()){
 
-                    depot.multiadd({
-                      depots :vm.jsonData
+                    prime.multiadd({
+                      primes :vm.jsonData
                     }).then(async e => {
                         toastr.clear();
                         toastr.success(e.data.message, {
@@ -912,7 +909,7 @@ console.log(newferme);
                         await $scope.undoSelect()
                         NProgress.done();
 
-                        vm.data_depot.unshift(...e.data.inserted_data);
+                        vm.data_prime.unshift(...e.data.inserted_data);
 
                         vm.dtInstance.reloadData();
                         vm.reset();

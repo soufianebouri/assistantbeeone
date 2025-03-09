@@ -640,11 +640,15 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Référence",
-      "Désignation",
-      "Superficie (ha)",
-      "Liaison fournisseur"
+      "Société",
+      "Code prime",
+      "Désignation prime",
+      "Catégorie",
+      "Imposable",
+      "Surplus",
+      "Seuil",
+      "Range",
+      "Prime ponctuelle"
     ];
 
       vm.exportToExcel = function () {
@@ -697,11 +701,15 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-          FermeName: item["Ferme"] || null,
-          Reference : item["Référence"] || null,
-          Name : item["Désignation"] || null,
-          Superficie : item["Superficie (ha)"] || null,
-          Liaison_fournisseur : item["Liaison fournisseur"] || null
+        SocieteName: item["Société"] || null,
+        CODE : item["Code prime"] || null,
+        Nom_prime : item["Désignation prime"] || null,
+        Categorie_prime : item["Catégorie"] || null,
+        imposable : item["Imposable"] || null,
+        Surplus : item["Surplus"] || null,
+        Seuil_mois : item["Seuil"] || null,
+        rang_surplus : item["Range"] || null,
+        Prime_Poncuelle : item["Prime ponctuelle"] || null
       }));
     };
 
@@ -804,8 +812,6 @@ angular.module('beeOneWebFrontApp')
     }
 
 
-
-
     $scope.validateData = async function() {
 
         let errors = [];
@@ -813,62 +819,51 @@ angular.module('beeOneWebFrontApp')
         vm.jsonData.forEach(async (item, index)  =>  {
             let rowNum = index + 2;
 
-            if (!item.FermeName ) {
-                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+            if (!item.SocieteName ) {
+                errors.push(`Row ${rowNum}: Missing Société as required field`);
             }
 
-            if (!item.Superficie) {
-                errors.push(`Row ${rowNum}: Missing Superficie as required field`);
-            }
-
-            if (item.FermeName ) {
-              let newferme = vm.data_societe.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
+            if (item.SocieteName ) {
+              let newferme = vm.data_societe.find(societe => String(societe.Rais_Social).toUpperCase() === String(item.SocieteName).toUpperCase());
 
                if(!newferme){
-                 errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
+                 errors.push(`Row ${rowNum}: Ferme '${item.SocieteName}' does not exist`);
                }else {
-                 vm.jsonData[index].IDFermes = newferme.IDFermes;
-                 vm.jsonData[index].ID_societe = newferme.ID_societe;
+                 vm.jsonData[index].ID_societe = newferme.ID;
                }
             }
 
-
-
-              if (!item.Reference) {
-                errors.push(`Row ${rowNum}: Missing Référence Dépôt as required field`);
-            } else {
-              let newRef = vm.data_prime.some(data_prime => String(data_prime.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
-                if(newRef){
-                errors.push(`Row ${rowNum}: Référence Dépôt '${item.Reference}' already exist`);
-              }
+            if (!item.CODE) {
+                errors.push(`Row ${rowNum}: Missing Code prime as required field`);
             }
 
-            if (!item.Name) {
-                errors.push(`Row ${rowNum}: Missing Désignation Dépôt as required field`);
-            }else {
-              let newDesignation = vm.data_prime.some(data_prime => String(data_prime.Name).toUpperCase() === String(item.Name).toUpperCase());
-              if(newDesignation){
-                errors.push(`Row ${rowNum}: Désignation Dépôt '${item.Name}' already exist`);
-              }
-            }
-
-            if (item.Superficie !== null && (isNaN(item.Superficie) || item.Superficie < 0)) {
-                errors.push(`Row ${rowNum}: Dose must be a number >= 0.`);
+            if (!item.Nom_prime) {
+                errors.push(`Row ${rowNum}: Missing Désignation prime as required field`);
             }
 
 
 
-             ['Liaison_fournisseur'].forEach(field => {
-                if (item[field] !== null && item[field] !== 'Oui' && item[field] !== 'Non') {
-                    errors.push(`Row ${rowNum}: Liaison fournisseur must be 'Oui' or 'Non'.`);
-                }
-            });
+            if (item.imposable !== null && item.imposable !== 'Oui' && item.imposable !== 'Non') {
+                errors.push(`Row ${rowNum}: Imposable must be 'Oui' or 'Non'.`);
+            }
+
+            if (item.Surplus !== null && item.Surplus !== 'Oui' && item.Surplus !== 'Non') {
+                errors.push(`Row ${rowNum}: Surplus must be 'Oui' or 'Non'.`);
+            }
+
+            if (item.Prime_Poncuelle !== null && item.Prime_Poncuelle !== 'Oui' && item.Prime_Poncuelle !== 'Non') {
+                errors.push(`Row ${rowNum}: .Prime ponctuelle must be 'Oui' or 'Non'.`);
+            }
+
+            if (item.Categorie_prime !== null && item.Categorie_prime !== 'Indemnité' && item.Categorie_prime !== 'Prime') {
+                errors.push(`Row ${rowNum}: Catégorie must be 'Indemnité' or 'Prime'.`);
+            }
 
 
-            if (item.IDFermes && item.Reference) {
-            let pairKey = `${item.IDFermes}_${item.Reference.toUpperCase()}`;
+            if (item.ID_societe && item.CODE) {
+            let pairKey = `${item.ID_societe}_${item.CODE.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence '${item.Reference}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.SocieteName}' and Code Prime '${item.CODE}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }

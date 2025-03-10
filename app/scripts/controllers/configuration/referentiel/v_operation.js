@@ -227,7 +227,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_operarion.findIndex(item => item.IDPrime === e.data.IDPrime);
+              let index = vm.data_operarion.findIndex(item => item.OpeRef_Id === e.data.OpeRef_Id);
               vm.data_operarion[index] = e.data;
 
               vm.dtInstance.reloadData();
@@ -316,7 +316,7 @@ angular.module('beeOneWebFrontApp')
                 toastr.success("Opération(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_operarion = vm.data_operarion.filter(item => !selectedIds.includes(item.IDPrime));
+                vm.data_operarion = vm.data_operarion.filter(item => !selectedIds.includes(item.OpeRef_Id));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -352,7 +352,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_operarion = vm.data_operarion.filter(item => item.IDPrime !== data.IDPrime);
+              vm.data_operarion = vm.data_operarion.filter(item => item.OpeRef_Id !== data.OpeRef_Id);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -452,15 +452,15 @@ angular.module('beeOneWebFrontApp')
 
       vm.operarion_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.operarion_action[data.IDPrime] = data;
+          vm.operarion_action[data.OpeRef_Id] = data;
           var editbtn =
           '<button class="btnEdit_tb" ng-click="vm.edit(vm.operarion_action[' +
-          data.IDPrime +
+          data.OpeRef_Id +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
           '<button class="btnEdit_tb" ng-click="vm.delete(vm.operarion_action[' +
-          data.IDPrime +
+          data.OpeRef_Id +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
@@ -471,7 +471,8 @@ angular.module('beeOneWebFrontApp')
 
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
-        copiedArray.societes =  copiedArray.societes.map(societe => societe.IDsociete);
+        copiedArray.fermes =  copiedArray.fermes.map(societe => societe.IDFermes);
+        console.log(copiedArray);
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
           closeButton: true
@@ -512,7 +513,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.IDPrime); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.OpeRef_Id); // Extract IDs
 
     return selectedIds;
   };
@@ -521,7 +522,7 @@ angular.module('beeOneWebFrontApp')
     $scope.toggleSelection = function (id) {
       let found = false;
       vm.data_operarion = vm.data_operarion.map(societe => {
-          if (societe.IDPrime === id) {
+          if (societe.OpeRef_Id === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -533,7 +534,7 @@ angular.module('beeOneWebFrontApp')
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.IDPrime})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.OpeRef_Id})">`;
     }
 
 
@@ -636,7 +637,7 @@ angular.module('beeOneWebFrontApp')
         Type_parcelle_centre : null,
         Unite_Operation: null,
         Code_externe: null,
-        methode_calcul_prime: 0,
+        methode_calcul_prime: '3',
         Montant_prime: null,
         Gardiennage : false,
         SEUIL_gardiennage: null
@@ -677,15 +678,20 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Société",
-      "Code prime",
-      "Désignation prime",
-      "Catégorie",
-      "Imposable",
-      "Surplus",
-      "Seuil",
-      "Range",
-      "Prime ponctuelle"
+      "Ferme",
+      "Référence opération",
+      "Désignation opération",
+      "Groupe",
+      "Famille",
+      "Liés à la récolte",
+      "Process récolte",
+      "Type de produit",
+      "Unité récolte",
+      "Désignation produit accessoire",
+      "Nature prime",
+      "Montant prime associée (dhs)",
+      "Gardiennage",
+      "Nbr heure gardiennage"
     ];
 
       vm.exportToExcel = function () {
@@ -738,15 +744,20 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        SocieteName: item["Société"] || null,
-        CODE : item["Code prime"] || null,
-        Nom_prime : item["Désignation prime"] || null,
-        Categorie_prime : item["Catégorie"] || null,
-        imposable : item["Imposable"] || null,
-        Surplus : item["Surplus"] || null,
-        Seuil_mois : item["Seuil"] || null,
-        rang_surplus : item["Range"] || null,
-        Prime_Poncuelle : item["Prime ponctuelle"] || null
+      FermeName : item["Ferme"] || null,
+      Reference  : item["Référence opération"] || null,
+      OpeRef_Intitule  : item["Désignation opération"] || null,
+      Groupe : item["Groupe"] || null,
+      Famille : item["Famille"] || null,
+      Recolte : item["Liés à la récolte"] || null,
+      Process_recolte_autre : item["Process récolte"] || null,
+      Type_parcelle_centre : item["Type de produit"] || null,
+      Unite_Operation : item["Unité récolte"] || null,
+      Code_externe : item["Désignation produit accessoire"] || null,
+      methode_calcul_prime : item["Nature prime"] || null,
+      Montant_prime : item["Montant prime associée (dhs)"] || null,
+      Gardiennage : item["Gardiennage"] || null,
+      SEUIL_gardiennage : item["Nbr heure gardiennage"] || null
       }));
     };
 
@@ -849,6 +860,16 @@ angular.module('beeOneWebFrontApp')
     }
 
 
+
+
+
+
+
+
+
+
+
+
     $scope.validateData = async function() {
 
         let errors = [];
@@ -856,51 +877,83 @@ angular.module('beeOneWebFrontApp')
         vm.jsonData.forEach(async (item, index)  =>  {
             let rowNum = index + 2;
 
-            if (!item.SocieteName ) {
-                errors.push(`Row ${rowNum}: Missing Société as required field`);
+            if (!item.FermeName ) {
+                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
             }
 
-            if (item.SocieteName ) {
-              let newferme = vm.data_societe.find(societe => String(societe.Rais_Social).toUpperCase() === String(item.SocieteName).toUpperCase());
+            if (item.FermeName ) {
+              let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
 
                if(!newferme){
-                 errors.push(`Row ${rowNum}: Ferme '${item.SocieteName}' does not exist`);
+                 errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
                }else {
-                 vm.jsonData[index].ID_societe = newferme.ID;
+                 vm.jsonData[index].IDFermes = newferme.IDFermes;
                }
             }
 
-            if (!item.CODE) {
-                errors.push(`Row ${rowNum}: Missing Code prime as required field`);
+            if (!item.Reference) {
+                errors.push(`Row ${rowNum}: Missing Référence opération as required field`);
             }
 
-            if (!item.Nom_prime) {
-                errors.push(`Row ${rowNum}: Missing Désignation prime as required field`);
+            if (!item.OpeRef_Intitule) {
+                errors.push(`Row ${rowNum}: Missing Désignation opération as required field`);
+            }
+
+            if (!item.Groupe) {
+                errors.push(`Row ${rowNum}: Missing Groupe as required field`);
+            }
+
+            if (!item.Famille) {
+                errors.push(`Row ${rowNum}: Missing Famille as required field`);
+            }
+
+            if (item.Recolte !== null && item.Recolte !== 'Oui' && item.Recolte !== 'Non') {
+                errors.push(`Row ${rowNum}: Liés à la récolte must be 'Oui' or 'Non'.`);
+            }
+
+            if (item.Gardiennage !== null && item.Gardiennage !== 'Oui' && item.Gardiennage !== 'Non') {
+                errors.push(`Row ${rowNum}: Gardiennage must be 'Oui' or 'Non'.`);
+            }
+
+
+            if (item.Montant_prime !== null && (isNaN(item.Montant_prime) || item.Montant_prime < 0)) {
+                errors.push(`Row ${rowNum}: % Montant prime associée (dhs) must be a number >= 0.`);
+            }
+
+            if (item.SEUIL_gardiennage !== null && (isNaN(item.SEUIL_gardiennage) || item.SEUIL_gardiennage < 0)) {
+                errors.push(`Row ${rowNum}: Nbr heure gardiennage must be a number >= 0.`);
+            }
+
+            if (item.methode_calcul_prime !== null && item.methode_calcul_prime !== 'Oui' && item.methode_calcul_prime !== 'Non') {
+                errors.push(`Row ${rowNum}: Nature prime must be 'Forfaitaire' or 'Unitaire'.`);
+            }
+
+            if (item.Process_recolte_autre !== null && item.Process_recolte_autre !== 'Process A' && item.Process_recolte_autre !== 'Process B' && item.Process_recolte_autre !== 'Process C') {
+                errors.push(`Row ${rowNum}: Process récolte be 'Process A', 'Process B' or 'Process C'.`);
+            }
+
+            if (item.Type_parcelle_centre !== null && item.Type_parcelle_centre !== 'Type A' && item.Type_parcelle_centre !== 'Type B'&& item.Type_parcelle_centre !== 'Type C') {
+                errors.push(`Row ${rowNum}: Process récolte be 'Type A', 'Type B' or 'Type C'.`);
             }
 
 
 
-            if (item.imposable !== null && item.imposable !== 'Oui' && item.imposable !== 'Non') {
-                errors.push(`Row ${rowNum}: Imposable must be 'Oui' or 'Non'.`);
-            }
+          /*
+            TO DO ===>
+            if found get ID else ID = 0 to create in server side
+            Unite_Operation
+            Groupe
+            Famille
 
-            if (item.Surplus !== null && item.Surplus !== 'Oui' && item.Surplus !== 'Non') {
-                errors.push(`Row ${rowNum}: Surplus must be 'Oui' or 'Non'.`);
-            }
-
-            if (item.Prime_Poncuelle !== null && item.Prime_Poncuelle !== 'Oui' && item.Prime_Poncuelle !== 'Non') {
-                errors.push(`Row ${rowNum}: .Prime ponctuelle must be 'Oui' or 'Non'.`);
-            }
-
-            if (item.Categorie_prime !== null && item.Categorie_prime !== 'Indemnité' && item.Categorie_prime !== 'Prime') {
-                errors.push(`Row ${rowNum}: Catégorie must be 'Indemnité' or 'Prime'.`);
-            }
+            */
 
 
-            if (item.ID_societe && item.CODE) {
-            let pairKey = `${item.ID_societe}_${item.CODE.toUpperCase()}`;
+
+
+            if (item.IDFermes && item.Reference) {
+            let pairKey = `${item.IDFermes}_${item.Reference.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.SocieteName}' and Code Prime '${item.CODE}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence opération '${item.Reference}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }

@@ -3,7 +3,7 @@
 
         <div id="grid1" class="grid  fade-in">
                   <div class="form-header" >
-                    <h2 class="form-title">Informations Sur La Opération</h2>
+                    <h2 class="form-title">Informations Sur L'Opération</h2>
                     <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
                   </div>
 
@@ -62,8 +62,8 @@
 
                                         <md-input-container class="form-input">
                                           <label>Liés à la récolte <font size="0.9px"> (Non / Oui)</font></label>
-                                              <md-switch ng-model="vm.formData.Recolte" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                                {{ (vm.formData.Recolte == 0) ? 'Non' : 'Oui'}}
+                                              <md-switch ng-model="vm.formData.Recolte" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                {{ (vm.formData.Recolte) ? 'Non' : 'Oui'}}
                                               </md-switch>
                                         </md-input-container>
 
@@ -122,8 +122,8 @@
 
                                                       <md-input-container class="form-input">
                                                         <label>Nature prime<font size="0.9px"> (Unitaire / Forfaitaire)</font></label>
-                                                            <md-switch ng-model="vm.formData.methode_calcul_prime" style="width:90%;" aria-label="Switch 2" ng-true-value="3" ng-false-value="0" class="md-warn">
-                                                              {{ (vm.formData.methode_calcul_prime == 3) ? 'Forfaitaire' : 'Unitaire'}}
+                                                            <md-switch ng-model="vm.formData.methode_calcul_prime" style="width:90%;" aria-label="Switch 2" ng-true-value="'3'" ng-false-value="0" class="md-warn">
+                                                              {{ (vm.formData.methode_calcul_prime === '3') ? 'Forfaitaire' : 'Unitaire'}}
                                                             </md-switch>
                                                       </md-input-container>
 
@@ -141,8 +141,8 @@
 
                                                       <md-input-container class="form-input">
                                                         <label>Gardiennage <font size="0.9px"> (Non / Oui)</font></label>
-                                                            <md-switch ng-model="vm.formData.Gardiennage" style="width:90%;" aria-label="Switch 2" ng-true-value="1" ng-false-value="0" class="md-warn">
-                                                              {{ (vm.formData.Gardiennage == 0) ? 'Non' : 'Oui'}}
+                                                            <md-switch ng-model="vm.formData.Gardiennage" style="width:90%;" aria-label="Switch 2" ng-true-value="true" ng-false-value="false" class="md-warn">
+                                                              {{ (vm.formData.Gardiennage) ? 'Oui' : 'Non'}}
                                                             </md-switch>
                                                       </md-input-container>
 
@@ -162,8 +162,8 @@
                         Reset
                       </md-button>
 
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.IDPrime) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.IDPrime) ? 'Modifier': 'Ajouter'}}
+                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.OpeRef_Id) ? vm.modifier() : vm.ajouter()">
+                        {{(vm.formData.OpeRef_Id) ? 'Modifier': 'Ajouter'}}
                       </md-button>
                     </div>
 

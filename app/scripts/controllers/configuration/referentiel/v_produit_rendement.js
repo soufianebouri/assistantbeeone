@@ -572,7 +572,7 @@ angular.module('beeOneWebFrontApp')
           vm.formData.unites = values[1].data;
 
           toastr.clear();
-             toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Ref_technique}. 👆`, {
+             toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
              closeButton: true
            });
 

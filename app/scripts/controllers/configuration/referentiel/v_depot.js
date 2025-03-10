@@ -493,7 +493,7 @@ angular.module('beeOneWebFrontApp')
         vm.formData = copiedArray;
         copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
           closeButton: true
         });
 

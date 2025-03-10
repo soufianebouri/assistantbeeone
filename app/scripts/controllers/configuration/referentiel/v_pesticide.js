@@ -513,7 +513,7 @@ if(vm.formData.ID){
         })
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Designation}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
           closeButton: true
         });
 

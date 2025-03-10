@@ -8,25 +8,28 @@
  * Factory in the beeOneWebFrontApp.
  */
 angular.module('beeOneWebFrontApp')
-  .factory('OperationService', function($http) {
+  .factory('OperationService', function($http,_url) {
     return {
-      pushOperation: function(baseUrl, data) {
-        return $http.post(baseUrl + "/operations/create", data);
+      get_all: function() {
+        return $http.post(_url + "/operation/get_all");
       },
-      getOperation: function(baseUrl) {
-        return $http.get(baseUrl + "/operations");
+      add: function(data) {
+        return $http.post(_url + "/operation/add", data);
       },
-      deleteOperation: function(baseUrl, data) {
-        return $http.post(baseUrl + "/operations/delete", data);
+      edit: function(data) {
+        return $http.post(_url + "/operation/edit", data);
       },
-      updateOperation: function(baseUrl, data) {
-        return $http.post(baseUrl + "/operations/update", data);
+      delete: function(data) {
+        return $http.post(_url + "/operation/delete", data);
       },
-      getOperationByFerme: function(baseUrl, data) {
-        return $http.get(baseUrl + "/operations/" + data);
+      multidelete: function(data) {
+        return $http.post(_url + "/operation/multidelete", data);
       },
-      getlastOperation: function(baseUrl) {
-        return $http.post(baseUrl + "/operations/getlast");
+      multiadd: function(data) {
+        return $http.post(_url + "/operation/multiadd", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/operation/getbyferme", data);
       }
     };
   });

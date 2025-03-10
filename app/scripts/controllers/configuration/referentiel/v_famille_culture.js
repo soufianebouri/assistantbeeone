@@ -515,11 +515,11 @@ NProgress.start();
         }).filter(match => match !== null);
 
           copiedArray.fermes = matches.map(match => match.data_ferme);
-          
+
 
 
        toastr.clear();
-          toastr.success(`The form for editing has been filled out and is ready for modification: ${vm.formData.Reference}. 👆`, {
+          toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
           closeButton: true
         });
 

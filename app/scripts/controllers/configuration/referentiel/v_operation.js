@@ -14,7 +14,7 @@ angular.module('beeOneWebFrontApp')
     toastr,
     $timeout,cultureService,
     _url,VarieteService,
-    $window,
+    $window,groupeOperation ,   familleOperation,uniteOperation,
     $translatePartialLoader,
     $translate,uniteoperation,
     _version,
@@ -893,10 +893,22 @@ angular.module('beeOneWebFrontApp')
 
             if (!item.Reference) {
                 errors.push(`Row ${rowNum}: Missing Référence opération as required field`);
+            } else {
+              let newRef = vm.data_operarion.some(data_fournisseur => String(data_fournisseur.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
+              console.log("newRef" , newRef);
+              if(newRef){
+                errors.push(`Row ${rowNum}: Référence opération '${item.Reference}' already exist`);
+              }
             }
 
             if (!item.OpeRef_Intitule) {
                 errors.push(`Row ${rowNum}: Missing Désignation opération as required field`);
+            } else {
+              let newRef = vm.data_operarion.some(data_fournisseur => String(data_fournisseur.OpeRef_Intitule).toUpperCase() === String(item.OpeRef_Intitule).toUpperCase() );
+              console.log("newRef" , newRef);
+              if(newRef){
+                errors.push(`Row ${rowNum}: Désignation opération '${item.OpeRef_Intitule}' already exist`);
+              }
             }
 
             if (!item.Groupe) {
@@ -934,6 +946,25 @@ angular.module('beeOneWebFrontApp')
 
             if (item.Type_parcelle_centre !== null && item.Type_parcelle_centre !== 'Type A' && item.Type_parcelle_centre !== 'Type B'&& item.Type_parcelle_centre !== 'Type C') {
                 errors.push(`Row ${rowNum}: Process récolte be 'Type A', 'Type B' or 'Type C'.`);
+            }
+
+
+            vm.jsonData[index].ID_Groupe = null;
+            let newgroupe = vm.data_groupe.find(groupe => String(groupe.Groupe).toUpperCase() === String(item.Groupe).toUpperCase());
+            if(newgroupe){
+            vm.jsonData[index].ID_Groupe = newgroupe.ID;
+            }
+
+            vm.jsonData[index].ID_Famille = null;
+            let newFamille = vm.data_famille.find(famille => String(famille.Famille).toUpperCase() === String(item.Famille).toUpperCase());
+            if(newFamille){
+            vm.jsonData[index].ID_Famille = newFamille.ID;
+            }
+
+            vm.jsonData[index].IDUnite_Operation = null;
+            let newUnite = vm.data_unite.find(famille => String(famille.Code).toUpperCase() === String(item.Unite_Operation).toUpperCase());
+            if(newUnite){
+            vm.jsonData[index].IDUnite_Operation = newUnite.IDUnite_Operation;
             }
 
 
@@ -980,46 +1011,64 @@ angular.module('beeOneWebFrontApp')
     vm.integer = async function(){
       if(vm.jsonData.length>0){
              NProgress.start();
-        if(await $scope.validateData()){
-
-                    operarion.multiadd({
-                      operarions :vm.jsonData
-                    }).then(async e => {
-                        toastr.clear();
-                        toastr.success(e.data.message, {
-                          closeButton: true
-                        });
-                        await $scope.undoSelect()
-                        NProgress.done();
-
-                        vm.data_operarion.unshift(...e.data.inserted_data);
-
-                        vm.dtInstance.reloadData();
-                        vm.reset();
-                        vm.isFileSelected = false;
-                        vm.jsonData = [];
-                        vm.errData = {
-                          err : false
-                        }
-                    }).catch(async e => {
-                      NProgress.done();
-                      toastr.clear();
-                      toastr.error(e.data.message, {
-                        closeButton: true
-                      });
-                      vm.errData = {
-                        err : true,
-                        message : e.data.message
-                      }
-                    });
+             vm.data_groupe
 
 
+           $q.all([
+             groupeOperation.get_all(),
+             familleOperation.get_all(),
+             uniteOperation.get_all()
+           ]).then(async (values) => {
+               NProgress.done();
+             vm.data_groupe = values[0].data;
+             vm.data_famille = values[1].data;
+             vm.data_unite = values[2].data;
+             console.log(vm.jsonData);
+             if(await $scope.validateData()){
+
+                      OperationService.multiadd({
+                           operations :vm.jsonData
+                         }).then(async e => {
+                             toastr.clear();
+                             toastr.success(e.data.message, {
+                               closeButton: true
+                             });
+                             await $scope.undoSelect()
+                             NProgress.done();
+
+                             vm.data_operarion.unshift(...e.data.inserted_data);
+
+                             vm.dtInstance.reloadData();
+                             vm.reset();
+                             vm.isFileSelected = false;
+                             vm.jsonData = [];
+                             vm.errData = {
+                               err : false
+                             }
+                         }).catch(async e => {
+                           NProgress.done();
+                           toastr.clear();
+                           toastr.error(e.data.message, {
+                             closeButton: true
+                           });
+                           vm.errData = {
+                             err : true,
+                             message : e.data.message
+                           }
+                         });
+
+                     }
+
+           }).catch((error) => {
+               NProgress.done();
+             toastr.clear();
+             toastr.error(error.message, {
+               closeButton: true
+             });
+           });
 
 
 
-
-
-                }
         }else{
           NProgress.done();
           toastr.clear();

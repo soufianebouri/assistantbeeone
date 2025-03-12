@@ -13,7 +13,7 @@
 
                       <md-input-container class="form-input" >
                           <label>Ferme</label>
-                          <md-select ng-model="vm.formData.fermes"  multiple data-md-container-class="selectdemoSelectHeader" required>
+                          <md-select ng-model="vm.formData.fermes"  multiple ng-change="get_varietes()" data-md-container-class="selectdemoSelectHeader" required>
                             <md-select-header class="demo-select-header">
                               <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
@@ -23,40 +23,6 @@
                           </md-select>
                       </md-input-container>
 
-                    </div>
-
-                      <div class="form-row tiny-space sotiny" >
-
-
-                      <md-input-container class="form-input" >
-                          <label>Famille</label>
-                          <md-select ng-model="vm.formData.ID_culture"   data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_data_famille" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_famille.ID" ng-repeat="data_famille in vm.data_famille | orderBy:'Culture' | filter:search_data_famille"
-                              >{{data_famille.Culture}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
-
-                      <md-input-container class="form-input" >
-                          <label>Culture</label>
-                          <md-select ng-model="vm.formData.ID_culture"   data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_Culture" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_culture.ID" ng-repeat="data_ferme in vm.data_culture | orderBy:'Culture' | filter:search_Culture"
-                              >{{data_culture.Culture}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
-
-
-
-
-
-
                       <md-input-container class="form-input" >
                           <label>Variété</label>
                           <md-select ng-model="vm.formData.varietes"  multiple data-md-container-class="selectdemoSelectHeader" required>
@@ -64,24 +30,25 @@
                               <input ng-model="search_Variete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                             </md-select-header>
                             <md-option ng-value="data_variete.ID" ng-repeat="data_variete in vm.data_variete | orderBy:'Variete' | filter:search_Variete"
-                              >{{data_ferme.Variete}}
+                              >{{data_variete.Variete}}
                              </md-option>
                           </md-select>
                       </md-input-container>
 
                     </div>
 
+
                       <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
 
                         <md-input-container class="form-input">
                               <label>Référence profile</label>
-                              <input type="text" ng-model="vm.formData.Reference"   required>
+                              <input type="text" ng-model="vm.formData.reference"   required>
                         </md-input-container>
 
 
                         <md-input-container class="form-input">
                               <label>Désignation profile</label>
-                              <input type="text" ng-model="vm.formData.OpeRef_Intitule"   required>
+                              <input type="text" ng-model="vm.formData.designation"   required>
                         </md-input-container>
 
 
@@ -91,9 +58,9 @@
 
                           <md-input-container class="form-input full-width">
                             <label>Déscription</label>
-                            <textarea ng-model="vm.formData.Adresse" rows="3" md-maxlength="100"></textarea>
+                            <textarea ng-model="vm.formData.desriptif" rows="3" md-maxlength="100"></textarea>
                           </md-input-container>
-                          
+
                         </div>
 
                                         <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
@@ -101,15 +68,15 @@
 
                                           <md-input-container class="form-input">
                                             <label>Durée</label>
-                                            <input type="number" ng-model="vm.formData.Montant_prime" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                            <input type="number" ng-model="vm.formData.duree" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
                                           </md-input-container>
 
 
                                           <md-input-container class="form-input" >
                                               <label>Périodicité</label>
-                                              <md-select ng-model="vm.formData.periodicite"   data-md-container-class="selectdemoSelectHeader" required>
+                                              <md-select ng-model="vm.formData.periode"   data-md-container-class="selectdemoSelectHeader" required>
                                                 <md-select-header class="demo-select-header">
-                                                  <input ng-model="search_Variete" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                                                  <input ng-model="search_periode" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                                                 </md-select-header>
                                                 <md-option ng-value="1" >Semaine</md-option>
                                                 <md-option ng-value="2" >Quinzaine</md-option>
@@ -125,13 +92,13 @@
 
                                         <md-input-container class="form-input" >
                                             <label>Date début</label>
-                                            <input type="date" ng-model="vm.formData.Dat_Plant" required>
+                                            <input type="date" ng-model="vm.formData.date_debut" required>
                                           </md-input-container>
 
 
                                           <md-input-container class="form-input">
                                               <label>Date fin</label>
-                                              <input type="date" ng-model="vm.formData.Date_prevu_recolte"   required>
+                                              <input type="date" ng-model="vm.formData.date_fin"   required>
                                             </md-input-container>
 
 
@@ -142,7 +109,7 @@
 
                                         <md-input-container class="form-input">
                                               <label>Système de production</label>
-                                              <input type="text" ng-model="vm.formData.Reference"   >
+                                              <input type="text" ng-model="vm.formData.systeme_production"   >
                                         </md-input-container>
 
 
@@ -154,24 +121,24 @@
 
                                         <md-input-container class="form-input" >
                                             <label>Mode conduite</label>
-                                            <md-select ng-model="vm.formData.Process_recolte_autre"  multiple data-md-container-class="selectdemoSelectHeader" >
+                                            <md-select ng-model="vm.formData.types_conduite"  multiple data-md-container-class="selectdemoSelectHeader" >
                                               <md-select-header class="demo-select-header">
                                                 <input ng-model="search_data_typeconduite" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                                               </md-select-header>
-                                              <md-option ng-value="data_typeconduite.ID" ng-repeat="data_typeconduite in vm.data_typeconduite | orderBy:'Nom' | filter:search_data_typeconduite"
-                                                >{{data_typeconduite.Nom}}
+                                              <md-option ng-value="data_typeconduite.IDType_conduite" ng-repeat="data_typeconduite in vm.data_typeconduite | orderBy:'Type_conduite' | filter:search_data_typeconduite"
+                                                >{{data_typeconduite.Type_conduite}}
                                                </md-option>
                                             </md-select>
                                         </md-input-container>
 
                                         <md-input-container class="form-input" >
                                             <label>Type irrigation</label>
-                                            <md-select ng-model="vm.formData.Type_parcelle_centre" multiple  data-md-container-class="selectdemoSelectHeader" >
+                                            <md-select ng-model="vm.formData.types_irrigation" multiple  data-md-container-class="selectdemoSelectHeader" >
                                               <md-select-header class="demo-select-header">
                                                 <input ng-model="search_data_typeirrigation" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                                               </md-select-header>
-                                              <md-option ng-value="data_typeirrigation.ID" ng-repeat="data_typeproduit in vm.data_typeirrigation | orderBy:'Nom' | filter:search_data_typeirrigation"
-                                                >{{data_typeirrigation.Nom}}
+                                              <md-option ng-value="data_typeirrigation.IDMode_Irrigation" ng-repeat="data_typeirrigation in vm.data_typeirrigation | orderBy:'Libelle' | filter:search_data_typeirrigation"
+                                                >{{data_typeirrigation.Libelle}}
                                                </md-option>
                                             </md-select>
                                         </md-input-container>
@@ -181,19 +148,19 @@
 
                                         <md-input-container class="form-input" >
                                             <label>Mode application</label>
-                                            <md-select ng-model="vm.formData.Type_parcelle_centre" multiple  data-md-container-class="selectdemoSelectHeader" >
+                                            <md-select ng-model="vm.formData.modes_application" multiple  data-md-container-class="selectdemoSelectHeader" >
                                               <md-select-header class="demo-select-header">
                                                 <input ng-model="search_data_modeapplication" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
                                               </md-select-header>
-                                              <md-option ng-value="data_modeapplication.ID" ng-repeat="data_modeapplication in vm.data_modeapplication | orderBy:'Nom' | filter:search_data_modeapplication"
-                                                >{{data_modeapplication.Nom}}
+                                              <md-option ng-value="data_modeapplication.ID" ng-repeat="data_modeapplication in vm.data_modeapplication | orderBy:'Mode_Application' | filter:search_data_modeapplication"
+                                                >{{data_modeapplication.Mode_Application}}
                                                </md-option>
                                             </md-select>
                                         </md-input-container>
 
                                         <md-input-container class="form-input">
                                           <label>Densité</label>
-                                          <input type="number" ng-model="vm.formData.Montant_prime" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
+                                          <input type="number" ng-model="vm.formData.densite" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" >
                                         </md-input-container>
 
 

@@ -18,10 +18,10 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader,
     $translate,uniteoperation,
     _version,
-    DTOptionsBuilder,
+    DTOptionsBuilder,profilProduction,
     $compile,
-    DTColumnBuilder,societe,
-    DTDefaultOptions,OperationService,
+    DTColumnBuilder,societe,typeconduite,typeirrigation,ModeApplication,
+    DTDefaultOptions,
     $cookies,
     ferme,produitrendement,
     familleculture
@@ -37,6 +37,25 @@ angular.module('beeOneWebFrontApp')
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
 
 
+
+    $scope.get_varietes = function () {
+
+      vm.formData.varietes = [];
+      NProgress.start();
+      if(vm.formData.fermes){
+        $q.all([VarieteService.getbyMultiferme({
+          IDFermes: vm.formData.fermes
+        })]).then((values) => {
+          NProgress.done();
+          vm.data_variete = values[0].data;
+        })
+      }else {
+          NProgress.done();
+          vm.data_variete = []
+      }
+
+
+    }
 
 
     $scope.fileName = "Aucun fichier choisi";
@@ -220,15 +239,15 @@ angular.module('beeOneWebFrontApp')
         if(await vm.validateFormData()){
           NProgress.start()   ;
 
-          OperationService.edit(vm.formData).then(async e => {
+          profilProduction.edit(vm.formData).then(async e => {
 
               toastr.clear();
               toastr.success('Opération bien modifé', {
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_operarion.findIndex(item => item.OpeRef_Id === e.data.OpeRef_Id);
-              vm.data_operarion[index] = e.data;
+              let index = vm.data_profil_production.findIndex(item => item.OpeRef_Id === e.data.OpeRef_Id);
+              vm.data_profil_production[index] = e.data;
 
               vm.dtInstance.reloadData();
               vm.reset();
@@ -244,13 +263,17 @@ angular.module('beeOneWebFrontApp')
         }
     };
 
+
+
     vm.validateFormData = async function() {
       let rules = {
         fermes : "Ferme is required.",
-        Reference : "Reference opération is required.",
-        OpeRef_Intitule : "Désignation opération is required.",
-        Groupe : "Groupeis required.",
-        Famille : "Famille is required."
+        varietes : "Variété is required.",
+        reference : "Reference is required.",
+        designation : "Désignation is required.",
+        duree : "Durée is required.",
+        date_debut : "Date début is required.",
+        date_fin : "Date fin is required.",
       };
 
       for (let key in rules) {
@@ -274,14 +297,14 @@ angular.module('beeOneWebFrontApp')
       toastr.clear();
         if(await vm.validateFormData()){
           NProgress.start()
-          OperationService.add(vm.formData).then(async e => {
+          profilProduction.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.success('Opération bien ajouté', {
+              toastr.success('Profile de production bien ajouté', {
                 closeButton: true
               });
               await $scope.undoSelect()
               NProgress.done();
-              vm.data_operarion.unshift(e.data);
+              vm.data_profil_production.unshift(e.data);
               vm.dtInstance.reloadData();
               vm.reset();
           }).catch(async e => {
@@ -297,7 +320,7 @@ angular.module('beeOneWebFrontApp')
 
       vm.multiDelete = async function() {
 
-        let selectedIds = await $scope.getSelectedIDs(vm.data_operarion);
+        let selectedIds = await $scope.getSelectedIDs(vm.data_profil_production);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -307,7 +330,7 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              OperationService.multidelete({
+              profilProduction.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
@@ -316,7 +339,7 @@ angular.module('beeOneWebFrontApp')
                 toastr.success("Opération(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_operarion = vm.data_operarion.filter(item => !selectedIds.includes(item.OpeRef_Id));
+                vm.data_profil_production = vm.data_profil_production.filter(item => !selectedIds.includes(item.OpeRef_Id));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -344,7 +367,7 @@ angular.module('beeOneWebFrontApp')
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            OperationService.delete(data).then(async function(result) {
+            profilProduction.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
@@ -352,7 +375,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_operarion = vm.data_operarion.filter(item => item.OpeRef_Id !== data.OpeRef_Id);
+              vm.data_profil_production = vm.data_profil_production.filter(item => item.OpeRef_Id !== data.OpeRef_Id);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -374,7 +397,7 @@ angular.module('beeOneWebFrontApp')
 
 
     $scope.check_all_data_input = async function(){
-      var isDuplicate = vm.data_operarion.some(function(societe) {
+      var isDuplicate = vm.data_profil_production.some(function(societe) {
         return societe.Code === vm.formData.Code;
     });
 
@@ -391,7 +414,7 @@ angular.module('beeOneWebFrontApp')
     }
 
     $scope.check_all_data_input_edit = async function(){
-      var isDuplicate = vm.data_operarion.some(function(societe) {
+      var isDuplicate = vm.data_profil_production.some(function(societe) {
         return (societe.Rais_Social === vm.formData.Rais_Social && societe.IDFermes != vm.formData.IDFermes);
     });
 
@@ -413,15 +436,15 @@ angular.module('beeOneWebFrontApp')
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
 
-      if (!vm.data_operarion) {
+      if (!vm.data_profil_production) {
           var stopCheck = setInterval(function () {
-              if (vm.data_operarion) {
+              if (vm.data_profil_production) {
                   clearInterval(stopCheck);
-                  defer.resolve(vm.data_operarion);
+                  defer.resolve(vm.data_profil_production);
               }
           }, 500);
       } else {
-          defer.resolve(vm.data_operarion);
+          defer.resolve(vm.data_profil_production);
       }
 
   return defer.promise;
@@ -489,7 +512,7 @@ angular.module('beeOneWebFrontApp')
     // Toggle all checkboxes
     vm.toggleAllSelection = function() {
       $scope.allSelected = (!$scope.allSelected) ? true : false;
-      vm.data_operarion.forEach(societe => {
+      vm.data_profil_production.forEach(societe => {
           societe.selected = $scope.allSelected; // Toggle selection
       });
       vm.dtInstance.reloadData();
@@ -504,7 +527,7 @@ angular.module('beeOneWebFrontApp')
 
 
   $scope.undoSelect = async function(){
-    vm.data_operarion = vm.data_operarion.map(societe => {
+    vm.data_profil_production = vm.data_profil_production.map(societe => {
        return { ...societe, selected: false }; // Toggle selection
    });
   }
@@ -521,7 +544,7 @@ angular.module('beeOneWebFrontApp')
 
     $scope.toggleSelection = function (id) {
       let found = false;
-      vm.data_operarion = vm.data_operarion.map(societe => {
+      vm.data_profil_production = vm.data_profil_production.map(societe => {
           if (societe.OpeRef_Id === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
@@ -529,7 +552,7 @@ angular.module('beeOneWebFrontApp')
           return societe;
       });
       /* if (!found) {
-            vm.data_operarion.push({ id_sco_temp: id, selected: true });
+            vm.data_profil_production.push({ id_sco_temp: id, selected: true });
         }    */
   };
 
@@ -539,7 +562,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return (vm.data_operarion) ? vm.data_operarion.filter(dt_operation => dt_operation.selected).length : 0;
+      return (vm.data_profil_production) ? vm.data_profil_production.filter(dt_operation => dt_operation.selected).length : 0;
     };
 
     vm.data_processrecolte = [
@@ -571,43 +594,57 @@ angular.module('beeOneWebFrontApp')
         }
         return "";
        }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Reference").withTitle("Référence").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("OpeRef_Intitule").withTitle("Désignation opération").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Groupe").withTitle("Groupe").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Famille").withTitle("Famille").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Recolte").withTitle("Liés à la récolte").renderWith(function(data, type, full, meta) {
-          if (full.Recolte)
-            return "Oui"
-          return "Non";
-        }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Process_recolte_autre").withTitle("Process récolte").renderWith(function(data, type, full, meta) {
-          if (full.Process_recolte_autre){
-            if(full.Process_recolte_autre == 1) return "Process A";
-            if(full.Process_recolte_autre == 2) return "Process B";
-          }
+      DTColumnBuilder.newColumn("varietes").withTitle("Variété").renderWith(function(data, type, full, meta) {
+        if (full.varietes && Array.isArray(full.varietes)) {
+          return full.varietes.map(f => f.Variete).join(", ");
+      }
+      return "";
+     }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("reference").withTitle("Référence profile").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("designation").withTitle("Désignation profile").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("desriptif").withTitle("Déscription").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("duree").withTitle("Durée").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("periode").withTitle("Périodicité").renderWith(function(data, type, full, meta) {
+          if (full.periode == 1) return "Semaine"
+          if (full.periode == 2) return "Quinzaine"
+          if (full.periode == 3) return "Mois"
           return "";
         }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Process_recolte_autre").withTitle("Type de produit").renderWith(function(data, type, full, meta) {
-          if (full.Type_parcelle_centre){
-            if(full.Type_parcelle_centre == 1) return "Type A";
-            if(full.Type_parcelle_centre == 2) return "Type B";
-            if(full.Type_parcelle_centre == 3) return "Type C";
-          }
-          return "";
+        DTColumnBuilder.newColumn("date_debut").withTitle("Date début").renderWith(function(data, type, full, meta) {
+          if(full.date_debut)
+          return moment(full.date_debut).format('DD/MM/YYYY');
+          return ''
         }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Unite_Operation").withTitle("Unité récolte").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Code_externe").withTitle("Désignation produit accessoire").withOption("width", "100px"),
-        DTColumnBuilder.newColumn("methode_calcul_prime").withTitle("Nature prime").renderWith(function(data, type, full, meta) {
-          if (full.methode_calcul_prime == 3)
-            return "Forfaitaire"
-          return "Unitaire";
+        DTColumnBuilder.newColumn("date_fin").withTitle("Date fin").renderWith(function(data, type, full, meta) {
+          if(full.date_fin)
+          return moment(full.date_fin).format('DD/MM/YYYY');
+          return ''
         }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("Gardiennage").withTitle("Gardiennage").renderWith(function(data, type, full, meta) {
-          if (full.Gardiennage)
-            return "Oui"
-          return "Non";
-        }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn("SEUIL_gardiennage").withTitle("Nbr heure gardiennage").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("systeme_production").withTitle("Système de production").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("types_conduite").withTitle("Mode conduite").renderWith(function(data, type, full, meta) {
+          if (full.types_conduite && Array.isArray(full.types_conduite)) {
+            return full.types_conduite.map(f => f.Type_conduite).join(", ");
+        }
+        return "";
+       }).withOption("width", "100px"),
+       DTColumnBuilder.newColumn("types_irrigation").withTitle("Type irrigation").renderWith(function(data, type, full, meta) {
+         if (full.types_irrigation && Array.isArray(full.types_irrigation)) {
+           return full.types_irrigation.map(f => f.Libelle).join(", ");
+       }
+       return "";
+      }).withOption("width", "100px"),
+      DTColumnBuilder.newColumn("modes_application").withTitle("Mode application").renderWith(function(data, type, full, meta) {
+        if (full.modes_application && Array.isArray(full.Mode_Application)) {
+          return full.modes_application.map(f => f.Libelle).join(", ");
+      }
+      return "";
+     }).withOption("width", "100px"),
+     DTColumnBuilder.newColumn("densite").withTitle("Densité").withOption("width", "100px"),
+     DTColumnBuilder.newColumn("archive").withTitle("Status").renderWith(function(data, type, full, meta) {
+       if(full.archive)
+       return "Archivé";
+       return 'En cours'
+     }).withOption("width", "100px"),
        DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
@@ -628,20 +665,19 @@ angular.module('beeOneWebFrontApp')
     vm.reset = function () {
       vm.formData =  {
         fermes : [],
-        periodicite : 1,
-        OpeRef_Intitule: null,
-        Reference: null,
-        Groupe: null,
-        Famille: null,
-        Recolte : false,
-        Process_recolte_autre: null,
-        Type_parcelle_centre : null,
-        Unite_Operation: null,
-        Code_externe: null,
-        methode_calcul_prime: '3',
-        Montant_prime: null,
-        Gardiennage : false,
-        SEUIL_gardiennage: null
+        varietes : [],
+        reference : null,
+        designation : null,
+        desriptif : null,
+        duree : null,
+        periode : 1,
+        date_debut : null,
+        date_fin : null,
+        systeme_production : null,
+        types_conduite : [],
+        types_irrigation : [],
+        modes_application : [],
+        densite : null
       }
      }
    vm.reset()
@@ -661,12 +697,18 @@ angular.module('beeOneWebFrontApp')
 
     NProgress.start();
         $q.all([
-          OperationService.get_all(),
-          ferme.get_all()
+          profilProduction.get_all(),
+          ferme.get_all(),
+          typeconduite.get_all(),
+          typeirrigation.get_all(),
+          ModeApplication.get_all()
         ]).then((values) => {
             NProgress.done();
-          vm.data_operarion = values[0].data;
+          vm.data_profil_production = values[0].data;
           vm.data_ferme = values[1].data;
+          vm.data_typeconduite = values[2].data;
+          vm.data_typeirrigation = values[3].data;
+          vm.data_modeapplication = values[4].data;
         }).catch((error) => {
             NProgress.done();
           toastr.clear();
@@ -895,7 +937,7 @@ angular.module('beeOneWebFrontApp')
             if (!item.Reference) {
                 errors.push(`Row ${rowNum}: Missing Référence opération as required field`);
             } else {
-              let newRef = vm.data_operarion.some(data_fournisseur => String(data_fournisseur.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
+              let newRef = vm.data_profil_production.some(data_fournisseur => String(data_fournisseur.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
                 errors.push(`Row ${rowNum}: Référence opération '${item.Reference}' already exist`);
@@ -905,7 +947,7 @@ angular.module('beeOneWebFrontApp')
             if (!item.OpeRef_Intitule) {
                 errors.push(`Row ${rowNum}: Missing Désignation opération as required field`);
             } else {
-              let newRef = vm.data_operarion.some(data_fournisseur => String(data_fournisseur.OpeRef_Intitule).toUpperCase() === String(item.OpeRef_Intitule).toUpperCase() );
+              let newRef = vm.data_profil_production.some(data_fournisseur => String(data_fournisseur.OpeRef_Intitule).toUpperCase() === String(item.OpeRef_Intitule).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
                 errors.push(`Row ${rowNum}: Désignation opération '${item.OpeRef_Intitule}' already exist`);
@@ -1027,7 +1069,7 @@ angular.module('beeOneWebFrontApp')
              console.log(vm.jsonData);
              if(await $scope.validateData()){
 
-                      OperationService.multiadd({
+                      profilProduction.multiadd({
                            operations :vm.jsonData
                          }).then(async e => {
                              toastr.clear();
@@ -1037,7 +1079,7 @@ angular.module('beeOneWebFrontApp')
                              await $scope.undoSelect()
                              NProgress.done();
 
-                             vm.data_operarion.unshift(...e.data.inserted_data);
+                             vm.data_profil_production.unshift(...e.data.inserted_data);
 
                              vm.dtInstance.reloadData();
                              vm.reset();

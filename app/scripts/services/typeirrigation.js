@@ -2,17 +2,17 @@
 
 /**
  * @ngdoc service
- * @name beeOneWebFrontApp.typeconduite
+ * @name beeOneWebFrontApp.typeirrigation
  * @description
- * # typeconduite
+ * # typeirrigation
  * Factory in the beeOneWebFrontApp.
  */
 angular.module('beeOneWebFrontApp')
-  .factory('typeconduite', function($http, _url) {
+  .factory('typeirrigation', function ($http, _url) {
     return {
       get_all: function() {
         NProgress.start();
-        return $http.post(_url + "/typeconduite/get_all");
+        return $http.post(_url + "/typeirrigation/get_all");
       }
     };
   });

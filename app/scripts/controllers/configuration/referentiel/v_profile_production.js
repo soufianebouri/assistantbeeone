@@ -246,7 +246,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
               NProgress.done();
-              let index = vm.data_profil_production.findIndex(item => item.OpeRef_Id === e.data.OpeRef_Id);
+              let index = vm.data_profil_production.findIndex(item => item.id_bdg_profil_production === e.data.id_bdg_profil_production);
               vm.data_profil_production[index] = e.data;
 
               vm.dtInstance.reloadData();
@@ -339,7 +339,7 @@ angular.module('beeOneWebFrontApp')
                 toastr.success("Opération(s) successfully deleted.", {
                   closeButton: true
                 });
-                vm.data_profil_production = vm.data_profil_production.filter(item => !selectedIds.includes(item.OpeRef_Id));
+                vm.data_profil_production = vm.data_profil_production.filter(item => !selectedIds.includes(item.id_bdg_profil_production));
                 vm.dtInstance.reloadData();
                 NProgress.done();
 
@@ -375,7 +375,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
 
-              vm.data_profil_production = vm.data_profil_production.filter(item => item.OpeRef_Id !== data.OpeRef_Id);
+              vm.data_profil_production = vm.data_profil_production.filter(item => item.id_bdg_profil_production !== data.id_bdg_profil_production);
               vm.dtInstance.reloadData();
 
               NProgress.done();
@@ -467,7 +467,7 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste Des Opérations'
+          title: 'Liste Des Profile De Production'
         },
       ]);
 
@@ -475,15 +475,15 @@ angular.module('beeOneWebFrontApp')
 
       vm.operarion_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.operarion_action[data.OpeRef_Id] = data;
+          vm.operarion_action[data.id_bdg_profil_production] = data;
           var editbtn =
           '<button class="btnEdit_tb" ng-click="vm.edit(vm.operarion_action[' +
-          data.OpeRef_Id +
+          data.id_bdg_profil_production +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
           '<button class="btnEdit_tb" ng-click="vm.delete(vm.operarion_action[' +
-          data.OpeRef_Id +
+          data.id_bdg_profil_production +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
       }
@@ -494,7 +494,21 @@ angular.module('beeOneWebFrontApp')
 
         var copiedArray = angular.copy(data);
         vm.formData = copiedArray;
-        copiedArray.fermes =  copiedArray.fermes.map(societe => societe.IDFermes);
+        copiedArray.fermes =  copiedArray.fermes.map(item => item.id_ferme);
+        copiedArray.varietes =  copiedArray.varietes.map(item => item.id_variete);
+        copiedArray.types_conduite =  copiedArray.types_conduite.map(item => item.id_type_conduite);
+        copiedArray.types_irrigation =  copiedArray.types_irrigation.map(item => item.id_type_irrigation);
+        copiedArray.modes_application =  copiedArray.modes_application.map(item => item.id_mode_application);
+        copiedArray.date_debut = (copiedArray.date_debut) ? new Date(moment(copiedArray.date_debut).format("YYYY-MM-DD")) : null;
+        copiedArray.date_fin = (copiedArray.date_fin) ? new Date(moment(copiedArray.date_fin).format("YYYY-MM-DD")) : null;
+        NProgress.start();
+
+          $q.all([VarieteService.getbyMultiferme({
+            IDFermes: vm.formData.fermes
+          })]).then((values) => {
+            NProgress.done();
+            vm.data_variete = values[0].data;
+          })
         console.log(copiedArray);
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
@@ -536,7 +550,7 @@ angular.module('beeOneWebFrontApp')
   $scope.getSelectedIDs = async function(data) {
     let selectedItems = data.filter(item => item.selected === true); // Get selected items
 
-    let selectedIds = selectedItems.map(item => item.OpeRef_Id); // Extract IDs
+    let selectedIds = selectedItems.map(item => item.id_bdg_profil_production); // Extract IDs
 
     return selectedIds;
   };
@@ -545,7 +559,7 @@ angular.module('beeOneWebFrontApp')
     $scope.toggleSelection = function (id) {
       let found = false;
       vm.data_profil_production = vm.data_profil_production.map(societe => {
-          if (societe.OpeRef_Id === id) {
+          if (societe.id_bdg_profil_production === id) {
               found = true;
               return { ...societe, selected: !societe.selected }; // Toggle selection
           }
@@ -557,7 +571,7 @@ angular.module('beeOneWebFrontApp')
   };
 
     function checkboxHtml(data, type, full, meta) {
-        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.OpeRef_Id})">`;
+        return `<input type="checkbox" ng-checked="data.selected" ng-click="toggleSelection(${data.id_bdg_profil_production})">`;
     }
 
 
@@ -634,8 +648,8 @@ angular.module('beeOneWebFrontApp')
        return "";
       }).withOption("width", "100px"),
       DTColumnBuilder.newColumn("modes_application").withTitle("Mode application").renderWith(function(data, type, full, meta) {
-        if (full.modes_application && Array.isArray(full.Mode_Application)) {
-          return full.modes_application.map(f => f.Libelle).join(", ");
+        if (full.modes_application && Array.isArray(full.modes_application)) {
+          return full.modes_application.map(f => f.Mode_Application).join(", ");
       }
       return "";
      }).withOption("width", "100px"),
@@ -722,19 +736,19 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Référence opération",
-      "Désignation opération",
-      "Groupe",
-      "Famille",
-      "Liés à la récolte",
-      "Process récolte",
-      "Type de produit",
-      "Unité récolte",
-      "Désignation produit accessoire",
-      "Nature prime",
-      "Montant prime associée (dhs)",
-      "Gardiennage",
-      "Nbr heure gardiennage"
+      "Variété",
+      "Référence profile",
+      "Désignation profile",
+      "Déscription",
+      "Durée",
+      "Périodicité",
+      "Date début",
+      "Date fin",
+      "Système de production",
+      "Mode conduite",
+      "Type irrigation",
+      "Mode application",
+      "Densité"
     ];
 
       vm.exportToExcel = function () {
@@ -744,13 +758,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Opérarions");
+          XLSX.utils.book_append_sheet(wb, ws, "Profile De Production");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Opérarions.xlsx");
+          saveAs(blob, "Canvas Profile De Production.xlsx");
       };
 
 
@@ -788,19 +802,19 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
       FermeName : item["Ferme"] || null,
-      Reference  : item["Référence opération"] || null,
-      OpeRef_Intitule  : item["Désignation opération"] || null,
-      Groupe : item["Groupe"] || null,
-      Famille : item["Famille"] || null,
-      Recolte : item["Liés à la récolte"] || null,
-      Process_recolte_autre : item["Process récolte"] || null,
-      Type_parcelle_centre : item["Type de produit"] || null,
-      Unite_Operation : item["Unité récolte"] || null,
-      Code_externe : item["Désignation produit accessoire"] || null,
-      methode_calcul_prime : item["Nature prime"] || null,
-      Montant_prime : item["Montant prime associée (dhs)"] || null,
-      Gardiennage : item["Gardiennage"] || null,
-      SEUIL_gardiennage : item["Nbr heure gardiennage"] || null
+      VarieteName : item["Variété"] || null,
+      reference : item["Référence profile"] || null,
+      designation : item["Désignation profile"] || null,
+      desriptif : item["Déscription"] || null,
+      duree : item["Durée"] || null,
+      periode : item["Périodicité"] || null,
+      date_debut : item["Date début"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date début"]) : null,
+      date_fin : item["Date fin"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date fin"]) : null,
+      systeme_production : item["Système de production"] || null,
+      types_conduite : item["Mode conduite"] || null,
+      types_irrigation : item["Type irrigation"] || null,
+      modes_application : item["Mode application"] || null,
+      densite : item["Densité"] || null
       }));
     };
 

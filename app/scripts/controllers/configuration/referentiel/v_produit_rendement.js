@@ -105,8 +105,6 @@ angular.module('beeOneWebFrontApp')
 
 
 
-
-
     $scope.uploadFile = function (event) {
       var file = event.target.files[0];
       if (file) {
@@ -779,13 +777,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Culture");
+          XLSX.utils.book_append_sheet(wb, ws, "Produit Rendement");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Culture.xlsx");
+          saveAs(blob, "Canvas Produit Rendement.xlsx");
       };
 
 
@@ -822,8 +820,8 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-      fermneName  : item["Ferme"] || null,
-      varieteName  : item["Variété"] || null,
+      FermeName  : item["Ferme"] || null,
+      VarieteName  : item["Variété"] || null,
       Ref_technique  : item["Référence produit"] || null,
       designation  : item["Désignation produit"] || null,
       Principale_Accessoire  : item["Type"] || null,
@@ -931,55 +929,184 @@ angular.module('beeOneWebFrontApp')
 
     }
 
-    vm.integer = async function(){
+    $scope.validateData = async function() {
+
+        let errors = [];
+        let seenPairs = new Set();
+        vm.jsonData.forEach(async (item, index)  =>  {
+            let rowNum = index + 2;
+
+            if (!item.FermeName ) {
+                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+            }
+
+            if (item.FermeName ) {
+              let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
+
+               if(!newferme){
+                 errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
+               }else {
+                 vm.jsonData[index].IDFermes = newferme.IDFermes;
+               }
+            }
 
 
+            if (!item.VarieteName ) {
+                errors.push(`Row ${rowNum}: Missing Variété as required field`);
+            }
 
-      if(vm.jsonData.length>0){
+            if (item.VarieteName ) {
+              let newVariete = vm.data_variete.find(Variete => String(Variete.Variete).toUpperCase() === String(item.VarieteName).toUpperCase());
 
-          NProgress.start();
+               if(!newVariete){
+                 errors.push(`Row ${rowNum}: Variété '${item.VarieteName}' does not exist`);
+               }else {
+                 vm.jsonData[index].id_variete = newVariete.ID;
+               }
+            }
 
-          produitrendement.multiadd({
-            produits :vm.jsonData
-          }).then(async e => {
-              toastr.clear();
-              toastr.success(e.data.message, {
-                closeButton: true
-              });
-              await $scope.undoSelect()
-              NProgress.done();
-              vm.dtInstance.reloadData();
-              vm.reset();
-              vm.isFileSelected = false;
-              vm.jsonData = [];
-              vm.errData = {
-                err : false
+
+            if (!item.Ref_technique) {
+                errors.push(`Row ${rowNum}: Missing Référence produit as required field`);
+            } else {
+              let newRef = vm.data_produit_rendement.some(data_profile => String(data_profile.Ref_technique).toUpperCase() === String(item.Ref_technique).toUpperCase() );
+              console.log("newRef" , newRef);
+              if(newRef){
+                errors.push(`Row ${rowNum}: Référence '${item.Ref_technique}' already exist`);
               }
-          }).catch(async e => {
+            }
+
+            if (!item.designation) {
+                errors.push(`Row ${rowNum}: Missing Désignation produit as required field`);
+            } else {
+              let newRef = vm.data_produit_rendement.some(data_profile => String(data_profile.designation).toUpperCase() === String(item.designation).toUpperCase() );
+              console.log("newRef" , newRef);
+              if(newRef){
+                errors.push(`Row ${rowNum}: Désignation produit '${item.OpeRef_Intitule}' already exist`);
+              }
+            }
+
+
+
+
+
+
+            if (item.Principale_Accessoire !== null && item.Principale_Accessoire !== 'Principal' && item.Principale_Accessoire !== 'Accessoire') {
+                errors.push(`Row ${rowNum}: Type must be 'Principal' or 'Accessoire'.`);
+            }else {
+              item.Principale_Accessoire_int = 1;
+            }
+
+            if (item.Stockable !== null && item.Stockable !== 'Oui' && item.Stockable !== 'Non') {
+                errors.push(`Row ${rowNum}: Stockable must be 'Oui' or 'Non'.`);
+            }else {
+              item.Stockable_int = 0;
+            }
+
+            if(item.Principale_Accessoire){
+              if(item.Principale_Accessoire == 'Principal') item.Principale_Accessoire_int = 1
+              if(item.periode == 'Accessoire') item.Principale_Accessoire_int = 2
+            }
+
+            if(item.Stockable){
+              if(item.Stockable == 'Oui') item.Stockable_int = 1
+              if(item.Stockable == 'Non') item.Stockable_int = 0
+            }
+
+            if (item.IDFermes && item.Ref_technique) {
+            let pairKey = `${item.IDFermes}_${item.Ref_technique.toUpperCase()}`;
+            if (seenPairs.has(pairKey)) {
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence produit '${item.Ref_technique}' found.`);
+               } else {
+                   seenPairs.add(pairKey);
+               }
+            }
+
+        });
+
+        if (errors.length > 0) {
             NProgress.done();
-            toastr.clear();
-            toastr.error(e.data.message, {
-              closeButton: true
-            });
             vm.errData = {
               err : true,
-              message : e.data.message
+              message : errors.join('\n')
             }
-          });
+            toastr.clear();
+            toastr.error("Please correct all file errors, details bellow 👇 ", {
+              closeButton: true
+            });
+            return false
+        } else {
+            return true
+        }
+    };
+
+
+    vm.integer = async function(){
+      if(vm.jsonData.length>0){
+             NProgress.start();
+           $q.all([
+             VarieteService.get_all()
+           ]).then(async (values) => {
+               NProgress.done();
+             vm.data_variete = values[0].data;
+
+console.log(vm.jsonData);
+             if(await $scope.validateData()){
+
+                     produitrendement.multiadd({
+                           produits :vm.jsonData
+                         }).then(async e => {
+                             toastr.clear();
+                             toastr.success(e.data.message, {
+                               closeButton: true
+                             });
+                             await $scope.undoSelect()
+                             NProgress.done();
+
+                             vm.data_produit_rendement.unshift(...e.data.inserted_data);
+
+                             vm.dtInstance.reloadData();
+                             vm.reset();
+                             vm.isFileSelected = false;
+                             vm.jsonData = [];
+                             vm.errData = {
+                               err : false
+                             }
+                         }).catch(async e => {
+                           NProgress.done();
+                           toastr.clear();
+                           toastr.error(e.data.message, {
+                             closeButton: true
+                           });
+                           vm.errData = {
+                             err : true,
+                             message : e.data.message
+                           }
+                         });
+
+                     }
+
+           }).catch((error) => {
+               NProgress.done();
+             toastr.clear();
+             toastr.error(error.message, {
+               closeButton: true
+             });
+           });
 
 
 
+        }else{
+          NProgress.done();
+          toastr.clear();
+          toastr.warning("Upload your file!", {
+          closeButton: true,
+         });
+        }
 
-
-
-
-      }else{
-        toastr.clear();
-        toastr.warning("Upload your file!", {
-        closeButton: true,
-       });
-      }
     }
+
+
 
 
 

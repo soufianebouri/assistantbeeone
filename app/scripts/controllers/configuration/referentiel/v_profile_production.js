@@ -950,7 +950,7 @@ angular.module('beeOneWebFrontApp')
 
 
             if (!item.VarieteName ) {
-                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+                errors.push(`Row ${rowNum}: Missing Variété as required field`);
             }
 
             if (item.VarieteName ) {
@@ -980,7 +980,7 @@ angular.module('beeOneWebFrontApp')
               let newRef = vm.data_profil_production.some(data_profile => String(data_profile.designation).toUpperCase() === String(item.designation).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
-                errors.push(`Row ${rowNum}: Désignation profile '${item.OpeRef_Intitule}' already exist`);
+                errors.push(`Row ${rowNum}: Désignation profile '${item.designation}' already exist`);
               }
             }
 
@@ -990,9 +990,11 @@ angular.module('beeOneWebFrontApp')
             }
 
             if(item.periode){
-              if(item.periode == 'Semaine') item.periode = 1
-              if(item.periode == 'Quinzaine') item.periode = 2
-              if(item.periode == 'Mois') item.periode = 3
+              if(item.periode == 'Semaine') item.periode_int = 1
+              if(item.periode == 'Quinzaine') item.periode_int = 2
+              if(item.periode == 'Mois') item.periode_int = 3
+            }else {
+              item.periode_int = 1
             }
 
             if (item.duree !== null && (isNaN(item.duree) || item.duree < 0)) {

@@ -924,9 +924,6 @@ angular.module('beeOneWebFrontApp')
 
 
 
-
-
-
     $scope.validateData = async function() {
 
         let errors = [];
@@ -948,104 +945,109 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-            if (!item.Reference) {
-                errors.push(`Row ${rowNum}: Missing Référence opération as required field`);
+
+            if (!item.VarieteName ) {
+                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+            }
+
+            if (item.VarieteName ) {
+              let newVariete = vm.data_variete.find(Variete => String(Variete.Variete).toUpperCase() === String(item.VarieteName).toUpperCase());
+
+               if(!newVariete){
+                 errors.push(`Row ${rowNum}: Variété '${item.VarieteName}' does not exist`);
+               }else {
+                 vm.jsonData[index].id_variete = newVariete.ID;
+               }
+            }
+
+
+            if (!item.reference) {
+                errors.push(`Row ${rowNum}: Missing Référence profile as required field`);
             } else {
-              let newRef = vm.data_profil_production.some(data_fournisseur => String(data_fournisseur.Reference).toUpperCase() === String(item.Reference).toUpperCase() );
+              let newRef = vm.data_profil_production.some(data_profile => String(data_profile.reference).toUpperCase() === String(item.reference).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
-                errors.push(`Row ${rowNum}: Référence opération '${item.Reference}' already exist`);
+                errors.push(`Row ${rowNum}: Référence profile '${item.reference}' already exist`);
               }
             }
 
-            if (!item.OpeRef_Intitule) {
-                errors.push(`Row ${rowNum}: Missing Désignation opération as required field`);
+            if (!item.designation) {
+                errors.push(`Row ${rowNum}: Missing Désignation profile as required field`);
             } else {
-              let newRef = vm.data_profil_production.some(data_fournisseur => String(data_fournisseur.OpeRef_Intitule).toUpperCase() === String(item.OpeRef_Intitule).toUpperCase() );
+              let newRef = vm.data_profil_production.some(data_profile => String(data_profile.designation).toUpperCase() === String(item.designation).toUpperCase() );
               console.log("newRef" , newRef);
               if(newRef){
-                errors.push(`Row ${rowNum}: Désignation opération '${item.OpeRef_Intitule}' already exist`);
+                errors.push(`Row ${rowNum}: Désignation profile '${item.OpeRef_Intitule}' already exist`);
               }
             }
 
-            if (!item.Groupe) {
-                errors.push(`Row ${rowNum}: Missing Groupe as required field`);
+
+            if (item.periode !== null && item.periode !== 'Semaine' && item.periode !== 'Quinzaine' && item.periode !== 'Mois') {
+                errors.push(`Row ${rowNum}: Périodicité must be 'Semaine', 'Quinzaine' or 'Mois'.`);
             }
 
-            if (!item.Famille) {
-                errors.push(`Row ${rowNum}: Missing Famille as required field`);
+            if (item.duree !== null && (isNaN(item.duree) || item.duree < 0)) {
+                errors.push(`Row ${rowNum}: Durée must be a number >= 0.`);
             }
 
-            if (item.Recolte !== null && item.Recolte !== 'Oui' && item.Recolte !== 'Non') {
-                errors.push(`Row ${rowNum}: Liés à la récolte must be 'Oui' or 'Non'.`);
+            if (item.densite !== null && (isNaN(item.densite) || item.densite < 0)) {
+                errors.push(`Row ${rowNum}: Densité must be a number >= 0.`);
             }
 
-            if (item.Gardiennage !== null && item.Gardiennage !== 'Oui' && item.Gardiennage !== 'Non') {
-                errors.push(`Row ${rowNum}: Gardiennage must be 'Oui' or 'Non'.`);
+            if (!item.date_debut) {
+                errors.push(`Row ${rowNum}: Missing Date début as required field`);
+            }
+            if (!item.date_fin) {
+                errors.push(`Row ${rowNum}: Missing Date fin as required field`);
             }
 
-
-            if (item.Montant_prime !== null && (isNaN(item.Montant_prime) || item.Montant_prime < 0)) {
-                errors.push(`Row ${rowNum}: % Montant prime associée (dhs) must be a number >= 0.`);
+            if (!item.date_debut || isNaN(Date.parse(item.date_debut))) {
+              errors.push(`Row ${rowNum}: Date début must be a valid date!`);
             }
 
-            if (item.SEUIL_gardiennage !== null && (isNaN(item.SEUIL_gardiennage) || item.SEUIL_gardiennage < 0)) {
-                errors.push(`Row ${rowNum}: Nbr heure gardiennage must be a number >= 0.`);
-            }
-
-            if (item.methode_calcul_prime !== null && item.methode_calcul_prime !== 'Oui' && item.methode_calcul_prime !== 'Non') {
-                errors.push(`Row ${rowNum}: Nature prime must be 'Forfaitaire' or 'Unitaire'.`);
-            }
-
-            if (item.Process_recolte_autre !== null && item.Process_recolte_autre !== 'Process A' && item.Process_recolte_autre !== 'Process B' && item.Process_recolte_autre !== 'Process C') {
-                errors.push(`Row ${rowNum}: Process récolte be 'Process A', 'Process B' or 'Process C'.`);
-            }
-
-            if (item.Type_parcelle_centre !== null && item.Type_parcelle_centre !== 'Type A' && item.Type_parcelle_centre !== 'Type B'&& item.Type_parcelle_centre !== 'Type C') {
-                errors.push(`Row ${rowNum}: Process récolte be 'Type A', 'Type B' or 'Type C'.`);
+            if (!item.date_fin || isNaN(Date.parse(item.date_fin))) {
+              errors.push(`Row ${rowNum}: Date fin must be a valid date!`);
             }
 
 
-            vm.jsonData[index].ID_Groupe = null;
-            let newgroupe = vm.data_groupe.find(groupe => String(groupe.Groupe).toUpperCase() === String(item.Groupe).toUpperCase());
-            if(newgroupe){
-            vm.jsonData[index].ID_Groupe = newgroupe.ID;
+            vm.jsonData[index].id_type_conduite = null;
+            if(item.types_conduite){
+              let newtype_conduite = vm.data_typeconduite.find(conduite => String(conduite.Type_conduite).toUpperCase() === String(item.types_conduite).toUpperCase());
+              if(newtype_conduite){
+              vm.jsonData[index].id_type_conduite = newtype_conduite.IDType_conduite;
+              }else {
+                errors.push(`Row ${rowNum}: Mode conduite '${item.types_conduite}' not found!`);
+              }
             }
 
-            vm.jsonData[index].ID_Famille = null;
-            let newFamille = vm.data_famille.find(famille => String(famille.Famille).toUpperCase() === String(item.Famille).toUpperCase());
-            if(newFamille){
-            vm.jsonData[index].ID_Famille = newFamille.ID;
+            if(item.types_irrigation){
+              vm.jsonData[index].id_type_irrigation = null;
+              let type_irrigation = vm.data_typeirrigation.find(irrigation => String(irrigation.Libelle).toUpperCase() === String(item.types_irrigation).toUpperCase());
+              if(type_irrigation){
+              vm.jsonData[index].id_type_irrigation = type_irrigation.IDMode_Irrigation;
+              }else {
+                errors.push(`Row ${rowNum}: Type irrigation '${item.types_irrigation}' not found!`);
+              }
             }
 
-            vm.jsonData[index].IDUnite_Operation = null;
-            let newUnite = vm.data_unite.find(famille => String(famille.Code).toUpperCase() === String(item.Unite_Operation).toUpperCase());
-            if(newUnite){
-            vm.jsonData[index].IDUnite_Operation = newUnite.IDUnite_Operation;
+            if(item.modes_application){
+              vm.jsonData[index].id_mode_application = null;
+              let newmode_application = vm.data_modeapplication.find(applicat => String(applicat.Mode_Application).toUpperCase() === String(item.modes_application).toUpperCase());
+              if(newmode_application){
+              vm.jsonData[index].id_mode_application = newmode_application.ID;
+              }else {
+                errors.push(`Row ${rowNum}: Mode application'${item.modes_application}' not found!`);
+              }
             }
 
-
-
-          /*
-            TO DO ===>
-            if found get ID else ID = 0 to create in server side
-            Unite_Operation
-            Groupe
-            Famille
-
-            */
-
-
-
-
-            if (item.IDFermes && item.Reference) {
-            let pairKey = `${item.IDFermes}_${item.Reference.toUpperCase()}`;
+            if (item.IDFermes && item.reference) {
+            let pairKey = `${item.IDFermes}_${item.reference.toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence opération '${item.Reference}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence profile '${item.reference}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }
-           }
+            }
 
         });
 
@@ -1068,23 +1070,17 @@ angular.module('beeOneWebFrontApp')
     vm.integer = async function(){
       if(vm.jsonData.length>0){
              NProgress.start();
-             vm.data_groupe
-
 
            $q.all([
-             groupeOperation.get_all(),
-             familleOperation.get_all(),
-             uniteOperation.get_all()
+             VarieteService.get_all()
            ]).then(async (values) => {
                NProgress.done();
-             vm.data_groupe = values[0].data;
-             vm.data_famille = values[1].data;
-             vm.data_unite = values[2].data;
-             console.log(vm.jsonData);
-             if(await $scope.validateData()){
+             vm.data_variete = values[0].data;
 
-                      profilProduction.multiadd({
-                           operations :vm.jsonData
+             if(await $scope.validateData()){
+console.log(vm.jsonData);
+                    /*  profilProduction.multiadd({
+                           profiles :vm.jsonData
                          }).then(async e => {
                              toastr.clear();
                              toastr.success(e.data.message, {
@@ -1112,7 +1108,7 @@ angular.module('beeOneWebFrontApp')
                              err : true,
                              message : e.data.message
                            }
-                         });
+                         });*/
 
                      }
 

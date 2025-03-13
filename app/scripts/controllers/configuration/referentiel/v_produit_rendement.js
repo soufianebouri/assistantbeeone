@@ -260,17 +260,21 @@ angular.module('beeOneWebFrontApp')
     vm.selected = {};
     vm.selectAll = false;
 
+
+
     //get data and refresh datatable
     vm.data_produit_rendement = [];
     NProgress.start();
     $q.all([
       ferme.get_all(),
-      uniteoperation.get_all()
+      uniteoperation.get_all(),
+      produitrendement.get_all()
     ]).then((values) => {
         NProgress.done();
       vm.data_ferme = values[0].data;
       vm.data_unite = values[1].data;
-      console.log("vm.data_unite ",vm.data_unite );
+      vm.data_produit_rendement = values[2].data;
+      vm.dtInstance.reloadData();
     }).catch((error) => {
         NProgress.done();
       toastr.clear();
@@ -493,18 +497,23 @@ angular.module('beeOneWebFrontApp')
     }
 
 
-    $scope.updatedata = function() {
-      return produitrendement.get_all();
-    };
+
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
-        $scope.updatedata().then(function(res) {
-          vm.data_produit_rendement = res.data;
-          defer.resolve(res.data);
-          NProgress.done();
-        });
-        return defer.promise;
+
+      if (!vm.data_produit_rendement) {
+          var stopCheck = setInterval(function () {
+              if (vm.data_produit_rendement) {
+                  clearInterval(stopCheck);
+                  defer.resolve(vm.data_produit_rendement);
+              }
+          }, 500);
+      } else {
+          defer.resolve(vm.data_produit_rendement);
+      }
+
+  return defer.promise;
       })
       .withOption("createdRow", createdRow)
       .withDOM("<lf<t>ip>")

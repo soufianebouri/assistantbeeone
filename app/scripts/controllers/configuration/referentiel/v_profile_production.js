@@ -923,6 +923,9 @@ angular.module('beeOneWebFrontApp')
 
 
 
+    function isValidDateRange(Date_debut, Date_Fin) {
+        return moment(Date_debut).isBefore(moment(Date_Fin));
+      }
 
     $scope.validateData = async function() {
 
@@ -986,6 +989,12 @@ angular.module('beeOneWebFrontApp')
                 errors.push(`Row ${rowNum}: Périodicité must be 'Semaine', 'Quinzaine' or 'Mois'.`);
             }
 
+            if(item.periode){
+              if(item.periode == 'Semaine') item.periode = 1
+              if(item.periode == 'Quinzaine') item.periode = 2
+              if(item.periode == 'Mois') item.periode = 3
+            }
+
             if (item.duree !== null && (isNaN(item.duree) || item.duree < 0)) {
                 errors.push(`Row ${rowNum}: Durée must be a number >= 0.`);
             }
@@ -1007,6 +1016,10 @@ angular.module('beeOneWebFrontApp')
 
             if (!item.date_fin || isNaN(Date.parse(item.date_fin))) {
               errors.push(`Row ${rowNum}: Date fin must be a valid date!`);
+            }
+
+            if(!isValidDateRange(item.date_debut, item.date_fin)){
+                errors.push(`Row ${rowNum}: La date de début ${moment(item.date_debut).format('DD/MM/YYYY')} doit être antérieure à la date de fin ${moment(item.date_fin).format('DD/MM/YYYY')}`);
             }
 
 
@@ -1036,7 +1049,7 @@ angular.module('beeOneWebFrontApp')
               if(newmode_application){
               vm.jsonData[index].id_mode_application = newmode_application.ID;
               }else {
-                errors.push(`Row ${rowNum}: Mode application'${item.modes_application}' not found!`);
+                errors.push(`Row ${rowNum}: Mode application '${item.modes_application}' not found!`);
               }
             }
 
@@ -1078,8 +1091,7 @@ angular.module('beeOneWebFrontApp')
              vm.data_variete = values[0].data;
 
              if(await $scope.validateData()){
-console.log(vm.jsonData);
-                    /*  profilProduction.multiadd({
+                      profilProduction.multiadd({
                            profiles :vm.jsonData
                          }).then(async e => {
                              toastr.clear();
@@ -1108,7 +1120,7 @@ console.log(vm.jsonData);
                              err : true,
                              message : e.data.message
                            }
-                         });*/
+                         });
 
                      }
 

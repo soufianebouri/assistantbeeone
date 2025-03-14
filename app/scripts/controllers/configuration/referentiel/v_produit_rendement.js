@@ -292,21 +292,33 @@ angular.module('beeOneWebFrontApp')
       });
     };*/
 
-
+    $scope.hasDuplicateIDUniteOperation = function(unites) {
+        const seen = new Set();
+        return unites.some(unite => {
+            if (seen.has(unite.IDUnite_Operation)) {
+                return true; // Duplicate found
+            }
+            seen.add(unite.IDUnite_Operation);
+            return false;
+        });
+    }
     vm.modifier = async function  () {
 
         if(await vm.validateFormData()){
 
+          if(!$scope.hasDuplicateIDUniteOperation(vm.formData.unites)){
 
             NProgress.start()   ;
 
             produitrendement.edit(vm.formData).then(async e => {
 
                 toastr.clear();
-                toastr.success(e.data.message, {
+                toastr.success("Produit de rendement bien modifé", {
                   closeButton: true
                 });
                 NProgress.done();
+                let index = vm.data_produit_rendement.findIndex(item => item.IDProduit_Rendement === e.data.IDProduit_Rendement);
+                vm.data_produit_rendement[index] = e.data;
                 vm.dtInstance.reloadData();
                 vm.reset();
                 await $scope.undoSelect()
@@ -318,7 +330,12 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
             });
-
+          }else {
+            toastr.clear();
+            toastr.warning("Duplicate unité found", {
+              closeButton: true
+            });
+          }
 
 
         }
@@ -326,8 +343,6 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.validateFormData = async function() {
-
-
 
         let rules = {
             unites : "Unité produit is required",
@@ -357,27 +372,38 @@ angular.module('beeOneWebFrontApp')
 
 
 
+
     vm.ajouter = async function  () {
       toastr.clear();
         if(await vm.validateFormData()){
           if(vm.formData.unites.every(unite => unite.IDUnite_Operation !== null && unite.PM_estime > 0)){
-            NProgress.start()
-            produitrendement.add(vm.formData).then(async e => {
+            if(!$scope.hasDuplicateIDUniteOperation(vm.formData.unites)){
+              NProgress.start()
+              produitrendement.add(vm.formData).then(async e => {
+                  toastr.clear();
+                  toastr.success('Produit de rendement bien ajouté', {
+                    closeButton: true
+                  });
+                  await $scope.undoSelect()
+                  NProgress.done();
+                  vm.data_produit_rendement.unshift(e.data);
+                  vm.dtInstance.reloadData();
+                  vm.reset();
+              }).catch(async e => {
+                console.log(e);
+                NProgress.done();
                 toastr.clear();
-                toastr.success(e.data.message, {
+                toastr.error(e.data.message, {
                   closeButton: true
                 });
-                await $scope.undoSelect()
-                NProgress.done();
-                vm.dtInstance.reloadData();
-                vm.reset();
-            }).catch(async e => {
-              NProgress.done();
+              });
+            }else {
               toastr.clear();
-              toastr.error(e.data.message, {
+              toastr.warning("Duplicate unité found", {
                 closeButton: true
               });
-            });
+            }
+
           }else {
             toastr.clear();
             toastr.warning("Veuillez renseigner tous les champs obligatoires! Unités de récolte ", {
@@ -411,6 +437,8 @@ angular.module('beeOneWebFrontApp')
                   closeButton: true
                 });
                 NProgress.done();
+                vm.data_produit_rendement = vm.data_produit_rendement.filter(item => !selectedIds.includes(item.IDProduit_Rendement));
+
                 vm.dtInstance.reloadData();
 
               }).catch(async e => {
@@ -445,6 +473,7 @@ angular.module('beeOneWebFrontApp')
                 closeButton: true
               });
               NProgress.done();
+              vm.data_produit_rendement = vm.data_produit_rendement.filter(item => item.IDProduit_Rendement !== data.IDProduit_Rendement);
               vm.dtInstance.reloadData();
 
             }).catch(async e => {
@@ -577,6 +606,12 @@ angular.module('beeOneWebFrontApp')
           NProgress.done();
           vm.data_variete = values[0].data;
           vm.formData.unites = values[1].data;
+          if(vm.formData.unites.length==0){
+            vm.formData.unites = [{
+              IDUnite_Operation: null,
+              PM_estime: null
+            }]
+          }
 
           toastr.clear();
              toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {

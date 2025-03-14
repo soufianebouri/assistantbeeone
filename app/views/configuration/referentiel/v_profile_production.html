@@ -195,24 +195,6 @@
                       votre compte</p>
                   </div>
 
-                  <md-card class="card" layout="column" style="padding: 10px;background: #F3F5F7;">
-
-                    <div layout="row" layout-align="space-between center">
-                      <div layout="row" layout-align="start center">
-                        <img src="././images/main_configuration/xls.svg" alt="time"
-                          style="width: 20px; height: 20px; margin-right: 5px;">
-                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Profile De Production.xls</h2>
-                      </div>
-                      <md-button class="md-raised md-primary btn-download" ng-click="vm.exportToExcel()"
-                        style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
-                        Télécharger</md-button>
-                    </div>
-
-
-                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-                      You can download the attached example and use it as a starting point for your own file.
-                    </p>
-                  </md-card>
 
                   <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
                     style="padding: 40px;background: #F8F8F9;border: 1px dashed #ccc;cursor: pointer;border-radius: 5px;"
@@ -280,8 +262,12 @@
                     </div>
                   </md-card>
                   <div class="form-actions">
-                    <md-button class="md-raised md-primary custom-button full-width-btn" ng-click="vm.integer()">
-                      Intégrer
+                    <md-button class="md-raised md-primary custom-reset-button" style=" min-width:50%" ng-click="vm.gen_canvas()">
+                        Paramétre Canvas
+                    </md-button>
+
+                    <md-button class="md-raised md-primary custom-button" style=" min-width:50%" ng-click="vm.integer()">
+                        Intégrer
                     </md-button>
                   </div>
 

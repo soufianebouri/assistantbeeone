@@ -1020,7 +1020,7 @@ angular.module('beeOneWebFrontApp')
               errors.push(`Row ${rowNum}: Date fin must be a valid date!`);
             }
 
-            if(!isValidDateRange(item.date_debut, item.date_fin)){
+            if(!isValidDateRange(item.date_debut, item.date_fin) && item.date_debut && item.date_fin){
                 errors.push(`Row ${rowNum}: La date de début ${moment(item.date_debut).format('DD/MM/YYYY')} doit être antérieure à la date de fin ${moment(item.date_fin).format('DD/MM/YYYY')}`);
             }
 
@@ -1230,7 +1230,200 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
+  vm.gen_canvas = function(ev) {
+    $mdDialog.show({
+        controller: DialogControllerGen,
+        templateUrl: '././views/configuration/referentiel/canvas/canvas_profile_production.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose: false,
+        locals: {
+          data: vm.data_ferme
+        }
+      })
+      .then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+  };
 
+  function DialogControllerGen($scope, $mdDialog, data) {
+    $scope.scrollCards = function(direction) {
+      const container = document.getElementById('cardContainer');
+      const scrollAmount = 300; // Adjust scroll amount as needed
+
+            if (direction === 'left') {
+               container.scroll({
+                   left: container.scrollLeft - scrollAmount,
+                   behavior: 'smooth'
+               });
+           } else if (direction === 'right') {
+               container.scroll({
+                   left: container.scrollLeft + scrollAmount,
+                   behavior: 'smooth'
+               });
+           }
+        }
+
+        $scope.annuler = function() {
+          $mdDialog.cancel();
+        };
+
+    $scope.data_ferme = data;
+    $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
+    $scope.formdata_gen = {
+      ferme : null,
+      variete : null,
+      nbrparcelle : null,
+      increment : null
+    }
+    $scope.allformxls = [];
+
+
+    $scope.getVariete = function () {
+      NProgress.start();
+        $q.all([VarieteService.getbyferme({
+          IDFermes: [$scope.formdata_gen.ferme.IDFermes]
+        })]).then((values) => {
+          NProgress.done();
+          $scope.data_variete = values[0].data;
+        })
+    }
+    $scope.canva_ajouter = function(){
+      if(!$scope.formdata_gen.ferme){
+        toastr.clear();
+        toastr.warning("Veuillez choisir une ferme", {
+          closeButton: true
+        });
+      }else if(!$scope.formdata_gen.variete){
+        toastr.clear();
+        toastr.warning("Veuillez choisir une Variété", {
+          closeButton: true
+        });
+      }else if ($scope.formdata_gen.nbrparcelle <=0 || !$scope.formdata_gen.nbrparcelle) {
+        toastr.clear();
+        toastr.warning("Veuillez saisir le nombre de Prodile de production", {
+          closeButton: true
+        });
+      }else if (!$scope.formdata_gen.increment) {
+        toastr.clear();
+        toastr.warning("Veuillez choisir un type d'incrémentation", {
+          closeButton: true
+        });
+      }else {
+        $scope.formdata_gen.ferme.disabled = true;
+        $scope.allformxls.push($scope.formdata_gen);
+        $scope.formdata_gen = {};
+      }
+    }
+
+    $scope.generateExcelData = async function() {
+    let excelData = [];
+    let headers = vm.headers ;
+    excelData.push(headers);
+    let totalParcelles = 0; // Track total parcels
+    $scope.allformxls.forEach(item => {
+        let fermeName = item.ferme.Nom;
+        let varieteName = item.variete.Variete;
+        let refrence=null
+
+            for (let i = 1; i <= item.nbrparcelle; i++) {
+                if (item.increment === 1) {
+                   refrence = `PP${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                }
+                excelData.push([
+
+                  fermeName,
+                  varieteName,
+                  refrence,
+                  refrence,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null]);
+                 totalParcelles++;
+            }
+
+
+    });
+    toastr.clear();
+    toastr.success(`Génération réussie : ${totalParcelles} Profile(s) de production ajouté(s) au fichier excel`, { closeButton: true });
+
+    return excelData;
+};
+
+  $scope.downloadExcel = async function() {
+
+    if($scope.allformxls.length>0){
+
+      NProgress.start()
+      let excelData = await $scope.generateExcelData();
+
+      // Create a new workbook and a worksheet
+      let ws = XLSX.utils.aoa_to_sheet(excelData);
+      let wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Profile de Production");
+
+      // Generate a binary string from the workbook
+      let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+      // Convert the binary string to a Blob
+      let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+      // Create a link element and trigger the download
+      let link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Profile de Production.xlsx";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      NProgress.done();
+    }else {
+      toastr.clear();
+      toastr.warning("Veuillez ajouter au moin un Paramètre", {
+        closeButton: true
+      });
+    }
+
+};
+
+// Utility function to convert string to ArrayBuffer
+function s2ab(s) {
+    let buf = new ArrayBuffer(s.length);
+    let view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+}
+
+
+$scope.deleteCanva = function(index) {
+
+  toastr.clear();
+  toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+    closeButton: true,
+    allowHtml: true,
+    onShown: function(toast) {
+
+      $("#confirmationRevertYes").click(function() {
+        $scope.allformxls.splice(index, 1);
+        toastr.clear();
+        toastr.success("Paramètre bien Supprimé", {
+          closeButton: true
+        });
+        $scope.formdata_gen = {};
+      });
+    }
+  });
+}
+
+  }
 
   }
 );

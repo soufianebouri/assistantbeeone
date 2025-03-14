@@ -17,8 +17,8 @@ angular.module('beeOneWebFrontApp')
 
     vm.onboardingData = $cookies.getObject('beeoneAssistant');
     vm.Post = vm.onboardingData.assistUser.Post;
-    vm.go_config = async function (params) {
 
+    vm.go_config = async function (params) {
     if(params == 1){
       $scope.loading = true;
       $timeout(function () {

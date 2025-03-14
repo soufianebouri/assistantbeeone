@@ -1,0 +1,168 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 50%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+    <form ng-cloak>
+        <md-toolbar style="color: #333; background-color: #ffffff;">
+            <div class="md-toolbar-tools" >
+                <h2 style="font-size: 1.25rem; margin: 0;">Paramètres Canvas</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="annuler()" style="margin: -8px;">
+                  <img src="././images/main_configuration/close.svg" alt="close"
+                    style="width: 20px; height: 20px; cursor: pointer;">
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content style="color: #333; background-color: #fff; padding: 24px;">
+            <div class="form-header" style="margin-bottom: 20px;">
+                <p class="form-subtitle" style="font-size: 1rem; color: #555; margin: 0;">Ajouter Un Paramètre</p>
+            </div>
+
+            <md-content class="form-content" style="padding: 0;">
+                <div class="form-row tiny-space sotiny" style="display: flex; flex-wrap: wrap; gap: 16px;">
+                    <md-input-container class="form-input" style="flex: 1; ">
+                        <label>Ferme</label>
+                        <md-select ng-model="formdata_gen.ferme"  ng-change="getVariete()"  data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" >
+                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="dataf" ng-repeat="dataf in data_ferme | orderBy:'Nom' | filter:search_str"
+                             >
+                                {{dataf.Nom}}
+                            </md-option>
+                        </md-select>
+
+
+                    </md-input-container>
+
+
+                    <md-input-container class="form-input" style="flex: 1; ">
+                        <label>Variété</label>
+                        <md-select ng-model="formdata_gen.variete" data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" >
+                                <input ng-model="searchdata_physique" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="dataf" ng-repeat="dataf in data_variete | orderBy:'Variete' | filter:searchdata_physique"
+                             >
+                                {{dataf.Variete}}
+                            </md-option>
+                        </md-select>
+
+
+                    </md-input-container>
+
+  </div>
+
+    <div class="form-row tiny-space " style="display: flex; flex-wrap: wrap; gap: 16px;">
+                    <md-input-container class="form-input" style="flex: 1; ">
+                        <label>Nbre Profiles de Production</label>
+                        <input type="number" ng-model="formdata_gen.nbrparcelle" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required >
+                    </md-input-container>
+
+                    <md-input-container class="form-input" style="flex: 1; ">
+                        <label>Incémentation</label>
+                        <md-select ng-model="formdata_gen.increment" data-md-container-class="selectdemoSelectHeader" required >
+                            <md-select-header class="demo-select-header" >
+                                <input ng-model="searchfilier" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text" style="width: 100%;">
+                            </md-select-header>
+                            <md-option ng-value="inrement.id" ng-repeat="inrement in inrements | filter:searchfilier">
+                                {{inrement.increment}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+
+
+                </div>
+
+                <div class="form-actions" style="text-align: center;">
+                    <md-button class="md-raised md-primary custom-button" ng-click="(formdata_gen.update) ? canva_modifer() : canva_ajouter()" style="background-color: #4CAF50; color: white; border-radius: 4px;">
+                        {{(formdata_gen.update) ? 'Modifier' : 'Ajouter'}}
+                    </md-button>
+                </div>
+
+
+
+                <div class="form-header" style="margin-bottom: 20px;">
+      <p class="form-subtitle" style="margin-top: 18px;font-size: 1rem; color: #555; ">Paramètres Ajoutées ({{allformxls.length}})
+      <span style="float: right;">
+
+        <button type="button" ng-click="scrollCards('left')" class="directions"><</button>
+        <button type="button" ng-click="scrollCards('right')" class="directions">></button>
+
+      </span>
+    </p>
+  </div>
+
+                <div style="display: flex; overflow-x: hidden; white-space: nowrap; gap: 10px; padding: 10px;"  id="cardContainer">
+
+    <div ng-repeat="allformxlsItem in allformxls track by $index">
+        <md-card class="card"
+                 layout="column"
+                 style="width: 260px;line-height: 30px; background: #F8F8F9; background-color: #F8F8F9; padding: 10px; box-shadow: none; border-radius: 5px; color: #000000; flex: 0 0 auto;">
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <div layout="column" style="line-height: 1.2; font-size: 12px;">
+                        <strong>Ferme {{allformxlsItem.ferme.Nom}}</strong>
+                    </div>
+                </div>
+                <p style="margin: 0;">
+                    <!--<img src="././images/main_configuration/edit.svg"
+                         style="width: 18px; height: 18px; padding-top: 1px; cursor: pointer;"
+                         ng-click="editCanva($index)">-->
+                    <img src="././images/main_configuration/delete.svg"
+                         style="width: 18px; height: 18px; padding-top: 1px; cursor: pointer;"
+                         ng-click="deleteCanva($index)">
+                </p>
+            </div>
+
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <div layout="column" style="line-height: 1.2; font-size: 12px;">
+                        Variete
+                    </div>
+                </div>
+                <p style="margin: 0; font-size: 13px;">
+                    {{allformxlsItem.variete.Variete}}
+                </p>
+            </div>
+
+
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <div layout="column" style="line-height: 1.2; font-size: 12px;">
+                        Nombre produit rendement
+                    </div>
+                </div>
+                <p style="margin: 0; font-size: 13px;">
+                    {{allformxlsItem.nbrparcelle}}
+                </p>
+            </div>
+            <div layout="row" layout-align="space-between center">
+                <div layout="row">
+                    <div layout="column" style="line-height: 1.2; font-size: 12px;">
+                        Incrémenté
+                    </div>
+                </div>
+                <p style="margin: 0; font-size: 13px;">
+                    {{(allformxlsItem.increment == 1) ? 'Oui' : 'Non'}}
+                </p>
+            </div>
+        </md-card>
+    </div>
+</div>
+
+            </md-content>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" style="padding: 16px; justify-content: flex-end;">
+
+          <md-button class="md-raised md-primary custom-reset-button" ng-click="annuler()">
+            Annuler
+          </md-button>
+
+          <md-button class="md-raised md-primary custom-button"  ng-click="downloadExcel()">
+            Préparer le canvas
+          </md-button>
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

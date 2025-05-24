@@ -229,6 +229,9 @@ angular.module('beeOneWebFrontApp')
               });
               NProgress.done();
               let index = vm.data_bloc.findIndex(item => item.ID === e.data.ID);
+              console.log("index" ,index);
+              console.log(e.data);
+              console.log(vm.data_bloc[index]);
               vm.data_bloc[index] = e.data;
 
               vm.dtInstance.reloadData();
@@ -541,7 +544,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return (vm.data_bloc) ? vm.data_bloc.filter(fournisseur => fournisseur.selected).length : 0;
+      return (vm.data_bloc) ? vm.data_bloc.filter(bloc => bloc.selected).length : 0;
     };
 
 
@@ -613,20 +616,9 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Société fournisseur",
-      "Code",
-      "ICE",
-      "IF",
-      "Nom",
-      "Prénom",
-      "Adresse",
-      "Pays",
-      "Ville",
-      "Code postale",
-      "Téléphone",
-      "GSM",
-      "Email",
-      "Fax"];
+      "Bloc",
+      "Station tete"
+     ];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -635,7 +627,7 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Fournisseur");
+          XLSX.utils.book_append_sheet(wb, ws, "bloc");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -652,7 +644,6 @@ angular.module('beeOneWebFrontApp')
 
             // Extract headers from the first row of the data
             var fileHeaders = Object.keys(data[0] || {});
-            console.log(fileHeaders);
 
             // Check if all required headers are present
             var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
@@ -679,20 +670,8 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
         FermeName: item["Ferme"] || null,
-        Societe: item["Société fournisseur"] || null,
-        REF_Fournisseur: item["Code"] || null,
-        ICE: item["ICE"] || null,
-        IDF: item["IF"] || null,
-        Prenom: item["Nom"] || null,
-        Nom: item["Prénom"] || null,
-        Adresse: item["Adresse"] || null,
-        Pays: item["Pays"] || null,
-        Ville: item["Ville"] || null,
-        CodePostal: item["Code postale"] || null,
-        Telephone: item["Téléphone"] || null,
-        GSM: item["GSM"] || null,
-        EMail: item["Email"] || null,
-        Fax: item["Fax"] || null
+        BLOC: item["Bloc"] || null,
+        Stat_Tete: item["Station tete"] || null
       }));
     };
 
@@ -825,28 +804,30 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-              if (!item.REF_Fournisseur) {
-                errors.push(`Row ${rowNum}: Missing Référence article as required field`);
+              if (!item.BLOC) {
+                errors.push(`Row ${rowNum}: Missing Référence Bloc as required field`);
             } else {
-              let newRef = vm.data_bloc.some(data_bloc => String(data_bloc.REF_Fournisseur).toUpperCase() === String(item.data_bloc).toUpperCase() );
-              console.log("newRef" , newRef);
+              let newRef = vm.data_bloc.some(data_bloc =>
+                String(data_bloc.BLOC).toUpperCase() === String(item.BLOC).toUpperCase() &&
+                data_bloc.IDFermes === item.IDFermes
+              );
               if(newRef){
-                errors.push(`Row ${rowNum}: Référence fournisseur '${item.data_bloc}' already exist`);
+                errors.push(`Row ${rowNum}: Référence Bloc '${item.BLOC}' already exist`);
               }
             }
 
-            if (!item.Societe) {
-                errors.push(`Row ${rowNum}: Missing societe fournisseur as required field`);
+            if (!item.Stat_Tete) {
+                errors.push(`Row ${rowNum}: Missing station tete as required field`);
             }
 
-            if (item.IDFermes && item.REF_Fournisseur) {
-            let pairKey = `${item.IDFermes}_${item.REF_Fournisseur.toUpperCase()}`;
+            if (item.IDFermes && item.BLOC) {
+            let pairKey = `${item.IDFermes}_${String(item.BLOC).toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence fournisseur '${item.REF_Fournisseur}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence bloc '${item.BLOC}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }
-           }
+            }
 
         });
 
@@ -875,7 +856,7 @@ console.log(vm.jsonData);
 
 
                     Bloc.multiadd({
-                      fournisseurs :vm.jsonData
+                      entries :vm.jsonData
                     }).then(async e => {
                         toastr.clear();
                         toastr.success(e.data.message, {

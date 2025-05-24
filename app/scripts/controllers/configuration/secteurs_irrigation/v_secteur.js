@@ -12,19 +12,19 @@ angular.module('beeOneWebFrontApp')
     $q,
     $scope,$mdDialog,
     toastr,
-    $timeout,cultureService,SecteurService,
+    $timeout,cultureService,
     _url,VarieteService,
     $window,
     $translatePartialLoader,
-    $translate,
+    $translate,uniteoperation,
     _version,
-    DTOptionsBuilder,
+    DTOptionsBuilder,Produit,
     $compile,
     DTColumnBuilder,
     DTDefaultOptions,
     $cookies,
     ferme,
-    familleculture
+    familleculture, SecteurService, Bloc, modeirrigation
   ) {
     var vm = this;
     vm._version = _version;
@@ -35,6 +35,10 @@ angular.module('beeOneWebFrontApp')
     $translatePartialLoader.addPart("conduitetechnique");
     $translate.use($window.localStorage.getItem("lang").toLowerCase());
     $translate.refresh($window.localStorage.getItem("lang").toLowerCase());
+
+
+
+
 
     $scope.fileName = "Aucun fichier choisi";
     $scope.uploadFile = function (element) {
@@ -47,40 +51,6 @@ angular.module('beeOneWebFrontApp')
 
 
 
-    $scope.get_culture = function () {
-
-      vm.formData.IDculture = null;
-      NProgress.start();
-      if(vm.formData.fermes && !vm.formData.ID){
-        $q.all([cultureService.get_byfermes({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_culture = values[0].data;
-        })
-      }else {
-          NProgress.done();
-          vm.data_culture = []
-      }
-
-
-    }
-
-
-    $scope.get_culture_edit = function () {
-
-      NProgress.start();
-      if(vm.formData.fermes){
-        $q.all([cultureService.get_byfermes({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_culture = values[0].data;
-        })
-      }
-
-
-    }
 
     $scope.uploadFile = function (event) {
       var file = event.target.files[0];
@@ -237,154 +207,111 @@ angular.module('beeOneWebFrontApp')
     vm.selected = {};
     vm.selectAll = false;
 
-    //get data and refresh datatable
-    vm.data_secteur = [];
-    NProgress.start();
-    $q.all([
-      ferme.get_all()
-    ]).then((values) => {
-        NProgress.done();
-      vm.data_ferme = values[0].data;
-      console.log(vm.data_ferme);
-    }).catch((error) => {
-        NProgress.done();
-      toastr.clear();
-      toastr.error(error.message, {
-        closeButton: true
-      });
-    });
+
+
 
 
 
     vm.selectedFarm = [];
-    /*vm.isSelected =  function(selcted, data) {
-      return  selcted.some( function(selectedFerme) {
-          return selectedFerme.IDFermes === data.IDFermes;
-      });
-    };*/
-    vm.validateVarieteFields = function () {
-        if ((vm.formData.ReferenceType_variete && !vm.formData.Type_variete) ||
-            (!vm.formData.ReferenceType_variete && vm.formData.Type_variete)) {
-            return false;
-        }
-        return true;
-    };
+
+
 
     vm.modifier = async function  () {
-      toastr.clear();
-      toastr.info("Task in progress 👀", {
-      closeButton: true,
-     });
-      /*  if(await vm.validateFormData()){
 
-          if(vm.validateVarieteFields()){
-            NProgress.start()   ;
+        if(await vm.validateFormData()){
+          NProgress.start()   ;
 
-            VarieteService.edit(vm.formData).then(async e => {
+          SecteurService.edit(vm.formData).then(async e => {
 
-                toastr.clear();
-                toastr.success(e.data.message, {
-                  closeButton: true
-                });
-                NProgress.done();
-                vm.dtInstance.reloadData();
-                vm.reset();
-                await $scope.undoSelect()
-
-            }).catch(async e => {
-              NProgress.done();
               toastr.clear();
-              toastr.error(e.data.message, {
+              toastr.success('Secteur bien modifé', {
                 closeButton: true
               });
-            });
+              NProgress.done();
+              let index = vm.data_secteur.findIndex(item => item.ID === e.data.ID);
+              console.log("index" ,index);
+              console.log(e.data);
+              console.log(vm.data_secteur[index]);
+              vm.data_secteur[index] = e.data;
 
-          }else {
+              vm.dtInstance.reloadData();
+              vm.reset();
+              await $scope.undoSelect()
+
+          }).catch(async e => {
             NProgress.done();
             toastr.clear();
-            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
+            toastr.error(e.data.message, {
               closeButton: true
             });
-          }
-
-        }*/
+          });
+        }
     };
 
+    vm.setBloc = async function() {
+      vm.formData.ID_bloc = null;
+    }
 
     vm.validateFormData = async function() {
-        let rules = {
-            fermes: "Ferme is required.",
-            IDculture: "Culturale is required.",
-            Reference: "Référence Variété is required.",
-            Variete: "Désignation Variété is required."
-        };
 
-        for (let key in rules) {
-            let value = vm.formData[key];
+          let rules = {
+            IDFermes : "Ferme is required.",
+            ID_bloc: "Bloc is required.",
+            Secteur: "Secteur is required.",
+            Superficie: "Superficie is required."
+          };
 
-            // Check if value is null, undefined, empty string, or an empty array
-            if (value === null || value === undefined || value === '' || (Array.isArray(value) && value.length === 0)) {
-                toastr.clear();
-                toastr.warning(typeof rules[key] === "function" ? rules[key](value) : rules[key], {
-                    closeButton: true
-                });
 
-                return false;
-            }
-        }
-        return true;
-    };
+          for (let key in rules) {
+              let value = vm.formData[key];
 
+              // Check if value is null, undefined, empty string, or an empty array
+              if (value === null || value === undefined || value === '' ||
+                (Array.isArray(value) && value.length === 0) ||
+                (key === "fermes" && Array.isArray(value) && value.length === 2 && value.every(v => v === null))) {
+                    toastr.clear();
+                  toastr.warning(typeof rules[key] === "function" ? rules[key](value) : rules[key], {
+                      closeButton: true
+                  });
+
+                  return false;
+              }
+          }
+          return true;
+     };
 
 
     vm.ajouter = async function  () {
-
       toastr.clear();
-      toastr.info("Task in progress 👀", {
-      closeButton: true,
-     });
-    /*  toastr.clear();
         if(await vm.validateFormData()){
-          if(vm.validateVarieteFields()){
-            NProgress.start()
-            VarieteService.add(vm.formData).then(async e => {
-                toastr.clear();
-                toastr.success(e.data.message, {
-                  closeButton: true
-                });
-                await $scope.undoSelect()
-                NProgress.done();
-                vm.dtInstance.reloadData();
-                vm.reset();
-            }).catch(async e => {
-              NProgress.done();
+          NProgress.start()
+          SecteurService.add(vm.formData).then(async e => {
               toastr.clear();
-              toastr.error(e.data.message, {
+              toastr.success('Secteur bien ajouté', {
                 closeButton: true
               });
-            });
-          }else {
+              await $scope.undoSelect()
+              NProgress.done();
+              vm.data_secteur.unshift(e.data);
+              vm.dtInstance.reloadData();
+              vm.reset();
+          }).catch(async e => {
             NProgress.done();
             toastr.clear();
-            toastr.error("Both Référence Type Variété and Type Variété must be filled together.", {
+            toastr.error(e.data.message, {
               closeButton: true
             });
-          }
-
-
+          });
 
         }
 
-*/
+
     };
 
 
-    vm.multiDelete = async function() {
-      toastr.clear();
-      toastr.info("Task in progress 👀", {
-      closeButton: true,
-     });
-      /*  let selectedIds = await $scope.getSelectedIDs(vm.data_secteur);
+      vm.multiDelete = async function() {
+
+        let selectedIds = await $scope.getSelectedIDs(vm.data_secteur);
 
         toastr.clear();
         toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
@@ -394,17 +321,18 @@ angular.module('beeOneWebFrontApp')
 
             $("#confirmationRevertYes").click(function() {
               NProgress.start()
-              VarieteService.multidelete({
+              SecteurService.multidelete({
                 IDs : selectedIds
               }).then(async function(result) {
 
                 await $scope.undoSelect()
                 toastr.clear();
-                toastr.success(result.data.message, {
+                toastr.success("Secteur(s) successfully deleted.", {
                   closeButton: true
                 });
-                NProgress.done();
+                vm.data_secteur = vm.data_secteur.filter(item => !selectedIds.includes(item.ID));
                 vm.dtInstance.reloadData();
+                NProgress.done();
 
               }).catch(async e => {
                 NProgress.done();
@@ -417,34 +345,35 @@ angular.module('beeOneWebFrontApp')
             });
           }
         });
-*/
+
       }
 
 
     vm.delete = async function(data) {
+
       toastr.clear();
-      toastr.info("Task in progress 👀", {
-      closeButton: true,
-     });
-  /*    toastr.clear();
       toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
         closeButton: true,
         allowHtml: true,
         onShown: function(toast) {
           $("#confirmationRevertYes").click(function() {
             NProgress.start()
-            VarieteService.delete(data).then(async function(result) {
+            SecteurService.delete(data).then(async function(result) {
 
               await $scope.undoSelect()
               toastr.clear();
-              toastr.success(result.data.message, {
+              toastr.success("Suppression réussie", {
                 closeButton: true
               });
-              NProgress.done();
+
+              vm.data_secteur = vm.data_secteur.filter(item => item.ID !== data.ID);
               vm.dtInstance.reloadData();
+
+              NProgress.done();
 
             }).catch(async e => {
               NProgress.done();
+              console.log(e);
               toastr.clear();
               toastr.error(e.data.message, {
                 closeButton: true
@@ -453,7 +382,7 @@ angular.module('beeOneWebFrontApp')
           });
         }
       });
-*/
+
     }
 
 
@@ -493,18 +422,23 @@ angular.module('beeOneWebFrontApp')
     }
 
 
-    $scope.updatedata = function() {
-      return SecteurService.get_all();
-    };
+
 
     vm.dtOptions = DTOptionsBuilder.fromFnPromise(function () {
       var defer = $q.defer();
-        $scope.updatedata().then(function(res) {
-          vm.data_secteur = res.data;
-          defer.resolve(res.data);
-          NProgress.done();
-        });
-        return defer.promise;
+
+      if (!vm.data_secteur) {
+          var stopCheck = setInterval(function () {
+              if (vm.data_secteur) {
+                  clearInterval(stopCheck);
+                  defer.resolve(vm.data_secteur);
+              }
+          }, 500);
+      } else {
+          defer.resolve(vm.data_secteur);
+      }
+
+  return defer.promise;
       })
       .withOption("createdRow", createdRow)
       .withDOM("<lf<t>ip>")
@@ -524,22 +458,22 @@ angular.module('beeOneWebFrontApp')
           extend: "excel",
           text: "EXCEL",
           titleAttr: "EXCEL",
-          title: 'Liste Des Variétés'
+          title: 'Liste Des Secteurs'
         },
       ]);
 
 
 
-      vm.variete_action = {};
+      vm.produit_action = {};
       function actionsHtml(data, type, full, meta) {
-          vm.variete_action[data.ID] = data;
+          vm.produit_action[data.ID] = data;
           var editbtn =
-          '<button class="btnEdit_tb" ng-click="vm.edit(vm.variete_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.edit(vm.produit_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/edit.svg" alt="edit"></button>&nbsp;&nbsp;&nbsp;';
 
            var deletebtn =
-          '<button class="btnEdit_tb" ng-click="vm.delete(vm.variete_action[' +
+          '<button class="btnEdit_tb" ng-click="vm.delete(vm.produit_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
       return editbtn + deletebtn;
@@ -547,28 +481,14 @@ angular.module('beeOneWebFrontApp')
 
 
       vm.edit = function (data) {
-        toastr.clear();
-        toastr.info("Task in progress 👀", {
-        closeButton: true,
-        });
-
-        /*vm.formData = data;
-        vm.formData.fermes = data.fermes.map(ferme => ferme.IDFermes);
-
-
-        $q.all([cultureService.get_byfermes({
-          IDFermes: vm.formData.fermes
-        })]).then((values) => {
-          NProgress.done();
-          vm.data_culture = values[0].data;
-        })
-
-
+        var copiedArray = angular.copy(data);
+        vm.formData = copiedArray;
+        //copiedArray.fermes =  copiedArray.fermes.map(ferme => ferme.IDFermes);
        toastr.clear();
           toastr.success(`The form for editing has been filled out and is ready for modification. 👆`, {
           closeButton: true
         });
-*/
+
       }
 
 
@@ -630,7 +550,7 @@ angular.module('beeOneWebFrontApp')
 
 
     vm.updateSelectedCount = function () {
-      return vm.data_secteur.filter(societe => societe.selected).length;
+      return (vm.data_secteur) ? vm.data_secteur.filter(secteur => secteur.selected).length : 0;
     };
 
 
@@ -639,32 +559,37 @@ angular.module('beeOneWebFrontApp')
         .withTitle(
           '#'// '<input type="checkbox" ng-model="vm.allSelected" onclick="toggleAllSelection()">'
         ).renderWith(checkboxHtml).notSortable().withOption("width", "10px"),
-      DTColumnBuilder.newColumn("Rais_Social").withTitle("Société").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("FarmName").withTitle("Ferme").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Secteur").withTitle("Secteur").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Satation_de_tete").withTitle("Station de téte").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Mode_Irrigation").withTitle("Mode d'irrigation").withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Effic").withTitle("Effecience").renderWith(function(data, type, full, meta) {
-      if (full.Effic)
-            return full.Effic.toFixed(2) + ' (%)';
-        return '';
-      }).withOption("width", "100px"),
-      DTColumnBuilder.newColumn("Pluvio").withTitle("Pluviométrie Système").renderWith(function(data, type, full, meta) {
-      if (full.Pluvio)
-            return full.Pluvio;
-        return '';
-      }).withOption("width", "100px"),
-      DTColumnBuilder.newColumn("KP").withTitle("Kc").renderWith(function(data, type, full, meta) {
-      if (full.KP)
-            return full.KP;
-        return '';
-      }).withOption("width", "100px"),
-      DTColumnBuilder.newColumn("IDStatut").withTitle("Status").renderWith(function(data, type, full, meta) {
-        if (!full.IDStatut)
-              return 'En cours';
-          return 'Clôturer';
-      }).withOption("width", "100px"),
-      DTColumnBuilder.newColumn(null)
+        DTColumnBuilder.newColumn("FarmName").withTitle("Ferme").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("BLOC").withTitle("Bloc").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Secteur").withTitle("Secteur").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Superficie").withTitle("Superficie").renderWith(function(data, type, full, meta) {
+        if (full.Superficie)
+              return full.Superficie.toFixed(2) + ' Ha';
+          return '';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Stat_Tete").withTitle("Station tete").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Mode_Irrigation").withTitle("Mode d'irrigation").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("NbreGoutteur").withTitle("Nbr de goutteur").renderWith(function(data, type, full, meta) {
+        if (full.NbreGoutteur)
+              return full.NbreGoutteur.toFixed(0);
+          return '';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Effic").withTitle("Effecience").renderWith(function(data, type, full, meta) {
+        if (full.Effic)
+              return full.Effic.toFixed(2) + ' %';
+          return '';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("Pluvio").withTitle("Pluviométrie Système").renderWith(function(data, type, full, meta) {
+        if (full.Pluvio)
+              return full.Pluvio.toFixed(2);
+          return '';
+        }).withOption("width", "100px"),
+        DTColumnBuilder.newColumn("KP").withTitle("Kc").renderWith(function(data, type, full, meta) {
+        if (full.KP)
+              return full.KP.toFixed(2);
+          return '';
+        }).withOption("width", "100px"),,
+       DTColumnBuilder.newColumn(null)
       .withTitle("Actions")
       .renderWith(actionsHtml)
       .withClass("nowrap actions-column nowraptd all") // Custom class for better control
@@ -677,25 +602,24 @@ angular.module('beeOneWebFrontApp')
       '<center><img src="././images/loading.gif"/></center>'
     );
 
+
+
+
+
     vm.reset = function () {
       vm.formData =  {
-        fermes : [],
-        IDFamille_variete: null,
-        IDculture: null,
-        Nameculture: null,
-        Reference: null,
-        Variete: null,
-        ReferenceType_variete: null,
-        Type_variete: null,
-        age_entree_production: null,
-        age_adulte: null,
-        Descriptif: null,
+        IDFermes : null,
+        ID_bloc : null,
+        Secteur : null,
+        Superficie : null,
+        IDMode_Irrigation : null,
+        Effic : null,
+        Pluvio : null,
+        NbreGoutteur : null,
+        KP : null
       }
      }
    vm.reset()
-
-
-
 
     vm.howto = true;
 
@@ -710,16 +634,34 @@ angular.module('beeOneWebFrontApp')
     }
 
 
+    NProgress.start();
+        $q.all([
+          ferme.get_all(),
+          SecteurService.get_all(),
+          Bloc.get_all(),
+          modeirrigation.get_all()
+        ]).then((values) => {
+            NProgress.done();
+          vm.data_ferme = values[0].data;
+          vm.data_secteur = values[1].data;
+          vm.data_bloc = values[2].data;
+          vm.data_mode = values[3].data;
+        }).catch((error) => {
+            NProgress.done();
+          toastr.clear();
+          toastr.error(error.message, {
+            closeButton: true
+          });
+        });
+
+
     /** Step1 excel*/
 
     vm.headers = [
       "Ferme",
-      "Culture",
-      "Référence variété",
-      "Désignation variété",
-      "Age d'entrée en production",
-      "Age adulte",
-      "Descriptif"];
+      "secteur",
+      "Station tete"
+     ];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -728,13 +670,13 @@ angular.module('beeOneWebFrontApp')
 
           // Create workbook
           var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Culture");
+          XLSX.utils.book_append_sheet(wb, ws, "secteur");
 
           // Write the file and trigger download
           var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
           var blob = new Blob([wbout], { type: "application/octet-stream" });
 
-          saveAs(blob, "Canvas Culture.xlsx");
+          saveAs(blob, "Canvas Secteur.xlsx");
       };
 
 
@@ -745,7 +687,6 @@ angular.module('beeOneWebFrontApp')
 
             // Extract headers from the first row of the data
             var fileHeaders = Object.keys(data[0] || {});
-            console.log(fileHeaders);
 
             // Check if all required headers are present
             var isValid = requiredHeaders.every(header => fileHeaders.includes(header));
@@ -771,17 +712,11 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-      fermneName  : item["Ferme"] || null,
-      cultureName  : item["Culture"] || null,
-      Reference  : item["Référence variété"] || null,
-      Variete  : item["Désignation variété"] || null,
-      age_entree_production  : item["Age d'entrée en production"] || null,
-      age_adulte  : item["Age adulte"] || null,
-      Descriptif  : item["Descriptif"] || null
+        FermeName: item["Ferme"] || null,
+        secteur: item["secteur"] || null,
+        Stat_Tete: item["Station tete"] || null
       }));
     };
-
-
 
     vm.transformExcelData = async function (data) {
       return await vm.cleanJsonKeys(data);
@@ -881,44 +816,118 @@ angular.module('beeOneWebFrontApp')
 
     }
 
-    vm.integer = async function(){
+    $scope.getReealName = function(field) {
+      const fieldNames = {
+          'Peut_etre_achete': 'Transité par module achat',
+          'DA_obligatoire': 'Demande d\'achat obligatoire',
+          'BC_obligatoire': 'Bon de commande obligatoire',
+          'Amortissable': 'Article amortissable'
+      };
+      return fieldNames[field] || null;
+  };
 
-      toastr.clear();
-      toastr.info("Task in progress 👀", {
-      closeButton: true,
-      });
-  /*
-      if(vm.jsonData.length>0){
 
-        NProgress.start();
+    $scope.validateData = async function() {
+        let errors = [];
+        let seenPairs = new Set();
+        vm.jsonData.forEach((item, index) => {
+            let rowNum = index + 2;
 
-          VarieteService.multiadd({
-            varietes :vm.jsonData
-          }).then(async e => {
-              toastr.clear();
-              toastr.success(e.data.message, {
-                closeButton: true
-              });
-              await $scope.undoSelect()
-              NProgress.done();
-              vm.dtInstance.reloadData();
-              vm.reset();
-              vm.isFileSelected = false;
-              vm.jsonData = [];
-              vm.errData = {
-                err : false
+            if (!item.FermeName ) {
+                errors.push(`Row ${rowNum}: Missing Ferme as required field`);
+            }
+
+            if (item.FermeName ) {
+              let newferme = vm.data_ferme.find(ferme => String(ferme.Nom).toUpperCase() === String(item.FermeName).toUpperCase());
+
+               if(!newferme){
+                 errors.push(`Row ${rowNum}: Ferme '${item.FermeName}' does not exist`);
+               }else {
+                 vm.jsonData[index].IDFermes = newferme.IDFermes;
+               }
+            }
+
+              if (!item.secteur) {
+                errors.push(`Row ${rowNum}: Missing Référence secteur as required field`);
+            } else {
+              let newRef = vm.data_secteur.some(data_secteur =>
+                String(data_secteur.secteur).toUpperCase() === String(item.secteur).toUpperCase() &&
+                data_secteur.IDFermes === item.IDFermes
+              );
+              if(newRef){
+                errors.push(`Row ${rowNum}: Référence secteur '${item.secteur}' already exist`);
               }
-          }).catch(async e => {
+            }
+
+            if (!item.Stat_Tete) {
+                errors.push(`Row ${rowNum}: Missing station tete as required field`);
+            }
+
+            if (item.IDFermes && item.secteur) {
+            let pairKey = `${item.IDFermes}_${String(item.secteur).toUpperCase()}`;
+            if (seenPairs.has(pairKey)) {
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence secteur '${item.secteur}' found.`);
+               } else {
+                   seenPairs.add(pairKey);
+               }
+            }
+
+        });
+
+        if (errors.length > 0) {
             NProgress.done();
-            toastr.clear();
-            toastr.error(e.data.message, {
-              closeButton: true
-            });
             vm.errData = {
               err : true,
-              message : e.data.message
+              message : errors.join('\n')
             }
-          });
+            toastr.clear();
+            toastr.error("Please correct all file errors, details bellow 👇 ", {
+              closeButton: true
+            });
+            return false
+        } else {
+            return true
+        }
+    };
+
+    vm.integer = async function(){
+console.log(vm.jsonData);
+      if(vm.jsonData.length>0){
+             NProgress.start();
+        if(await $scope.validateData()){
+
+
+
+                    SecteurService.multiadd({
+                      entries :vm.jsonData
+                    }).then(async e => {
+                        toastr.clear();
+                        toastr.success(e.data.message, {
+                          closeButton: true
+                        });
+                        await $scope.undoSelect()
+                        NProgress.done();
+
+                        vm.data_secteur.unshift(...e.data.inserted_data);
+
+                        vm.dtInstance.reloadData();
+                        vm.reset();
+                        vm.isFileSelected = false;
+                        vm.jsonData = [];
+                        vm.errData = {
+                          err : false
+                        }
+                    }).catch(async e => {
+                      NProgress.done();
+                      toastr.clear();
+                      toastr.error(e.data.message, {
+                        closeButton: true
+                      });
+                      vm.errData = {
+                        err : true,
+                        message : e.data.message
+                      }
+                    });
 
 
 
@@ -926,14 +935,15 @@ angular.module('beeOneWebFrontApp')
 
 
 
-      }else{
-        toastr.clear();
-        toastr.warning("Upload your file!", {
-        closeButton: true,
-       });
-      }
+                }
+        }else{
+          NProgress.done();
+          toastr.clear();
+          toastr.warning("Upload your file!", {
+          closeButton: true,
+         });
+        }
 
-      */
     }
 
 
@@ -1020,255 +1030,6 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
-
-  vm.gen_canvas = function(ev) {
-    toastr.clear();
-    toastr.info("Task in progress 👀", {
-    closeButton: true,
-    });
-
-    /*
-    $mdDialog.show({
-        controller: DialogControllerGen,
-        templateUrl: '././views/configuration/referentiel/canvas/canvas_variete.html',
-        parent: angular.element(document.body),
-        targetEvent: ev,
-        clickOutsideToClose: false,
-        locals: {
-          data: vm.data_ferme
-        }
-      })
-      .then(function(answer) {
-        $scope.status = 'You said the information was "' + answer + '".';
-      }, function() {
-        $scope.status = 'You cancelled the dialog.';
-      });*/
-  };
-
-  function DialogControllerGen($scope, $mdDialog, data) {
-    $scope.scrollCards = function(direction) {
-      const container = document.getElementById('cardContainer');
-      const scrollAmount = 300; // Adjust scroll amount as needed
-
-            if (direction === 'left') {
-               container.scroll({
-                   left: container.scrollLeft - scrollAmount,
-                   behavior: 'smooth'
-               });
-           } else if (direction === 'right') {
-               container.scroll({
-                   left: container.scrollLeft + scrollAmount,
-                   behavior: 'smooth'
-               });
-           }
-        }
-
-        $scope.annuler = function() {
-          $mdDialog.cancel();
-        };
-
-    $scope.data_ferme = data;
-    $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
-    $scope.formdata_gen = {
-      ferme : null,
-      culture : null,
-      nbrparcelle : null,
-      increment : null
-    }
-    $scope.allformxls = [];
-
-
-    $scope.getCulture = function () {
-      NProgress.start();
-        $q.all([cultureService.get_byfermes({
-          IDFermes: [$scope.formdata_gen.ferme.IDFermes]
-        })]).then((values) => {
-          NProgress.done();
-          $scope.data_culture = values[0].data;
-        })
-    }
-    $scope.canva_ajouter = function(){
-      if(!$scope.formdata_gen.ferme){
-        toastr.clear();
-        toastr.warning("Veuillez choisir une ferme", {
-          closeButton: true
-        });
-      }else if(!$scope.formdata_gen.culture){
-        toastr.clear();
-        toastr.warning("Veuillez choisir une Culture", {
-          closeButton: true
-        });
-      }else if ($scope.formdata_gen.nbrparcelle <= 0) {
-        toastr.clear();
-        toastr.warning("Veuillez saisir le nombre de Variétés", {
-          closeButton: true
-        });
-      }else if (!$scope.formdata_gen.increment) {
-        toastr.clear();
-        toastr.warning("Veuillez choisir un type d'incrémentation", {
-          closeButton: true
-        });
-      }else {
-        $scope.formdata_gen.ferme.disabled = true;
-        $scope.allformxls.push($scope.formdata_gen);
-        console.log($scope.allformxls);
-        $scope.formdata_gen = {};
-      }
-    }
-
-    $scope.generateExcelData = async function() {
-    let excelData = [];
-    let headers = [
-       "Ferme",
-       "Culture",
-       "Référence variété",
-       "Désignation variété",
-       "Age d'entrée en production",
-       "Age adulte",
-       "Descriptif"
-      ];
-    excelData.push(headers);
-    let totalParcelles = 0; // Track total parcels
-    $scope.allformxls.forEach(item => {
-        let fermeName = item.ferme.Nom;
-        let cultureName = item.culture.Culture;
-        let refrence=null
-
-            for (let i = 1; i <= item.nbrparcelle; i++) {
-                if (item.increment === 1) {
-                   refrence = `V${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
-                }
-                excelData.push([fermeName,
-                cultureName,
-                refrence,
-                refrence,
-                null,
-                null,
-                null]);
-                 totalParcelles++;
-            }
-
-
-    });
-    toastr.clear();
-    toastr.success(`Génération réussie : ${totalParcelles} variété(s) ajoutée(s) au fichier excel`, { closeButton: true });
-
-    return excelData;
-};
-
-  $scope.downloadExcel = async function() {
-
-    if($scope.allformxls.length>0){
-
-      NProgress.start()
-      let excelData = await $scope.generateExcelData();
-
-      // Create a new workbook and a worksheet
-      let ws = XLSX.utils.aoa_to_sheet(excelData);
-      let wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Variété");
-
-      // Generate a binary string from the workbook
-      let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-
-      // Convert the binary string to a Blob
-      let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
-
-      // Create a link element and trigger the download
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "Canvas Variété.xlsx";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      NProgress.done();
-    }else {
-      toastr.clear();
-      toastr.warning("Veuillez ajouter au moin un Paramètre", {
-        closeButton: true
-      });
-    }
-
-};
-
-// Utility function to convert string to ArrayBuffer
-function s2ab(s) {
-    let buf = new ArrayBuffer(s.length);
-    let view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-    return buf;
-}
-
-
-$scope.deleteCanva = function(index) {
-
-  toastr.clear();
-  toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
-    closeButton: true,
-    allowHtml: true,
-    onShown: function(toast) {
-
-      $("#confirmationRevertYes").click(function() {
-        $scope.allformxls.splice(index, 1);
-        toastr.clear();
-        toastr.success("Paramètre bien Supprimé", {
-          closeButton: true
-        });
-        $scope.formdata_gen = {};
-      });
-    }
-  });
-}
-
-
-
-$scope.editCanva = function(index) {
-console.log($scope.allformxls);
-
-  $scope.formdata_gen = {
-    ferme : $scope.allformxls[index].ferme,
-    nbrparcelle : $scope.allformxls[index].nbrparcelle,
-    increment : $scope.allformxls[index].increment,
-    update : true,
-    index : index
-  }
-
-}
-
-$scope.canva_modifer = function(){
-
-  if(!$scope.formdata_gen.ferme){
-    toastr.clear();
-    toastr.warning("Veuillez choisir une ferme", {
-      closeButton: true
-    });
-  }else if ($scope.formdata_gen.nbrparcelle <= 0) {
-    toastr.clear();
-    toastr.warning("Veuillez saisir le nombre de parcelle", {
-      closeButton: true
-    });
-  }else if (!$scope.formdata_gen.increment) {
-    toastr.clear();
-    toastr.warning("Veuillez choisir un type d'incrémentation", {
-      closeButton: true
-    });
-  }else {
-    $scope.formdata_gen.ferme.disabled = true;
-    let index = $scope.formdata_gen.index;
-    $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
-    $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
-    $scope.allformxls[index].increment = $scope.formdata_gen.increment;
-    $scope.formdata_gen = {};
-    toastr.clear();
-    toastr.success("Paramètre bien Modifié", {
-      closeButton: true
-    });
-  }
-
-}
-
-
-  }
 
 
   }

@@ -17,6 +17,10 @@ angular.module('beeOneWebFrontApp')
       create: function(data) {
         NProgress.start();
         return $http.post(_url + "/modeirrigation/create", data);
+      },
+      get_all: function(data) {
+        NProgress.start();
+        return $http.post(_url + "/modeirrigation/get_all", data);
       }
     };
   });

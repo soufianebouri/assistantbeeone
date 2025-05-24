@@ -13,47 +13,35 @@
 
                     <div class="form-row tiny-space sotiny">
 
-                        <md-input-container class="form-input" ng-if="!vm.formData.ID" >
-                            <label>Société</label>
-                            <md-select ng-model="vm.formData.fermes"  ng-change="get_culture() " multiple data-md-container-class="selectdemoSelectHeader" required>
-                              <md-select-header class="demo-select-header">
-                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                              </md-select-header>
-                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in [] | orderBy:'Nom' | filter:search_str"
-                                >{{data_ferme.Nom}}
-                               </md-option>
-                            </md-select>
-                        </md-input-container>
+                      <md-input-container class="form-input" >
+                          <label>Ferme</label>
+                          <md-select ng-model="vm.formData.IDFermes"  ng-change="vm.setBloc()" data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
+                              >{{data_ferme.Nom}}
+                             </md-option>
+                          </md-select>
+                      </md-input-container>
 
-                        <md-input-container class="form-input" ng-if="!vm.formData.ID" >
-                            <label>Ferme</label>
-                            <md-select ng-model="vm.formData.fermes"  ng-change="get_culture() " multiple data-md-container-class="selectdemoSelectHeader" required>
-                              <md-select-header class="demo-select-header">
-                                <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                              </md-select-header>
-                              <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in [] | orderBy:'Nom' | filter:search_str"
-                                >{{data_ferme.Nom}}
-                               </md-option>
-                            </md-select>
-                        </md-input-container>
-
+                      <md-input-container class="form-input" >
+                          <label>Bloc</label>
+                          <md-select ng-model="vm.formData.ID_bloc"  data-md-container-class="selectdemoSelectHeader" required>
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_strBLOC" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_bloc.ID" ng-repeat="data_bloc in vm.data_bloc | orderBy:'BLOC' | filter:search_strBLOC" ng-if="data_bloc.IDFermes == vm.formData.IDFermes"
+                              >{{data_bloc.BLOC}}
+                             </md-option>
+                          </md-select>
+                      </md-input-container>
 
                     </div>
 
 
                     <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
-                      <md-input-container class="form-input" ng-if="!vm.formData.ID" >
-                          <label>Campagne Agricole</label>
-                          <md-select ng-model="vm.formData.fermes"  ng-change="get_culture() " multiple data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in [] | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
 
                           <md-input-container class="form-input">
                               <label>Secteur</label>
@@ -61,45 +49,52 @@
                           </md-input-container>
 
                           <md-input-container class="form-input">
-                              <label>Pompe</label>
-                              <input type="text" ng-model="vm.formData.Pompe" required >
+                            <label>Superficie (ha)</label>
+                            <input type="number" ng-model="vm.formData.Superficie" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
                           </md-input-container>
                     </div>
 
 
                     <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
-
-
-                      <md-input-container class="form-input">
-                          <label>Station de téte</label>
-                          <input type="text" ng-model="vm.formData.Station"  required >
-                      </md-input-container>
-
-                      <md-input-container class="form-input">
+                      <md-input-container class="form-input" >
                           <label>Mode d'irrigation</label>
-                          <input type="text" ng-model="vm.formData.Mode"   required>
+                          <md-select ng-model="vm.formData.IDMode_Irrigation"  data-md-container-class="selectdemoSelectHeader" >
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_strmode" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_mode.IDMode_Irrigation" ng-repeat="data_mode in vm.data_mode | orderBy:'Libelle' | filter:search_strmode"
+                              >{{data_mode.Libelle}}
+                             </md-option>
+                          </md-select>
                       </md-input-container>
 
-                        <md-input-container class="form-input">
-                            <label>Effecience ( % )</label>
-                            <input type="number" ng-model="vm.formData.Effecience"  class="number_right">
-                        </md-input-container>
-                    </div>
+                      <md-input-container class="form-input">
+                          <label>Effecience Système</label>
+                          <input type="text" ng-model="vm.formData.Effic"   >
+                      </md-input-container>
 
+
+                    </div>
 
 
 
                   <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
+
+                    <md-input-container class="form-input">
+                        <label>Nbr de goutteur</label>
+                        <input type="text" ng-model="vm.formData.NbreGoutteur"   >
+                    </md-input-container>
+
                     <md-input-container class="form-input">
                         <label>Pluviométrie Système</label>
-                        <input type="text" ng-model="vm.formData.Pluviometrie"   >
+                        <input type="text" ng-model="vm.formData.Pluvio"   >
                     </md-input-container>
 
                     <md-input-container class="form-input">
                             <label>Kc</label>
-                            <input type="number" ng-model="vm.formData.Kc"  class="number_right">
+                            <input type="number" ng-model="vm.formData.KP"  class="number_right">
                     </md-input-container>
 
                   </div>

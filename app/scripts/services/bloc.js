@@ -10,20 +10,29 @@
 angular.module('beeOneWebFrontApp')
   .factory('Bloc', function($http, _url) {
     return {
-      getBlocByFarm: function(id) {
-        return $http.get(_url + "/bloc/" + id);
+      get_all: function() {
+        return $http.post(_url + "/bloc/get_all");
       },
-      getallbyfermeWithSup: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/bloc/getallbyfermeWithSup", data);
+      add: function(data) {
+        return $http.post(_url + "/bloc/add", data);
       },
-      getAllbyFerme: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/bloc/getallbyferme", data);
+      edit: function(data) {
+        return $http.post(_url + "/bloc/edit", data);
       },
-      create: function(data) {
-        NProgress.start();
-        return $http.post(_url + "/bloc/create", data);
+      delete: function(data) {
+        return $http.post(_url + "/bloc/delete", data);
+      },
+      multidelete: function(data) {
+        return $http.post(_url + "/bloc/multidelete", data);
+      },
+      multiadd: function(data) {
+        return $http.post(_url + "/bloc/multiadd", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/bloc/getbyferme", data);
+      },
+      getbyMultiferme: function(data) {
+        return $http.post(_url + "/bloc/getbyMultiferme", data);
       }
     };
   });

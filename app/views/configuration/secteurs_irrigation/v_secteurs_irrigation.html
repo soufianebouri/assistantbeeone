@@ -35,7 +35,7 @@
               <!-- Step 1 -->
               <div class="step-box">
                 <table style="border-collapse: collapse;">
-                  <tr ng-click="vm.step(1, 'views/configuration/secteurs_irrigation/v_secteur.html')">
+                  <tr ng-click="vm.step(1, 'views/configuration/secteurs_irrigation/v_bloc.html')">
                     <td rowspan="2">
                       <div ng-class="{'step-btn': vm.currect_step == 1, 'step-btn-disabled': vm.currect_step != 1}">
                         <img src="././images/main_configuration/farm.svg" alt="entreprise">
@@ -48,6 +48,30 @@
                   <tr>
                     <td
                       ng-class="{'step_position_title': vm.currect_step == 1, 'step_position_title-disabled': vm.currect_step != 1}">
+                      Bloc</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Arrow Icon -->
+              <span class="arrow-icon">&nbsp;&nbsp;&nbsp;&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              <!-- Step 1 -->
+              <div class="step-box">
+                <table style="border-collapse: collapse;">
+                  <tr ng-click="vm.step(2, 'views/configuration/secteurs_irrigation/v_secteur.html')">
+                    <td rowspan="2">
+                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                        <img src="././images/main_configuration/farm.svg" alt="entreprise">
+                      </div>
+                    </td>
+                    <td
+                      ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
+                      Étape 2</td>
+                  </tr>
+                  <tr>
+                    <td
+                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
                       Secteur</td>
                   </tr>
                 </table>
@@ -59,19 +83,19 @@
               <!-- Step 2 -->
               <div class="step-box">
                 <table>
-                  <tr ng-click="vm.step(2 , 'views/configuration/secteurs_irrigation/2.html')">
+                  <tr ng-click="vm.step(3 , 'views/configuration/secteurs_irrigation/3.html')">
                     <td rowspan="2">
-                      <div ng-class="{'step-btn': vm.currect_step == 2, 'step-btn-disabled': vm.currect_step != 2}">
+                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
                         <img src="././images/main_configuration/farm.svg" alt="farm">
                       </div>
                     </td>
                     <td
-                      ng-class="{'step_position': vm.currect_step == 2, 'step_position-disabled': vm.currect_step != 2}">
-                      Étape 2</td>
+                      ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
+                      Étape 3</td>
                   </tr>
                   <tr>
                     <td
-                      ng-class="{'step_position_title': vm.currect_step == 2, 'step_position_title-disabled': vm.currect_step != 2}">
+                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
                       Sous-Parcelle</td>
                   </tr>
                 </table>
@@ -83,20 +107,20 @@
               <!-- Step 3 -->
               <div class="step-box">
                 <table>
-                  <tr ng-click="vm.step(3, 'views/configuration/secteurs_irrigation/3.html')">
+                  <tr ng-click="vm.step(4, 'views/configuration/secteurs_irrigation/4.html')">
                     <td rowspan="2">
-                      <div ng-class="{'step-btn': vm.currect_step == 3, 'step-btn-disabled': vm.currect_step != 3}">
+                      <div ng-class="{'step-btn': vm.currect_step == 4, 'step-btn-disabled': vm.currect_step != 4}">
                         <img src="././images/main_configuration/farm.svg" alt="campagne">
                       </div>
                     </td>
                     <td
-                      ng-class="{'step_position': vm.currect_step == 3, 'step_position-disabled': vm.currect_step != 3}">
-                      Étape 3
+                      ng-class="{'step_position': vm.currect_step == 4, 'step_position-disabled': vm.currect_step != 4}">
+                      Étape 4
                     </td>
                   </tr>
                   <tr>
                     <td
-                      ng-class="{'step_position_title': vm.currect_step == 3, 'step_position_title-disabled': vm.currect_step != 3}">
+                      ng-class="{'step_position_title': vm.currect_step == 4, 'step_position_title-disabled': vm.currect_step != 4}">
                        Sous-Parcelle/Parcelle Culturale
                     </td>
                   </tr>

@@ -41,8 +41,8 @@ angular.module('beeOneWebFrontApp')
       $scope.rightPanelCollapsed = !$scope.rightPanelCollapsed;
     };
 
-    vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/secteurs_irrigation/v_bloc.html";
+    vm.currect_step = 3;
+    vm.stepUrl = "views/configuration/secteurs_irrigation/v_sousparcelle.html";
     vm.step = async function (params, stepUrl) {
       vm.currect_step = params;
       vm.stepUrl = stepUrl
@@ -101,7 +101,7 @@ angular.module('beeOneWebFrontApp')
       }else if(index == 2){
         vm.stepUrl = "views/configuration/secteurs_irrigation/v_secteur.html";
       }else if(index == 3){
-        vm.stepUrl = "views/configuration/secteurs_irrigation/3.html";
+        vm.stepUrl = "views/configuration/secteurs_irrigation/v_sousparcelle.html";
       }else {
         vm.stepUrl = "views/configuration/secteurs_irrigation/777.html";
       }

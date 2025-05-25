@@ -128,6 +128,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_sousparcelle', {
+      url: '/configuration/v_sousparcelle',
+      templateUrl: 'views/configuration/secteurs_irrigation/v_sousparcelle.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
+      }
+    })
     .state('v_bloc', {
       url: '/configuration/v_bloc',
       templateUrl: 'views/configuration/secteurs_irrigation/v_bloc.html',

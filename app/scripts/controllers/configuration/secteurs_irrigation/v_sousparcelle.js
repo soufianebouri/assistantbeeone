@@ -612,7 +612,8 @@ angular.module('beeOneWebFrontApp')
               clickOutsideToClose: false,
               locals: {
                 data: vm.data_ferme,
-                data_bloc: vm.data_bloc
+                data_secteur: vm.data_secteur,
+                data_parcelle: vm.data_parcelle
               }
             })
             .then(function(answer) {
@@ -622,7 +623,7 @@ angular.module('beeOneWebFrontApp')
             });
         };
 
-        function DialogControllerGen($scope, $mdDialog, data, data_bloc) {
+        function DialogControllerGen($scope, $mdDialog, data, data_secteur ,data_parcelle ) {
           $scope.scrollCards = function(direction) {
             const container = document.getElementById('cardContainer');
             const scrollAmount = 300; // Adjust scroll amount as needed
@@ -645,12 +646,14 @@ angular.module('beeOneWebFrontApp')
               };
 
           $scope.data_ferme = data;
-          $scope.data_bloc = data_bloc;
+          $scope.data_secteur = data_secteur;
+          $scope.data_parcelle = data_parcelle;
 
           $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
           $scope.formdata_gen = {
             ferme : null,
-            bloc : null,
+            secteur : null,
+            parcelle : null,
             nbrparcelle : null,
             increment : null
           }
@@ -658,7 +661,8 @@ angular.module('beeOneWebFrontApp')
 
 
           $scope.getPhysiqueVariete = function () {
-            $scope.formdata_gen.bloc = null;
+            $scope.formdata_gen.parcelle = null;
+            $scope.formdata_gen.secteur = null;
           }
 
           $scope.canva_ajouter = function(){
@@ -667,9 +671,14 @@ angular.module('beeOneWebFrontApp')
               toastr.warning("Veuillez choisir une ferme", {
                 closeButton: true
               });
-            }else if(!$scope.formdata_gen.bloc){
+            }else if(!$scope.formdata_gen.parcelle){
               toastr.clear();
-              toastr.warning("Veuillez choisir un bloc", {
+              toastr.warning("Veuillez choisir une parcelle", {
+                closeButton: true
+              });
+            }else if(!$scope.formdata_gen.secteur){
+              toastr.clear();
+              toastr.warning("Veuillez choisir un secteur", {
                 closeButton: true
               });
             }else if ($scope.formdata_gen.nbrparcelle <= 0) {
@@ -693,30 +702,31 @@ angular.module('beeOneWebFrontApp')
           $scope.generateExcelData = async function() {
           let excelData = [];
           let headers = [
-             "Ferme",
-             "Bloc",
-             "Secteur",
-             "Superficie",
-             "Mode irrigation",
-             "Effecience Système",
-             "Nbr de goutteur",
-             "Pluviométrie Système",
-             "Kc"
+            "Ferme",
+            "Parcelle",
+            "Secteur",
+            "Sous Parcelle",
+            "Superficie",
+            "Vane",
+            "Nbr de goutteur",
+            "Debit Gouteur",
+            "Debit SP"
             ];
           excelData.push(headers);
           let totalParcelles = 0; // Track total parcels
           $scope.allformxls.forEach(item => {
               let fermeName = item.ferme.Nom;
-              let BLOCname = item.bloc.BLOC;
-              let SecteurName = null;
+              let Parcellename = item.parcelle.Ref;
+              let Secteurname = item.secteur.Secteur;
+              let sousparcelleName = null;
                   for (let i = 1; i <= item.nbrparcelle; i++) {
                       if (item.increment === 1) {
-                         SecteurName = `SCTR${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                         sousparcelleName = `${Parcellename}-SP${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
                       }
                       excelData.push([fermeName,
-                      BLOCname,
-                      SecteurName,null,
-                      null,null,null,null,null]);
+                      Parcellename,Secteurname,
+                      sousparcelleName,null,
+                      null,null,null,null]);
                        totalParcelles++;
                   }
 
@@ -895,14 +905,14 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "Bloc",
+      "Parcelle",
       "Secteur",
+      "Sous Parcelle",
       "Superficie",
-      "Mode irrigation",
-      "Effecience Système",
+      "Vane",
       "Nbr de goutteur",
-      "Pluviométrie Système",
-      "Kc"
+      "Debit Gouteur",
+      "Debit SP"
      ];
 
       vm.exportToExcel = function () {
@@ -955,14 +965,14 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
         FermeName: item["Ferme"] || null,
-        Bloc: item["Bloc"] || null,
-        Secteur: item["Secteur"] || null,
-        Superficie: item["Superficie"] || null,
-        Mode_Irrigation: item["Mode irrigation"] || null,
-        Effic: item["Effecience Système"] || null,
-        NbreGoutteur: item["Nbr de goutteur"] || null,
-        Pluvio: item["Pluviométrie Système"] || null,
-        KP: item["Kc"] || null
+        ParcelleName: item["Parcelle"] || null,
+        SecteurName: item["Secteur"] || null,
+        Ref: item["Sous Parcelle"] || null,
+        Sup: item["Superficie"] || null,
+        Vane: item["Vane"] || null,
+        Nbre_Gouteur: item["Nbr de goutteur"] || null,
+        Debit_Gouteur: item["Debit Gouteur"] || null,
+        Debit_SP: item["Debit SP"] || null
       }));
     };
 
@@ -1075,6 +1085,7 @@ angular.module('beeOneWebFrontApp')
   };
 
 
+
     $scope.validateData = async function() {
         let errors = [];
         let seenPairs = new Set();
@@ -1095,83 +1106,61 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-            if (!item.Bloc) {
-                errors.push(`Row ${rowNum}: Missing Bloc as required field`);
+            if (!item.Ref) {
+                errors.push(`Row ${rowNum}: Missing Sous Parcelle as required field`);
             }
 
-            if (item.Bloc ) {
-              let newbloc = vm.data_bloc.find(bloc => String(bloc.BLOC).toUpperCase() === String(item.Bloc).toUpperCase() && bloc.IDFermes === item.IDFermes);
+            if (!item.ParcelleName) {
+                errors.push(`Row ${rowNum}: Missing Parcelle as required field`);
+            }
 
-               if(!newbloc){
-                 errors.push(`Row ${rowNum}: Bloc '${item.Bloc}' does not exist`);
+            if (item.ParcelleName ) {
+              let newparcelle = vm.data_parcelle.find(parcelle => String(parcelle.Ref).toUpperCase() === String(item.ParcelleName).toUpperCase() && parcelle.IDFermes === item.IDFermes);
+
+               if(!newparcelle){
+                 errors.push(`Row ${rowNum}: Parcelle '${item.ParcelleName}' does not exist`);
                }else {
-                 vm.jsonData[index].ID_bloc = newbloc.ID;
-                 vm.jsonData[index].Satation_de_tete = newbloc.Stat_Tete;
+                 vm.jsonData[index].parcelle = newparcelle.ID;
                }
             }
 
-            if (!item.Superficie) {
-                errors.push(`Row ${rowNum}: Missing Superficie as required field`);
+            if (!item.SecteurName) {
+                errors.push(`Row ${rowNum}: Missing Secteur as required field`);
             }
 
+            if (item.SecteurName ) {
+              let newsecteur = vm.data_secteur.find(secteur => String(secteur.Secteur).toUpperCase() === String(item.SecteurName).toUpperCase() && secteur.IDFermes === item.IDFermes);
 
-            if (item.Mode_Irrigation) {
-              let newferme = vm.data_mode.find(mode => String(mode.Libelle).toUpperCase() === String(item.Mode_Irrigation).toUpperCase());
-
-               if(!newferme){
-                 errors.push(`Row ${rowNum}: Mode d'irrigation '${item.Mode_Irrigation}' does not exist`);
+               if(!newsecteur){
+                 errors.push(`Row ${rowNum}: Secteur '${item.SecteurName}' does not exist`);
                }else {
-                 vm.jsonData[index].IDMode_Irrigation = newferme.IDMode_Irrigation;
+                 vm.jsonData[index].Secteur = newsecteur.ID;
                }
             }
 
 
-            if (!item.Secteur) {
-                errors.push(`Row ${rowNum}: Missing Référence sousparcelle as required field`);
-            } else {
-              let newRef = vm.data_sousparcelle.some(sousparcelle =>
-                String(sousparcelle.Secteur).toUpperCase() === String(item.Secteur).toUpperCase() &&
-                sousparcelle.IDFermes === item.IDFermes
-              );
-              if(newRef){
-                errors.push(`Row ${rowNum}: Référence sousparcelle '${item.Secteur}' already exist`);
-              }
+            if (typeof item.Sup !== 'number' || item.Sup <= 0) {
+                errors.push(`Row ${rowNum}: Superficie must be a number greater than 0`);
             }
 
-
-            if (item.Effic !== undefined && item.Effic !== null && item.Effic !== '') {
-                  if (isNaN(item.Effic)) {
-                      errors.push(`Row ${rowNum}: Effecience Système should be a number`);
+            if (item.Nbre_Gouteur !== undefined && item.Nbre_Gouteur !== null && item.Nbre_Gouteur !== '') {
+                  if (isNaN(item.Nbre_Gouteur)) {
+                      errors.push(`Row ${rowNum}: Nbre Gouteur should be a number`);
                   }
             }
 
-
-            if (item.NbreGoutteur !== undefined && item.NbreGoutteur !== null && item.NbreGoutteur !== '') {
-                  if (isNaN(item.NbreGoutteur)) {
-                      errors.push(`Row ${rowNum}: Nbr de Goutteur should be a number`);
+            if (item.Debit_Gouteur !== undefined && item.Debit_Gouteur !== null && item.Debit_Gouteur !== '') {
+                  if (isNaN(item.Debit_Gouteur)) {
+                      errors.push(`Row ${rowNum}: Debit Gouteur should be a number`);
                   }
             }
 
-            if (item.Pluvio !== undefined && item.Pluvio !== null && item.Pluvio !== '') {
-                  if (isNaN(item.Pluvio)) {
-                      errors.push(`Row ${rowNum}: Pluviométrie Système should be a number`);
+            if (item.Debit_SP !== undefined && item.Debit_SP !== null && item.Debit_SP !== '') {
+                  if (isNaN(item.Debit_SP)) {
+                      errors.push(`Row ${rowNum}: Debit SP should be a number`);
                   }
             }
 
-            if (item.KP !== undefined && item.KP !== null && item.KP !== '') {
-                  if (isNaN(item.KP)) {
-                      errors.push(`Row ${rowNum}: Kc should be a number`);
-                  }
-            }
-
-            if (item.IDFermes && item.Secteur) {
-            let pairKey = `${item.IDFermes}_${String(item.Secteur).toUpperCase()}`;
-            if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence sousparcelle '${item.Secteur}' found.`);
-               } else {
-                   seenPairs.add(pairKey);
-               }
-            }
 
         });
 

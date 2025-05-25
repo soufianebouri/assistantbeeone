@@ -605,6 +605,247 @@ angular.module('beeOneWebFrontApp')
 
 
 
+      /**model generate */
+        vm.gen_canvas = function(ev) {
+          $mdDialog.show({
+              controller: DialogControllerGen,
+              templateUrl: '././views/configuration/secteurs_irrigation/canvas/canvas_secteur.html',
+              parent: angular.element(document.body),
+              targetEvent: ev,
+              clickOutsideToClose: false,
+              locals: {
+                data: vm.data_ferme,
+                data_bloc: vm.data_bloc
+              }
+            })
+            .then(function(answer) {
+              $scope.status = 'You said the information was "' + answer + '".';
+            }, function() {
+              $scope.status = 'You cancelled the dialog.';
+            });
+        };
+
+        function DialogControllerGen($scope, $mdDialog, data, data_bloc) {
+          $scope.scrollCards = function(direction) {
+            const container = document.getElementById('cardContainer');
+            const scrollAmount = 300; // Adjust scroll amount as needed
+
+                  if (direction === 'left') {
+                     container.scroll({
+                         left: container.scrollLeft - scrollAmount,
+                         behavior: 'smooth'
+                     });
+                 } else if (direction === 'right') {
+                     container.scroll({
+                         left: container.scrollLeft + scrollAmount,
+                         behavior: 'smooth'
+                     });
+                 }
+              }
+
+              $scope.annuler = function() {
+                $mdDialog.cancel();
+              };
+
+          $scope.data_ferme = data;
+          $scope.data_bloc = data_bloc;
+
+          $scope.inrements = [{id : 1, increment : 'Oui'},{id : 2, increment : 'Non'}]
+          $scope.formdata_gen = {
+            ferme : null,
+            bloc : null,
+            nbrparcelle : null,
+            increment : null
+          }
+          $scope.allformxls = [];
+
+
+          $scope.getPhysiqueVariete = function () {
+            $scope.formdata_gen.bloc = null;
+          }
+
+          $scope.canva_ajouter = function(){
+            if(!$scope.formdata_gen.ferme){
+              toastr.clear();
+              toastr.warning("Veuillez choisir une ferme", {
+                closeButton: true
+              });
+            }else if(!$scope.formdata_gen.bloc){
+              toastr.clear();
+              toastr.warning("Veuillez choisir un bloc", {
+                closeButton: true
+              });
+            }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+              toastr.clear();
+              toastr.warning("Veuillez saisir le nombre de secteur", {
+                closeButton: true
+              });
+            }else if (!$scope.formdata_gen.increment) {
+              toastr.clear();
+              toastr.warning("Veuillez choisir un type d'incrémentation", {
+                closeButton: true
+              });
+            }else {
+              $scope.formdata_gen.ferme.disabled = true;
+              $scope.allformxls.push($scope.formdata_gen);
+              console.log($scope.allformxls);
+              $scope.formdata_gen = {};
+            }
+          }
+
+          $scope.generateExcelData = async function() {
+          let excelData = [];
+          let headers = [
+             "Ferme",
+             "Bloc",
+             "Secteur",
+             "Superficie",
+             "Mode irrigation",
+             "Effecience Système",
+             "Nbr de goutteur",
+             "Pluviométrie Système",
+             "Kc"
+            ];
+          excelData.push(headers);
+          let totalParcelles = 0; // Track total parcels
+          $scope.allformxls.forEach(item => {
+              let fermeName = item.ferme.Nom;
+              let BLOCname = item.bloc.BLOC;
+              let SecteurName = null;
+                  for (let i = 1; i <= item.nbrparcelle; i++) {
+                      if (item.increment === 1) {
+                         SecteurName = `SCT${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                      }
+                      excelData.push([fermeName,
+                      BLOCname,
+                      SecteurName,null,
+                      null,null,null,null,null]);
+                       totalParcelles++;
+                  }
+
+
+          });
+          toastr.clear();
+          toastr.success(`Génération réussie : ${totalParcelles} secteur(s) ajouté(s) au fichier excel`, { closeButton: true });
+
+          return excelData;
+      };
+
+        $scope.downloadExcel = async function() {
+
+          if($scope.allformxls.length>0){
+
+            NProgress.start()
+            let excelData = await $scope.generateExcelData();
+
+            // Create a new workbook and a worksheet
+            let ws = XLSX.utils.aoa_to_sheet(excelData);
+            let wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Secteur");
+
+            // Generate a binary string from the workbook
+            let wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+            // Convert the binary string to a Blob
+            let blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+            // Create a link element and trigger the download
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Canvas Secteurs.xlsx";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            NProgress.done();
+          }else {
+            toastr.clear();
+            toastr.warning("Veuillez ajouter au moin un Paramètre", {
+              closeButton: true
+            });
+          }
+
+      };
+
+      // Utility function to convert string to ArrayBuffer
+      function s2ab(s) {
+          let buf = new ArrayBuffer(s.length);
+          let view = new Uint8Array(buf);
+          for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+          return buf;
+      }
+
+
+      $scope.deleteCanva = function(index) {
+
+        toastr.clear();
+        toastr.error("<button type='button' id='confirmationRevertYes' class='btn btn-danger' style='float : right;'>Je confirme </button>", "Veuillez confirmer !", {
+          closeButton: true,
+          allowHtml: true,
+          onShown: function(toast) {
+
+            $("#confirmationRevertYes").click(function() {
+              $scope.allformxls.splice(index, 1);
+              toastr.clear();
+              toastr.success("Paramètre bien Supprimé", {
+                closeButton: true
+              });
+              $scope.formdata_gen = {};
+            });
+          }
+        });
+      }
+
+
+
+      $scope.editCanva = function(index) {
+    console.log($scope.allformxls);
+
+        $scope.formdata_gen = {
+          ferme : $scope.allformxls[index].ferme,
+          nbrparcelle : $scope.allformxls[index].nbrparcelle,
+          increment : $scope.allformxls[index].increment,
+          update : true,
+          index : index
+        }
+
+      }
+
+      $scope.canva_modifer = function(){
+
+        if(!$scope.formdata_gen.ferme){
+          toastr.clear();
+          toastr.warning("Veuillez choisir une ferme", {
+            closeButton: true
+          });
+        }else if ($scope.formdata_gen.nbrparcelle <= 0) {
+          toastr.clear();
+          toastr.warning("Veuillez saisir le nombre de parcelle", {
+            closeButton: true
+          });
+        }else if (!$scope.formdata_gen.increment) {
+          toastr.clear();
+          toastr.warning("Veuillez choisir un type d'incrémentation", {
+            closeButton: true
+          });
+        }else {
+          $scope.formdata_gen.ferme.disabled = true;
+          let index = $scope.formdata_gen.index;
+          $scope.allformxls[index].ferme = $scope.formdata_gen.ferme;
+          $scope.allformxls[index].nbrparcelle = $scope.formdata_gen.nbrparcelle;
+          $scope.allformxls[index].increment = $scope.formdata_gen.increment;
+          $scope.formdata_gen = {};
+          toastr.clear();
+          toastr.success("Paramètre bien Modifié", {
+            closeButton: true
+          });
+        }
+
+      }
+
+
+        }
+
+
 
     vm.reset = function () {
       vm.formData =  {
@@ -659,8 +900,14 @@ angular.module('beeOneWebFrontApp')
 
     vm.headers = [
       "Ferme",
-      "secteur",
-      "Station tete"
+      "Bloc",
+      "Secteur",
+      "Superficie",
+      "Mode irrigation",
+      "Effecience Système",
+      "Nbr de goutteur",
+      "Pluviométrie Système",
+      "Kc"
      ];
 
       vm.exportToExcel = function () {
@@ -713,8 +960,14 @@ angular.module('beeOneWebFrontApp')
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
         FermeName: item["Ferme"] || null,
-        secteur: item["secteur"] || null,
-        Stat_Tete: item["Station tete"] || null
+        Bloc: item["Bloc"] || null,
+        Secteur: item["Secteur"] || null,
+        Superficie: item["Superficie"] || null,
+        Mode_Irrigation: item["Mode irrigation"] || null,
+        Effic: item["Effecience Système"] || null,
+        NbreGoutteur: item["Nbr de goutteur"] || null,
+        Pluvio: item["Pluviométrie Système"] || null,
+        KP: item["Kc"] || null
       }));
     };
 
@@ -847,26 +1100,79 @@ angular.module('beeOneWebFrontApp')
                }
             }
 
-              if (!item.secteur) {
+            if (!item.Bloc) {
+                errors.push(`Row ${rowNum}: Missing Bloc as required field`);
+            }
+
+            if (item.Bloc ) {
+              let newbloc = vm.data_bloc.find(bloc => String(bloc.BLOC).toUpperCase() === String(item.Bloc).toUpperCase() && bloc.IDFermes === item.IDFermes);
+
+               if(!newbloc){
+                 errors.push(`Row ${rowNum}: Bloc '${item.Bloc}' does not exist`);
+               }else {
+                 vm.jsonData[index].ID_bloc = newbloc.ID;
+                 vm.jsonData[index].Satation_de_tete = newbloc.Stat_Tete;
+               }
+            }
+
+            if (!item.Superficie) {
+                errors.push(`Row ${rowNum}: Missing Superficie as required field`);
+            }
+
+
+            if (item.Mode_Irrigation) {
+              let newferme = vm.data_mode.find(mode => String(mode.Libelle).toUpperCase() === String(item.Mode_Irrigation).toUpperCase());
+
+               if(!newferme){
+                 errors.push(`Row ${rowNum}: Mode d'irrigation '${item.Mode_Irrigation}' does not exist`);
+               }else {
+                 vm.jsonData[index].IDMode_Irrigation = newferme.IDMode_Irrigation;
+               }
+            }
+
+
+            if (!item.Secteur) {
                 errors.push(`Row ${rowNum}: Missing Référence secteur as required field`);
             } else {
               let newRef = vm.data_secteur.some(data_secteur =>
-                String(data_secteur.secteur).toUpperCase() === String(item.secteur).toUpperCase() &&
+                String(data_secteur.Secteur).toUpperCase() === String(item.Secteur).toUpperCase() &&
                 data_secteur.IDFermes === item.IDFermes
               );
               if(newRef){
-                errors.push(`Row ${rowNum}: Référence secteur '${item.secteur}' already exist`);
+                errors.push(`Row ${rowNum}: Référence secteur '${item.Secteur}' already exist`);
               }
             }
 
-            if (!item.Stat_Tete) {
-                errors.push(`Row ${rowNum}: Missing station tete as required field`);
+
+            if (item.Effic !== undefined && item.Effic !== null && item.Effic !== '') {
+                  if (isNaN(item.Effic)) {
+                      errors.push(`Row ${rowNum}: Effecience Système should be a number`);
+                  }
             }
 
-            if (item.IDFermes && item.secteur) {
-            let pairKey = `${item.IDFermes}_${String(item.secteur).toUpperCase()}`;
+
+            if (item.NbreGoutteur !== undefined && item.NbreGoutteur !== null && item.NbreGoutteur !== '') {
+                  if (isNaN(item.NbreGoutteur)) {
+                      errors.push(`Row ${rowNum}: Nbr de Goutteur should be a number`);
+                  }
+            }
+
+            if (item.Pluvio !== undefined && item.Pluvio !== null && item.Pluvio !== '') {
+                  if (isNaN(item.Pluvio)) {
+                      errors.push(`Row ${rowNum}: Pluviométrie Système should be a number`);
+                  }
+            }
+
+            if (item.KP !== undefined && item.KP !== null && item.KP !== '') {
+                  if (isNaN(item.KP)) {
+                      errors.push(`Row ${rowNum}: Kc should be a number`);
+                  }
+            }
+
+            if (item.IDFermes && item.Secteur) {
+            let pairKey = `${item.IDFermes}_${String(item.Secteur).toUpperCase()}`;
             if (seenPairs.has(pairKey)) {
-               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence secteur '${item.secteur}' found.`);
+               errors.push(`Row ${rowNum}: Duplicate combination of Ferme '${item.FermeName}' and Référence secteur '${item.Secteur}' found.`);
                } else {
                    seenPairs.add(pairKey);
                }
@@ -891,7 +1197,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.integer = async function(){
-console.log(vm.jsonData);
+
       if(vm.jsonData.length>0){
              NProgress.start();
         if(await $scope.validateData()){

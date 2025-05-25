@@ -75,26 +75,28 @@
                               <input type="text" ng-model="vm.formData.Vane"   >
                           </md-input-container>
 
+
                           <md-input-container class="form-input">
-                              <label>Nbr de goutteur</label>
-                              <input type="text" ng-model="vm.formData.NbreGoutteur"   >
+                            <label>Nbr de goutteur</label>
+                            <input type="number" ng-model="vm.formData.Nbre_Gouteur" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
                           </md-input-container>
+
                     </div>
 
 
                     <div class="form-row tiny-space " style="margin-bottom: 0rem !important;">
 
 
-                      <md-input-container class="form-input">
-                          <label>Debit Gouteur</label>
-                          <input type="text" ng-model="vm.formData.Debit_Gouteur"   >
-                      </md-input-container>
+                                                <md-input-container class="form-input">
+                                                  <label>Debit Gouteur</label>
+                                                  <input type="number" ng-model="vm.formData.Debit_Gouteur" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                                </md-input-container>
 
+                                                <md-input-container class="form-input">
+                                                  <label>Debit SP</label>
+                                                  <input type="number" ng-model="vm.formData.Debit_SP" ng-pattern="/^(?!0*(\.0+)?$)\d+(\.\d+)?$/" class="number_right" required>
+                                                </md-input-container>
 
-                    <md-input-container class="form-input">
-                        <label>Debit SP</label>
-                        <input type="text" ng-model="vm.formData.Debit_SP"   >
-                    </md-input-container>
 
 
                     </div>
@@ -208,7 +210,7 @@
               <div id="grid4" class="grid">
                 <!--Table-->
                 <div class="info-header unified_pad">
-                  <h2 class="form-title" >Sous Parcelle Ajoutées ({{vm.data_secteur.length}})</h2>
+                  <h2 class="form-title" >Sous Parcelle Ajoutées ({{vm.data_sousparcelle.length}})</h2>
                   <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique
                     eleifend arcu, velar ipsum</p>

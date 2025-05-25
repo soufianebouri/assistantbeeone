@@ -848,6 +848,7 @@ angular.module('beeOneWebFrontApp')
         parcelle : null,
         Secteur : null,
         Ref : null,
+        Nbre_Gouteur: null,
         Sup : null,
         Vane : null,
         Debit_Gouteur : null,

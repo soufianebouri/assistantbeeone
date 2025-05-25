@@ -714,7 +714,7 @@ angular.module('beeOneWebFrontApp')
               let SecteurName = null;
                   for (let i = 1; i <= item.nbrparcelle; i++) {
                       if (item.increment === 1) {
-                         SecteurName = `SCT${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
+                         SecteurName = `SCTR${i.toString().padStart(item.nbrparcelle.toString().length, '0')}`;
                       }
                       excelData.push([fermeName,
                       BLOCname,

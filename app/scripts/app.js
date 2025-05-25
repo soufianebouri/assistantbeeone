@@ -12,8 +12,8 @@
 var version = '1.56.1'; /*global-version.new-views.improvements*/
 
 //enDev DEMO
-var url = "http://127.0.0.1:4002/erpassistant/api";
-//var url = "http://agridata2.hopto.org:4002/erpassistant/api"
+//var url = "http://127.0.0.1:4002/erpassistant/api";
+var url = "http://agridata2.hopto.org:4002/erpassistant/api"
 var appFor = "demo";
 
 
@@ -128,6 +128,13 @@ angular
     $locationProvider.hashPrefix("");
     $locationProvider.html5Mode(false).hashPrefix('');
     $stateProvider
+    .state('v_sousparcelle_parcelleculturale', {
+      url: '/configuration/v_sousparcelle_parcelleculturale',
+      templateUrl: 'views/configuration/secteurs_irrigation/v_sousparcelle_parcelleculturale.html',
+      data: {
+        pageTitle: "BeeOne Assistant - Sécteurs D’irrigation"
+      }
+    })
     .state('v_sousparcelle', {
       url: '/configuration/v_sousparcelle',
       templateUrl: 'views/configuration/secteurs_irrigation/v_sousparcelle.html',

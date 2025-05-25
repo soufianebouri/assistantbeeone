@@ -107,7 +107,7 @@
               <!-- Step 3 -->
               <div class="step-box">
                 <table>
-                  <tr ng-click="vm.step(4, 'views/configuration/secteurs_irrigation/4.html')">
+                  <tr ng-click="vm.step(4, 'views/configuration/secteurs_irrigation/v_sousparcelle_parcelleculturale.html')">
                     <td rowspan="2">
                       <div ng-class="{'step-btn': vm.currect_step == 4, 'step-btn-disabled': vm.currect_step != 4}">
                         <img src="././images/main_configuration/farm.svg" alt="campagne">
@@ -148,7 +148,7 @@
               <md-button class="md-raised md-primary" ng-class="vm.currect_step == 1 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.preveusStep()" ng-disabled="vm.currect_step == 1"  >
                 <&nbsp; Précedent
               </md-button>
-              <md-button class="md-raised md-primary"  ng-class="vm.currect_step == 3 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.nextStep()" ng-disabled="vm.currect_step == 3" >
+              <md-button class="md-raised md-primary"  ng-class="vm.currect_step == 4 ? 'btn-step_disable' : 'btn-action'" ng-click="vm.nextStep()" ng-disabled="vm.currect_step == 4" >
                 Suivant &nbsp;>
               </md-button>
             </div>

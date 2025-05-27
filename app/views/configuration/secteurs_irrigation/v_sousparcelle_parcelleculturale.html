@@ -181,23 +181,38 @@
   </div>
 </center>
 
-<div layout="row" layout-align="space-between center" class="p-4" style="height: 50vh">
-  <!-- Left Grid: Parcelle Culturale -->
-  <md-card flex="40" class="p-2" style="">
-    <md-toolbar class="md-primary">Parcelles Culturales</md-toolbar>
+<div layout="row" layout-align="space-between center" class="p-4" style="height: 50vh;">
+
+  <md-card flex="40" class="p-2" style="border-radius: 12px;">
+    <md-toolbar class="md-primary" style="border-radius: 12px;">
+    <div class="md-toolbar-tools">
+      <span style="font-weight: 600; font-size: 18px;">Parcelles Culturale</span>
+    </div>
+  </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">
-      <md-list>
+      <md-list style="border-radius: 12px;">
         <md-list-item ng-repeat="parcelle in vm.parcelle_culturale"
                       ng-click="vm.selectParcelle(parcelle, $index)"
-                      ng-class="{'selected': parcelle.selected }">
-          <p>{{ parcelle.Ref }} ({{ (parcelle.Statut_Cycle == 2) ? 'Arrachée' : 'En cours'}})</p>
+                      ng-class="{'selected': parcelle.selected }"
+                       class="sous-item">
+                      <table class="compact-table">
+                       <tr><td><b>{{ parcelle.Ref }}</b></td></tr>
+                       <tr><td>&nbsp;&nbsp;<i>{{ (parcelle.Statut_Cycle == 2) ? 'Arrachée' : 'En cours' }}</i></td></tr>
+                      </table>
+
         </md-list-item>
-        <md-list-item ng-if="vm.parcelle_culturale.length==0">
-           <p>Aucune sous parcelle cultiralle trouvée</p>
+
+
+        <md-list-item ng-if="vm.parcelle_culturale.length==0" ng-repeat="i in [].constructor(10) track by $index">
+           <p ng-if="vm.bodydt.IDFermes && $first">Aucune parcelle culturale trouvée</p>
+           <p ng-if="!vm.bodydt.IDFermes && $first">Choose your farm</p>
         </md-list-item>
+
       </md-list>
     </md-content>
   </md-card>
+
+
 
   <!-- Middle Controls -->
   <div layout="column" layout-align="center center" class="p-4">
@@ -220,18 +235,27 @@
   </div>
 
   <!-- Right Grid: Sous Parcelles -->
-  <md-card flex="40" class="p-2">
-    <md-toolbar class="md-accent">Sous-Parcelles</md-toolbar>
+  <md-card flex="40" class="p-2" style="border-radius: 12px;">
+    <md-toolbar class="md-accent" style="border-radius: 12px;">
+    <div class="md-toolbar-tools">
+      <span style="font-weight: 600; font-size: 18px;">Sous-Parcelles</span>
+    </div>
+  </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">
       <md-list>
         <md-list-item ng-repeat="sous in vm.sous_parcelle"
                       ng-click="vm.selectSousParcelle(sous, $index)"
-                      ng-class="{'selected': sous.selected }">
-          <p>{{ sous.Ref }} ({{ (sous.parcelleculturalle.length>0) ? 'Attached to '+ sous.parcelleculturalle[0].Ref : 'Not attached' }})</p>
+                      ng-class="{'selected': sous.selected }" class="sous-item">
+                      <table class="compact-table">
+                       <tr><td><b>{{ sous.Ref }}</b></td></tr>
+                       <tr><td>&nbsp;&nbsp;<i>{{ (sous.parcelleculturalle.length>0) ? 'Attached to '+ sous.parcelleculturalle[0].Ref : 'Not attached' }}</i></td></tr>
+                      </table>
+
         </md-list-item>
 
-        <md-list-item ng-if="vm.sous_parcelle.length==0">
-           <p>Aucune sous parcelle trouvée</p>
+        <md-list-item ng-if="vm.sous_parcelle.length==0" ng-repeat="i in [].constructor(10) track by $index">
+           <p ng-if="vm.bodydt.IDFermes && $first">Aucune sous parcelle trouvée</p>
+           <p ng-if="!vm.bodydt.IDFermes && $first">Choose your farm</p>
         </md-list-item>
 
       </md-list>

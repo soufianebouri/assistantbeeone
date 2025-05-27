@@ -42,7 +42,8 @@ angular.module('beeOneWebFrontApp')
     }
 
     NProgress.start();
-
+    vm.parcelle_culturale= [];
+    vm.sous_parcelle = [];
 
 
         vm.get_data = function(){

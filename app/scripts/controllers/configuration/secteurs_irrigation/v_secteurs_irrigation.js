@@ -41,8 +41,8 @@ angular.module('beeOneWebFrontApp')
       $scope.rightPanelCollapsed = !$scope.rightPanelCollapsed;
     };
 
-    vm.currect_step = 1;
-    vm.stepUrl = "views/configuration/secteurs_irrigation/v_bloc.html";
+    vm.currect_step = 4;
+    vm.stepUrl = "views/configuration/secteurs_irrigation/v_sousparcelle_parcelleculturale.html";
     vm.step = async function (params, stepUrl) {
       vm.currect_step = params;
       vm.stepUrl = stepUrl

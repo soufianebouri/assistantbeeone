@@ -2636,3 +2636,24 @@ input[type="search"] {
            opacity: 1;
        }
    }
+
+
+
+   .no-shadow-btn {
+  background: none !important;
+  box-shadow: none !important;
+  min-width: auto;
+  padding: 4px;
+}
+
+.no-shadow-btn:hover,
+.no-shadow-btn.md-focused,
+.no-shadow-btn.md-button-focus {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+/* Optional: Remove ripple */
+.no-shadow-btn .md-ripple-container {
+  display: none !important;
+}

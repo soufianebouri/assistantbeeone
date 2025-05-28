@@ -28,7 +28,7 @@
   <md-card flex="40" class="p-2" style="">
     <md-toolbar class="md-primary" style="min-height: 40px; height: 40px; line-height: 40px;background-color: #F2F2F2;color: #767676;">
     <div class="md-toolbar-tools" style="min-height: 40px;" >
-      <span style="font-weight: 600; font-size: 12px;">Parcelles Culturale</span>
+      <span style="font-weight: 600; font-size: 12px;">Parcelles Culturale ({{vm.parcelle_culturale.length}})</span>
     </div>
   </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">
@@ -46,7 +46,7 @@
 
 
         <md-list-item ng-if="vm.parcelle_culturale.length==0" ng-repeat="i in [].constructor(10) track by $index">
-           <p ng-if="vm.bodydt.IDFermes && $first">Aucune parcelle culturale trouvée</p>
+           <p ng-if="vm.bodydt.IDFermes && $first">Aucune parcelle culturale trouvée {{(vm.sous_parcelle.length>0) ? '' : 'ou toutes les parcelles sont attachées'}} </p>
            <p ng-if="!vm.bodydt.IDFermes && $first">Choose your farm</p>
         </md-list-item>
 
@@ -81,7 +81,7 @@
   <md-card flex="40" class="p-2" style="">
     <md-toolbar class="md-accent" style="min-height: 40px; height: 40px; line-height: 40px;background-color: #F2F2F2;color: #767676;">
     <div class="md-toolbar-tools" style="min-height: 40px;" >
-      <span style="font-weight: 600; font-size: 12px;">Sous-Parcelles</span>
+      <span style="font-weight: 600; font-size: 12px;">Sous-Parcelles ({{vm.sous_parcelle.length}})</span>
     </div>
   </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">

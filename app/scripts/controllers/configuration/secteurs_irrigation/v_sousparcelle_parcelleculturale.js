@@ -80,6 +80,9 @@ angular.module('beeOneWebFrontApp')
           });
         });
 
+
+
+
         // Selected items
            vm.selectedParcelle = null;
            vm.selectedSousParcelle = null;
@@ -100,6 +103,7 @@ angular.module('beeOneWebFrontApp')
               });
                vm.sous_parcelle[vm.selectedSousParcelle].selected = true
            };
+          
 
            // Attach selected sous-parcelle to selected parcelle
            vm.attachSousParcelle = async function() {
@@ -120,16 +124,36 @@ angular.module('beeOneWebFrontApp')
                   closeButton: true,
                  });
                }else {
-                 vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle.push(vm.parcelle_culturale[vm.selectedParcelle])
-                 vm.selectedSousParcelle = null;
-                 vm.selectedSousParcelle = null;
-                 vm.parcelle_culturale.splice(vm.selectParcelle, 1);
-                 await vm.parcelle_culturale.forEach(function(p) {
-                    p.selected = false;
-                });
-                await vm.sous_parcelle.forEach(function(p) {
-                    p.selected = false;
-                });
+                 sousparcelleParcelleculturale.attachement_parcelleculturale({
+                   IDsous_parcelle : vm.sous_parcelle[vm.selectedSousParcelle].ID,
+                   IDparcelle_culturale : vm.parcelle_culturale[vm.selectedParcelle].ID
+                 }).then(async e => {
+
+                   vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle.push(vm.parcelle_culturale[vm.selectedParcelle])
+                   vm.selectedSousParcelle = null;
+                   vm.selectedSousParcelle = null;
+                   vm.parcelle_culturale.splice(vm.selectParcelle, 1);
+                   await vm.parcelle_culturale.forEach(function(p) {
+                      p.selected = false;
+                  });
+                  await vm.sous_parcelle.forEach(function(p) {
+                      p.selected = false;
+                  });
+
+                     toastr.clear();
+                     toastr.success('Parcelle culturale bien attachée.', {
+                       closeButton: true
+                     });
+                     NProgress.done();
+
+                 }).catch(async e => {
+                   NProgress.done();
+                   toastr.clear();
+                   toastr.error(e.data.message, {
+                     closeButton: true
+                   });
+                 });
+
                }
               }
 
@@ -144,17 +168,38 @@ angular.module('beeOneWebFrontApp')
                });
              }else {
                if(vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle.length>0){
-                 vm.parcelle_culturale.unshift(vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle[0]);
-                 vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle = []
-                 vm.sous_parcelle[vm.selectedSousParcelle].ID_parcelleculturalle = null;
-                 vm.selectedSousParcelle = null;
-                 vm.selectedSousParcelle = null;
-                 await vm.parcelle_culturale.forEach(function(p) {
-                    p.selected = false;
-                });
-                await vm.sous_parcelle.forEach(function(p) {
-                    p.selected = false;
-                });
+                 NProgress.start();
+                 sousparcelleParcelleculturale.detachement_parcelleculturale({
+                   IDsous_parcelle : vm.sous_parcelle[vm.selectedSousParcelle].ID
+                 }).then(async e => {
+                     vm.parcelle_culturale.unshift(vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle[0]);
+                     vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle = []
+                     vm.sous_parcelle[vm.selectedSousParcelle].ID_parcelleculturalle = null;
+                     vm.selectedSousParcelle = null;
+                     vm.selectedSousParcelle = null;
+                     await vm.parcelle_culturale.forEach(function(p) {
+                        p.selected = false;
+                    });
+                    await vm.sous_parcelle.forEach(function(p) {
+                        p.selected = false;
+                    });
+
+
+                    toastr.clear();
+                    toastr.success('Parcelle culturale bien détachée.', {
+                      closeButton: true
+                    });
+                    NProgress.done();
+
+                 }).catch(async e => {
+                   NProgress.done();
+                   toastr.clear();
+                   toastr.error(e.data.message, {
+                     closeButton: true
+                   });
+                 });
+
+
                }else {
                  toastr.clear();
                  toastr.warning("Parcelle Culturale not attached yet", {

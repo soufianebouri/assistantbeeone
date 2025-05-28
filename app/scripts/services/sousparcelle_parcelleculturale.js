@@ -18,6 +18,14 @@
         get_sous_parcelle_byferme: function(data) {
           NProgress.start();
           return $http.post(_url + "/sousparcelle_parcelleculturale/get_sous_parcelle_byferme", data);
+        },
+        attachement_parcelleculturale: function(data) {
+          NProgress.start();
+          return $http.post(_url + "/sousparcelle_parcelleculturale/attachement_parcelleculturale", data);
+        },
+        detachement_parcelleculturale: function(data) {
+          NProgress.start();
+          return $http.post(_url + "/sousparcelle_parcelleculturale/detachement_parcelleculturale", data);
         }
       };
     });

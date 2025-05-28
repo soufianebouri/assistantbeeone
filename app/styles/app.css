@@ -2661,17 +2661,17 @@ input[type="search"] {
 
 .sous-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* subtle line */
-  padding: 10px 0;
+  padding: 5px 0;
   transition: background-color 0.3s ease;
 }
 
 .sous-item:last-child {
   border-bottom: none; /* optional: remove line on last item */
 }
-
+/*
 .sous-item:hover {
-  background-color: rgba(0, 0, 0, 0.03); /* optional hover effect */
-}
+  background-color: rgba(0, 0, 0, 0.03);
+}*/
 
 
 .compact-table {
@@ -2683,4 +2683,10 @@ input[type="search"] {
   padding: 2px 0; /* reduce vertical spacing */
   line-height: 1.2; /* tighter line spacing */
   font-size: 14px; /* optional: smaller text */
+}
+
+md-list-item:hover,
+md-list-item .md-list-item-inner:hover {
+  background-color: transparent !important;
+  cursor: default;
 }

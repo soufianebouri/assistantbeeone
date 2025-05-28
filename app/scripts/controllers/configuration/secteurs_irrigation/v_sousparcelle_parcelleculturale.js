@@ -123,6 +123,7 @@ angular.module('beeOneWebFrontApp')
                  vm.sous_parcelle[vm.selectedSousParcelle].parcelleculturalle.push(vm.parcelle_culturale[vm.selectedParcelle])
                  vm.selectedSousParcelle = null;
                  vm.selectedSousParcelle = null;
+                 vm.parcelle_culturale.splice(vm.selectParcelle, 1);
                  await vm.parcelle_culturale.forEach(function(p) {
                     p.selected = false;
                 });

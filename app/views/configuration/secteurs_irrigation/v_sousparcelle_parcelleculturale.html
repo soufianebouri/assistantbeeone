@@ -1,174 +1,15 @@
-<div ng-controller="ConfigurationSecteursIrrigationVSousparcelleParcelleculturaleCtrl as vm">
-  <!--  <div class="grid-column-container" >
-
-        <div id="grid1" class="grid  fade-in">
-                  <div class="form-header" >
-                    <h2 class="form-title">Infomrations Sur Le Bloc</h2>
-                    <p class="form-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique eleifend arcu, velar ipsum</p>
-                  </div>
-
-                  <md-content class="form-content">
-
-                    <div class="form-row tiny-space sotiny" >
-                      <md-input-container class="form-input" >
-                          <label>Ferme</label>
-                          <md-select ng-model="vm.formData.IDFermes"  data-md-container-class="selectdemoSelectHeader" required>
-                            <md-select-header class="demo-select-header">
-                              <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
-                            </md-select-header>
-                            <md-option ng-value="data_ferme.IDFermes" ng-repeat="data_ferme in vm.data_ferme | orderBy:'Nom' | filter:search_str"
-                              >{{data_ferme.Nom}}
-                             </md-option>
-                          </md-select>
-                      </md-input-container>
+<div ng-controller="ConfigurationSecteursIrrigationVSousparcelleParcelleculturaleCtrl as vm" style="padding-right: 24px;
+    padding-left: 24px;">
 
 
-
-
-                    </div>
-
-                    <div class="form-row tiny-space sotiny" style="margin-bottom: 0rem !important;">
-
-
-                        <md-input-container class="form-input">
-                              <label>Bloc d'irrigation</label>
-                              <input type="text" ng-model="vm.formData.BLOC"   required>
-                        </md-input-container>
-
-                        <md-input-container class="form-input">
-                              <label>Station tete</label>
-                              <input type="text" ng-model="vm.formData.Stat_Tete"   required>
-                        </md-input-container>
-
-
-                    </div>
-
-
-                    <div class="form-actions">
-                      <md-button class="md-raised md-primary custom-reset-button" ng-click="vm.reset()">
-                        Reset
-                      </md-button>
-
-                      <md-button class="md-raised md-primary custom-button"  ng-click="(vm.formData.ID) ? vm.modifier() : vm.ajouter()">
-                        {{(vm.formData.ID) ? 'Modifier': 'Ajouter'}}
-                      </md-button>
-                    </div>
-
-                  </md-content>
-
-                </div>
-
-                <div id="grid2" class="grid  fade-in">
-
-                  <div class="form-header">
-                    <h2 class="form-title">Importation En Masse ?</h2>
-                    <p class="form-subtitle">Suivez les étapes indiquées ci-dessous afin d'assurer une bonne configuration de
-                      votre compte</p>
-                  </div>
-
-                  <md-card class="card" layout="column" style="padding: 10px;background: #F3F5F7;">
-
-                    <div layout="row" layout-align="space-between center">
-                      <div layout="row" layout-align="start center">
-                        <img src="././images/main_configuration/xls.svg" alt="time"
-                          style="width: 20px; height: 20px; margin-right: 5px;">
-                        <h2 style="font-size: 16px; font-family: Poppins;">Canvas Bloc.xls</h2>
-                      </div>
-                      <md-button class="md-raised md-primary btn-download" ng-click="vm.exportToExcel()"
-                        style="background-color: rgb(255 255 255); color: rgba(0, 0, 0, 0.87);">
-                        Télécharger</md-button>
-                    </div>
-
-
-                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-                      You can download the attached example and use it as a starting point for your own file.
-                    </p>
-                  </md-card>
-
-                  <div class="centered-card hover_card" ng-if="!vm.isFileSelected" layout="column"
-                    style="padding: 40px;background: #F8F8F9;border: 1px dashed #ccc;cursor: pointer;border-radius: 5px;"
-                    ngf-drop="onDrop($files)" ng-click="triggerFileInput()">
-                    <input type="file" id="fileInput" ngf-select="onFileSelected($file)" style="display: none;">
-
-
-                    <img src="././images/main_configuration/file.svg" alt="time"
-                      style="width: 20px; height: 20px; margin-right: 5px;">
-
-
-                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-                      Drop your file here, or <font color="#81BB26">browse</font>
-                    </p>
-                  </div>
-
-
-                  <div class="centered-card " ng-if="vm.isFileSelected" layout="column"
-                    style="padding: 40px;background: #F8F8F9;border: 1px dashed rgb(129 187 38);">
-
-
-
-                    <img src="././images/main_configuration/file.svg" alt="time"
-                      style="width: 20px; height: 20px; margin-right: 5px;">
-
-
-                    <p style="color: #63675d; font-family: Poppins; font-size: 11px; margin-top: 5px;">
-                      Well uploaded
-                    </p>
-                  </div>
-
-                  <div layout="row" layout-align="space-between center">
-                    <div layout="row" layout-align="start center">
-                      <p style="padding-left: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                        Supported formats: XLS, XLSX</p>
-                    </div>
-                    <p style="padding-right: 9px;color: #63675d;font-family: Poppins;line-height: 16px;font-size: 11px;">
-                      Maximum
-                      size: 25MB</p>
-                  </div>
-
-                  <md-card class="card" layout="column" style="padding: 10px; background: #c2c5c7;" ng-if="vm.isFileSelected">
-
-                    <div layout="row" layout-align="space-between center">
-
-                      <div layout="row">
-                        <img src="././images/main_configuration/file.svg" alt="file-icon"
-                          style="margin-right: 10px;">
-
-                        <div layout="column" style="line-height: 1.2;">
-                          <h3 style="font-size: 10px;">
-                            {{vm.fileName}}
-                          </h3>
-                          <p style="color: #63675d; font-family: Poppins; font-size: 10px; margin: 0;">
-                            {{vm.fileSize}}
-                          </p>
-                        </div>
-                      </div>
-
-
-                      <p style="margin: 0;" ng-click="vm.delete_file()">
-                        <img src="././images/main_configuration/close.svg" alt="close"
-                          style="width: 20px; height: 20px; cursor: pointer;">
-                      </p>
-                    </div>
-                  </md-card>
-                  <div class="form-actions">
-                    <md-button class="md-raised md-primary custom-button full-width-btn" ng-click="vm.integer()">
-                      Intégrer
-                    </md-button>
-                  </div>
-
-
-
-                </div>
-              </div>
--->
-
-
-
+<div class="form-header" >
+  <h2 class="form-title">&nbsp;&nbsp;Attachement Sous-Parcelle/Parcelle Culturale</h2>
+</div>
 <center>
   <div class="form-row tiny-space sotiny" style="width:30%">
     <md-input-container class="form-input" >
-        <label>Ferme</label>
-        <md-select ng-model="vm.bodydt.IDFermes" ng-change="vm.get_data()"  data-md-container-class="selectdemoSelectHeader" required>
+        <label>{{(vm.bodydt.IDFermes) ? '' : 'Ferme'}}</label>
+        <md-select ng-model="vm.bodydt.IDFermes" ng-change="vm.get_data()"  data-md-container-class="selectdemoSelectHeader" >
           <md-select-header class="demo-select-header">
             <input ng-model="search_str" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
           </md-select-header>
@@ -179,14 +20,15 @@
     </md-input-container>
 
   </div>
-</center>
+
+  </center>
 
 <div layout="row" layout-align="space-between center" class="p-4" style="height: 50vh;">
 
-  <md-card flex="40" class="p-2" style="border-radius: 12px;">
-    <md-toolbar class="md-primary" style="border-radius: 12px;">
-    <div class="md-toolbar-tools">
-      <span style="font-weight: 600; font-size: 18px;">Parcelles Culturale</span>
+  <md-card flex="40" class="p-2" style="">
+    <md-toolbar class="md-primary" style="min-height: 40px; height: 40px; line-height: 40px;background-color: #F2F2F2;color: #767676;">
+    <div class="md-toolbar-tools" style="min-height: 40px;" >
+      <span style="font-weight: 600; font-size: 12px;">Parcelles Culturale</span>
     </div>
   </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">
@@ -220,25 +62,26 @@
 
     </md-button>-->
     <md-button class="no-shadow-btn" ng-click="vm.attachSousParcelle()" >
-      <img src="./images/main_configuration/btnright.svg" alt="right" />
+      <img src="./images/main_configuration/btnright.svg" alt="right" style="height:40px"/>
       </md-button>
     <!--<md-button class="md-icon-button md-warn" ng-click="vm.resetSelection()">
 
     </md-button>-->
 
       <md-button class="no-shadow-btn" ng-click="vm.detachSousParcelle()" >
-    <img src="././images/main_configuration/btnleft.svg" alt="entreprise">
+    <img src="././images/main_configuration/btnleft.svg" alt="entreprise" style="height:40px">
       </md-button>
       <!--<md-button class="md-icon-button md-accent" ng-click="vm.detachSousParcelle()" ng-disabled="!vm.selectedSousParcelle">
       <-
     </md-button>-->
+
   </div>
 
   <!-- Right Grid: Sous Parcelles -->
-  <md-card flex="40" class="p-2" style="border-radius: 12px;">
-    <md-toolbar class="md-accent" style="border-radius: 12px;">
-    <div class="md-toolbar-tools">
-      <span style="font-weight: 600; font-size: 18px;">Sous-Parcelles</span>
+  <md-card flex="40" class="p-2" style="">
+    <md-toolbar class="md-accent" style="min-height: 40px; height: 40px; line-height: 40px;background-color: #F2F2F2;color: #767676;">
+    <div class="md-toolbar-tools" style="min-height: 40px;" >
+      <span style="font-weight: 600; font-size: 12px;">Sous-Parcelles</span>
     </div>
   </md-toolbar>
     <md-content layout="column" style="height: calc(100% - 64px); overflow-y: auto;">
@@ -265,10 +108,7 @@
 
 <style>
   .selected {
-    background-color: #d3eafd;
-  }
-  .unselected {
-    background-color: green;
+    background-color: #81bb26;
   }
 </style>
 

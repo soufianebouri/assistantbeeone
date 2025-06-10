@@ -93,6 +93,18 @@
                           </md-select>
                       </md-input-container>
 
+                      <md-input-container class="form-input" >
+                          <label>Profile Production</label>
+                          <md-select name="id_bdg_profil_production" ng-model="vm.formData.id_bdg_profil_production" data-md-container-class="selectdemoSelectHeader" >
+                            <md-select-header class="demo-select-header">
+                              <input ng-model="search_strpROFILE" type="search" ng-keydown="$event.stopPropagation()" placeholder="{{'Rechercher' | translate}} .." class="demo-header-searchbox md-text">
+                            </md-select-header>
+                            <md-option ng-value="data_profilProduction.id_bdg_profil_production" ng-repeat="data_profilProduction in vm.data_profilProduction | orderBy:'designation' | filter:search_strpROFILE"
+                              >{{data_profilProduction.designation}}
+                             </md-option>
+                          </md-select>
+                      </md-input-container>
+
                    </div>
 
                     <div style="margin-bottom: 1.6rem;" class="form-row ">

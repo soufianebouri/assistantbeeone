@@ -39,6 +39,9 @@ angular.module('beeOneWebFrontApp')
       },
       getall_min: function(data) {
         return $http.post(_url + "/profil_production/getall_min", data);
+      },
+      getbyferme: function(data) {
+        return $http.post(_url + "/profil_production/getbyferme", data);
       }
     };
   });

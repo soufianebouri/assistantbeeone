@@ -23,7 +23,7 @@ angular.module('beeOneWebFrontApp')
     DTColumnBuilder,
     DTDefaultOptions,
     $cookies,
-    ferme,parcelleCultural,
+    ferme,parcelleCultural, profilProduction,
     familleculture
   ) {
     var vm = this;
@@ -215,6 +215,7 @@ angular.module('beeOneWebFrontApp')
       vm.data_parcelleCulbyFarm = [];
       vm.data_variete = [];
       vm.data_Produit_Rendement = [];
+      vm.data_profilProduction = [];
       vm.formData =  {
         IDFermes : null,
         IDParcelle: null,
@@ -223,6 +224,7 @@ angular.module('beeOneWebFrontApp')
         Groupe_culturale: null,
         Sup: null,
         IDVariete: null,
+        id_bdg_profil_production: null,
         IDProduit_Rendement: null,
         Mode_Application: null,
         Type_plant: null,
@@ -248,7 +250,7 @@ angular.module('beeOneWebFrontApp')
     NProgress.start();
     $q.all([
       ferme.get_all(),
-      portGreffe.get_all(),
+      portGreffe.get_all()
     ]).then((values) => {
       vm.data_ferme = values[0].data;
       vm.data_Greffe = values[1].data;
@@ -278,11 +280,14 @@ angular.module('beeOneWebFrontApp')
             IDFermes: vm.formData.IDFermes
           }),produitrendement.getbyferme({
             IDFermes: vm.formData.IDFermes
+          }),profilProduction.getbyferme({
+            IDFermes: vm.formData.IDFermes
           })]).then((values) => {
             NProgress.done();
             vm.data_parcellebyFarm = values[0].data;
             vm.data_variete = values[1].data;
             vm.data_Produit_Rendement = values[2].data;
+            vm.data_profilProduction = values[3].data;
           })
 
 
@@ -569,11 +574,14 @@ angular.module('beeOneWebFrontApp')
           IDFermes: vm.formData.IDFermes
         }),produitrendement.getbyferme({
           IDFermes: vm.formData.IDFermes
+        }),profilProduction.getbyferme({
+          IDFermes: vm.formData.IDFermes
         })]).then((values) => {
           NProgress.done();
           vm.data_parcellebyFarm = values[0].data;
           vm.data_variete = values[1].data;
           vm.data_Produit_Rendement = values[2].data;
+          vm.data_profilProduction = values[3].data;
         })
 
        toastr.clear();
@@ -663,6 +671,7 @@ angular.module('beeOneWebFrontApp')
         }).withOption("width", "100px"),
         DTColumnBuilder.newColumn("Nom_Variete").withTitle("Variété").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Produit_RendementName").withTitle("Produit Rendement").withOption("width", "100px"),
+        DTColumnBuilder.newColumn("bdg_profils_production_designation").withTitle("Profile Production").withOption("width", "100px"),
         DTColumnBuilder.newColumn("Type_plant").withTitle("Mode de plantation").renderWith(function(data, type, full, meta) {
           if (full.Type_plant == 1)
                 return 'Plants';
@@ -763,6 +772,7 @@ angular.module('beeOneWebFrontApp')
        "Groupe culturale",
        "Superficie",
        "Produit Rendement",
+       "Profile Production",
        "Mode de plantation",
        "Géneration",
        "Date de plantation",
@@ -826,6 +836,7 @@ angular.module('beeOneWebFrontApp')
         Groupe_culturale: item["Groupe culturale"] || null,
         Sup: item["Superficie"] || null,
         Produit_RendementName: item["Produit Rendement"] || null,
+        Produit_ProductionName: item["Profile Production"] || null,
         Type_plant: item["Mode de plantation"] || null,
         Generation: item["Géneration"] || null,
         Dat_Plant: item["Date de plantation"]  ? XLSX.SSF.format("yyyy-mm-dd", item["Date de plantation"]) : null,
@@ -1195,6 +1206,7 @@ angular.module('beeOneWebFrontApp')
          "Groupe culturale",
          "Superficie",
          "Produit Rendement",
+         "Profile Production",
          "Mode de plantation",
          "Géneration",
          "Date de plantation",

@@ -683,14 +683,14 @@ angular.module('beeOneWebFrontApp')
       "Désignation opération",
       "Groupe",
       "Famille",
-      "Liés à la récolte",
+      "Liés à la récolte (Oui/Non)",
       "Process récolte",
       "Type de produit",
       "Unité récolte",
       "Désignation produit accessoire",
-      "Nature prime",
+      "Nature prime (Unitaire/Forfaitaire)",
       "Montant prime associée (dhs)",
-      "Gardiennage",
+      "Gardiennage (Oui/Non)",
       "Nbr heure gardiennage"
     ];
 
@@ -749,14 +749,14 @@ angular.module('beeOneWebFrontApp')
       OpeRef_Intitule  : item["Désignation opération"] || null,
       Groupe : item["Groupe"] || null,
       Famille : item["Famille"] || null,
-      Recolte : item["Liés à la récolte"] || null,
+      Recolte : item["Liés à la récolte (Oui/Non)"] || null,
       Process_recolte_autre : item["Process récolte"] || null,
       Type_parcelle_centre : item["Type de produit"] || null,
       Unite_Operation : item["Unité récolte"] || null,
       Code_externe : item["Désignation produit accessoire"] || null,
-      methode_calcul_prime : item["Nature prime"] || null,
+      methode_calcul_prime : item["Nature prime (Unitaire/Forfaitaire)"] || null,
       Montant_prime : item["Montant prime associée (dhs)"] || null,
-      Gardiennage : item["Gardiennage"] || null,
+      Gardiennage : item["Gardiennage (Oui/Non)"] || null,
       SEUIL_gardiennage : item["Nbr heure gardiennage"] || null
       }));
     };

@@ -677,14 +677,14 @@ angular.module('beeOneWebFrontApp')
       "Sous catégorie",
       "Catégorie",
       "Unité",
-      "Type article",
+      "Type article (Non Stockable/Stockable)",
       "% TVA",
       "Prix UHT",
-      "Transité par module achat",
-      "Demande d'achat obligatoire",
-      "Bon de commande obligatoire",
-      "Article amortissable",
-      "Article d'entretien du matèriel"];
+      "Transité par module achat (Oui/Non)",
+      "Demande d'achat obligatoire (Oui/Non)",
+      "Bon de commande obligatoire (Oui/Non)",
+      "Article amortissable (Oui/Non)",
+      "Article d'entretien du matèriel (Oui/Non)"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -742,13 +742,13 @@ angular.module('beeOneWebFrontApp')
         Sous_Categorie : item["Sous catégorie"] || null,
         Categorie: item["Catégorie"] || null,
         Unite: item["Unité"] || null,
-        Type: item["Type article"] || null,
+        Type: item["Type article (Non Stockable/Stockable)"] || null,
         Taux_TVA: item["% TVA"] || null,
         PU: item["Prix UHT"] || null,
-        Peut_etre_achete: item["Transité par module achat"] || null,
-        DA_obligatoire: item["Demande d'achat obligatoire"] || null,
-        BC_obligatoire: item["Bon de commande obligatoire"] || null,
-        Amortissable: item["Article amortissable"] || null
+        Peut_etre_achete: item["Transité par module achat (Oui/Non)"] || null,
+        DA_obligatoire: item["Demande d'achat obligatoire (Oui/Non)"] || null,
+        BC_obligatoire: item["Bon de commande obligatoire (Oui/Non)"] || null,
+        Amortissable: item["Article amortissable (Oui/Non)"] || null
       }));
     };
 

@@ -27,6 +27,9 @@ angular.module('beeOneWebFrontApp')
       },
       multiadd: function(data) {
         return $http.post(_url + "/ferme/multiadd", data);
+      },
+      polygone: function(data) {
+        return $http.post(_url + "/ferme/polygone", data);
       }
     };
   });

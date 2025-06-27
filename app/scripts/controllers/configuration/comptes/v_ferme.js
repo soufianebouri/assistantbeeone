@@ -690,7 +690,7 @@ NProgress.start();
         } else {
           var latF = $scope.Latitude;
           var longF = $scope.Longitude;
-          var zoooom = 14;
+          var zoooom = 15;
         }
 
         map = new google.maps.Map(document.getElementById("parcellemap"), {
@@ -787,11 +787,17 @@ NProgress.start();
           };
 
 
-        if ($scope.data.Polygone_Ferme !== "" && $scope.IsJsonString($scope.data.Polygone_Ferme)) {
-          IO.OUT(JSON.parse($scope.data.Polygone_Ferme), map, $scope.Calque, $scope.Cadre);
-        } else {
-          IO.OUT(JSON.parse('[{"type": "POLYGON","id": null,"geometry": [[]]}]'), map, "#c4bf7d", "#8eb2a0");
-        }
+          if ($scope.data.Polygone_Ferme && $scope.IsJsonString($scope.data.Polygone_Ferme)) {
+            // Clear old shapes first
+            for (var i = 0; i < shapes.length; ++i) {
+              shapes[i].setMap(null);
+            }
+            shapes = [];
+          
+            // Draw new ones from Polygone_Ferme and keep reference
+            var newShapes = IO.OUT(JSON.parse($scope.data.Polygone_Ferme), map, "#C2E699", "#31A354");
+            shapes = shapes.concat(newShapes);
+          }
 
 
 
@@ -906,8 +912,48 @@ NProgress.start();
           }
         });
 
-        /*google.maps.event.addDomListener(byId('save_raw'), 'click', function() {
-          $scope.isTracedEdit = true;
+        google.maps.event.addDomListener(byId('save_raw'), 'click', function() {
+
+          NProgress.start()
+
+          ferme.polygone({
+            Latitude : document.getElementById('t1').value,
+            Longitude : document.getElementById('t2').value,
+            IDFermes : data.IDFermes,
+            Polygone_Ferme : document.getElementById('data').value,
+            SuperficieTracer : document.getElementById('areaHa').value
+          }).then(async e => {
+            //validate success
+
+
+            let index = vm.data_societe.findIndex(item => item.IDFermes === e.data.inserted_data.IDFermes);
+
+            if (index !== -1) {
+              // Update the existing object
+              vm.data_societe[index] = e.data.inserted_data;
+            } else {
+              // If not found, add it to the list (optional)
+              vm.data_societe.push(e.data.inserted_data);
+            }
+
+            toastr.clear();
+            toastr.success("Ferme bien tracée.", {
+              closeButton: true
+            });
+            NProgress.done();
+            vm.dtInstance.reloadData();
+                        $mdDialog.cancel();
+
+        }).catch(async ee => {
+          NProgress.done();
+          toastr.clear();
+          toastr.error(ee.data.message, {
+            closeButton: true
+          });
+        });
+
+
+        /*  $scope.isTracedEdit = true;
           $scope.save_rawClick = false;
           var data = IO.IN(shapes, false);
           byId('data').value = JSON.stringify(data);
@@ -922,8 +968,8 @@ NProgress.start();
             console.log(document.getElementById('t1').value)
             console.log(document.getElementById('t2').value)
             console.log(document.getElementById('data').value)
-
-        });*/
+*/
+        });
 
 
         if (map.getZoom() <= 14) {
@@ -1203,7 +1249,7 @@ NProgress.start();
 
             const hasPolygon = !!data.Polygone_Ferme;
             const imgSrc = hasPolygon
-              ? '././images/main_configuration/polygons.svg'
+              ? '././images/main_configuration/polygone_done.svg'
               : '././images/main_configuration/no_polygone.svg';
 
             const polygonebtn = `

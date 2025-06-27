@@ -1,4 +1,4 @@
-<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 50%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 60%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
     <form ng-cloak>
         <md-toolbar style="color: #333; background-color: #ffffff;">
             <div class="md-toolbar-tools" >
@@ -15,40 +15,41 @@
 
 
             <md-content class="form-content" style="padding: 0;">
-                <div class="form-row tiny-space sotiny" style="display: flex; flex-wrap: wrap; gap: 16px;">
 
 
-                  <div flex="100" flex-gt-sm="33" layout="column">
-            <md-input-container class="md-block" flex-gt-xs>
-              <label>{{'Latitude' | translate}}</label>
-              <input ng-model="Latitude" style="width: 250px;" value="0" id="t1" name="t1" type="number">
-            </md-input-container>
-          </div>
+              <div style="margin-bottom: 1.6rem;" class="form-row " >
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Latitude' | translate}}</label>
+                  <input ng-model="Latitude" value="0" id="t1" name="t1" type="number">
+                </md-input-container>
 
-          <div flex="100" flex-gt-sm="33" layout="column">
-            <md-input-container class="md-block" flex-gt-xs>
-              <label>{{'Longitude' | translate}}</label>
-              <input ng-model="Longitude" style="width: 250px;" value="0" id="t2" name="t2" type="number">
-            </md-input-container>
-          </div>
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Longitude' | translate}}</label>
+                  <input ng-model="Longitude"  value="0" id="t2" name="t2" type="number">
+                </md-input-container>
 
 
-  </div>
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Superfice Polygone' | translate}}</label>
+                  <input ng-model="areaHa"  value="0" id="areaHa" name="areaHa" type="number">
+                </md-input-container>
+  <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+              </div>
 
-             <div class="form-row tiny-space " style="display: flex; flex-wrap: wrap; gap: 16px;">
-                    <div id="parcellemap" style="width:100%;"></div>
-             </div>
 
-            {{tokenpolygone}}
+
+<div id="parcellemap" style="width:100%;"></div>
+
+          <!--  {{tokenpolygone}}
                 <div class="controls">
                       <br />
                       <input class="btn btn-danger" id="clear_shapes" value="{{'Effacer' | translate}}" type="button">
 
-                      <input class="btn btn-success blue-tooltip" id="save_raw" type="button" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title=""
+                      <input class="btn btn-success blue-tooltip" id="save_raw" value="{{'Valider' | translate}}" type="button" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title=""
                         data-original-title="{{'Enregistrer votre polygone sous forme des points (latitudes, longitudes)' | translate}}">
                     </div><br /><br />
+-->
 
-                    <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
 
 
 
@@ -57,16 +58,19 @@
             </md-content>
         </md-dialog-content>
 
-        <md-dialog-actions layout="row" style="padding: 16px; justify-content: flex-end;">
 
-          <md-button class="md-raised md-primary custom-reset-button" ng-click="annuler()">
-            Annuler
-          </md-button>
 
-          <md-button class="md-raised md-primary custom-button"  ng-click="downloadExcel()">
-            Préparer le canvas
-          </md-button>
+                <md-dialog-actions layout="row" style="padding: 16px; justify-content: flex-end;">
+                  <md-button class="md-raised md-primary custom-reset-button" id="clear_shapes" >
+                    Effacer Polygone
+                  </md-button>
 
-        </md-dialog-actions>
+                  <md-button class="md-raised md-primary custom-button"  id="save_raw" >
+                    Valider
+                  </md-button>
+
+                </md-dialog-actions>
+
+
     </form>
 </md-dialog>

@@ -453,12 +453,13 @@ NProgress.start();
           $mdDialog.cancel();
         };
 
-        
+
       $scope.data = data;
 
       $scope.tokenpolygone = data.Polygone_Ferme;
       $scope.Latitude = ($scope.data.Latitude) ? parseFloat($scope.data.Latitude) : 0;
       $scope.Longitude = ($scope.data.Longitude) ? parseFloat($scope.data.Longitude) : 0;
+      $scope.areaHa = ($scope.data.SuperficieTracer) ? parseFloat($scope.data.SuperficieTracer) : 0;
 
       $scope.isTracedEdit = false;
       $scope.save_rawClick = false;
@@ -873,7 +874,39 @@ NProgress.start();
         google.maps.event.addListener(map, 'click', clearSelection);
         google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
 
-        google.maps.event.addDomListener(byId('save_raw'), 'click', function() {
+
+        google.maps.event.addListener(drawman, 'overlaycomplete', function(event) {
+          if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+            var polygon = event.overlay;
+            shapes.push(polygon); // Assuming 'shapes' is an array of polygons
+
+            $scope.isTracedEdit = true;
+            $scope.save_rawClick = false;
+
+            // Prepare GeoJSON or custom JSON from polygon shapes
+            var data = IO.IN(shapes, false);
+            byId('data').value = JSON.stringify(data);
+            var json = JSON.stringify(data, undefined, 4);
+
+            // Calculate total area in hectares
+            var area = 0;
+            for (var i = 0; i < shapes.length; ++i) {
+              area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
+            }
+            document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+
+            clearvar = true;
+
+            console.log(document.getElementById('t1').value);
+            console.log(document.getElementById('t2').value);
+            console.log(document.getElementById('data').value);
+
+            // Optional: disable drawing mode after drawing
+            drawman.setDrawingMode(null);
+          }
+        });
+
+        /*google.maps.event.addDomListener(byId('save_raw'), 'click', function() {
           $scope.isTracedEdit = true;
           $scope.save_rawClick = false;
           var data = IO.IN(shapes, false);
@@ -885,7 +918,12 @@ NProgress.start();
           }
           document.getElementById("areaHa").value = (area / 10000).toFixed(2);
           clearvar = true;
-        });
+
+            console.log(document.getElementById('t1').value)
+            console.log(document.getElementById('t2').value)
+            console.log(document.getElementById('data').value)
+
+        });*/
 
 
         if (map.getZoom() <= 14) {

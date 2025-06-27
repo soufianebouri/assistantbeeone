@@ -2690,3 +2690,7 @@ md-list-item .md-list-item-inner:hover {
   background-color: transparent !important;
   cursor: default;
 }
+
+#parcellemap {
+    height: 295px;
+}

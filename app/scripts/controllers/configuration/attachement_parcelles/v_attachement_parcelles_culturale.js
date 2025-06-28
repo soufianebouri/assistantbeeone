@@ -1152,7 +1152,8 @@ angular.module('beeOneWebFrontApp')
   console.log("parcelle_byfermes", parcelle_byfermes);
   
 
-  $scope.tokenpolygone = data.Polygone_Ferme;
+  $scope.TokenPolygone = data.TokenPolygone;
+  $scope.Polygone_Ferme = data.Polygone_Ferme;
   $scope.Latitude = ($scope.data.Latitude) ? parseFloat($scope.data.Latitude) : 0;
   $scope.Longitude = ($scope.data.Longitude) ? parseFloat($scope.data.Longitude) : 0;
   $scope.areaHa = ($scope.data.SuperficieTracer) ? parseFloat($scope.data.SuperficieTracer) : 0;
@@ -1625,10 +1626,6 @@ angular.module('beeOneWebFrontApp')
 
         clearvar = true;
 
-        console.log(document.getElementById('t1').value);
-        console.log(document.getElementById('t2').value);
-        console.log(document.getElementById('data').value);
-
         // Optional: disable drawing mode after drawing
         drawman.setDrawingMode(null);
       }
@@ -1643,7 +1640,9 @@ angular.module('beeOneWebFrontApp')
         Longitude : document.getElementById('t2').value,
         ID : data.ID,
         Polygone_Ferme : document.getElementById('data').value,
-        SuperficieTracer : document.getElementById('areaHa').value
+        SuperficieTracer : document.getElementById('areaHa').value,
+        colorCalque : data.colorCalque,
+        colorCadre : data.colorCadre
       }).then(async e => {
         //validate success
 

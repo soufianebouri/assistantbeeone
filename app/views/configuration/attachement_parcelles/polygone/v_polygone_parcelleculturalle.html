@@ -1,0 +1,77 @@
+<md-dialog aria-label="ADATA formulaire" class="" id="model" style="width: 60%;border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+    <form ng-cloak>
+        <md-toolbar style="color: #333; background-color: #ffffff;">
+            <div class="md-toolbar-tools" >
+                <h2 style="font-size: 1.25rem; margin: 0;">Polygone</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="annuler()" style="margin: -8px;">
+                  <img src="././images/main_configuration/close.svg" alt="close"
+                    style="width: 20px; height: 20px; cursor: pointer;">
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content style="color: #333; background-color: #fff; padding: 24px;">
+
+
+            <md-content class="form-content" style="padding: 0;">
+
+
+              <div style="margin-bottom: 1.6rem;" class="form-row " >
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Latitude' | translate}}</label>
+                  <input ng-model="LatPosition" value="0" id="t1" name="t1" type="number">
+                </md-input-container>
+
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Longitude' | translate}}</label>
+                  <input ng-model="LngPosition"  value="0" id="t2" name="t2" type="number">
+                </md-input-container>
+
+
+                <md-input-container class="form-input" style="flex: 1; ">
+                  <label>{{'Superfice Polygone' | translate}}</label>
+                  <input ng-model="areaHa"  value="0" id="areaHa" name="areaHa" type="number">
+                </md-input-container>
+  <textarea type="text" id="data" value="" ng-model="tokenpolygone" style="display:none;" name="fermetoken" pattern=".{3,}"></textarea>
+              </div>
+
+
+
+
+<div id="parcellemap" style="width:100%;"></div>
+
+          <!--  {{tokenpolygone}}
+                <div class="controls">
+                      <br />
+                      <input class="btn btn-danger" id="clear_shapes" value="{{'Effacer' | translate}}" type="button">
+
+                      <input class="btn btn-success blue-tooltip" id="save_raw" value="{{'Valider' | translate}}" type="button" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title=""
+                        data-original-title="{{'Enregistrer votre polygone sous forme des points (latitudes, longitudes)' | translate}}">
+                    </div><br /><br />
+-->
+
+
+
+
+
+
+            </md-content>
+        </md-dialog-content>
+
+
+
+                <md-dialog-actions layout="row" style="padding: 16px; justify-content: flex-end;">
+                  <md-button class="md-raised md-primary custom-reset-button" id="clear_shapes" >
+                    Effacer Polygone
+                  </md-button>
+
+                  <md-button class="md-raised md-primary custom-button"  id="save_raw" >
+                    Valider
+                  </md-button>
+
+                </md-dialog-actions>
+
+
+    </form>
+</md-dialog>

@@ -30,6 +30,9 @@ angular.module('beeOneWebFrontApp')
       },
       getbyferme: function(data) {
         return $http.post(_url + "/parcelleculturale/getbyferme", data);
+      },
+      polygone: function(data) {
+        return $http.post(_url + "/parcelleculturale/polygone", data);
       }
     };
   });

@@ -1247,6 +1247,9 @@ NProgress.start();
             data.IDFermes +
             '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
 
+            data.Polygone_Ferme = (data.Polygone_Ferme !== "0") ? data.Polygone_Ferme : null;
+            data.Polygone_Ferme = (data.Polygone_Ferme) ? data.Polygone_Ferme : null;
+
             const hasPolygon = !!data.Polygone_Ferme;
             const imgSrc = hasPolygon
               ? '././images/main_configuration/polygone_done.svg'

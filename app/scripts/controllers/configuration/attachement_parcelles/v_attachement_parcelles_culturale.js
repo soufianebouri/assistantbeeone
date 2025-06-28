@@ -550,7 +550,26 @@ angular.module('beeOneWebFrontApp')
           '<button class="btnEdit_tb" ng-click="vm.delete(vm.parcelleCu_action[' +
           data.ID +
           '])"><img src="././images/main_configuration/delete.svg" alt="delete"></button>';
-      return editbtn + deletebtn;
+
+
+          data.TokenPolygone = (data.TokenPolygone !== "0") ? data.TokenPolygone : null;
+          data.TokenPolygone = (data.TokenPolygone) ? data.TokenPolygone : null;
+        
+          
+          const hasPolygon = !!data.TokenPolygone;
+          const imgSrc = hasPolygon
+            ? '././images/main_configuration/polygone_done.svg'
+            : '././images/main_configuration/no_polygone.svg';
+
+          const polygonebtn = `
+            <button class="btnEdit_tb" ng-click="vm.polygoneAction(vm.parcelleCu_action[${data.ID}])">
+              <img src="${imgSrc}" alt="polygon">
+            </button>
+          `;
+
+
+      return polygonebtn + "&nbsp;" + editbtn + deletebtn;
+      
       }
 
 
@@ -1091,6 +1110,748 @@ angular.module('beeOneWebFrontApp')
     }
   };
 
+
+  vm.polygoneAction = async function(data) {
+
+    $scope.parcelle_byfermes = parcelleCulturalService.getbyferme({IDFermes : data.IDFermes}).then(result => {
+      return result.data;
+    });
+    
+
+    $scope.showAdvanced("ev", data, $scope.parcelle_byfermes);
+  }
+
+  $scope.showAdvanced = function(ev, data, parcelle_byfermes) {
+  $mdDialog.show({
+      controller: DialogController,
+      templateUrl: '././views/configuration/attachement_parcelles/polygone/v_polygone_parcelleculturalle.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: false,
+      locals: {
+        data: data,
+        parcelle_byfermes : parcelle_byfermes
+      }
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+};
+
+  function DialogController($scope, $mdDialog, data, parcelle_byfermes) {
+
+    $scope.annuler = function() {
+      $mdDialog.cancel();
+    };
+
+
+  $scope.data = data;
+  $scope.parcelle_byfermes = parcelle_byfermes;
+  console.log("parcelle_byfermes", parcelle_byfermes);
+  
+
+  $scope.tokenpolygone = data.Polygone_Ferme;
+  $scope.Latitude = ($scope.data.Latitude) ? parseFloat($scope.data.Latitude) : 0;
+  $scope.Longitude = ($scope.data.Longitude) ? parseFloat($scope.data.Longitude) : 0;
+  $scope.areaHa = ($scope.data.SuperficieTracer) ? parseFloat($scope.data.SuperficieTracer) : 0;
+
+  
+  $scope.LatPosition = ($scope.data.LatPosition) ? parseFloat($scope.data.LatPosition) : 0;
+  $scope.LngPosition = ($scope.data.LngPosition) ? parseFloat($scope.data.LngPosition) : 0;
+
+
+  $scope.isTracedEdit = false;
+  $scope.save_rawClick = false;
+  setTimeout(function() {
+    jscolor.installByClassName("jscolor");
+  }, 1000);
+
+  $scope.hide = function() {
+    $mdDialog.hide();
+    document.getElementsByClassName('left_col')[0].style.zIndex = 999999;
+  };
+
+  $scope.Annuler = function() {
+    $mdDialog.cancel();
+    document.getElementsByClassName('left_col')[0].style.zIndex = 999999;
+  };
+
+  $scope.setsearchID_Pays = function() {
+    $scope.searchID_Pays = $scope.Pays;
+    $scope.searchID_Region = null;
+    $scope.Region = null;
+    $scope.Zone = null;
+    $scope.IsearchID_Pays = true;
+  }
+  $scope.setsearchID_Region = function() {
+    $scope.searchID_Region = $scope.Region;
+    $scope.IsearchID_Region = true;
+  }
+
+
+  var IO = {
+    //returns array with storable google.maps.Overlay-definitions
+    IN: function(arr, //array with google.maps.Overlays
+      encoded //boolean indicating whether pathes should be stored encoded
+    ) {
+      var shapes = [],
+        goo = google.maps,
+        shape, tmp;
+      if (arr) {
+        for (var i = 0; i < arr.length; i++) {
+          shape = arr[i];
+          tmp = {
+            type: this.t_(shape.type),
+            id: shape.id || i + 1
+          };
+
+
+          switch (tmp.type) {
+            case 'CIRCLE':
+              tmp.radius = shape.getRadius();
+              tmp.geometry = this.p_(shape.getCenter());
+              break;
+            case 'MARKER':
+              tmp.geometry = this.p_(shape.getPosition());
+              break;
+            case 'RECTANGLE':
+              tmp.geometry = this.b_(shape.getBounds());
+              break;
+            case 'POLYLINE':
+              tmp.geometry = this.l_(shape.getPath(), encoded);
+              break;
+            case 'POLYGON':
+              tmp.geometry = this.m_(shape.getPaths(), encoded);
+
+              break;
+          }
+          shapes.push(tmp);
+        }
+      }
+      return shapes;
+    },
+    //returns array with google.maps.Overlays
+    OUT: function(arr, //array containg the stored shape-definitions
+      map, cadre, calque //map where to draw the shapes
+    ) {
+      var shapes = [],
+        goo = google.maps,
+        map = map || null,
+        shape, tmp;
+      if (arr) {
+        for (var i = 0; i < arr.length; i++) {
+          shape = arr[i];
+
+          switch (shape.type) {
+            case 'CIRCLE':
+              tmp = new goo.Circle({
+                radius: Number(shape.radius),
+                center: this.pp_.apply(this, shape.geometry),
+                strokeColor: calque,
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                fillColor: cadre,
+                fillOpacity: 0.50
+              });
+              break;
+            case 'MARKER':
+              tmp = new goo.Marker({
+                position: this.pp_.apply(this, shape.geometry),
+                strokeColor: calque,
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                fillColor: cadre,
+                fillOpacity: 0.50
+              });
+              break;
+            case 'RECTANGLE':
+              tmp = new goo.Rectangle({
+                bounds: this.bb_.apply(this, shape.geometry),
+                strokeColor: calque,
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                fillColor: cadre,
+                fillOpacity: 0.50
+              });
+              break;
+            case 'POLYLINE':
+              tmp = new goo.Polyline({
+                path: this.ll_(shape.geometry),
+                strokeColor: calque,
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                fillColor: cadre,
+                fillOpacity: 0.50
+              });
+              break;
+            case 'POLYGON':
+              tmp = new goo.Polygon({
+                paths: this.mm_(shape.geometry),
+                strokeColor: calque,
+                strokeOpacity: 1,
+                strokeWeight: 1,
+                fillColor: cadre,
+                fillOpacity: 0.50
+              });
+              break;
+          }
+          tmp.setValues({
+            map: map,
+            id: shape.id
+          })
+          shapes.push(tmp);
+        }
+      }
+      return shapes;
+    },
+    l_: function(path, e) {
+      path = (path.getArray) ? path.getArray() : path;
+      if (e) {
+        return google.maps.geometry.encoding.encodePath(path);
+      } else {
+        var r = [];
+        for (var i = 0; i < path.length; ++i) {
+          r.push(this.p_(path[i]));
+        }
+        return r;
+      }
+    },
+    ll_: function(path) {
+      if (typeof path === 'string') {
+        return google.maps.geometry.encoding.decodePath(path);
+      } else {
+        var r = [];
+        for (var i = 0; i < path.length; ++i) {
+          r.push(this.pp_.apply(this, path[i]));
+        }
+        return r;
+      }
+    },
+
+    m_: function(paths, e) {
+      var r = [];
+      paths = (paths.getArray) ? paths.getArray() : paths;
+      for (var i = 0; i < paths.length; ++i) {
+        r.push(this.l_(paths[i], e));
+      }
+      return r;
+    },
+    mm_: function(paths) {
+      var r = [];
+      for (var i = 0; i < paths.length; ++i) {
+        r.push(this.ll_.call(this, paths[i]));
+
+      }
+      return r;
+    },
+    p_: function(latLng) {
+      return ([latLng.lat(), latLng.lng()]);
+    },
+    pp_: function(lat, lng) {
+      return new google.maps.LatLng(lat, lng);
+    },
+    b_: function(bounds) {
+      return ([this.p_(bounds.getSouthWest()),
+        this.p_(bounds.getNorthEast())
+      ]);
+    },
+    bb_: function(sw, ne) {
+      return new google.maps.LatLngBounds(this.pp_.apply(this, sw),
+        this.pp_.apply(this, ne));
+    },
+    t_: function(s) {
+      var t = ['CIRCLE', 'MARKER', 'RECTANGLE', 'POLYLINE', 'POLYGON'];
+      for (var i = 0; i < t.length; ++i) {
+        if (s === google.maps.drawing.OverlayType[t[i]]) {
+          return t[i];
+        }
+      }
+    }
+  }
+
+  var infoWindow = new google.maps.InfoWindow();
+
+  var map;
+  var selected_shape;
+  var clearvar;
+  var shapes = [];
+  var drawman;
+  var byId;
+  var clearSelection;
+  var setSelection;
+  var clearShapes;
+
+  function initMap() {
+    if (!$scope.Latitude || !$scope.Longitude || $scope.Latitude == 0 || $scope.Longitude == 0 || $scope.Latitude == "" || $scope.Longitude == "") {
+      var latF = 33.9691409;
+      var longF = -6.9273709;
+      var zoooom = 4;
+    } else {
+      var latF = $scope.Latitude;
+      var longF = $scope.Longitude;
+      var zoooom = 15;
+    }
+
+    if ($scope.data.LatPosition && $scope.data.LngPosition && $scope.data.LatPosition != 0 && $scope.data.LngPosition != 0 && $scope.data.LatPosition != "" && $scope.data.LngPosition != "") {
+      var latF = $scope.data.LatPosition;
+      var longF = $scope.data.LngPosition;
+      var zoooom = 16;
+    }
+    
+
+    map = new google.maps.Map(document.getElementById("parcellemap"), {
+        center: new google.maps.LatLng(latF, longF),
+        zoom: zoooom,
+        mapTypeControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }),
+      selected_shape = null,
+      drawman = new google.maps.drawing.DrawingManager({
+        map: map,
+        drawingMode: google.maps.drawing.OverlayType.POLYGON,
+        drawingControlOptions: {
+          drawingModes: [
+            google.maps.drawing.OverlayType.POLYGON
+          ]
+        },
+        polygonOptions: {
+          editable: false
+        }
+      }),
+      byId = function(s) {
+        return document.getElementById(s)
+      },
+      clearSelection = function() {
+        if (selected_shape) {
+          selected_shape.set((selected_shape.type ===
+            google.maps.drawing.OverlayType.MARKER
+          ) ? 'draggable' : 'editable', false);
+          selected_shape = null;
+        }
+      },
+      setSelection = function(shape) {
+        $scope.save_rawClick = true;
+        clearSelection();
+        selected_shape = shape;
+
+        selected_shape.set((selected_shape.type ===
+          google.maps.drawing.OverlayType.MARKER
+        ) ? 'draggable' : 'editable', true);
+
+
+        byId('save_raw').disabled = false;
+
+        var coordinatesArray = shape.getPath().getArray();
+
+        var minX = coordinatesArray[0].lat();
+        var maxX = coordinatesArray[0].lat();
+        var minY = coordinatesArray[0].lng();
+        var maxY = coordinatesArray[0].lng();
+        for (var i = 0; i < coordinatesArray.length; i++) {
+
+          minX = (coordinatesArray[i].lat() < minX || minX === null) ? coordinatesArray[i].lat() : minX;
+          maxX = (coordinatesArray[i].lat() > maxX || maxX === null) ? coordinatesArray[i].lat() : maxX;
+          minY = (coordinatesArray[i].lng() < minY || minY === null) ? coordinatesArray[i].lng() : minY;
+          maxY = (coordinatesArray[i].lng() > maxY || maxY === null) ? coordinatesArray[i].lng() : maxY;
+        }
+
+        document.getElementById('t1').value = (minX + maxX) / 2;
+        document.getElementById('t2').value = (minY + maxY) / 2;
+
+
+        var negativeSpace = new google.maps.Polygon({
+          path: shape.getPath().getArray(),
+          strokeWeight: 0,
+          strokeOpacity: 0,
+          fillOpacity: 0,
+          clickable: false,
+          map: map
+        });
+
+      },
+      clearShapes = function() {
+        drawman.setOptions({
+          drawingControl: true
+        });
+        $scope.save_rawClick = false;
+        $scope.isTracedEdit = false;
+        document.getElementById("data").value = "";
+        selected_shape = "";
+        for (var i = 0; i < shapes.length; ++i) {
+          shapes[i].setMap(null);
+        }
+        shapes = [];
+        document.getElementById("areaHa").value = ($scope.data.SuperficieTracer) ? $scope.data.SuperficieTracer : 0;
+        byId('save_raw').disabled = true;
+
+        document.getElementById('t1').value = ($scope.data.LatPosition) ? $scope.data.LatPosition : 0;
+        document.getElementById('t2').value = ($scope.data.LngPosition) ? $scope.data.LngPosition : 0;
+
+
+        clearvar = false;
+
+      };
+
+
+      /*if ($scope.data.TokenPolygone && $scope.IsJsonString($scope.data.TokenPolygone)) {
+        // Clear old shapes first
+        for (var i = 0; i < shapes.length; ++i) {
+          shapes[i].setMap(null);
+        }
+        shapes = [];
+      
+        // Draw new ones from TokenPolygone and keep reference
+        var newShapes = IO.OUT(JSON.parse($scope.data.TokenPolygone), map, $scope.data.CouleurCalque, $scope.data.CouleurCadre);
+        shapes = shapes.concat(newShapes);
+      }*/
+
+        if ($scope.data.Polygone_Ferme !== "" && $scope.IsJsonString($scope.data.Polygone_Ferme)) {
+          IO.OUT(JSON.parse($scope.data.Polygone_Ferme), map, "rgba(196, 191, 125, 0.0)", "#8eb2a0");
+        } else {
+          IO.OUT(JSON.parse('[{"type": "POLYGON","id": null,"geometry": [[]]}]'), map, "rgba(196, 191, 125, 0.0)", "#8eb2a0");
+        }
+        
+        $scope.parcelle_byfermes.forEach(function(item) {
+          if (item.TokenPolygone !== "" && $scope.IsJsonString(item.TokenPolygone)) {
+            IO.OUT(JSON.parse(item.TokenPolygone), map, item.CouleurCalque, item.CouleurCadre);
+          } else {
+            IO.OUT(JSON.parse('[{"type": "POLYGON","id": null,"geometry": [[]]}]'), map, "#c4bf7d", "#8eb2a0");
+          }
+        });
+
+
+
+
+
+    var infoWindow = new google.maps.InfoWindow();
+
+
+    var input = document.getElementById('searchTextField');
+
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo('bounds', map);
+
+    var infowindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+      map: map,
+      anchorPoint: new google.maps.Point(0, -29)
+    });
+
+    autocomplete.addListener('place_changed', function() {
+      infowindow.close();
+      marker.setVisible(false);
+      var place = autocomplete.getPlace();
+      if (!place.geometry) {
+        window.alert("Autocomplete's returned place contains no geometry");
+        return;
+      }
+
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+      } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(9);
+      }
+
+
+    });
+
+
+    var markerCenter = new google.maps.Marker({
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 0
+      },
+      position: map.getCenter(),
+      map: map
+    });
+
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+      var NewMapCenter = map.getCenter();
+      var latitude = NewMapCenter.lat();
+      var longitude = NewMapCenter.lng();
+      markerCenter.setPosition(map.getCenter());
+      var latLng = markerCenter.getPosition();
+    });
+
+    google.maps.event.addListener(markerCenter, 'drag', function() {
+      var latLng = markerCenter.getPosition();
+    });
+
+    google.maps.event.addListener(map, 'click', function(event) {
+
+    });
+    google.maps.event.addListener(drawman, 'overlaycomplete', function(e) {
+      drawman.setOptions({
+        drawingControl: false
+      });
+      drawman.setDrawingMode(null);
+      var shape = e.overlay;
+      shape.type = e.type;
+      google.maps.event.addListener(shape, 'click', function() {
+        setSelection(this);
+      });
+      setSelection(shape);
+      shapes.push(shape);
+      marker = shape;
+    });
+
+    google.maps.event.addListener(map, 'click', clearSelection);
+    google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
+
+
+    google.maps.event.addListener(drawman, 'overlaycomplete', function(event) {
+      if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+        var polygon = event.overlay;
+        shapes.push(polygon); // Assuming 'shapes' is an array of polygons
+
+        $scope.isTracedEdit = true;
+        $scope.save_rawClick = false;
+
+        // Prepare GeoJSON or custom JSON from polygon shapes
+        var data = IO.IN(shapes, false);
+        byId('data').value = JSON.stringify(data);
+        var json = JSON.stringify(data, undefined, 4);
+
+        // Calculate total area in hectares
+        var area = 0;
+        for (var i = 0; i < shapes.length; ++i) {
+          area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
+        }
+        document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+
+        clearvar = true;
+
+        console.log(document.getElementById('t1').value);
+        console.log(document.getElementById('t2').value);
+        console.log(document.getElementById('data').value);
+
+        // Optional: disable drawing mode after drawing
+        drawman.setDrawingMode(null);
+      }
+    });
+
+    google.maps.event.addDomListener(byId('save_raw'), 'click', function() {
+
+      NProgress.start()
+
+      parcelleCulturalService.polygone({
+        Latitude : document.getElementById('t1').value,
+        Longitude : document.getElementById('t2').value,
+        ID : data.ID,
+        Polygone_Ferme : document.getElementById('data').value,
+        SuperficieTracer : document.getElementById('areaHa').value
+      }).then(async e => {
+        //validate success
+
+
+        /*let index = vm.data_societe.findIndex(item => item.ID === e.data.inserted_data.ID);
+
+        if (index !== -1) {
+          // Update the existing object
+          vm.data_societe[index] = e.data.inserted_data;
+        } else {
+          // If not found, add it to the list (optional)
+          vm.data_societe.push(e.data.inserted_data);
+        }*/
+
+        toastr.clear();
+        toastr.success("Parcelle Culturuale bien tracée.", {
+          closeButton: true
+        });
+        NProgress.done();
+        vm.dtInstance.reloadData();
+                    $mdDialog.cancel();
+
+    }).catch(async ee => {
+      console.log(ee);
+      
+      NProgress.done();
+      toastr.clear();
+      toastr.error(ee.data.message, {
+        closeButton: true
+      });
+    });
+
+
+    /*  $scope.isTracedEdit = true;
+      $scope.save_rawClick = false;
+      var data = IO.IN(shapes, false);
+      byId('data').value = JSON.stringify(data);
+      var json = JSON.stringify(data, undefined, 4);
+      var area = 0;
+      for (var i = 0; i < shapes.length; ++i) {
+        area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
+      }
+      document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+      clearvar = true;
+
+        console.log(document.getElementById('t1').value)
+        console.log(document.getElementById('t2').value)
+        console.log(document.getElementById('data').value)
+*/
+    });
+
+
+    if (map.getZoom() <= 14) {
+      var mapStyles = [{
+        featureType: "administrative.country",
+        stylers: [{
+          visibility: "off"
+        }]
+      }];
+      var mapType = new google.maps.StyledMapType(mapStyles, {
+        name: "Maroc"
+      });
+      map.mapTypes.set('maroc', mapType);
+      map.setMapTypeId('maroc');
+    }
+
+    if (map.getZoom() >= 8) {
+      map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+    }
+    new google.maps.event.addListener(map, 'zoom_changed', function() {
+      var zoomm = map.getZoom();
+      if (zoomm >= 8) {
+        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+      } else {
+        var mapStyles = [{
+          featureType: "administrative.country",
+          stylers: [{
+            visibility: "off"
+          }]
+        }];
+        var mapType = new google.maps.StyledMapType(mapStyles, {
+          name: "Maroc"
+        });
+        map.mapTypes.set('maroc', mapType);
+        map.setMapTypeId('maroc');
+      }
+    });
+    var centerControlDiv = document.createElement('div');
+    var centerControl = new CenterControl(centerControlDiv, map);
+    centerControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+  }
+
+  setTimeout(function() {
+    initMap();
+  }, 1000);
+
+
+
+
+  google.maps.Polygon.prototype.my_getBounds = function() {
+    var bounds = new google.maps.LatLngBounds()
+    this.getPath().forEach(function(element, index) {
+      bounds.extend(element);
+    })
+    return bounds;
+  }
+
+
+  function syntaxHighlight(json) {
+    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+      var cls = 'number';
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = 'key';
+        } else {
+          cls = 'string';
+        }
+      } else if (/true|false/.test(match)) {
+        cls = 'boolean';
+      } else if (/null/.test(match)) {
+        cls = 'null';
+      }
+      return '<span class="' + cls + '">' + match + '</span>';
+    });
+  }
+
+  function decodeLevelss(encodedLevelsString) {
+    var decodedLevels = [];
+
+    for (var i = 0; i < encodedLevelsString.length; ++i) {
+      var level = encodedLevelsString.charCodeAt(i) - 63;
+      decodedLevels.push(level);
+    }
+    return decodedLevels;
+  }
+
+  function bindInfoWindow(marker, map, infoWindow, html) {
+    google.maps.event.addListener(marker, 'click', function() {
+      infoWindow.setContent(html);
+      infoWindow.open(map, marker);
+
+    });
+  }
+
+  function downloadUrl(url, callback) {
+    var request = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
+
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        request.onreadystatechange = doNothing;
+        callback(request, request.status);
+      }
+    };
+    request.open('GET', url, true);
+    request.send(null);
+  }
+
+  function doNothing() {}
+
+  function xmlParse(str) {
+    if (typeof ActiveXObject != 'undefined' && typeof GetObject != 'undefined') {
+      var doc = new ActiveXObject('Microsoft.XMLDOM');
+      doc.loadXML(str);
+      return doc;
+    }
+    if (typeof DOMParser != 'undefined') {
+      return (new DOMParser()).parseFromString(str, 'text/xml');
+    }
+    return createElement('div', null);
+  }
+
+  function CenterControl(controlDiv, map) {}
+
+
+  function showRegionByPays(str) {
+    if (str === "") {
+      document.getElementById("idRegionnn").innerHTML = "";
+      return;
+    }
+    if (window.XMLHttpRequest) {
+      // code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp = new XMLHttpRequest();
+    } else { // code for IE6, IE5
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    xmlhttp.open("GET", "ParamerageListeRegionByPays.jsp?q=" + str, true);
+    xmlhttp.send();
+
+    xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        document.getElementById("idRegionnn").innerHTML = xmlhttp.responseText;
+      }
+    }
+  }
+
+  $scope.IsJsonString = function(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+}
 
 
 

@@ -749,12 +749,7 @@ angular.module('beeOneWebFrontApp')
                 return 'Arrachée';
             return 'En cours';
         }).withOption("width", "100px"),
-        DTColumnBuilder.newColumn(null)
-        .withTitle("Actions")
-        .renderWith(actionsHtml)
-        .withClass("nowrap actions-column nowraptd all") // Custom class for better control
-        .withOption("width", "60px")
-        .notSortable()
+        DTColumnBuilder.newColumn(null).withTitle("Actions").renderWith(actionsHtml).withClass("nowraptd all").notSortable(),
     ];
 
 
@@ -1158,6 +1153,9 @@ angular.module('beeOneWebFrontApp')
   $scope.Longitude = ($scope.data.Longitude) ? parseFloat($scope.data.Longitude) : 0;
   $scope.areaHa = ($scope.data.SuperficieTracer) ? parseFloat($scope.data.SuperficieTracer) : 0;
 
+  data.CouleurCalque = (data.CouleurCalque) ? data.CouleurCalque : '#FFFFFF'
+  data.CouleurCadre = (data.CouleurCadre) ? data.CouleurCadre : '#FFFFFF'
+
   
   $scope.LatPosition = ($scope.data.LatPosition) ? parseFloat($scope.data.LatPosition) : 0;
   $scope.LngPosition = ($scope.data.LngPosition) ? parseFloat($scope.data.LngPosition) : 0;
@@ -1284,7 +1282,7 @@ angular.module('beeOneWebFrontApp')
                 strokeOpacity: 1,
                 strokeWeight: 1,
                 fillColor: cadre,
-                fillOpacity: 0.50
+                fillOpacity: 0.2
               });
               break;
             case 'POLYGON':
@@ -1294,7 +1292,7 @@ angular.module('beeOneWebFrontApp')
                 strokeOpacity: 1,
                 strokeWeight: 1,
                 fillColor: cadre,
-                fillOpacity: 0.50
+                fillOpacity: 0.2
               });
               break;
           }
@@ -1520,6 +1518,28 @@ angular.module('beeOneWebFrontApp')
           } else {
             IO.OUT(JSON.parse('[{"type": "POLYGON","id": null,"geometry": [[]]}]'), map, "#c4bf7d", "#8eb2a0");
           }
+
+
+          if (item.LatPosition && item.LngPosition && item.Reference) {
+            const center = new google.maps.LatLng(parseFloat(item.LatPosition), parseFloat(item.LngPosition));
+        
+            new google.maps.Marker({
+              position: center,
+              map: map,
+              label: {
+                text: item.Ref,
+                color: "#000",
+                fontWeight: "bold",
+                fontSize: "12px"
+              },
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 0, // Hide marker icon, just keep label
+                strokeWeight: 0
+              }
+            });
+          }
+
         });
 
 
@@ -1641,8 +1661,8 @@ angular.module('beeOneWebFrontApp')
         ID : data.ID,
         Polygone_Ferme : document.getElementById('data').value,
         SuperficieTracer : document.getElementById('areaHa').value,
-        colorCalque : data.colorCalque,
-        colorCadre : data.colorCadre
+        colorCalque : data.CouleurCalque,
+        colorCadre : data.CouleurCadre
       }).then(async e => {
         //validate success
 

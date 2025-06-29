@@ -9,12 +9,12 @@
  * Main module of the application.
  */
 
-var version = '1.56.1'; /*global-version.new-views.improvements*/
+var version = '1.0.0'; /*global-version.new-views.improvements*/
 
 //enDev DEMO
 var url = "http://127.0.0.1:4002/erpassistant/api";
 //var url = "http://agridata2.hopto.org:4002/erpassistant/api"
-var appFor = "demo";
+var appFor = "production";
 
 
 $(function() {

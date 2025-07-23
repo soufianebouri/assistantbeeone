@@ -454,7 +454,7 @@ angular.module('beeOneWebFrontApp')
     }
     }
 
-console.log("hereeeeeeeeeeeeeeeeeeeeeeee");
+
     $scope.updatedata = function() {
       return cultureService.get_all();
     };
@@ -651,10 +651,10 @@ console.log("hereeeeeeeeeeeeeeeeeeeeeeee");
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Famille culturale",
-      "Référence culture",
-      "Désignation culture"];
+      "Ferme(*)",
+      "Famille culturale(*)",
+      "Référence culture(*)",
+      "Désignation culture(*)"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -706,10 +706,10 @@ console.log("hereeeeeeeeeeeeeeeeeeeeeeee");
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-      fermneName  : item["Ferme"] || null,
-      familleName  : item["Famille culturale"] || null,
-      Reference : item["Référence culture"] || null,
-      Culture : item["Désignation culture"] || null
+      fermneName  : item["Ferme(*)"] || null,
+      familleName  : item["Famille culturale(*)"] || null,
+      Reference : item["Référence culture(*)"] || null,
+      Culture : item["Désignation culture(*)"] || null
       }));
     };
 

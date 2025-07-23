@@ -648,9 +648,9 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Société client",
-      "Code",
+      "Ferme(*)",
+      "Société client(*)",
+      "Code(*)",
       "ICE",
       "IF",
       "Nom",
@@ -662,7 +662,8 @@ angular.module('beeOneWebFrontApp')
       "Téléphone",
       "GSM",
       "Email",
-      "Fax"];
+      "Fax",
+      "Type client (Marché local / Station)"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -714,9 +715,9 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        Societe: item["Société client"] || null,
-        REF_client: item["Code"] || null,
+        FermeName: item["Ferme(*)"] || null,
+        Societe: item["Société client(*)"] || null,
+        REF_client: item["Code(*)"] || null,
         ICE: item["ICE"] || null,
         IDF: item["IF"] || null,
         Prenom: item["Nom"] || null,
@@ -728,7 +729,8 @@ angular.module('beeOneWebFrontApp')
         Telephone: item["Téléphone"] || null,
         GSM: item["GSM"] || null,
         EMail: item["Email"] || null,
-        Fax: item["Fax"] || null
+        Fax: item["Fax"] || null,
+        marche_Local: item["Type client (Marché local / Station)"] || null
       }));
     };
 
@@ -894,7 +896,7 @@ angular.module('beeOneWebFrontApp')
     };
 
     vm.integer = async function(){
-console.log(vm.jsonData);
+
       if(vm.jsonData.length>0){
              NProgress.start();
         if(await $scope.validateData()){

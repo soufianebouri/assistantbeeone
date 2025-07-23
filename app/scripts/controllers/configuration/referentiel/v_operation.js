@@ -678,10 +678,10 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Référence opération",
-      "Désignation opération",
-      "Groupe",
+      "Ferme(*)",
+      "Référence opération(*)",
+      "Désignation opération(*)",
+      "Groupe(*)",
       "Famille",
       "Liés à la récolte (Oui/Non)",
       "Process récolte",
@@ -744,10 +744,10 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-      FermeName : item["Ferme"] || null,
-      Reference  : item["Référence opération"] || null,
-      OpeRef_Intitule  : item["Désignation opération"] || null,
-      Groupe : item["Groupe"] || null,
+      FermeName : item["Ferme(*)"] || null,
+      Reference  : item["Référence opération(*)"] || null,
+      OpeRef_Intitule  : item["Désignation opération(*)"] || null,
+      Groupe : item["Groupe(*)"] || null,
       Famille : item["Famille"] || null,
       Recolte : item["Liés à la récolte (Oui/Non)"] || null,
       Process_recolte_autre : item["Process récolte"] || null,

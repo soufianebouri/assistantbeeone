@@ -793,7 +793,7 @@ NProgress.start();
               shapes[i].setMap(null);
             }
             shapes = [];
-          
+
             // Draw new ones from Polygone_Ferme and keep reference
             var newShapes = IO.OUT(JSON.parse($scope.data.Polygone_Ferme), map, "#C2E699", "#31A354");
             shapes = shapes.concat(newShapes);
@@ -1419,8 +1419,8 @@ NProgress.start();
       /** Step1 excel*/
 
       vm.headers = [
-        "Référence","Nom","Société",
-        "Superficie","Date De Création","Gérant",
+        "Référence(*)","Nom(*)","Société(*)",
+        "Superficie(*)","Date De Création(*)","Gérant",
         "Adresse","Ville","Fax",
         "Téléphone","Statut Foncier","Latitude",
         "Longitude","Altitude"];
@@ -1475,11 +1475,11 @@ NProgress.start();
 
       vm.cleanJsonKeys = async function (data) {
         return data.map(item => ({
-          Code: item["Référence"] || null,
-          Nom: item["Nom"] || null,
-          societe: item["Société"] || null,
-          Superficie: item["Superficie"] || null,
-          Date_Creatio_Ferme: item["Date De Création"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date De Création"]) : null,
+          Code: item["Référence(*)"] || null,
+          Nom: item["Nom(*)"] || null,
+          societe: item["Société(*)"] || null,
+          Superficie: item["Superficie(*)"] || null,
+          Date_Creatio_Ferme: item["Date De Création(*)"] ? XLSX.SSF.format("yyyy-mm-dd", item["Date De Création(*)"]) : null,
           Gerant: item["Gérant"] || null,
           Adresse: item["Adresse"] || null,
           Ville : item["Ville"] || null,

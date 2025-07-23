@@ -642,9 +642,9 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Société fournisseur",
-      "Code",
+      "Ferme(*)",
+      "Société fournisseur(*)",
+      "Code(*)",
       "ICE",
       "IF",
       "Nom",
@@ -708,9 +708,9 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        Societe: item["Société fournisseur"] || null,
-        REF_Fournisseur: item["Code"] || null,
+        FermeName: item["Ferme(*)"] || null,
+        Societe: item["Société fournisseur(*)"] || null,
+        REF_Fournisseur: item["Code(*)"] || null,
         ICE: item["ICE"] || null,
         IDF: item["IF"] || null,
         Prenom: item["Nom"] || null,

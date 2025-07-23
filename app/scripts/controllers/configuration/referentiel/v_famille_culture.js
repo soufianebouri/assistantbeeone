@@ -660,10 +660,10 @@ NProgress.start();
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Filière",
-      "Référence famille",
-      "Désignation Famille"];
+      "Ferme(*)",
+      "Filière(*) Maraichage, Arboriculture, Grande Culture, Floriculture ou Fruits rouges",
+      "Référence famille(*)",
+      "Désignation Famille(*)"];
 
       vm.exportToExcel = function () {
          let headers=  vm.headers
@@ -680,7 +680,6 @@ NProgress.start();
 
           saveAs(blob, "Canvas Famille Culturale.xlsx");
       };
-
 
       $scope.checkExcelHeaders = async function (data) {
         if(data.length>0){
@@ -715,10 +714,10 @@ NProgress.start();
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        FiliereName: item["Filière"] || null,
-        Reference: item["Référence famille"] || null,
-        Nom_Famille: item["Désignation Famille"] || null
+        FermeName: item["Ferme(*)"] || null,
+        FiliereName: item["Filière(*) Maraichage, Arboriculture, Grande Culture, Floriculture ou Fruits rouges"] || null,
+        Reference: item["Référence famille(*)"] || null,
+        Nom_Famille: item["Désignation Famille(*)"] || null
       }));
     };
 

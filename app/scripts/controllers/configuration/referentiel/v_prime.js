@@ -640,15 +640,15 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Société",
-      "Code prime",
-      "Désignation prime",
-      "Catégorie",
-      "Imposable",
-      "Surplus",
-      "Seuil",
-      "Range",
-      "Prime ponctuelle"
+      "Société(*)",
+      "Code prime(*)",
+      "Désignation prime(*)",
+      "Catégorie(*)(Indemnité / Prime)",
+      "Imposable(*)(Oui / Non)",
+      "Surplus(*)(Oui / Non)",
+      "Seuil(Si Surplus=Oui)",
+      "Range(Si Surplus=Oui)",
+      "Prime ponctuelle(Oui / Non)"
     ];
 
       vm.exportToExcel = function () {
@@ -701,15 +701,15 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        SocieteName: item["Société"] || null,
-        CODE : item["Code prime"] || null,
-        Nom_prime : item["Désignation prime"] || null,
-        Categorie_prime : item["Catégorie"] || null,
-        imposable : item["Imposable"] || null,
-        Surplus : item["Surplus"] || null,
-        Seuil_mois : item["Seuil"] || null,
-        rang_surplus : item["Range"] || null,
-        Prime_Poncuelle : item["Prime ponctuelle"] || null
+        SocieteName: item["Société(*)"] || null,
+        CODE : item["Code prime(*)"] || null,
+        Nom_prime : item["Désignation prime(*)"] || null,
+        Categorie_prime : item["Catégorie(*)(Indemnité / Prime)"] || null,
+        imposable : item["Imposable(*)(Oui / Non)"] || null,
+        Surplus : item["Surplus(*)(Oui / Non)"] || null,
+        Seuil_mois : item["Seuil(Si Surplus=Oui)"] || null,
+        rang_surplus : item["Range(Si Surplus=Oui)"] || null,
+        Prime_Poncuelle : item["Prime ponctuelle(Oui / Non)"] || null
       }));
     };
 

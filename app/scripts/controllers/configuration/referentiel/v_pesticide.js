@@ -717,28 +717,28 @@ if(vm.formData.ID){
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Référence pesticide",
-      "Désignation pesticide",
-      "Catégorie",
-      "Sous catégorie",
-      "Unité",
-      "PU HT",
-      "Famille chimique",
-      "Matière active",
-      "Teneur",
-      "Culture",
+      "Ferme(*)",
+      "Référence pesticide(*)",
+      "Désignation pesticide(*)",
+      "Catégorie(*)",
+      "Sous catégorie(*)",
+      "Unité(*)",
+      "PU HT(*)",
+      "Famille chimique(*)",
+      "Matière active(*)",
+      "Teneur(*)",
+      "Culture(*)",
       "Catégorie ennemi",
       "Ennemi",
       "Dose",
       "Unité dose",
       "DAR",
       "TVA",
-      "TVA récup",
-      "Transité par module achat",
-      "Demande d'achat obligatoire",
-      "Bon de commande obligatoire",
-      "Homologué"
+      "TVA récup (Oui / Non)",
+      "Transité par module achat (Oui / Non)",
+      "Demande d'achat obligatoire (Oui / Non)",
+      "Bon de commande obligatoire (Oui / Non)",
+      "Homologué (Oui / Non)"
     ];
 
       vm.exportToExcel = function () {
@@ -791,28 +791,28 @@ if(vm.formData.ID){
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName: item["Ferme"] || null,
-        Ref : item["Référence pesticide"] || null,
-        Designation : item["Désignation pesticide"] || null,
-        Categorie: item["Catégorie"] || null,
-        Sous_Categorie: item["Sous catégorie"] || null,
-        Unite : item["Unité"] || null,
-        PU: item["PU HT"] || null,
-        Famille_chimique: item["Famille chimique"] || null,
-        Matiere_active: item["Matière active"] || null,
-        Teneur: item["Teneur"] || null,
-        culturName: item["Culture"] || null,
+        FermeName: item["Ferme(*)"] || null,
+        Ref : item["Référence pesticide(*)"] || null,
+        Designation : item["Désignation pesticide(*)"] || null,
+        Categorie: item["Catégorie(*)"] || null,
+        Sous_Categorie: item["Sous catégorie(*)"] || null,
+        Unite : item["Unité(*)"] || null,
+        PU: item["PU HT(*)"] || null,
+        Famille_chimique: item["Famille chimique(*)"] || null,
+        Matiere_active: item["Matière active(*)"] || null,
+        Teneur: item["Teneur(*)"] || null,
+        culturName: item["Culture(*)"] || null,
         categorie_ennemi  : item["Catégorie ennemi"] || null,
         ennemi  : item["Ennemi"] || null,
         Dose  : item["Dose"] || null,
         Unite_Dose  : item["Unité dose"] || null,
         DAR: item["DAR"] || null,
         Taux_TVA: item["TVA"] || null,
-        TVA_recuperable: item["TVA récup"] || null,
-        Peut_etre_achete: item["Transité par module achat"] || null,
-        DA_obligatoire: item["Demande d'achat obligatoire"] || null,
-        BC_obligatoire: item["Bon de commande obligatoire"] || null,
-        homologue: item["Homologué"] || null
+        TVA_recuperable: item["TVA récup (Oui / Non)"] || null,
+        Peut_etre_achete: item["Transité par module achat (Oui / Non)"] || null,
+        DA_obligatoire: item["Demande d'achat obligatoire (Oui / Non)"] || null,
+        BC_obligatoire: item["Bon de commande obligatoire (Oui / Non)"] || null,
+        homologue: item["Homologué (Oui / Non)"] || null
       }));
     };
 

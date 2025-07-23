@@ -637,7 +637,7 @@ NProgress.start();
       /** Step1 excel*/
 
       vm.headers = [
-        "Raison Sociale", "Statut Juridique", "Capital", "Ville",
+        "Raison Sociale(*)", "Statut Juridique", "Capital", "Ville",
         "Adresse Email", "Fax", "Patente", "N° CNSS", "N° AMO",
         "ICE", "Pré Fix Matricule Ouvrier", "Adresse"
     ];
@@ -703,7 +703,7 @@ NProgress.start();
 
       vm.cleanJsonKeys = async function (data) {
         return data.map(item => ({
-            Rais_Social: item["Raison Sociale"] || null,
+            Rais_Social: item["Raison Sociale(*)"] || null,
             Statut_juridique: item["Statut Juridique"] || null,
             Capital: item["Capital"] || null,
             Ville: item["Ville"] || null,

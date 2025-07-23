@@ -881,6 +881,19 @@ NProgress.start();
         google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
 
 
+        function updatePolygonData() {
+          var area = 0;
+          for (var i = 0; i < shapes.length; ++i) {
+            area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
+          }
+
+          document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+
+          // Convert shapes to JSON
+          var data = IO.IN(shapes, false);
+          document.getElementById('data').value = JSON.stringify(data, undefined, 4);
+        }
+
         google.maps.event.addListener(drawman, 'overlaycomplete', function(event) {
           if (event.type === google.maps.drawing.OverlayType.POLYGON) {
             var polygon = event.overlay;
@@ -901,6 +914,15 @@ NProgress.start();
             }
             document.getElementById("areaHa").value = (area / 10000).toFixed(2);
 
+            // Initial data update
+               updatePolygonData();
+
+               // 🔁 Update data on shape modification
+               google.maps.event.addListener(polygon.getPath(), 'set_at', updatePolygonData);
+               google.maps.event.addListener(polygon.getPath(), 'insert_at', updatePolygonData);
+               google.maps.event.addListener(polygon.getPath(), 'remove_at', updatePolygonData);
+
+               
             clearvar = true;
 
             console.log(document.getElementById('t1').value);

@@ -554,8 +554,8 @@ angular.module('beeOneWebFrontApp')
 
           data.TokenPolygone = (data.TokenPolygone !== "0") ? data.TokenPolygone : null;
           data.TokenPolygone = (data.TokenPolygone) ? data.TokenPolygone : null;
-        
-          
+
+
           const hasPolygon = !!data.TokenPolygone;
           const imgSrc = hasPolygon
             ? '././images/main_configuration/polygone_done.svg'
@@ -569,7 +569,7 @@ angular.module('beeOneWebFrontApp')
 
 
       return polygonebtn + "&nbsp;" + editbtn + deletebtn;
-      
+
       }
 
 
@@ -1111,7 +1111,7 @@ angular.module('beeOneWebFrontApp')
     $scope.parcelle_byfermes = parcelleCulturalService.getbyferme({IDFermes : data.IDFermes}).then(result => {
       return result.data;
     });
-    
+
 
     $scope.showAdvanced("ev", data, $scope.parcelle_byfermes);
   }
@@ -1145,7 +1145,7 @@ angular.module('beeOneWebFrontApp')
   $scope.data = data;
   $scope.parcelle_byfermes = parcelle_byfermes;
   console.log("parcelle_byfermes", parcelle_byfermes);
-  
+
 
   $scope.TokenPolygone = data.TokenPolygone;
   $scope.Polygone_Ferme = data.Polygone_Ferme;
@@ -1156,7 +1156,7 @@ angular.module('beeOneWebFrontApp')
   data.CouleurCalque = (data.CouleurCalque) ? data.CouleurCalque : '#FFFFFF'
   data.CouleurCadre = (data.CouleurCadre) ? data.CouleurCadre : '#FFFFFF'
 
-  
+
   $scope.LatPosition = ($scope.data.LatPosition) ? parseFloat($scope.data.LatPosition) : 0;
   $scope.LngPosition = ($scope.data.LngPosition) ? parseFloat($scope.data.LngPosition) : 0;
 
@@ -1398,7 +1398,7 @@ angular.module('beeOneWebFrontApp')
       var longF = $scope.data.LngPosition;
       var zoooom = 16;
     }
-    
+
 
     map = new google.maps.Map(document.getElementById("parcellemap"), {
         center: new google.maps.LatLng(latF, longF),
@@ -1500,7 +1500,7 @@ angular.module('beeOneWebFrontApp')
           shapes[i].setMap(null);
         }
         shapes = [];
-      
+
         // Draw new ones from TokenPolygone and keep reference
         var newShapes = IO.OUT(JSON.parse($scope.data.TokenPolygone), map, $scope.data.CouleurCalque, $scope.data.CouleurCadre);
         shapes = shapes.concat(newShapes);
@@ -1511,7 +1511,7 @@ angular.module('beeOneWebFrontApp')
         } else {
           IO.OUT(JSON.parse('[{"type": "POLYGON","id": null,"geometry": [[]]}]'), map, "rgba(196, 191, 125, 0.0)", "#8eb2a0");
         }
-        
+
         $scope.parcelle_byfermes.forEach(function(item) {
           if (item.TokenPolygone !== "" && $scope.IsJsonString(item.TokenPolygone)) {
             IO.OUT(JSON.parse(item.TokenPolygone), map, item.CouleurCalque, item.CouleurCadre);
@@ -1522,7 +1522,7 @@ angular.module('beeOneWebFrontApp')
 
           if (item.LatPosition && item.LngPosition && item.Reference) {
             const center = new google.maps.LatLng(parseFloat(item.LatPosition), parseFloat(item.LngPosition));
-        
+
             new google.maps.Marker({
               position: center,
               map: map,
@@ -1624,6 +1624,20 @@ angular.module('beeOneWebFrontApp')
     google.maps.event.addDomListener(byId('clear_shapes'), 'click', clearShapes);
 
 
+    function updatePolygonData() {
+      var area = 0;
+      for (var i = 0; i < shapes.length; ++i) {
+        area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
+      }
+
+      document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+
+      // Convert shapes to JSON
+      var data = IO.IN(shapes, false);
+      document.getElementById('data').value = JSON.stringify(data, undefined, 4);
+    }
+
+
     google.maps.event.addListener(drawman, 'overlaycomplete', function(event) {
       if (event.type === google.maps.drawing.OverlayType.POLYGON) {
         var polygon = event.overlay;
@@ -1643,6 +1657,17 @@ angular.module('beeOneWebFrontApp')
           area += google.maps.geometry.spherical.computeArea(shapes[i].getPath());
         }
         document.getElementById("areaHa").value = (area / 10000).toFixed(2);
+
+
+        // Initial data update
+           updatePolygonData();
+
+           // 🔁 Update data on shape modification
+           google.maps.event.addListener(polygon.getPath(), 'set_at', updatePolygonData);
+           google.maps.event.addListener(polygon.getPath(), 'insert_at', updatePolygonData);
+           google.maps.event.addListener(polygon.getPath(), 'remove_at', updatePolygonData);
+
+           
 
         clearvar = true;
 
@@ -1687,7 +1712,7 @@ angular.module('beeOneWebFrontApp')
 
     }).catch(async ee => {
       console.log(ee);
-      
+
       NProgress.done();
       toastr.clear();
       toastr.error(ee.data.message, {

@@ -671,13 +671,13 @@ angular.module('beeOneWebFrontApp')
     /** Step1 excel*/
 
     vm.headers = [
-      "Ferme",
-      "Référence article",
-      "Article",
-      "Sous catégorie",
-      "Catégorie",
-      "Unité",
-      "Type article (Non Stockable/Stockable)",
+      "Ferme(*)",
+      "Référence article(*)",
+      "Article(*)",
+      "Sous catégorie(*)",
+      "Catégorie(*)",
+      "Unité(*)",
+      "Type article(*) (Non Stockable/Stockable)",
       "% TVA",
       "Prix UHT",
       "Transité par module achat (Oui/Non)",
@@ -736,13 +736,13 @@ angular.module('beeOneWebFrontApp')
 
     vm.cleanJsonKeys = async function (data) {
       return data.map(item => ({
-        FermeName : item["Ferme"] || null,
-        Ref : item["Référence article"] || null,
-        Designation : item["Article"] || null,
-        Sous_Categorie : item["Sous catégorie"] || null,
-        Categorie: item["Catégorie"] || null,
-        Unite: item["Unité"] || null,
-        Type: item["Type article (Non Stockable/Stockable)"] || null,
+        FermeName : item["Ferme(*)"] || null,
+        Ref : item["Référence article(*)"] || null,
+        Designation : item["Article(*)"] || null,
+        Sous_Categorie : item["Sous catégorie(*)"] || null,
+        Categorie: item["Catégorie(*)"] || null,
+        Unite: item["Unité(*)"] || null,
+        Type: item["Type article(*) (Non Stockable/Stockable)"] || null,
         Taux_TVA: item["% TVA"] || null,
         PU: item["Prix UHT"] || null,
         Peut_etre_achete: item["Transité par module achat (Oui/Non)"] || null,

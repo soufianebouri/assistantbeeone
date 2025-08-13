@@ -69,7 +69,6 @@ module.exports = function(config) {
       'bower_components/select2/dist/js/select2.js',
       'bower_components/autosize/dist/autosize.js',
       'bower_components/parsleyjs/dist/parsley.js',
-      'bower_components/devbridge-autocomplete/dist/jquery.autocomplete.js',
       'bower_components/ion.rangeSlider/js/ion.rangeSlider.js',
       'bower_components/jquery.inputmask/dist/inputmask/inputmask.js',
       'bower_components/jquery.inputmask/dist/inputmask/inputmask.extensions.js',

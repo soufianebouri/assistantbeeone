@@ -1,23 +1,21 @@
-
-  <div class="header" ng-controller="HeaderCtrl as pc">
-      <div class="logo-header">
-          <img src="../images/beeone_erp_white.svg" alt="Logo">
-      </div>
-      <nav>
-          <ul>
-              <li>
-                  <select ng-model="lang" ng-change="changelang(lang)">
-                      <option value="FR">FR</option>
-                      <option value="EN">EN</option>
-                      <option value="ES">ES</option>
-                  </select>
-              </li>
-              <li>
-                  <a ng-click="logout()"><img src="././images/header/logout.svg" alt="logout"/></a>
-              </li>
-          </ul>
-      </nav>
-      <loading-spinner is-loading="loading" ng-if="loading"></loading-spinner>
-  </div>
-  
-  
+<div class="header" ng-controller="HeaderCtrl as pc">
+    <div class="logo-header">
+        <img src="../images/beeone_erp_white.svg" alt="Logo">
+        <button class="test-btn" ng-click="runTest()">{{ 'HEADER.TEST' | translate }}</button>
+    </div>
+    <nav>
+        <ul>
+            <li>
+                <select ng-model="lang" ng-change="changelang(lang)">
+                    <option value="FR">FR</option>
+                    <option value="EN">EN</option>
+                    <option value="ES">ES</option>
+                </select>
+            </li>
+            <li>
+                <a ng-click="logout()"><img src="././images/header/logout.svg" alt="logout"/></a>
+            </li>
+        </ul>
+    </nav>
+    <loading-spinner is-loading="loading" ng-if="loading"></loading-spinner>
+</div>

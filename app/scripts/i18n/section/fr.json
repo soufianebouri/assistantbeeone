@@ -254,5 +254,8 @@
   "scoring": "Scoring",
   "parametrage_scoring": "Paramétrage Scoring",
   "bareme": "Barèmes",
-  "classification": "Classifications"
+  "classification": "Classifications",
+  "HEADER": {
+    "TEST": "Test"
+  }
 }

@@ -68,6 +68,7 @@ angular.module('beeOneWebFrontApp')
           obj.GestionEquipe = "Gestion des équipes";
           obj.Dernieres_nouveautes = "Latest release";
           obj.new = "new";
+          obj.HEADER = { TEST: "Test" };
         } else if (obj.lang === "ES") {
           obj.Deconnexion = "Cerrar sesión";
           obj.Vousnetespasconnectes = "No estás conectado !!";
@@ -120,6 +121,7 @@ angular.module('beeOneWebFrontApp')
           obj.GestionEquipe = "Gestión de equipos";
           obj.Dernieres_nouveautes = "Últimas novedades";
           obj.new = "nuevo";
+          obj.HEADER = { TEST: "Prueba" };
           obj.Madeby = "Hecho por";
         } else if (obj.lang === "FR" || obj.lang === null) {
           if (obj.lang === null) {
@@ -178,6 +180,7 @@ angular.module('beeOneWebFrontApp')
           obj.GestionEquipe = "Gestion des équipes";
           obj.Dernieres_nouveautes = "Dernières nouveautés";
           obj.new = "new";
+          obj.HEADER = { TEST: "Test" };
         } else if (obj.lang === "AR") {
           obj.Deconnexion = "خروج";
           obj.Vousnetespasconnectes = "!! أنت غير متصل";

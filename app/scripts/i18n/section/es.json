@@ -221,5 +221,8 @@
   "scoring": "Scoring",
   "parametrage_scoring": "Scoring Settings",
   "baremes": "Scales",
-  "classifications": "Classifications"
+  "classifications": "Classifications",
+  "HEADER": {
+    "TEST": "Prueba"
+  }
 }

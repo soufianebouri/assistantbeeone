@@ -9,7 +9,7 @@
  */
 angular.module('beeOneWebFrontApp')
   .controller('HeaderCtrl', async function($scope, $location, $window, translation, auth, domaine, $cookies, toastr, $state, AccessRightsService, translatedwords, $q, $translatePartialLoader, $route, $timeout, $translate, _version) {
-   
+
     $scope._version = _version;
     var pc = this;
     var obj = translation.getObjectTranslated();
@@ -24,7 +24,6 @@ angular.module('beeOneWebFrontApp')
 
     $scope.StatesWithoutFarm = ['home', 'gestionprofils', 'groupe', 'profilsfermes', 'ressources_hydriques', 'tb_organisationparcelisation', 'SuiviressourceshydriquesEtat', 'bilan_technique', 'gestiondessocietes', 'gestiondesfermes', 'suiviinterventionsequipements_synthese', 'profile_calibre_data_integration', 'etatdesynthesescroring', 'ajustement_des_calibres'];
 
-
     $scope.changelang = function(lang) {
       $window.localStorage.setItem("lang", lang);
       $translate.use(lang.toLowerCase());
@@ -32,19 +31,20 @@ angular.module('beeOneWebFrontApp')
       translation.getObjectTranslated();
     }
 
-    $scope.loading = false;   
-
+    $scope.loading = false;
 
     //disconnect
     $scope.logout = function() {
       $scope.loading = true;
-      $timeout(function () {             
+      $timeout(function () {
         auth.ClearCredentials();
-        $scope.loading = false; 
+        $scope.loading = false;
       }, 3000);
-      
+
     }
 
-
+    $scope.runTest = function() {
+      console.log('Test button clicked');
+    };
 
   });

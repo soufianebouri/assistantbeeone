@@ -27,11 +27,7 @@ angular.module('beeOneWebFrontApp')
 
     $scope.changelang = function(lang) {
       $window.localStorage.setItem("lang", lang);
-      $translate.use(lang.toLowerCase()).then(function() {
-        $translate.refresh();
-        translation.getObjectTranslated();
-        $state.reload();
-      });
+      $window.location.reload();
     };
 
     $scope.loading = false;   
